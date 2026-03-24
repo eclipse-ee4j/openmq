@@ -183,7 +183,7 @@ public class TCPConnectionHandler extends SocketConnectionHandler {
     /**
      * Check if a host is reachable.
      */
-    private void checkIsReachable(String host) throws IOException {
+    private static void checkIsReachable(String host) throws IOException {
 
         if (imqCheckHostIsReachable) {
 
@@ -207,7 +207,7 @@ public class TCPConnectionHandler extends SocketConnectionHandler {
 
     }
 
-    private Socket makeSocketWithTimeout(String host, int port, int timeout) throws IOException {
+    private static Socket makeSocketWithTimeout(String host, int port, int timeout) throws IOException {
 
         Socket socket = null;
 

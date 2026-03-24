@@ -184,7 +184,7 @@ public class ServiceManagerMonitor extends MQMBeanReadOnly {
         sendNotification(sn);
     }
 
-    private MetricCounters getMetricsForAllServices() {
+    private static MetricCounters getMetricsForAllServices() {
         MetricManager mm = Globals.getMetricManager();
         MetricCounters mc = mm.getMetricCounters(null);
 

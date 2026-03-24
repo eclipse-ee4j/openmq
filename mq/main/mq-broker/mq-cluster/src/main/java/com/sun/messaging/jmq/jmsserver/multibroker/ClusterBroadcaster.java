@@ -296,7 +296,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         }
     }
 
-    private int convertToClusterAckType(int type) {
+    private static int convertToClusterAckType(int type) {
         switch (type) {
         case MSG_DELIVERED:
             return ClusterGlobals.MB_MSG_DELIVERED;
@@ -322,7 +322,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         return ClusterGlobals.MB_MSG_SENT;
     }
 
-    private int convertToLocalAckType(int type) {
+    private static int convertToLocalAckType(int type) {
         switch (type) {
         case ClusterGlobals.MB_MSG_DELIVERED:
             return MSG_DELIVERED;

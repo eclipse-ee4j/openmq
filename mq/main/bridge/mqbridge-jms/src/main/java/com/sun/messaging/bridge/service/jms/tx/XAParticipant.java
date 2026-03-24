@@ -529,7 +529,7 @@ public class XAParticipant {
         }
     }
 
-    private String xaEString(int errorCode) {
+    private static String xaEString(int errorCode) {
         switch (errorCode) {
         case XAException.XA_RBROLLBACK:
             return "XA_RBROLLBACK";

@@ -412,7 +412,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
         }
     }
 
-    private boolean isLocalBroker(Hashtable prop) {
+    private static boolean isLocalBroker(Hashtable prop) {
         boolean isLocal = ((Boolean) prop.get("isLocal")).booleanValue();
 
         return isLocal;
@@ -562,7 +562,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
      * imqcmd send cxn -n 125260721183911168 -u admin -p admin -debug -o logging.name=jakarta.jms -o logging.level=FINEST -o
      * logging.handler=java.util.logging.FileHandler -o logging.pattern="c:/tmp/test123.log"
      */
-    private boolean setLoggingConfig(Hashtable props) {
+    private static boolean setLoggingConfig(Hashtable props) {
 
         /**
          * This method was flagged up by findbugs because it doesn't keep a static reference to the Logger instance which means

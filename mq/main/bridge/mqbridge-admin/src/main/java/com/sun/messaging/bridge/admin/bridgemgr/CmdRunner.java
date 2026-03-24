@@ -417,7 +417,7 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
         return (broker);
     }
 
-    private void connectToBroker(BridgeAdmin broker) throws BrokerAdminException {
+    private static void connectToBroker(BridgeAdmin broker) throws BrokerAdminException {
         broker.connect();
         broker.sendHelloMessage();
         broker.receiveHelloReplyMessage();
@@ -430,18 +430,18 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
         CommonCmdRunnerUtil.printBrokerAdminException(bae, Option.BROKER_HOSTPORT, bridgeMgrProps.debugModeSet());
     }
 
-    private void handleBridgeMgrException(CommonCmdException bce) {
+    private static void handleBridgeMgrException(CommonCmdException bce) {
         CommonCmdRunnerUtil.printCommonCmdException(bce);
     }
 
     /**
      * Return user input. Return <defaultResponse> if no response ("") was given. Return null if an error occurred.
      */
-    private String getUserInput(String question, String defaultResponse) {
+    private static String getUserInput(String question, String defaultResponse) {
         return CommonCmdRunnerUtil.getUserInput(question, defaultResponse);
     }
 
-    private void printBrokerInfo(BridgeAdmin broker) {
+    private static void printBrokerInfo(BridgeAdmin broker) {
         CommonCmdRunnerUtil.printBrokerInfo(broker, new BridgeMgrPrinter());
     }
 
@@ -492,7 +492,7 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
      * passfile the only way to specify the password (besides prompting the user for it). -p has higher precendence compared
      * to -passfile.
      */
-    private String getPasswordFromFileOrCmdLine(BridgeMgrProperties bridgeMgrProps) throws CommonCmdException {
+    private static String getPasswordFromFileOrCmdLine(BridgeMgrProperties bridgeMgrProps) throws CommonCmdException {
         String passwd = bridgeMgrProps.getAdminPasswd(), passfile = bridgeMgrProps.getAdminPassfile();
 
         if (passwd != null) {

@@ -1402,7 +1402,7 @@ public class BrokerAdminHandler implements AdminEventListener {
         return true;
     }
 
-    private void refreshBrokerServiceList(Vector svcs, BrokerServiceListCObj bSvclCObj) {
+    private static void refreshBrokerServiceList(Vector svcs, BrokerServiceListCObj bSvclCObj) {
         BrokerCObj bCObj = bSvclCObj.getBrokerCObj();
 
         // If there are any services, remove them all from the list, only
@@ -1493,7 +1493,7 @@ public class BrokerAdminHandler implements AdminEventListener {
         return true;
     }
 
-    private void refreshBrokerDestList(Vector dests, BrokerDestListCObj bDestlCObj) {
+    private static void refreshBrokerDestList(Vector dests, BrokerDestListCObj bDestlCObj) {
         BrokerCObj bCObj = bDestlCObj.getBrokerCObj();
 
         // If there are any destinations, remove them all from the list, only
@@ -1592,7 +1592,7 @@ public class BrokerAdminHandler implements AdminEventListener {
     /*
      * Remove destinations and services from this broker's node hierarchy.
      */
-    private void clearBroker(BrokerCObj bCObj) {
+    private static void clearBroker(BrokerCObj bCObj) {
         BrokerDestListCObj bDestlCObj = null;
         BrokerServiceListCObj bSvclCObj = null;
 
@@ -2086,7 +2086,7 @@ public class BrokerAdminHandler implements AdminEventListener {
         return svcs;
     }
 
-    private void updateAllServiceInfo(BrokerServiceListCObj bSvclCObj, Vector svcs) {
+    private static void updateAllServiceInfo(BrokerServiceListCObj bSvclCObj, Vector svcs) {
         if (bSvclCObj == null || svcs == null) {
             return;
         }
@@ -2278,7 +2278,7 @@ public class BrokerAdminHandler implements AdminEventListener {
         return bDestCObj;
     }
 
-    private DestinationInfo createDestination(BrokerAdminEvent bae) {
+    private static DestinationInfo createDestination(BrokerAdminEvent bae) {
         DestinationInfo destInfo = new DestinationInfo();
 
         destInfo.setName(bae.getDestinationName());
@@ -2381,7 +2381,7 @@ public class BrokerAdminHandler implements AdminEventListener {
         return true;
     }
 
-    private String printBrokerAdminExceptionDetails(BrokerAdminException bae) {
+    private static String printBrokerAdminExceptionDetails(BrokerAdminException bae) {
         String basicMsg, detailMsg, fullMsg = null;
 
         basicMsg = getBrokerAdminExceptionBasicMsg(bae);
@@ -2406,7 +2406,7 @@ public class BrokerAdminHandler implements AdminEventListener {
         return (fullMsg);
     }
 
-    private String getBrokerAdminExceptionMsgDetail(BrokerAdminException bae) {
+    private static String getBrokerAdminExceptionMsgDetail(BrokerAdminException bae) {
         Exception e = bae.getLinkedException();
         String s = bae.getBrokerErrorStr();
 
@@ -2427,7 +2427,7 @@ public class BrokerAdminHandler implements AdminEventListener {
         return (errorMessage);
     }
 
-    private String getBrokerAdminExceptionBasicMsg(BrokerAdminException bae) {
+    private static String getBrokerAdminExceptionBasicMsg(BrokerAdminException bae) {
         int type = bae.getType();
         BrokerAdminConn ba = bae.getBrokerAdminConn();
         String ret, brokerName, host, port;

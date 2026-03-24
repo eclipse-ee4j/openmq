@@ -2106,7 +2106,7 @@ public class JMSServiceImpl implements JMSService {
         return (ses);
     }
 
-    private int convertToBrokerAckMode(SessionAckMode ackMode) {
+    private static int convertToBrokerAckMode(SessionAckMode ackMode) {
         switch (ackMode) {
         case AUTO_ACKNOWLEDGE:
             return (com.sun.messaging.jmq.jmsserver.core.Session.AUTO_ACKNOWLEDGE);
@@ -2123,7 +2123,7 @@ public class JMSServiceImpl implements JMSService {
         return (com.sun.messaging.jmq.jmsserver.core.Session.NONE);
     }
 
-    private int convertToBrokerAckType(MessageAckType ackType) {
+    private static int convertToBrokerAckType(MessageAckType ackType) {
         switch (ackType) {
         case ACKNOWLEDGE:
             return (AckHandler.ACKNOWLEDGE_REQUEST);
@@ -2141,7 +2141,7 @@ public class JMSServiceImpl implements JMSService {
      * exception is a BrokerException. If the are cases where a status code is dependent on some other type of exception
      * e.g. SelectorFormatException it needs to be handled outside this method.
      */
-    private JMSServiceReply.Status getErrorReplyStatus(Exception e) {
+    private static JMSServiceReply.Status getErrorReplyStatus(Exception e) {
         JMSServiceReply.Status retStatus = JMSServiceReply.Status.ERROR;
 
         if (e instanceof BrokerException) {

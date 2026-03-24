@@ -210,7 +210,7 @@ public class FromTxnLogConverter {
         }
     }
 
-    private String getPrefix() {
+    private static String getPrefix() {
         return Thread.currentThread() + " TransactionConverter.";
     }
 }

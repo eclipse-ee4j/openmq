@@ -825,7 +825,7 @@ public class DebugHandler extends AdminCmdHandler {
         return debugHash;
     }
 
-    private Hashtable getCxnInfo(ConnectionUID uid) throws Exception {
+    private static Hashtable getCxnInfo(ConnectionUID uid) throws Exception {
         IMQConnection cxn = (IMQConnection) Globals.getConnectionManager().getConnection(uid);
         if (cxn == null) {
             throw new Exception("Can not find uid " + uid);
@@ -834,7 +834,7 @@ public class DebugHandler extends AdminCmdHandler {
         return cxn.getDebugState();
     }
 
-    private Hashtable getConInfo(ConsumerUID uid) throws Exception {
+    private static Hashtable getConInfo(ConsumerUID uid) throws Exception {
         Consumer c = Consumer.getConsumer(uid);
         if (c == null) {
             throw new Exception("Can not find consumer " + uid);
@@ -842,7 +842,7 @@ public class DebugHandler extends AdminCmdHandler {
         return c.getDebugState();
     }
 
-    private Hashtable getSession(SessionUID uid) throws Exception {
+    private static Hashtable getSession(SessionUID uid) throws Exception {
         Session c = Session.getSession(uid);
         if (c == null) {
             throw new Exception("Can not find session " + uid);
@@ -869,7 +869,7 @@ public class DebugHandler extends AdminCmdHandler {
         return s.getDebugState();
     }
 
-    private Hashtable getProducerInfo(ProducerUID uid) throws Exception {
+    private static Hashtable getProducerInfo(ProducerUID uid) throws Exception {
         Producer p = (Producer) Producer.getProducer(uid);
         if (p == null) {
             throw new Exception("Can not find producer " + uid);
@@ -877,7 +877,7 @@ public class DebugHandler extends AdminCmdHandler {
         return p.getDebugState();
     }
 
-    private Hashtable getDBInfo() throws Exception {
+    private static Hashtable getDBInfo() throws Exception {
         return Globals.getStore().getDebugState();
     }
 
@@ -921,7 +921,7 @@ public class DebugHandler extends AdminCmdHandler {
         return ((com.sun.messaging.jmq.jmsserver.service.imq.IMQService) s).getPoolDebugState();
     }
 
-    private Hashtable getClusterInfo() {
+    private static Hashtable getClusterInfo() {
         Hashtable debugHash = new Hashtable();
 
         debugHash.put("Cluster Service", Globals.getClusterBroadcast().getAllDebugState());
@@ -1018,7 +1018,7 @@ public class DebugHandler extends AdminCmdHandler {
         return debugHash;
     }
 
-    private Hashtable getMemory() {
+    private static Hashtable getMemory() {
         MemoryManager mm = Globals.getMemManager();
         if (mm != null) {
             return mm.getDebugState();
@@ -1026,7 +1026,7 @@ public class DebugHandler extends AdminCmdHandler {
         return (new Hashtable());
     }
 
-    private Hashtable getConfig() throws Exception {
+    private static Hashtable getConfig() throws Exception {
         Hashtable debugHash = new Hashtable();
         Iterator itr = Globals.getConfig().keySet().iterator();
         while (itr.hasNext()) {

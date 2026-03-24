@@ -204,7 +204,7 @@ public class GroupNotificationInfo implements NotificationInfo {
         return "iOps[" + getKeyString(key.interestOps()) + "]" + ", rOps[" + getKeyString(key.readyOps()) + "]";
     }
 
-    private String getKeyString(int events) {
+    private static String getKeyString(int events) {
         String str = "";
         if ((events & SelectionKey.OP_WRITE) != 0) {
             str += " WRITE ";

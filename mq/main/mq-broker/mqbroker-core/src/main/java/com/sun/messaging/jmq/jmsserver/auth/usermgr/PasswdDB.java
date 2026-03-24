@@ -255,7 +255,7 @@ public class PasswdDB {
         return (count);
     }
 
-    private String hashPassword(String u_name, String pass) throws UserMgrException {
+    private static String hashPassword(String u_name, String pass) throws UserMgrException {
         String s;
         try {
             s = MD5.getHashString(u_name + ":" + pass);
@@ -269,7 +269,7 @@ public class PasswdDB {
         return (s);
     }
 
-    private Hashtable getUserTable() throws UserMgrException {
+    private static Hashtable getUserTable() throws UserMgrException {
         FileInputStream fis = null;
         String passwd_filename = getPasswordFileName(), str, u_name, u_pwd, u_role, u_active;
 
@@ -354,7 +354,7 @@ public class PasswdDB {
         return user_list;
     }
 
-    private void writeUserTable(Hashtable users) throws UserMgrException {
+    private static void writeUserTable(Hashtable users) throws UserMgrException {
         String passwd_filename = getPasswordFileName();
         FileOutputStream fos = null;
 

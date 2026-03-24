@@ -231,7 +231,7 @@ public class iASBrokerAdmin {
         }
     }
 
-    private void checkReplyTypeStatus(Message mesg, int msgType) {
+    private static void checkReplyTypeStatus(Message mesg, int msgType) {
 
         int actualMsgType = -1, actualReplyStatus = -1;
 

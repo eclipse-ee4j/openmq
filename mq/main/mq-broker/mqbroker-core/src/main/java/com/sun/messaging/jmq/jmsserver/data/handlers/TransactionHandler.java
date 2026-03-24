@@ -843,7 +843,7 @@ public class TransactionHandler extends PacketHandler {
      * To improve performance, this feature should be disabled by setting the "imq.transaction.debug" property to false. For
      * now, it will be disabled by default to improve direct mode benchmark performance.
      */
-    private void cacheSetState(TransactionUID id, TransactionState ts, IMQConnection con) {
+    private static void cacheSetState(TransactionUID id, TransactionState ts, IMQConnection con) {
 
         // Do this only if transaction debug is enabled!
         if (GlobalProperties.getGlobalProperties().TRANSACTION_DEBUG) {
@@ -860,7 +860,7 @@ public class TransactionHandler extends PacketHandler {
         }
     }
 
-    private TransactionState cacheGetState(TransactionUID id, IMQConnection con) {
+    private static TransactionState cacheGetState(TransactionUID id, IMQConnection con) {
 
         TransactionState ts = null;
 
@@ -1466,11 +1466,11 @@ public class TransactionHandler extends PacketHandler {
         return true;
     }
 
-    private void logTxnCompletion(PartitionedStore pstore, TransactionUID tid, int state, int type) throws BrokerException {
+    private static void logTxnCompletion(PartitionedStore pstore, TransactionUID tid, int state, int type) throws BrokerException {
         ((TxnLoggingStore) pstore).logTxnCompletion(tid, state, type);
     }
 
-    private void loggedCommitWrittenToMessageStore(PartitionedStore pstore, TransactionUID tid, int type) {
+    private static void loggedCommitWrittenToMessageStore(PartitionedStore pstore, TransactionUID tid, int type) {
         ((TxnLoggingStore) pstore).loggedCommitWrittenToMessageStore(tid, type);
     }
 

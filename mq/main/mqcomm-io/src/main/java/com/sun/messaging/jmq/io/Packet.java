@@ -1226,7 +1226,7 @@ public class Packet implements JMSPacket {
         return true;
     }
 
-    private long skipBytes(InputStream is, long n) throws IOException {
+    private static long skipBytes(InputStream is, long n) throws IOException {
 
         long total = 0;
         int zeroReads = 0;
@@ -1266,7 +1266,7 @@ public class Packet implements JMSPacket {
      *
      * This simulates a blocking read.
      */
-    private long skipBytes(ReadableByteChannel ch, long n) throws IOException {
+    private static long skipBytes(ReadableByteChannel ch, long n) throws IOException {
 
         int CHUNK_SIZE = 1024;
         ByteBuffer buf = ByteBuffer.allocate(CHUNK_SIZE);
@@ -1818,7 +1818,7 @@ public class Packet implements JMSPacket {
     /**
      * A version of readFully that reads from an InputStream and puts the data into a ByteBuffer.
      */
-    private int readFully(InputStream in, ByteBuffer b) throws IOException, EOFException, InterruptedIOException {
+    private static int readFully(InputStream in, ByteBuffer b) throws IOException, EOFException, InterruptedIOException {
 
         byte[] abuf = null;
         int offset = 0;
@@ -1869,7 +1869,7 @@ public class Packet implements JMSPacket {
      * If retry is false we abandon the read if it times out and we haven't read anything. If it is true we continue to
      * retry the read.
      */
-    private void readFully(InputStream in, byte b[], int off, int len, boolean retry) throws IOException, EOFException, InterruptedIOException {
+    private static void readFully(InputStream in, byte b[], int off, int len, boolean retry) throws IOException, EOFException, InterruptedIOException {
 
         if (len < 0) {
             throw new IndexOutOfBoundsException();

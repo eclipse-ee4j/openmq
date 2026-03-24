@@ -1098,7 +1098,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
      * delete the old back up file if exists.
      *
      */
-    private void deleteBackUpFile(String txnLogName) throws IOException {
+    private static void deleteBackUpFile(String txnLogName) throws IOException {
 
         // 1. remove txnLogName.2 file if exists.
         String backupName2 = txnLogName + TXNLOG_BACKUP_EXT;

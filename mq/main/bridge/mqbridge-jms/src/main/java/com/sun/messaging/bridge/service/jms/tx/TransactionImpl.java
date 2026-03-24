@@ -545,7 +545,7 @@ public class TransactionImpl implements Transaction {
         _status = Status.STATUS_MARKED_ROLLBACK;
     }
 
-    private String statusString(int status) {
+    private static String statusString(int status) {
         switch (status) {
 
         case Status.STATUS_ACTIVE:

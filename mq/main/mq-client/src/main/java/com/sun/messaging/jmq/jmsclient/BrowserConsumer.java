@@ -210,7 +210,7 @@ class BrowserConsumer extends Consumer implements Enumeration, Traceable {
         return message;
     }
 
-    private boolean isLast(MessageImpl message) {
+    private static boolean isLast(MessageImpl message) {
         return message.getPacket().getIsLast();
     }
 

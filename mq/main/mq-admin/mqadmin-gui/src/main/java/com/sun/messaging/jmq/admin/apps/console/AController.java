@@ -217,7 +217,7 @@ public class AController implements AdminEventListener {
         }
     }
 
-    private void doExit() {
+    private static void doExit() {
         System.exit(0);
     }
 

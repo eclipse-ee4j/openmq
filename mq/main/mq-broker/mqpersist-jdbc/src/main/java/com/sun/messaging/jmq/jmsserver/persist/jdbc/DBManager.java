@@ -260,7 +260,7 @@ public final class DBManager extends CommDBManager implements DBConstants {
         return ht;
     }
 
-    public boolean isHAClusterActive(Connection conn) throws BrokerException {
+    public static boolean isHAClusterActive(Connection conn) throws BrokerException {
 
         boolean isActive = false;
 

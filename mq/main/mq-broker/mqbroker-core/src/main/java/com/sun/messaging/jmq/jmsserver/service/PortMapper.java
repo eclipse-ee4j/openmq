@@ -823,7 +823,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
         }
     }
 
-    private String readLineWithLimit(BufferedReader br) throws IOException {
+    private static String readLineWithLimit(BufferedReader br) throws IOException {
         StringBuilder line = new StringBuilder();
 
         int cnt = 0;

@@ -1444,7 +1444,7 @@ public class DBTool implements DBConstants {
     /**
      * Backup the shared table for cluster config change record to a file
      */
-    private void doBackupSharecc() throws BrokerException {
+    private static void doBackupSharecc() throws BrokerException {
         Properties props = System.getProperties();
         String clusterID = Globals.getClusterID();
         String backupfile = (String) props.get(ShareConfigChangeStore.CLUSTER_SHARECC_PROP_PREFIX + ".backupfile");
@@ -1484,7 +1484,7 @@ public class DBTool implements DBConstants {
     /**
      * Restore the shared table for cluster config change record from a file
      */
-    private void doRestoreSharecc() throws BrokerException {
+    private static void doRestoreSharecc() throws BrokerException {
 
         Properties props = System.getProperties();
         String clusterID = Globals.getClusterID();
@@ -1600,7 +1600,7 @@ public class DBTool implements DBConstants {
         }
     }
 
-    private boolean printHelp(String[] args) {
+    private static boolean printHelp(String[] args) {
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals(OPT_H) || args[i].equals(OPT_LH)) {
                 return true;
@@ -1609,7 +1609,7 @@ public class DBTool implements DBConstants {
         return false;
     }
 
-    private boolean printVersion(String[] args) {
+    private static boolean printVersion(String[] args) {
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals(OPT_V) || args[i].equals(OPT_LV)) {
                 return true;
@@ -1619,11 +1619,11 @@ public class DBTool implements DBConstants {
     }
 
     // throw exception if argument is missing
-    private void checkArg(String cmd, String opt, int next, int total) throws ParserException {
+    private static void checkArg(String cmd, String opt, int next, int total) throws ParserException {
         checkArg(cmd, opt, null, next, total);
     }
 
-    private void checkArg(String cmd, String opt, String missopt, int next, int total) throws ParserException {
+    private static void checkArg(String cmd, String opt, String missopt, int next, int total) throws ParserException {
 
         if (next >= total) {
             ParserException pe;
@@ -1642,11 +1642,11 @@ public class DBTool implements DBConstants {
         }
     }
 
-    private void throwParserException(int reason, String cmd, String cmdarg, String opt, String optarg) throws ParserException {
+    private static void throwParserException(int reason, String cmd, String cmdarg, String opt, String optarg) throws ParserException {
         throwParserException(reason, cmd, cmdarg, opt, optarg, null);
     }
 
-    private void throwParserException(int reason, String cmd, String cmdarg, String opt, String optarg, Throwable cause) throws ParserException {
+    private static void throwParserException(int reason, String cmd, String cmdarg, String opt, String optarg, Throwable cause) throws ParserException {
 
         ParserException pe = new ParserException(reason, cause);
         pe.cmd = cmd;
@@ -1656,7 +1656,7 @@ public class DBTool implements DBConstants {
         throw pe;
     }
 
-    private void handleParserException(ParserException e) {
+    private static void handleParserException(ParserException e) {
         if (e.reason == MISSING_CMD_ARG) {
             System.out.println(br.getString(BrokerResources.E_MISSING_DBMGR_CMD_ARG, e.cmd));
         } else if (e.reason == MISSING_OPT_ARG) {
@@ -1989,7 +1989,7 @@ public class DBTool implements DBConstants {
      *
      * - A password obtained from -passfile will override a value for imq.persist.jdbc.password in config.properties.
      */
-    private void parsePassfile() throws IOException {
+    private static void parsePassfile() throws IOException {
 
         String pf_value = null, pf_dir = null;
 

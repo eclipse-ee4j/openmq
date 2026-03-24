@@ -781,7 +781,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
     /**
      * Checks for System property values for deprecated keys
      */
-    private String _sysPropVal(String propkey) {
+    private static String _sysPropVal(String propkey) {
 
         String sysval = null;
         String dsyskey = null;
@@ -924,7 +924,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
      * Returns whether the property value is valid for `List' properties.
      *
      */
-    private boolean isListPropertyValid(String propkey, String propval, Properties configurationTypes) {
+    private static boolean isListPropertyValid(String propkey, String propval, Properties configurationTypes) {
         // Check that the propval does not contain the separator character `|'
         if (propval.indexOf(AO_PROPERTY_LIST_SEPARATOR) != -1) {
             // Invalid - it contains a `|'

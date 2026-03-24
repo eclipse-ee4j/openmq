@@ -570,7 +570,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
         mapMessage.put(name, value);
     }
 
-    private void checkValidObjectType(Object value) throws MessageFormatException {
+    private static void checkValidObjectType(Object value) throws MessageFormatException {
 
         if (value instanceof Boolean || value instanceof Byte || value instanceof Short || value instanceof Character || value instanceof Integer //NOPMD
                 || value instanceof Long || value instanceof Float || value instanceof Double || value instanceof String || value instanceof byte[]) {
@@ -588,7 +588,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @throws java.lang.IllegalArgumentException - if the name is null or if the name is an empty string.
      *
      */
-    private void checkName(String name) {
+    private static void checkName(String name) {
 
         if (name == null || name.length() == 0) {
             throw new IllegalArgumentException("Name MUST NOT be null or empty.");

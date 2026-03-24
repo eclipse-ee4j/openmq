@@ -155,7 +155,7 @@ public class DestinationConfig extends MQMBeanReadWrite {
         return (DestinationUtil.toExternalDestLimitBehavior(di.destLimitBehavior));
     }
 
-    private void checkLimitBehavior(String s) throws InvalidAttributeValueException {
+    private static void checkLimitBehavior(String s) throws InvalidAttributeValueException {
         if (s.equals(DestinationLimitBehavior.FLOW_CONTROL) || s.equals(DestinationLimitBehavior.REMOVE_OLDEST)
                 || s.equals(DestinationLimitBehavior.REJECT_NEWEST) || s.equals(DestinationLimitBehavior.REMOVE_LOW_PRIORITY)) {
 
@@ -463,7 +463,7 @@ public class DestinationConfig extends MQMBeanReadWrite {
      *
      * It is important to no blatantly use this method everywhere because for some attributes, 0 does not mean unlimited.
      */
-    private Long checkLongUnlimitedZero(Long l) {
+    private static Long checkLongUnlimitedZero(Long l) {
         if (l.longValue() == 0) {
             return (Long.valueOf(-1));
         }
@@ -471,7 +471,7 @@ public class DestinationConfig extends MQMBeanReadWrite {
         return (l);
     }
 
-    private void checkLongNegOneAndUp(Long l, String attrName) throws InvalidAttributeValueException {
+    private static void checkLongNegOneAndUp(Long l, String attrName) throws InvalidAttributeValueException {
         if (l.longValue() >= -1) {
             return;
         }
@@ -479,7 +479,7 @@ public class DestinationConfig extends MQMBeanReadWrite {
         throw new InvalidAttributeValueException("Invalid value for attribute " + attrName + ": " + l + ". Please use a positive number or -1");
     }
 
-    private void checkIntNegOneAndUp(Integer i, String attrName) throws InvalidAttributeValueException {
+    private static void checkIntNegOneAndUp(Integer i, String attrName) throws InvalidAttributeValueException {
         if (i.intValue() >= -1) {
             return;
         }

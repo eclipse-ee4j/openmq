@@ -449,7 +449,7 @@ public class JMSBridge {
         _dmqs.put(name, dmq);
     }
 
-    private Refable createConnectionFactory(ConnectionFactoryElement ecf, boolean transacted) throws Exception {
+    private static Refable createConnectionFactory(ConnectionFactoryElement ecf, boolean transacted) throws Exception {
         Properties props = ecf.getProperties();
         if (props == null) {
             props = new Properties();

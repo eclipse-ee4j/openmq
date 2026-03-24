@@ -237,7 +237,7 @@ public class HTTPProtocol implements Protocol {
         return null;
     }
 
-    private int getIntValue(String propname, Map params, int defval) {
+    private static int getIntValue(String propname, Map params, int defval) {
         String propvalstr = (String) params.get(propname);
         if (propvalstr == null) {
             return defval;
@@ -250,7 +250,7 @@ public class HTTPProtocol implements Protocol {
         }
     }
 
-    private String getStringValue(String propname, Map params, String defval) {
+    private static String getStringValue(String propname, Map params, String defval) {
         String propvalstr = (String) params.get(propname);
         if (propvalstr == null) {
             return defval;

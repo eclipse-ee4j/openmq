@@ -379,7 +379,7 @@ public abstract class MQMBeanReadOnly extends NotificationBroadcasterSupport imp
      *
      * TBD: instead of making the types match, shouldn't they be assignable ?
      */
-    private boolean operationSignatureOK(MBeanOperationInfo op, String[] signature) {
+    private static boolean operationSignatureOK(MBeanOperationInfo op, String[] signature) {
         if (op == null) {
             return (false);
         }

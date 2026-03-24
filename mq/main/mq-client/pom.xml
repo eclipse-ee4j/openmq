@@ -120,7 +120,7 @@
         <profile>
             <id>cpd</id>
             <properties>
-                <minimumTokens>400</minimumTokens>
+                <minimumTokens>411</minimumTokens>
             </properties>
         </profile>
     </profiles>

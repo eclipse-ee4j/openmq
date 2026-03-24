@@ -617,7 +617,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     /**
      * Do not send pkt to fail-over broker if 1. pkt header contains JMQSessionID. 2. pkt is one of the pkt types as below.
      */
-    private boolean isAllowedToFailover(ReadWritePacket pkt) {
+    private static boolean isAllowedToFailover(ReadWritePacket pkt) {
 
         Hashtable ht = null;
 

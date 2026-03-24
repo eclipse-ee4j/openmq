@@ -194,7 +194,7 @@ class AckQueue extends SessionQueue {
     /**
      * bug 6189645 -- general blocking issues. (conn.protocolHandler == null) is true when connection is closed.
      */
-    private boolean shouldExit(ConnectionImpl conn) {
+    private static boolean shouldExit(ConnectionImpl conn) {
 
         if (conn.connectionIsBroken || (conn.protocolHandler == null) || conn.recoverInProcess) {
             return true;
@@ -226,7 +226,7 @@ class AckQueue extends SessionQueue {
      * @param pkt ReadWritePacket
      * @return boolean
      */
-    private boolean checkPacketType(ConnectionImpl conn, ReadWritePacket pkt) {
+    private static boolean checkPacketType(ConnectionImpl conn, ReadWritePacket pkt) {
 
         // do not retry if not HA connection
         if (conn.isConnectedToHABroker == false) {
@@ -285,7 +285,7 @@ class AckQueue extends SessionQueue {
         getLogger().log(Level.WARNING, msg);
     }
 
-    private Logger getLogger() {
+    private static Logger getLogger() {
         return ConnectionImpl.connectionLogger;
     }
 

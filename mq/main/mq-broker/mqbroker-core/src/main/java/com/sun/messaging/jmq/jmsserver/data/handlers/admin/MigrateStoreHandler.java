@@ -388,7 +388,7 @@ public class MigrateStoreHandler extends AdminCmdHandler {
         sendReply(con, cmd_msg, brokerID, null, errMsg, status, partitionID);
     }
 
-    private String getBrokerID() throws Exception {
+    private static String getBrokerID() throws Exception {
         String brokerID = null;
         ClusterManager cm = Globals.getClusterManager();
         ClusterBroadcast cbc = Globals.getClusterBroadcast();

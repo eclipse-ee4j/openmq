@@ -692,7 +692,7 @@ public abstract class MultiColumnPrinter implements Serializable {
         doPrintln(sb.toString());
     }
 
-    private String getItemString(Object obj) {
+    private static String getItemString(Object obj) {
         if (obj instanceof String) {
             return ((String) obj);
         } else {
@@ -701,7 +701,7 @@ public abstract class MultiColumnPrinter implements Serializable {
         }
     }
 
-    private int getItemLength(Object obj) {
+    private static int getItemLength(Object obj) {
         int len = 0;
 
         if (obj instanceof String) {

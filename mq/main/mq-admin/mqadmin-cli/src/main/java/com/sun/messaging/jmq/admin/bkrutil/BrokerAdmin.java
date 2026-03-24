@@ -2308,11 +2308,11 @@ public class BrokerAdmin extends BrokerAdminConn {
         return null;
     }
 
-    private void printMsgType(int msgType, String msgTypeString) {
+    private static void printMsgType(int msgType, String msgTypeString) {
         Globals.stdOutPrintln("\t" + MessageType.JMQ_MESSAGE_TYPE + "=" + msgType + "(" + msgTypeString + ")");
     }
 
-    private void printDestinationInfoList(Vector v) {
+    private static void printDestinationInfoList(Vector v) {
         Enumeration e = v.elements();
 
         Globals.stdOutPrintln("\t************************");
@@ -2335,7 +2335,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Globals.stdOutPrintln("\t************************");
     }
 
-    private void printDestinationInfo(DestinationInfo dstInfo) {
+    private static void printDestinationInfo(DestinationInfo dstInfo) {
         Globals.stdOutPrintln("\tDestinationInfo:");
         Globals.stdOutPrintln("\t  name=" + dstInfo.name);
         Globals.stdOutPrintln("\t  type=" + dstInfo.type);
@@ -2358,7 +2358,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Globals.stdOutPrintln("\t  destState=" + dstInfo.destState);
     }
 
-    private void printServiceInfoList(Vector v) {
+    private static void printServiceInfoList(Vector v) {
         Enumeration e = v.elements();
 
         Globals.stdOutPrintln("\t************************");
@@ -2381,7 +2381,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Globals.stdOutPrintln("\t************************");
     }
 
-    private void printServiceInfo(ServiceInfo svcInfo) {
+    private static void printServiceInfo(ServiceInfo svcInfo) {
         Globals.stdOutPrintln("\tServiceInfo:");
         Globals.stdOutPrintln("\t  name=" + svcInfo.name);
         Globals.stdOutPrintln("\t  protocol=" + svcInfo.protocol);
@@ -2396,7 +2396,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Globals.stdOutPrintln("\t  maxThreads=" + svcInfo.maxThreads);
     }
 
-    private void printConnectionInfoList(Vector v) {
+    private static void printConnectionInfoList(Vector v) {
         Enumeration e = v.elements();
 
         Globals.stdOutPrintln("\t************************");
@@ -2420,11 +2420,11 @@ public class BrokerAdmin extends BrokerAdminConn {
         Globals.stdOutPrintln("\t************************");
     }
 
-    private void printConnectionInfo(Hashtable cxnInfo) {
+    private static void printConnectionInfo(Hashtable cxnInfo) {
         print(cxnInfo, "\tConnection Info:", "\t  ", "=", Globals::stdOutPrintln);
     }
 
-    private void printDurableInfoList(Vector v) {
+    private static void printDurableInfoList(Vector v) {
         Enumeration e = v.elements();
 
         Globals.stdOutPrintln("\t************************");
@@ -2447,7 +2447,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Globals.stdOutPrintln("\t************************");
     }
 
-    private void printDurableInfo(DurableInfo durInfo) {
+    private static void printDurableInfo(DurableInfo durInfo) {
         Globals.stdOutPrintln("\tDurableInfo:");
         Globals.stdOutPrintln("\t  name=" + durInfo.name);
         Globals.stdOutPrintln("\t  clientID=" + durInfo.clientID);
@@ -2457,7 +2457,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Globals.stdOutPrintln("\t  ConsumerInfo=" + durInfo.consumer);
     }
 
-    private void printTxnInfoList(Vector v) {
+    private static void printTxnInfoList(Vector v) {
         Enumeration e = v.elements();
 
         Globals.stdOutPrintln("\t************************");
@@ -2480,11 +2480,11 @@ public class BrokerAdmin extends BrokerAdminConn {
         Globals.stdOutPrintln("\t************************");
     }
 
-    private void printTxnInfo(Hashtable txnInfo) {
+    private static void printTxnInfo(Hashtable txnInfo) {
         print(txnInfo, "\tTransaction Info:", "\t  ", "=", Globals::stdOutPrintln);
     }
 
-    private void printClusterList(Vector v) {
+    private static void printClusterList(Vector v) {
         Enumeration e = v.elements();
 
         Globals.stdOutPrintln("\t************************");
@@ -2507,11 +2507,11 @@ public class BrokerAdmin extends BrokerAdminConn {
         Globals.stdOutPrintln("\t************************");
     }
 
-    private void printBkrClsInfo(Hashtable bkrClsInfo) {
+    private static void printBkrClsInfo(Hashtable bkrClsInfo) {
         print(bkrClsInfo, "\tBroker Cluster Info:", "\t  ", "=", Globals::stdOutPrintln);
     }
 
-    private void printJMXList(Vector v) {
+    private static void printJMXList(Vector v) {
         Enumeration e = v.elements();
 
         Globals.stdOutPrintln("\t************************");
@@ -2534,7 +2534,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Globals.stdOutPrintln("\t************************");
     }
 
-    private void printJMXInfo(Hashtable jmxInfo) {
+    private static void printJMXInfo(Hashtable jmxInfo) {
         print(jmxInfo, "\tJMX Connector Info:", "\t  ", "=", Globals::stdOutPrintln);
     }
 

@@ -171,7 +171,7 @@ public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults
         }
     }
 
-    private void sendNoOp(HttpServletResponse response) {
+    private static void sendNoOp(HttpServletResponse response) {
         try {
             ServletOutputStream sos = response.getOutputStream();
 

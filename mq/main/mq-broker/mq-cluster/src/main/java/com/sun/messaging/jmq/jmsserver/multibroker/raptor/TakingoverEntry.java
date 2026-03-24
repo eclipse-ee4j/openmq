@@ -203,7 +203,7 @@ public class TakingoverEntry {
         return !ifOwnStoreSession(ba);
     }
 
-    private boolean ifOwnStoreSession(BrokerAddress ba) {
+    private static boolean ifOwnStoreSession(BrokerAddress ba) {
 
         try {
             return Globals.getStore().ifOwnStoreSession(ba.getStoreSessionUID().longValue(), ba.getBrokerID());

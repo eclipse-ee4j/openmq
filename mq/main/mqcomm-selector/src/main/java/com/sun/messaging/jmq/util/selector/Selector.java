@@ -631,7 +631,7 @@ public class Selector {
     }
 
     // Check if s is a keyword, JMS field, or generic identifier
-    private int identifierToKeyWord(String s) {
+    private static int identifierToKeyWord(String s) {
         Integer n = keywords.get(s.toUpperCase());
         if (n != null) {
             return n;
@@ -646,7 +646,7 @@ public class Selector {
         }
     }
 
-    private boolean isHexDigit(char c) {
+    private static boolean isHexDigit(char c) {
         return (Character.isDigit(c) || c == 'a' || c == 'A' || c == 'b' || c == 'B' || c == 'c' || c == 'C' || c == 'd' || c == 'D' || c == 'e' || c == 'E'
                 || c == 'f' || c == 'F');
     }
@@ -655,7 +655,7 @@ public class Selector {
      * Aggregate primitives into compound tokens (if any). This performs the following conversions: NOT BETWEEN =>
      * NOT_BETWEEN NOT IN => NOT_IN NOT LIKE => NOT_LIKE IS NULL => IS_NULL IS NOT NULL => IS_NOT_NULL
      */
-    private LinkedList<SelectorToken> aggregate(LinkedList<SelectorToken> in) throws SelectorFormatException {
+    private static LinkedList<SelectorToken> aggregate(LinkedList<SelectorToken> in) throws SelectorFormatException {
         LinkedList<SelectorToken> out = new LinkedList<>();
 
         SelectorToken token0;
@@ -1391,7 +1391,7 @@ public class Selector {
         }
     }
 
-    private SelectorToken propertyToToken(Object value) {
+    private static SelectorToken propertyToToken(Object value) {
         if (value instanceof String) {
             return SelectorToken.getInstance(STRING, value);
         } else if (value instanceof Boolean) {

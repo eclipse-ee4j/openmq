@@ -296,7 +296,7 @@ public class JMSContextImpl implements JMSContext, Traceable {
         contextLogger.fine("JMSContext@" + this.hashCode() + "()");
     }
 
-    private void validateSessionMode(int sessionMode) {
+    private static void validateSessionMode(int sessionMode) {
         if (sessionMode != JMSContext.AUTO_ACKNOWLEDGE && sessionMode != JMSContext.CLIENT_ACKNOWLEDGE && sessionMode != JMSContext.DUPS_OK_ACKNOWLEDGE
                 && sessionMode != JMSContext.SESSION_TRANSACTED) {
             // "Invalid session mode {0}"

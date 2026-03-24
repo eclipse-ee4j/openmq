@@ -754,7 +754,7 @@ public class BrokerDestAddDialog extends AdminDialog {
         showQueueProperties();
     }
 
-    private boolean isValidString(String s) {
+    private static boolean isValidString(String s) {
         if ((s == null) || ("".equals(s))) {
             return false;
         } else {

@@ -197,7 +197,6 @@ public class ServerLinkTable implements HttpTunnelDefaults {
         try {
             this.helperThread.close();
         } catch (Exception e) {
-            
         }
     }
 
@@ -253,7 +252,7 @@ public class ServerLinkTable implements HttpTunnelDefaults {
         }
     }
 
-    private boolean sameServerName(String serverName, Connection conn) {
+    private static boolean sameServerName(String serverName, Connection conn) {
         String servname = conn.getServerLink().getServerName();
 
         if ((servname == null) || (serverName == null) || !servname.equals(serverName)) {
@@ -311,7 +310,7 @@ public class ServerLinkTable implements HttpTunnelDefaults {
         return p;
     }
 
-    private void abortClientConnection(int connId, Vector pullQ) {
+    private static void abortClientConnection(int connId, Vector pullQ) {
         HttpTunnelPacket p = genAbortPacket(connId);
 
         synchronized (pullQ) {
@@ -320,7 +319,7 @@ public class ServerLinkTable implements HttpTunnelDefaults {
         }
     }
 
-    private void abortServerConnection(int connId, Connection conn) {
+    private static void abortServerConnection(int connId, Connection conn) {
         HttpTunnelPacket p = genAbortPacket(connId);
 
         conn.getServerLink().sendPacket(p);
@@ -450,7 +449,7 @@ public class ServerLinkTable implements HttpTunnelDefaults {
         }
     }
 
-    private void interceptConnOption(Connection conn, HttpTunnelPacket p) {
+    private static void interceptConnOption(Connection conn, HttpTunnelPacket p) {
         byte[] buf = p.getPacketBody();
         ByteArrayInputStream bis = new ByteArrayInputStream(buf);
         DataInputStream dis = new DataInputStream(bis);

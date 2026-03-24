@@ -87,7 +87,7 @@ class TransactionReaper implements TimerEventHandler {
         this.translist = tl;
     }
 
-    private boolean needReapOne(List l) {
+    private static boolean needReapOne(List l) {
         if (TransactionList.TXN_REAPLIMIT == 0) {
             return true;
         }
@@ -396,7 +396,7 @@ class TransactionReaper implements TimerEventHandler {
         return false;
     }
 
-    private void clearSwipeMark(List<TIDEntry> list) {
+    private static void clearSwipeMark(List<TIDEntry> list) {
         List l = null;
         synchronized (list) {
             l = new ArrayList(list);
@@ -410,7 +410,7 @@ class TransactionReaper implements TimerEventHandler {
         l.clear();
     }
 
-    private TIDEntry getNextEntry(List<TIDEntry> l, int limit, boolean swipe) {
+    private static TIDEntry getNextEntry(List<TIDEntry> l, int limit, boolean swipe) {
         TIDEntry entry = null;
         int i = 0, rsize = 0;
         synchronized (l) {
@@ -442,7 +442,7 @@ class TransactionReaper implements TimerEventHandler {
         return entry;
     }
 
-    private void releaseNextEntry(List<TIDEntry> l, TIDEntry entry) {
+    private static void releaseNextEntry(List<TIDEntry> l, TIDEntry entry) {
         if (l == null) {
             entry.inprocessing = false;
             return;

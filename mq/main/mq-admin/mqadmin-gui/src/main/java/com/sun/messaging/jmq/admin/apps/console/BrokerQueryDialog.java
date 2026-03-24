@@ -535,7 +535,7 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
         checkBothUnlimited(maxMsgSizeSF, value);
     }
 
-    private boolean valueIsUnlimited0(String val) {
+    private static boolean valueIsUnlimited0(String val) {
         SizeString ss;
 
         try {
@@ -554,7 +554,7 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
         return (false);
     }
 
-    private void checkUnlimitedNeg1(SpecialValueField sf, String val) {
+    private static void checkUnlimitedNeg1(SpecialValueField sf, String val) {
         if (valueIsUnlimitedNeg1(val)) {
             sf.setSpecialValueSet(true);
         } else {
@@ -562,7 +562,7 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
         }
     }
 
-    private boolean valueIsUnlimitedNeg1(String val) {
+    private static boolean valueIsUnlimitedNeg1(String val) {
 
         if (val.equals(UNLIMITED_VALUE_NEG1)) {
             return true;
@@ -571,7 +571,7 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
         }
     }
 
-    private void checkBothUnlimited(SpecialValueField sf, String val) {
+    private static void checkBothUnlimited(SpecialValueField sf, String val) {
         if (valueIsUnlimited0(val) || valueIsUnlimitedNeg1(val)) {
             sf.setSpecialValueSet(true);
         } else {

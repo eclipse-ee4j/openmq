@@ -48,7 +48,7 @@ public class HelpPrinter {
         printExamples();
     }
 
-    private void printUsage() {
+    private static void printUsage() {
         Output.stdOutPrintln(br.getString(br.I_USERMGR_HELP_USAGE));
     }
 
@@ -58,7 +58,7 @@ public class HelpPrinter {
          */
     }
 
-    private void printOptions() {
+    private static void printOptions() {
         Output.stdOutPrintln(br.getString(br.I_USERMGR_HELP_OPTIONS));
     }
 

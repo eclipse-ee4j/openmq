@@ -138,7 +138,7 @@ public class RollingFileOutputStream extends OutputStream {
      *
      * Where 968803396174 is the creation time as specified by System.currentTimeMillis()
      */
-    private void writeCreationTime(OutputStream os, long time) throws IOException {
+    private static void writeCreationTime(OutputStream os, long time) throws IOException {
 
         String s = "# " + time + " Do not modify this line" + rb.NL;
         os.write(s.getBytes(StandardCharsets.US_ASCII));
@@ -147,7 +147,7 @@ public class RollingFileOutputStream extends OutputStream {
     /**
      * Read the creation time from a file.
      */
-    private long readCreationTime(RandomAccessFile raf) throws IOException, EOFException {
+    private static long readCreationTime(RandomAccessFile raf) throws IOException, EOFException {
 
         raf.seek(0);
         if (raf.skipBytes(2) != 2) {

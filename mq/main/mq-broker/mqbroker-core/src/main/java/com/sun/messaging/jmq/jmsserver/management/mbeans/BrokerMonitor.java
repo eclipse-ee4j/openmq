@@ -275,7 +275,7 @@ public class BrokerMonitor extends MQMBeanReadOnly implements ConfigListener {
         sendNotification(n);
     }
 
-    private CompositeData getLocalBrokerInfo() {
+    private static CompositeData getLocalBrokerInfo() {
         ClusterManager cm = Globals.getClusterManager();
         CompositeData cd = null;
 

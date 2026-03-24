@@ -273,7 +273,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
      * option to force set last config server info to the current master broker
      *
      */
-    private void checkStoredLastConfigServer() throws BrokerException {
+    private static void checkStoredLastConfigServer() throws BrokerException {
         Store s = Globals.getStore();
 
         boolean bad = false;

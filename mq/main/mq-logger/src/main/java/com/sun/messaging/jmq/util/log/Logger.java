@@ -456,7 +456,7 @@ public class Logger implements LoggerWrapper {
     }
 
     // Helper method to configure Common LogHandler outside LogManager
-    private void configureCommonHandler(Handler handler, Properties props) {
+    private static void configureCommonHandler(Handler handler, Properties props) {
         String baseProp = handler.getClass().getName();
         String filterStr = props.getProperty(baseProp + ".filter");
         Filter filter = null;
@@ -480,7 +480,7 @@ public class Logger implements LoggerWrapper {
     }
 
     // Get formatter object from string configuration
-    private Formatter getFormatter(String formatterString) {
+    private static Formatter getFormatter(String formatterString) {
         Formatter formatter = null;
         try {
             if (formatterString != null) {
@@ -497,7 +497,7 @@ public class Logger implements LoggerWrapper {
     }
 
     // get a list of whitespace separated classnames from a property.
-    private String[] parseClassNames(String classNamePropertyValue) {
+    private static String[] parseClassNames(String classNamePropertyValue) {
         if (classNamePropertyValue == null) {
             return new String[0];
         }

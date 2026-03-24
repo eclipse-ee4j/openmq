@@ -99,7 +99,7 @@ public class CmdRunner implements ObjMgrOptions {
     /*
      * 02/05/2001 Creates a store.
      */
-    private ObjStore createStore(ObjStoreAttrs osa) {
+    private static ObjStore createStore(ObjStoreAttrs osa) {
         if (osa == null) {
             return (null);
         }
@@ -123,7 +123,7 @@ public class CmdRunner implements ObjMgrOptions {
     /*
      * 02/05/2001 Opens an existing store.
      */
-    private void openStore(ObjStore os) throws ObjStoreException {
+    private static void openStore(ObjStore os) throws ObjStoreException {
         os.open();
     }
 
@@ -139,7 +139,7 @@ public class CmdRunner implements ObjMgrOptions {
      * return (openStore(osa)); }
      */
 
-    private void printAddCmdDescription(Object newObj, String type, String lookupName, ObjStoreAttrs osa, String readOnlyValue) {
+    private static void printAddCmdDescription(Object newObj, String type, String lookupName, ObjStoreAttrs osa, String readOnlyValue) {
         Globals.stdOutPrintln(ar.getString(ar.I_ADD_CMD_DESC_INTRO, Utils.getObjTypeString(type)));
         Globals.stdOutPrintln("");
 
@@ -163,7 +163,7 @@ public class CmdRunner implements ObjMgrOptions {
         Globals.stdOutPrintln("");
     }
 
-    private int runAddCommand(ObjMgrProperties objMgrProps) {
+    private static int runAddCommand(ObjMgrProperties objMgrProps) {
         ObjStore os;
         int exitcode = 0;
 
@@ -339,7 +339,7 @@ public class CmdRunner implements ObjMgrOptions {
         return (exitcode);
     }
 
-    private void printDeleteCmdDescription(String lookupName, ObjStoreAttrs osa) {
+    private static void printDeleteCmdDescription(String lookupName, ObjStoreAttrs osa) {
         Globals.stdOutPrintln(ar.getString(ar.I_DELETE_CMD_DESC_INTRO));
         Globals.stdOutPrintln("");
         Globals.stdOutPrintln(lookupName);
@@ -353,7 +353,7 @@ public class CmdRunner implements ObjMgrOptions {
         Globals.stdOutPrintln("");
     }
 
-    private int runDeleteCommand(ObjMgrProperties objMgrProps) {
+    private static int runDeleteCommand(ObjMgrProperties objMgrProps) {
 
         int exitcode = 0;
 
@@ -482,7 +482,7 @@ public class CmdRunner implements ObjMgrOptions {
         return (exitcode);
     }
 
-    private void printQueryCmdDescription(String lookupName, ObjStoreAttrs osa) {
+    private static void printQueryCmdDescription(String lookupName, ObjStoreAttrs osa) {
         Globals.stdOutPrintln(ar.getString(ar.I_QUERY_CMD_DESC_INTRO));
         Globals.stdOutPrintln("");
         Globals.stdOutPrintln(lookupName);
@@ -496,7 +496,7 @@ public class CmdRunner implements ObjMgrOptions {
         Globals.stdOutPrintln("");
     }
 
-    private int runQueryCommand(ObjMgrProperties objMgrProps) {
+    private static int runQueryCommand(ObjMgrProperties objMgrProps) {
         int exitcode = 0;
 
         /*
@@ -596,7 +596,7 @@ public class CmdRunner implements ObjMgrOptions {
         return (exitcode);
     }
 
-    private void printListCmdDescription(String type, ObjStoreAttrs osa) {
+    private static void printListCmdDescription(String type, ObjStoreAttrs osa) {
         String typeString = Utils.getObjTypeString(type);
 
         if (typeString == null) {
@@ -612,7 +612,7 @@ public class CmdRunner implements ObjMgrOptions {
         Globals.stdOutPrintln("");
     }
 
-    private int runListCommand(ObjMgrProperties objMgrProps) {
+    private static int runListCommand(ObjMgrProperties objMgrProps) {
 
         int exitcode = 0;
 
@@ -681,7 +681,7 @@ public class CmdRunner implements ObjMgrOptions {
         return (exitcode);
     }
 
-    private void printUpdateCmdDescription(String type, String lookupName, Properties objProps, ObjStoreAttrs osa, String readOnlyValue) {
+    private static void printUpdateCmdDescription(String type, String lookupName, Properties objProps, ObjStoreAttrs osa, String readOnlyValue) {
         Globals.stdOutPrintln(ar.getString(ar.I_UPDATE_CMD_DESC_INTRO));
         Globals.stdOutPrintln("");
         Globals.stdOutPrintln(lookupName);
@@ -704,7 +704,7 @@ public class CmdRunner implements ObjMgrOptions {
         Globals.stdOutPrintln("");
     }
 
-    private int runUpdateCommand(ObjMgrProperties objMgrProps) {
+    private static int runUpdateCommand(ObjMgrProperties objMgrProps) {
         int exitcode = 0;
         String input = null;
         Object object = null;
@@ -887,7 +887,7 @@ public class CmdRunner implements ObjMgrOptions {
         return (exitcode);
     }
 
-    private String checkObjectType(Object object, String type) {
+    private static String checkObjectType(Object object, String type) {
 
         //
         // No type specified, so set the type to the same one
@@ -937,7 +937,7 @@ public class CmdRunner implements ObjMgrOptions {
      * Called from runUpdateCommand() after we confirmed the object can be updated. Returns an object updated with the new
      * properties.
      */
-    private Object updateObject(Object object, String type, ObjMgrProperties objMgrProps) {
+    private static Object updateObject(Object object, String type, ObjMgrProperties objMgrProps) {
 
         Properties objProps = objMgrProps.getObjProperties();
         Object updatedObject = null;
@@ -976,7 +976,7 @@ public class CmdRunner implements ObjMgrOptions {
     /**
      * List JMS administration objects of particular type.
      */
-    private int listByType(ObjStore os, String type) {
+    private static int listByType(ObjStore os, String type) {
         Vector v = null;
 
         try {
@@ -1022,7 +1022,7 @@ public class CmdRunner implements ObjMgrOptions {
     /**
      * List JMS administration objects.
      */
-    private int listAll(ObjStore os) {
+    private static int listAll(ObjStore os) {
 
         Vector v = null;
 
@@ -1067,14 +1067,14 @@ public class CmdRunner implements ObjMgrOptions {
     /**
      * Return user input. Return null if an error occurred.
      */
-    private String getUserInput(String question) {
+    private static String getUserInput(String question) {
         return (getUserInput(question, null));
     }
 
     /**
      * Return user input. Return <defaultResponse> if no response ("") was givem. Return null if an error occurred.
      */
-    private String getUserInput(String question, String defaultResponse) {
+    private static String getUserInput(String question, String defaultResponse) {
 
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -1095,7 +1095,7 @@ public class CmdRunner implements ObjMgrOptions {
     /**
      * Return user input without echoing, if possible.
      */
-    private String getPassword(String question) {
+    private static String getPassword(String question) {
 
         Password pw = new Password();
         if (pw.echoPassword()) {
@@ -1108,14 +1108,14 @@ public class CmdRunner implements ObjMgrOptions {
     /*
      * Handles exceptions that may be thrown when operations are performed.
      */
-    private void handleRunCommandExceptions(Exception e) {
+    private static void handleRunCommandExceptions(Exception e) {
         handleRunCommandExceptions(e, null);
     }
 
     /*
      * Handles exceptions that may be thrown when operations are performed.
      */
-    private void handleRunCommandExceptions(Exception e, String lookupName) {
+    private static void handleRunCommandExceptions(Exception e, String lookupName) {
 
         if (e instanceof InitializationException) {
             Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_NO_OBJ_CREATOR));
@@ -1192,7 +1192,7 @@ public class CmdRunner implements ObjMgrOptions {
      * private void handleInitializationExceptions(Exception e) { handleRunCommandExceptions(e); }
      */
 
-    private void checkObjStoreAttrs(ObjStoreAttrs osa) {
+    private static void checkObjStoreAttrs(ObjStoreAttrs osa) {
 
         String[] mandatoryAttrs = { Context.INITIAL_CONTEXT_FACTORY, Context.PROVIDER_URL };
         for (int i = 0; i < mandatoryAttrs.length; i++) {
@@ -1209,7 +1209,7 @@ public class CmdRunner implements ObjMgrOptions {
      * to do is to go through the Vector of missing security attributes and and ask for the missing values, given the name
      * of the attribute.
      */
-    private ObjStore promptForAuthentication(ObjStore os) {
+    private static ObjStore promptForAuthentication(ObjStore os) {
         /*
          * Retrieve the original ObjStoreAttrs that the user input. This DOES NOT read any jndi property files processed by jndi
          * since this is done PRIOR to creating the initialContext.

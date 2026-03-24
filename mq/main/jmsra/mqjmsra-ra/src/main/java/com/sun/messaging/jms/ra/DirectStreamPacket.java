@@ -779,7 +779,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
         }
     }
 
-    private void _checkValidObjectType(Object value, String name) throws MessageFormatException {
+    private static void _checkValidObjectType(Object value, String name) throws MessageFormatException {
         if (value == null) {
             return;
         }

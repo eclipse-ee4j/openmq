@@ -1132,7 +1132,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * Map is an interface and its implementation can be anything that implements the Map interface. Whatever it is, convert
      * it to a Properties object.
      */
-    private Properties getProperties(java.util.Map properties) {
+    private static Properties getProperties(java.util.Map properties) {
 
         Properties tmpProps = null;
 
@@ -1222,7 +1222,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         }
     }
 
-    private void checkReplyTypeStatus(Message mesg, int msgType) throws JMSException {
+    private static void checkReplyTypeStatus(Message mesg, int msgType) throws JMSException {
 
         int actualMsgType = -1, actualReplyStatus = -1;
 

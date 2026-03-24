@@ -253,7 +253,7 @@ public class JMSProducerImpl implements JMSProducer, Traceable {
     /**
      * Check that the specified message is valid
      */
-    private void checkMessage(Message message) {
+    private static void checkMessage(Message message) {
         if (message == null) {
             // "Message is null"
             String errorString = AdministeredObject.cr.getKString(ClientResources.X_MESSAGE_IS_NULL);

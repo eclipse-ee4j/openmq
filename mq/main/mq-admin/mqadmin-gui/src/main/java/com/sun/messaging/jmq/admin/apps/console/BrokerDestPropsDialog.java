@@ -915,7 +915,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
      * sf.setSpecialValueSet(true); } else { sf.setSpecialValueSet(false); } }
      */
 
-    private void checkUnlimitedNeg1(SpecialValueField sf, long val) {
+    private static void checkUnlimitedNeg1(SpecialValueField sf, long val) {
         if (valueIsUnlimitedNeg1(val)) {
             sf.setSpecialValueSet(true);
         } else {
@@ -926,7 +926,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
     /*
      * Checks for both 0 and -1 values if unlimited.
      */
-    private void checkBothUnlimited(SpecialValueField sf, long val) {
+    private static void checkBothUnlimited(SpecialValueField sf, long val) {
         if (valueIsUnlimited0(val) || valueIsUnlimitedNeg1(val)) {
             sf.setSpecialValueSet(true);
         } else {
@@ -934,7 +934,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
         }
     }
 
-    private boolean valueIsUnlimited0(long val) {
+    private static boolean valueIsUnlimited0(long val) {
         if (val == UNLIMITED_VALUE_0) {
             return (true);
         }
@@ -942,7 +942,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
         return (false);
     }
 
-    private boolean valueIsUnlimitedNeg1(long val) {
+    private static boolean valueIsUnlimitedNeg1(long val) {
         if (val == UNLIMITED_VALUE_NEG1) {
             return (true);
         }
@@ -1062,7 +1062,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
         }
     }
 
-    private int getLimitBehavValue(String limitBehavStr) {
+    private static int getLimitBehavValue(String limitBehavStr) {
         int ret = DestLimitBehavior.UNKNOWN;
 
         if (limitBehavStr == null) {

@@ -29,7 +29,7 @@ public class Password {
         return false;
     }
 
-    private String getPasswordFromJavaConsole() {
+    private static String getPasswordFromJavaConsole() {
         if (DEBUG) {
             System.err.println("use java.io.Console");
         }

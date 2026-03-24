@@ -299,7 +299,7 @@ public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implement
         return dbmgr.getVendorProp() + "=" + dbmgr.getVendor();
     }
 
-    public final String getStoreVersion() {
+    public static final String getStoreVersion() {
         return SCHEMA_VERSION;
     }
 

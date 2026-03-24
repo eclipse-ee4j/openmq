@@ -261,7 +261,7 @@ public class RedeliverHandler extends PacketHandler {
         }
     }
 
-    private boolean checkRemovedConsumedMessage(PacketReference ref, ConsumerUID id, TransactionUID tid, TransactionList translist, boolean rerouted)
+    private static boolean checkRemovedConsumedMessage(PacketReference ref, ConsumerUID id, TransactionUID tid, TransactionList translist, boolean rerouted)
             throws BrokerException {
 
         SysMessageID sysid = ref.getSysMessageID();

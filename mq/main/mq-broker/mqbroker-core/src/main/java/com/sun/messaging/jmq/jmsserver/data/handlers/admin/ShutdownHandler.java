@@ -153,7 +153,7 @@ public class ShutdownHandler extends AdminCmdHandler {
         return true;
     }
 
-    private boolean hasDirectConnections() {
+    private static boolean hasDirectConnections() {
         // Please keep this consistent with
         // com.sun.messaging.jmq.jmsserver.management.mbeans.BrokerConfig.hasDirectConnections()
 

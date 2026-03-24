@@ -84,7 +84,7 @@ public class NumericValue {
         return value;
     }
 
-    private int getIndexForType(Number obj) {
+    private static int getIndexForType(Number obj) {
 
         int index = -1;
         Class objClass = obj.getClass();
@@ -118,7 +118,7 @@ public class NumericValue {
         return index;
     }
 
-    private Number convertNumber(Number val, int typeIndex) {
+    private static Number convertNumber(Number val, int typeIndex) {
         switch (typeIndex) {
         case ByteValue:
             return Byte.valueOf(val.byteValue());

@@ -154,7 +154,7 @@ class HelperThread extends Thread {
         return serverSocket;
     }
 
-    private ServerSocket doCreateServerSocket(int serverPort, String servletHost) throws IOException {
+    private static ServerSocket doCreateServerSocket(int serverPort, String servletHost) throws IOException {
         ServerSocket serverSocket = null;
 
         if (servletHost == null) {
@@ -170,7 +170,7 @@ class HelperThread extends Thread {
         return serverSocket;
     }
 
-    private ServerSocket doCreateSSLServerSocket(SSLServerSocketFactory ssf, int serverPort, String servletHost) throws IOException {
+    private static ServerSocket doCreateSSLServerSocket(SSLServerSocketFactory ssf, int serverPort, String servletHost) throws IOException {
 
         ServerSocket serverSocket = null;
 
@@ -190,11 +190,10 @@ class HelperThread extends Thread {
     /**
      * pause for the specified milli seconds.
      */
-    private void pause(long ptime) {
+    private static void pause(long ptime) {
         try {
             Thread.sleep(ptime);
         } catch (Exception e) {
-            
         }
     }
 
@@ -236,7 +235,7 @@ class HelperThread extends Thread {
         }
     }
 
-    private SSLServerSocketFactory getServerSocketFactory(String ksloc, String password) throws IOException {
+    private static SSLServerSocketFactory getServerSocketFactory(String ksloc, String password) throws IOException {
         SSLServerSocketFactory ssf = null;
 
         try {

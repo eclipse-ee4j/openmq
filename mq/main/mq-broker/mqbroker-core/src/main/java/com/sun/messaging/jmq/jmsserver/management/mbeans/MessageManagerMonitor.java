@@ -313,7 +313,7 @@ public class MessageManagerMonitor extends MQMBeanReadOnly {
         return (h);
     }
 
-    private PacketReference getPacketReference(SysMessageID sysMsgID) {
+    private static PacketReference getPacketReference(SysMessageID sysMsgID) {
         return Globals.getDestinationList().get(null, sysMsgID);
     }
 

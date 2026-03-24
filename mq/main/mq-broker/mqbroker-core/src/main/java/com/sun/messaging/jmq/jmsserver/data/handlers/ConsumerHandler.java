@@ -831,7 +831,7 @@ public class ConsumerHandler extends PacketHandler {
         boolean nolocal = true;
     }
 
-    private void checkNoLocal(ConsumerParameters pm) throws BrokerException {
+    private static void checkNoLocal(ConsumerParameters pm) throws BrokerException {
 
         if (!pm.nolocal) {
             return;
@@ -860,7 +860,7 @@ public class ConsumerHandler extends PacketHandler {
         }
     }
 
-    private void checkSubscriptionName(ConsumerParameters pm) throws BrokerException {
+    private static void checkSubscriptionName(ConsumerParameters pm) throws BrokerException {
         if (pm.isqueue && pm.subscriptionName != null) {
             String emsg = "Protocol error: Unexpected subscription name for Queue";
             Globals.getLogger().log(Logger.ERROR, emsg);
@@ -881,7 +881,7 @@ public class ConsumerHandler extends PacketHandler {
         }
     }
 
-    private void checkClientID(ConsumerParameters pm) throws BrokerException {
+    private static void checkClientID(ConsumerParameters pm) throws BrokerException {
         if (pm.isqueue) {
             return;
         }

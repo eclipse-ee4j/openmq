@@ -342,7 +342,7 @@ public class ConnectionInitiator {
         // throw new JMSException("Unable to connect.");
     }
 
-    private void sleep(long time) {
+    private static void sleep(long time) {
         try {
             Thread.sleep(time);
         } catch (Exception e) {
@@ -740,11 +740,10 @@ public class ConnectionInitiator {
         try {
             Thread.sleep(this.reconnectDelay);
         } catch (Exception e) {
-            
         }
     }
 
-    private JMSException getJMSException(Exception e) {
+    private static JMSException getJMSException(Exception e) {
 
         if (e instanceof JMSException) {
             return (JMSException) e;

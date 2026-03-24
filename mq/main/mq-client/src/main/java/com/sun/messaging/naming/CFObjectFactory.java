@@ -145,7 +145,7 @@ public abstract class CFObjectFactory extends AdministeredObjectFactory {
      * Recreates the configuration object (host and subnet) from the Reference.
      *
      */
-    private void recreateConfigurationObject(ConnectionFactory cf, Reference ref) throws Exception {
+    private static void recreateConfigurationObject(ConnectionFactory cf, Reference ref) throws Exception {
 
         String parm = null;
         String host = null;
@@ -205,7 +205,7 @@ public abstract class CFObjectFactory extends AdministeredObjectFactory {
      * is true.
      *
      */
-    private void setJMSXProperties(ConnectionFactory cf, Reference ref) throws Exception {
+    private static void setJMSXProperties(ConnectionFactory cf, Reference ref) throws Exception {
         RefAddr addr = null;
         if (((addr = (ref.get(REF_JMSXUSERID))) != null) && ("true".equals(addr.getContent()))) {
             cf.setProperty(ConnectionConfiguration.imqSetJMSXUserID, "true");

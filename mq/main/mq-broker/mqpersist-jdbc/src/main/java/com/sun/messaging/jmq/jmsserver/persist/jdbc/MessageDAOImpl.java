@@ -1640,7 +1640,7 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
      * @param msgColumnIndex the index of the Message column
      * @return column type
      */
-    private int getMsgColumnType(ResultSet rs, int msgColumnIndex) throws SQLException {
+    private static int getMsgColumnType(ResultSet rs, int msgColumnIndex) throws SQLException {
 
         // Cache the result
         if (msgColumnType == -Integer.MAX_VALUE) {

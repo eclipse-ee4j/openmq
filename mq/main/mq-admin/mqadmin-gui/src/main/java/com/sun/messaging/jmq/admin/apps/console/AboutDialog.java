@@ -93,7 +93,7 @@ public class AboutDialog extends AdminDialog {
         return (workPanel);
     }
 
-    private JPanel makeLeftPanel() {
+    private static JPanel makeLeftPanel() {
 
         JPanel leftPanel = new JPanel();
         GridBagLayout gridbag = new GridBagLayout();
@@ -109,7 +109,7 @@ public class AboutDialog extends AdminDialog {
         return leftPanel;
     }
 
-    private JPanel makeRightPanel() {
+    private static JPanel makeRightPanel() {
         Version version;
         JPanel rightPanel;
         GridBagLayout gridbag;

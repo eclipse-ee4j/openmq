@@ -334,7 +334,7 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
     }
 
     /** @throws IllegalStateException */
-    private JMSService getJMSService(String serviceName) {
+    private static JMSService getJMSService(String serviceName) {
         ServiceManager sm = Globals.getServiceManager();
         Service svc;
         IMQService imqSvc;

@@ -232,7 +232,7 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
     public void doClear() {
     }
 
-    private String[] stringToArray(String from, String separator) {
+    private static String[] stringToArray(String from, String separator) {
 
         if (from == null) {
             return null;
@@ -371,7 +371,7 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
     /*
      * Substitute "..." for "Other..."
      */
-    private void changeOtherValues(String[] values) {
+    private static void changeOtherValues(String[] values) {
 
         for (int i = 0; i < values.length; i++) {
             if (values[i].equals("...")) {
@@ -384,7 +384,7 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
     /*
      * Temporarily remove the "..." from the combo box since it's not yet implemented.
      */
-    private String[] omitOtherValues(String[] values) {
+    private static String[] omitOtherValues(String[] values) {
 
         int newLength = values.length;
         for (int i = 0; i < values.length; i++) {

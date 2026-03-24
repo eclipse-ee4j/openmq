@@ -1163,7 +1163,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
      * This method returns the total # of wildcard consumers or producers. In the example above, the total would be 2 + 4 =
      * 6.
      */
-    private int getWildcardCount(Hashtable h) {
+    private static int getWildcardCount(Hashtable h) {
         int count = 0;
 
         if (h == null) {
@@ -2043,7 +2043,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         return (true);
     }
 
-    private String getPortMapperSessionID(BrokerCmdProperties brokerCmdProps, BrokerAdmin broker) {
+    private static String getPortMapperSessionID(BrokerCmdProperties brokerCmdProps, BrokerAdmin broker) {
         GenericPortMapperClient pmc;
         String hostName = broker.getBrokerHost(), portString = broker.getBrokerPort(), sessionID = null;
         int port;
@@ -3275,15 +3275,15 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         return (0);
     }
 
-    private void printAttrs(Properties targetAttrs) {
+    private static void printAttrs(Properties targetAttrs) {
         printAttrs(targetAttrs, false);
     }
 
-    private void printAttrs(Properties targetAttrs, boolean printTitle) {
+    private static void printAttrs(Properties targetAttrs, boolean printTitle) {
         CommonCmdRunnerUtil.printAttrs(targetAttrs, printTitle, new BrokerCmdPrinter());
     }
 
-    private ServiceInfo getServiceInfoFromAttrs(Properties svcAttrs) {
+    private static ServiceInfo getServiceInfoFromAttrs(Properties svcAttrs) {
         ServiceInfo si = new ServiceInfo();
 
         for (Enumeration e = svcAttrs.propertyNames(); e.hasMoreElements();) {
@@ -3334,7 +3334,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         return (si);
     }
 
-    private boolean updatingDestXMLSchema(Properties dstAttrs) {
+    private static boolean updatingDestXMLSchema(Properties dstAttrs) {
         String value;
 
         if (dstAttrs == null) {
@@ -3359,7 +3359,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         return (false);
     }
 
-    private DestinationInfo getDestinationInfoFromAttrs(Properties destAttrs) {
+    private static DestinationInfo getDestinationInfoFromAttrs(Properties destAttrs) {
         DestinationInfo di = new DestinationInfo();
 
         for (Enumeration e = destAttrs.propertyNames(); e.hasMoreElements();) {
@@ -4819,7 +4819,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         return (bcp);
     }
 
-    private void addOneMetricRow(int metricType, BrokerCmdPrinter bcp, MetricCounters latest, MetricCounters previous) {
+    private static void addOneMetricRow(int metricType, BrokerCmdPrinter bcp, MetricCounters latest, MetricCounters previous) {
         String metricRow[];
 
         if (metricType == METRICS_TOTALS) {
@@ -4883,7 +4883,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         }
     }
 
-    private void addOneDestMetricRow(int metricType, int destTypeMask, BrokerCmdPrinter bcp, DestMetricsCounters latestDest, DestMetricsCounters previousDest) {
+    private static void addOneDestMetricRow(int metricType, int destTypeMask, BrokerCmdPrinter bcp, DestMetricsCounters latestDest, DestMetricsCounters previousDest) {
         String metricRow[];
 
         if (metricType == METRICS_TOTALS) {
@@ -6617,7 +6617,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         }
     }
 
-    private void printAllBrokerAttrs(Properties bkrProps) {
+    private static void printAllBrokerAttrs(Properties bkrProps) {
         BrokerCmdPrinter bcp = new BrokerCmdPrinter(2, 4);
         String[] row = new String[2];
 
@@ -6839,7 +6839,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         bcp.println();
     }
 
-    private void printAllTxnAttrs(Hashtable txnInfo) {
+    private static void printAllTxnAttrs(Hashtable txnInfo) {
         BrokerCmdPrinter bcp = new BrokerCmdPrinter(2, 4);
         String[] row = new String[2];
         Object tmpObj;
@@ -6915,7 +6915,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         bcp.println();
     }
 
-    private void printAllCxnAttrs(Hashtable cxnInfo) {
+    private static void printAllCxnAttrs(Hashtable cxnInfo) {
         BrokerCmdPrinter bcp = new BrokerCmdPrinter(2, 4);
         String[] row = new String[2];
         Object tmpObj;
@@ -6988,7 +6988,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         bcp.println();
     }
 
-    private void printDisplayableMsgAttrs(HashMap oneMsg) {
+    private static void printDisplayableMsgAttrs(HashMap oneMsg) {
         BrokerCmdPrinter bcp = new BrokerCmdPrinter(2, 4), titleBcp = new BrokerCmdPrinter(1, 0, "-");
         String[] row = new String[2], titleRow = new String[1];
         Integer tmpInt;
@@ -7108,7 +7108,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
     }
 
     @SuppressWarnings("deprecation")
-    private int getDestTypeMask(BrokerCmdProperties brokerCmdProps) {
+    private static int getDestTypeMask(BrokerCmdProperties brokerCmdProps) {
         Properties props = brokerCmdProps.getTargetAttrs();
         String destType = brokerCmdProps.getDestType();
         int mask = 0;
@@ -7174,7 +7174,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         return (broker);
     }
 
-    private void connectToBroker(BrokerAdmin broker) throws BrokerAdminException {
+    private static void connectToBroker(BrokerAdmin broker) throws BrokerAdminException {
         broker.connect();
         broker.sendHelloMessage();
         broker.receiveHelloReplyMessage();
@@ -7187,11 +7187,11 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         CommonCmdRunnerUtil.printBrokerAdminException(bae, OPTION_BROKER_HOSTPORT, brokerCmdProps.debugModeSet());
     }
 
-    private void handleBrokerCmdException(CommonCmdException bce) {
+    private static void handleBrokerCmdException(CommonCmdException bce) {
         CommonCmdRunnerUtil.printCommonCmdException(bce);
     }
 
-    private void printBrokerInfo(BrokerAdmin broker) {
+    private static void printBrokerInfo(BrokerAdmin broker) {
         CommonCmdRunnerUtil.printBrokerInfo(broker, new BrokerCmdPrinter());
     }
 
@@ -7287,7 +7287,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
     }
 
     // Check to see if the service is an admin service.
-    private void isAdminService(BrokerAdmin broker, String svcName) throws BrokerAdminException {
+    private static void isAdminService(BrokerAdmin broker, String svcName) throws BrokerAdminException {
 
         broker.sendGetServicesMessage(svcName);
         Vector svc = broker.receiveGetServicesReplyMessage();
@@ -7303,7 +7303,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
     }
 
     // Check to see if the dest type is topic.
-    private void isDestTypeTopic(BrokerAdmin broker, String destName) throws BrokerAdminException {
+    private static void isDestTypeTopic(BrokerAdmin broker, String destName) throws BrokerAdminException {
 
         // Query the destination first to make sure it is topic.
         // First get all the destinations and check each destination's type
@@ -7440,18 +7440,18 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         return (ret);
     }
 
-    private String checkNullAndPrint(Object obj) {
+    private static String checkNullAndPrint(Object obj) {
         return CommonCmdRunnerUtil.checkNullAndReturnPrint(obj);
     }
 
-    private String checkNullAndPrintTimestamp(Long timestamp) {
+    private static String checkNullAndPrintTimestamp(Long timestamp) {
         return CommonCmdRunnerUtil.checkNullAndReturnPrintTimestamp(timestamp);
     }
 
     /*
      * Returns an integer representing the metric type. If the metric type is not specified, the totals metrics is assumed.
      */
-    private int getMetricType(BrokerCmdProperties brokerCmdProps) {
+    private static int getMetricType(BrokerCmdProperties brokerCmdProps) {
         String s = brokerCmdProps.getMetricType();
         // String commandArg = brokerCmdProps.getCommandArg();
 
@@ -7479,7 +7479,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
     /*
      * Prompts for authentication and stores the missing username/password.
      */
-    private BrokerAdmin promptForAuthentication(BrokerAdmin broker) {
+    private static BrokerAdmin promptForAuthentication(BrokerAdmin broker) {
         return (BrokerAdmin) CommonCmdRunnerUtil.promptForAuthentication(broker);
     }
 
@@ -7521,7 +7521,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         return connected;
     }
 
-    private int getPauseTypeVal(String destStateStr) {
+    private static int getPauseTypeVal(String destStateStr) {
         int ret = DestState.UNKNOWN;
 
         if (destStateStr == null) {
@@ -7539,7 +7539,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         return (ret);
     }
 
-    private String getResetTypeVal(String resetType) {
+    private static String getResetTypeVal(String resetType) {
 
         if ((resetType == null) || (resetType.equals(""))) {
             return (null);
@@ -7556,7 +7556,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         return (null);
     }
 
-    private int getLimitBehavValue(String limitBehavStr) {
+    private static int getLimitBehavValue(String limitBehavStr) {
         int ret = DestLimitBehavior.UNKNOWN;
 
         if (limitBehavStr == null) {
@@ -7576,7 +7576,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         return (ret);
     }
 
-    private int getClusterDeliveryPolicy(String cdp) {
+    private static int getClusterDeliveryPolicy(String cdp) {
         int ret = ClusterDeliveryPolicy.UNKNOWN;
 
         if (cdp == null) {
@@ -7599,7 +7599,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
      * passfile the only way to specify the password (besides prompting the user for it). -p has higher precendence compared
      * to -passfile.
      */
-    private String getPasswordFromFileOrCmdLine(BrokerCmdProperties brokerCmdProps) throws CommonCmdException {
+    private static String getPasswordFromFileOrCmdLine(BrokerCmdProperties brokerCmdProps) throws CommonCmdException {
         String passwd = brokerCmdProps.getAdminPasswd(), passfile = brokerCmdProps.getAdminPassfile();
 
         if (passwd != null) {
@@ -7609,7 +7609,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
     }
 
-    private String checkNullAndPrintDeliveryMode(Integer deliveryMode) {
+    private static String checkNullAndPrintDeliveryMode(Integer deliveryMode) {
         if (deliveryMode != null) {
             String val;
 
@@ -7632,7 +7632,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         }
     }
 
-    private String checkNullAndPrintMsgBodyType(Integer bodyType, boolean includeValue) {
+    private static String checkNullAndPrintMsgBodyType(Integer bodyType, boolean includeValue) {
         if (bodyType != null) {
             String label = null;
 

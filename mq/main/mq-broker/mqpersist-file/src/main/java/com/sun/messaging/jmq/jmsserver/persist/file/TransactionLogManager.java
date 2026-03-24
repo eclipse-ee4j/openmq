@@ -397,7 +397,7 @@ public class TransactionLogManager implements CheckPointListener {
         }
     }
 
-    private void clearPreparedTxnStore(File preparedTxnStoreDir) throws BrokerException {
+    private static void clearPreparedTxnStore(File preparedTxnStoreDir) throws BrokerException {
         // delete all files under the preparedTxnStoreDir directory
         try {
 

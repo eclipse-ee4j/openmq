@@ -40,7 +40,7 @@ public class ClientTable {
         clients.put(sid, client);
     }
 
-    private String getSequence(String sid) {
+    private static String getSequence(String sid) {
         // get sequence index
         int index = sid.indexOf('-');
 

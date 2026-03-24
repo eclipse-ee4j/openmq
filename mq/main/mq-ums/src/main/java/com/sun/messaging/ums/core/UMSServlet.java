@@ -867,7 +867,7 @@ public class UMSServlet extends HttpServlet {
         return headers;
     }
 
-    private void parseQueryString(Map map, String querystr) {
+    private static void parseQueryString(Map map, String querystr) {
 
         String[] values = querystr.split("&");
 
@@ -1091,7 +1091,7 @@ public class UMSServlet extends HttpServlet {
         return timeout;
     }
 
-    private String getDomain(boolean isTopic) {
+    private static String getDomain(boolean isTopic) {
         if (isTopic) {
             return TOPIC_DOMAIN;
 

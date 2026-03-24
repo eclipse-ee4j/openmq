@@ -98,7 +98,7 @@ public abstract class SocketConnectionHandler implements ConnectionHandler {
      * then if a System property named <code>propname</code> exists, return that, otherwise return the value
      * <code>propdefault</code>.
      */
-    private String getProperty(Properties configuration, String propname, String propdefault) {
+    private static String getProperty(Properties configuration, String propname, String propdefault) {
         String propval = (String) configuration.get(propname);
         if (propval == null) {
             propval = System.getProperty(propname);

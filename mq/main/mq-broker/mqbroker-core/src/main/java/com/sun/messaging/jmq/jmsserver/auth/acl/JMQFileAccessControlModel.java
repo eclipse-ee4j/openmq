@@ -507,7 +507,7 @@ public class JMQFileAccessControlModel implements AccessControlModel {
         throw new AccessControlException((clientUser.equals(user)) ? ("" + clientUser) : (clientUser + " [" + user + "]"));
     }
 
-    private void overridePermission(BitSet basebs, BitSet bs) {
+    private static void overridePermission(BitSet basebs, BitSet bs) {
         if (bs.get(ALLOW_BIT) && bs.get(DENY_BIT)) {
             return;
         }
@@ -525,7 +525,7 @@ public class JMQFileAccessControlModel implements AccessControlModel {
      * @return BitSet 01 explicitly allow 10 explicitly deny 11 explicitly allow and deny - reset to 00 on return 00 either
      * does not have rules or rule does not apply
      */
-    private BitSet getPermission(String name, HashMap allows, HashMap denys) {
+    private static BitSet getPermission(String name, HashMap allows, HashMap denys) {
         BitSet bs = new BitSet(2);
 
         if (allows != null) {
@@ -629,7 +629,7 @@ public class JMQFileAccessControlModel implements AccessControlModel {
     @SuppressWarnings({
         "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
     })
-    private void validate(String user, Set groups) {
+    private static void validate(String user, Set groups) {
         if (user == null) {
             throw new AccessControlException(Globals.getBrokerResources().getKString(BrokerResources.X_USER_NOT_DEFINED));
         }

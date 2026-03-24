@@ -321,7 +321,7 @@ public class CmdRunner implements UserMgrOptions {
         return (0);
     }
 
-    private int runEncode(UserMgrProperties userMgrProps) {
+    private static int runEncode(UserMgrProperties userMgrProps) {
         String srcFile = userMgrProps.getSrc(), targetFile = userMgrProps.getTarget(), input;
         boolean force = userMgrProps.forceModeSet();
 
@@ -367,7 +367,7 @@ public class CmdRunner implements UserMgrOptions {
         return (0);
     }
 
-    private int runDecode(UserMgrProperties userMgrProps) {
+    private static int runDecode(UserMgrProperties userMgrProps) {
         String srcFile = userMgrProps.getSrc(), targetFile = userMgrProps.getTarget(), input;
         boolean force = userMgrProps.forceModeSet();
 
@@ -412,7 +412,7 @@ public class CmdRunner implements UserMgrOptions {
         return (0);
     }
 
-    private void printSrcTarget(String srcFile, String targetFile) {
+    private static void printSrcTarget(String srcFile, String targetFile) {
         UserPrinter up = new UserPrinter(2, 4);
         String[] row = new String[2];
 
@@ -469,7 +469,7 @@ public class CmdRunner implements UserMgrOptions {
         return (0);
     }
 
-    private void handleUserMgrExceptions(UserMgrException ume) {
+    private static void handleUserMgrExceptions(UserMgrException ume) {
         Exception ex = ume.getLinkedException();
         String pwFile = ume.getPasswordFile(), userName = ume.getUserName();
         int type = ume.getType();
@@ -529,7 +529,7 @@ public class CmdRunner implements UserMgrOptions {
      * Get password from either the passfile or -p option. In some future release, the -p option will go away leaving the
      * passfile the only way to specify the password (besides prompting the user for it).
      */
-    private String getPasswordFromFileOrCmdLine(UserMgrProperties userMgrProps) throws UserMgrException {
+    private static String getPasswordFromFileOrCmdLine(UserMgrProperties userMgrProps) throws UserMgrException {
         String passwd = userMgrProps.getPassword(), passfile = userMgrProps.getPassfile();
 
         if (passwd != null) {

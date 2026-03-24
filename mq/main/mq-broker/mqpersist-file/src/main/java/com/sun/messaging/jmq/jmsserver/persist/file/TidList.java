@@ -993,7 +993,7 @@ class TidList {
         }
     }
 
-    private byte[] generateClientData(TransactionUID tid, TransactionInfo txnInfo) throws BrokerException {
+    private static byte[] generateClientData(TransactionUID tid, TransactionInfo txnInfo) throws BrokerException {
 
         byte[] cd = new byte[CLIENT_DATA_SIZE];
         cd[0] = (byte) txnInfo.getTransactionStateValue(); // txn state value

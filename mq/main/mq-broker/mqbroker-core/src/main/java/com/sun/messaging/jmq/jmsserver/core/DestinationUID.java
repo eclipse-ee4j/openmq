@@ -108,11 +108,11 @@ public class DestinationUID extends StringUID {
         return Globals.getBrokerResources().getString(BrokerResources.M_DESTINATION, name, getDestType());
     }
 
-    private String getName(String str) {
+    private static String getName(String str) {
         return str.substring(2);
     }
 
-    private boolean getIsQueue(String str) {
+    private static boolean getIsQueue(String str) {
         return str.charAt(0) == 'Q';
     }
 

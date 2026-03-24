@@ -84,7 +84,7 @@ public class MQDestinationPermission extends Permission {
         return mask;
     }
 
-    private int computeMask(String actions) {
+    private static int computeMask(String actions) {
 
         int mask = NONE;
 

@@ -144,7 +144,7 @@ public class MQRMIClientSocketFactory extends SslRMIClientSocketFactory {
         return sslSocket;
     }
 
-    private SSLSocketFactory getTrustSocketFactory() throws Exception {
+    private static SSLSocketFactory getTrustSocketFactory() throws Exception {
         SSLContext ctx = SSLContext.getInstance("TLS");
         TrustManager[] tm = new TrustManager[1];
         tm[0] = new DefaultTrustManager();

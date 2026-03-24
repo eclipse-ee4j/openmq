@@ -185,7 +185,7 @@ public abstract class ConsoleObj extends DefaultMutableTreeNode {
     /*
      * Returns whether a action flag is set in the specified mask.
      */
-    private boolean flagSet(int mask, int actionFlag) {
+    private static boolean flagSet(int mask, int actionFlag) {
         return ((mask & actionFlag) == actionFlag);
     }
 

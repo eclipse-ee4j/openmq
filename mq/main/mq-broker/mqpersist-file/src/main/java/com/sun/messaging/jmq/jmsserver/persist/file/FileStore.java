@@ -2398,7 +2398,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
     }
 
     // check the version of the old (200) store
-    private void checkOldVersion(File versionfile, int version) throws BrokerException {
+    private static void checkOldVersion(File versionfile, int version) throws BrokerException {
 
         if (!versionfile.exists()) {
             // bad store; store with no version file; throw exception

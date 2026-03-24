@@ -698,7 +698,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
         writePrimitiveObject(value);
     }
 
-    private void checkValidObjectType(Object value) throws MessageFormatException {
+    private static void checkValidObjectType(Object value) throws MessageFormatException {
 
         if (value == null) {
             return;

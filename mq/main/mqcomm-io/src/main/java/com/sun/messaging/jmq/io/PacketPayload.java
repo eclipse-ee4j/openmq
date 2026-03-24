@@ -245,7 +245,7 @@ public class PacketPayload {
     /**
      * Read the property bytes (VERSION2) from an input stream and convert to a java.util.Hashtable.
      */
-    private Hashtable parseProperties(InputStream is) throws IOException, ClassNotFoundException {
+    private static Hashtable parseProperties(InputStream is) throws IOException, ClassNotFoundException {
 
         ObjectInputStream p = new FilteringObjectInputStream(is);
         return (Hashtable) p.readObject();

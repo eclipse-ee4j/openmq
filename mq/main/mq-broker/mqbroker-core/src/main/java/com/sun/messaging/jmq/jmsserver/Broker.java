@@ -1320,7 +1320,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
     }
 
-    private void checkBrokerConfig(BrokerConfig bcf) throws BrokerException {
+    private static void checkBrokerConfig(BrokerConfig bcf) throws BrokerException {
         int val = bcf.getIntProperty(Queue.MAX_ACTIVE_CNT, Queue.DEFAULT_MAX_ACTIVE_CONSUMERS);
         if (val == 0 || val < -1) {
             String emsg = Globals.getBrokerResources().getKString(BrokerResources.X_INVALID_MAX_CONSUMER_COUNT, Queue.MAX_ACTIVE_CNT, String.valueOf(val));
@@ -1337,7 +1337,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
     /**
      * Returns the command line arguments formatted into a string that is suitable for displaying
      */
-    private String argsToString(String args[]) {
+    private static String argsToString(String args[]) {
 
         StringBuilder sb = new StringBuilder();
         for (String arg : args) {

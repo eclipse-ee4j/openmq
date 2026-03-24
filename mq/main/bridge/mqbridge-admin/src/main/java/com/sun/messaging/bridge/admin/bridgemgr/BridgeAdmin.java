@@ -388,7 +388,7 @@ class BridgeAdmin extends BrokerAdminConn {
         return null;
     }
 
-    private void printMsgType(int msgType, String msgTypeString) {
+    private static void printMsgType(int msgType, String msgTypeString) {
         Globals.stdOutPrintln("\t" + AdminMessageType.PropName.MESSAGE_TYPE + "=" + msgType + "(" + msgTypeString + ")");
     }
 

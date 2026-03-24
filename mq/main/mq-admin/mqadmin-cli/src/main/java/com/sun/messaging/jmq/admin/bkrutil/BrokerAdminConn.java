@@ -566,7 +566,7 @@ public abstract class BrokerAdminConn implements ExceptionListener {
 
     public abstract void clearStatusEvent();
 
-    private void printObjProperties(AdministeredObject obj) {
+    private static void printObjProperties(AdministeredObject obj) {
         CommonGlobals.stdOutPrintln("Connection Factory Object properties:");
 
         /*

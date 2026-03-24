@@ -134,7 +134,7 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
     /**
      * Check if a given sequence number fits within a given range.
      */
-    private boolean checkRange(int first, int last, int n) {
+    private static boolean checkRange(int first, int last, int n) {
         if (first < last) {
             return (n >= first && n <= last);
         } else if (first > last) {

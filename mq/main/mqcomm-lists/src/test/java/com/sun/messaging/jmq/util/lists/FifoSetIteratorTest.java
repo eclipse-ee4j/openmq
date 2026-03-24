@@ -37,7 +37,7 @@ class FifoSetIteratorTest {
         consecutiveNextsOnEmptySetShouldThrowNoSuchElementException(new TreeSet());
     }
 
-    private void consecutiveNextsOnEmptySetShouldThrowNoSuchElementException(Set s) {
+    private static void consecutiveNextsOnEmptySetShouldThrowNoSuchElementException(Set s) {
         Iterator iterator = s.iterator();
         assertThrows(NoSuchElementException.class, () -> iterator.next());
         assertThrows(NoSuchElementException.class, () -> iterator.next());

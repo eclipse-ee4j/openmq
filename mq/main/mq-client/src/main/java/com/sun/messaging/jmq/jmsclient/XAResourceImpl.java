@@ -1434,11 +1434,11 @@ public class XAResourceImpl implements XAResource, XAResourceForJMQ {
         }
     }
 
-    private boolean isJoin(int flags) {
+    private static boolean isJoin(int flags) {
         return ((flags & XAResource.TMJOIN) == XAResource.TMJOIN);
     }
 
-    private boolean isResume(int flags) {
+    private static boolean isResume(int flags) {
         return ((flags & XAResource.TMRESUME) == XAResource.TMRESUME);
     }
 
@@ -1453,47 +1453,47 @@ public class XAResourceImpl implements XAResource, XAResourceForJMQ {
     }
 
     // Used for debugging only
-    private String printXid(Xid foreignXid) {
+    private static String printXid(Xid foreignXid) {
         return DebugConverters.toString(foreignXid);
     }
 
     // Used for debugging only
-    private boolean isNoFlags(int flags) {
+    private static boolean isNoFlags(int flags) {
         return ((flags & XAResource.TMNOFLAGS) == XAResource.TMNOFLAGS);
     }
 
     // Used for debugging only
-    private boolean isFail(int flags) {
+    private static boolean isFail(int flags) {
         return ((flags & XAResource.TMFAIL) == XAResource.TMFAIL);
     }
 
     // Used for debugging only
-    private boolean isOnePhase(int flags) {
+    private static boolean isOnePhase(int flags) {
         return ((flags & XAResource.TMONEPHASE) == XAResource.TMONEPHASE);
     }
 
     // Used for debugging only
-    private boolean isSuccess(int flags) {
+    private static boolean isSuccess(int flags) {
         return ((flags & XAResource.TMSUCCESS) == XAResource.TMSUCCESS);
     }
 
     // Used for debugging only
-    private boolean isSuspend(int flags) {
+    private static boolean isSuspend(int flags) {
         return ((flags & XAResource.TMSUSPEND) == XAResource.TMSUSPEND);
     }
 
     // Used for debugging only
-    private boolean isTMENDRSCAN(int flags) {
+    private static boolean isTMENDRSCAN(int flags) {
         return ((flags & XAResource.TMENDRSCAN) == XAResource.TMENDRSCAN);
     }
 
     // Used for debugging only
-    private boolean TMSTARTRSCAN(int flags) {
+    private static boolean TMSTARTRSCAN(int flags) {
         return ((flags & XAResource.TMSTARTRSCAN) == XAResource.TMSTARTRSCAN);
     }
 
     // Used for debugging only
-    private String printFlags(int flags) {
+    private static String printFlags(int flags) {
         String result = ("(Flags: ");
         if (isJoin(flags)) {
             result = result + ("JOIN ");

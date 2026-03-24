@@ -1254,11 +1254,11 @@ public class Agent {
         return (ret);
     }
 
-    private MBeanServer createMBeanServer() {
+    private static MBeanServer createMBeanServer() {
         return (MBeanServerFactory.createMBeanServer());
     }
 
-    private boolean platformMBeanServerAvailable() {
+    private static boolean platformMBeanServerAvailable() {
         try {
             Class.forName("java.lang.management.ManagementFactory");
             return (true);

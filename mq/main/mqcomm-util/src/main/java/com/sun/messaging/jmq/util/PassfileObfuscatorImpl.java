@@ -194,7 +194,7 @@ public class PassfileObfuscatorImpl implements PassfileObfuscator {
         return unobfuscatedKeys.isEmpty();
     }
 
-    private String hashpw(String pw, String finalmagic, MessageDigest md) throws Exception {
+    private static String hashpw(String pw, String finalmagic, MessageDigest md) throws Exception {
         byte[] salt = finalmagic.getBytes(StandardCharsets.UTF_8);
         boolean even = false;
         if (salt[0] % 2 == 0) {

@@ -203,7 +203,7 @@ public class ActionManager {
     /*
      * Returns the enabled state of a particular action in the specified mask.
      */
-    private boolean isActive(int mask, int actionFlag) {
+    private static boolean isActive(int mask, int actionFlag) {
         return ((mask & actionFlag) == actionFlag);
     }
 

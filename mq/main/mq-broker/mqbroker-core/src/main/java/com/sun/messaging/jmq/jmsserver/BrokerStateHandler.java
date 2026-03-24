@@ -399,7 +399,7 @@ public class BrokerStateHandler {
         Globals.getClusterBroadcast().stopClusterIO(failover, force, excludedBroker);
     }
 
-    private void shutdownServices(String requestedBy, int exitCode, Connection excludedConn) throws BrokerException {
+    private static void shutdownServices(String requestedBy, int exitCode, Connection excludedConn) throws BrokerException {
 
         ServiceManager sm = Globals.getServiceManager();
 

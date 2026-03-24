@@ -379,7 +379,7 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
     /**
      * The passed args must ensure correct options
      */
-    private String parseLinkName(String[] args) {
+    private static String parseLinkName(String[] args) {
         if (args == null) {
             return null;
         }
@@ -393,7 +393,7 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
         return null;
     }
 
-    private boolean parseResetArg(String[] args) {
+    private static boolean parseResetArg(String[] args) {
         if (args == null) {
             return false;
         }
@@ -407,7 +407,7 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
         return false;
     }
 
-    private boolean parseDebugModeArg(String[] args) {
+    private static boolean parseDebugModeArg(String[] args) {
         if (args == null) {
             return false;
         }

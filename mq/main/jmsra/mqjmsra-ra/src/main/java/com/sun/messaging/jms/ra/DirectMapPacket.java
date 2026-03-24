@@ -637,7 +637,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
         }
     }
 
-    private void _checkValidObjectType(Object value, String name) throws MessageFormatException {
+    private static void _checkValidObjectType(Object value, String name) throws MessageFormatException {
         if ((value != null)//NOPMD
                 && (value instanceof Boolean || value instanceof Byte || value instanceof Short || value instanceof Character || value instanceof Integer
                         || value instanceof Long || value instanceof Float || value instanceof Double || value instanceof String || value instanceof byte[])) {

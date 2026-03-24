@@ -301,7 +301,7 @@ public abstract class PacketHandler {
         }
     }
 
-    private boolean waitForMasterBrokerSync(IMQConnection con, Packet pkt, String retrymsg, String errmsg, ErrHandler defhandler) throws BrokerException {
+    private static boolean waitForMasterBrokerSync(IMQConnection con, Packet pkt, String retrymsg, String errmsg, ErrHandler defhandler) throws BrokerException {
 
         if (con.getClientProtocolVersion() < Connection.MQ450_PROTOCOL) {
             throw new ServiceRestrictionException(errmsg, Status.UNAVAILABLE);

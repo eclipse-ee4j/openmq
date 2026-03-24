@@ -768,7 +768,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
         return body;
     }
 
-    private <T> T returnPayload(Message message, Class<T> c) throws JMSException {
+    private static <T> T returnPayload(Message message, Class<T> c) throws JMSException {
         T body;
         body = message.getBody(c);
         if (body == null) {
@@ -1034,7 +1034,6 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
         try {
             destName = ((com.sun.messaging.Destination) destination).getName();
         } catch (Exception e) {
-            
         }
 
         return session.toString() + ", ConsumerID=" + getInterestId() + ", DestName=" + destName;

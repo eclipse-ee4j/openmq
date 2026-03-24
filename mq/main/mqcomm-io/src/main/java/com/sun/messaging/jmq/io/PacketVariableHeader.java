@@ -382,7 +382,7 @@ public class PacketVariableHeader {
     /**
      * Write a header string item to the specified output stream
      */
-    private void writeString(DataOutputStream dos, int type, String value) throws IOException {
+    private static void writeString(DataOutputStream dos, int type, String value) throws IOException {
         if (value != null) {
             dos.writeShort(type);
             dos.writeUTF(value);
@@ -392,7 +392,7 @@ public class PacketVariableHeader {
     /**
      * Write a long field to the variable portion of the packet
      */
-    private void writeLong(DataOutputStream dos, int type, long value) throws IOException {
+    private static void writeLong(DataOutputStream dos, int type, long value) throws IOException {
         dos.writeShort(type);
         dos.writeShort(8);
         dos.writeLong(value);
@@ -401,7 +401,7 @@ public class PacketVariableHeader {
     /**
      * Write a int field to the variable portion of the packet
      */
-    private void writeInt(DataOutputStream dos, int type, int value) throws IOException {
+    private static void writeInt(DataOutputStream dos, int type, int value) throws IOException {
         dos.writeShort(type);
         dos.writeShort(4);
         dos.writeInt(value);

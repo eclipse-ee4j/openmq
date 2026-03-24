@@ -218,7 +218,7 @@ public class PacketRouter {
         }
     }
 
-    private void checkServiceRestriction(Packet msg, IMQConnection con, PacketHandler handler, int pktype, ErrHandler defHandler)
+    private static void checkServiceRestriction(Packet msg, IMQConnection con, PacketHandler handler, int pktype, ErrHandler defHandler)
             throws BrokerException, Exception {
 
         if (pktype != PacketType.HELLO && pktype != PacketType.PING && pktype != PacketType.AUTHENTICATE && pktype != PacketType.GOODBYE) {

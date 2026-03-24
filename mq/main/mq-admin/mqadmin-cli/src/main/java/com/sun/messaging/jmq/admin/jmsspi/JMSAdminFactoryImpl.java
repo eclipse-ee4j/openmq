@@ -149,7 +149,7 @@ public class JMSAdminFactoryImpl implements JMSAdminFactory {
         return admin;
     }
 
-    private Properties createProviderProperties(String jmsAdminURL, boolean secure) throws JMSException {
+    private static Properties createProviderProperties(String jmsAdminURL, boolean secure) throws JMSException {
 
         Properties tmpProps = new Properties();
 
@@ -178,7 +178,7 @@ public class JMSAdminFactoryImpl implements JMSAdminFactory {
      * 
      * @return host value or null if not specified
      */
-    private String getBrokerHost(String brokerHostPort) {
+    private static String getBrokerHost(String brokerHostPort) {
         String host = brokerHostPort;
 
         if (brokerHostPort == null) {
@@ -205,7 +205,7 @@ public class JMSAdminFactoryImpl implements JMSAdminFactory {
      * 
      * @throw BrokerAdminException if port value is not valid
      */
-    private int getBrokerPort(String brokerHostPort) throws JMSException {
+    private static int getBrokerPort(String brokerHostPort) throws JMSException {
         int port = -1;
 
         if (brokerHostPort == null) {

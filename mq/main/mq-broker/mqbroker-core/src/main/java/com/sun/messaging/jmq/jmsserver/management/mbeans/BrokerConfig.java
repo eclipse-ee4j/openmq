@@ -177,7 +177,7 @@ public class BrokerConfig extends MQMBeanReadWrite implements ConfigListener {
         bsh.initiateShutdown("jmx", 0, true, bsh.getRestartCode(), true, Broker.isInProcess(), false);
     }
 
-    private boolean hasDirectConnections() {
+    private static boolean hasDirectConnections() {
         // Please keep this consistent with
         // com.sun.messaging.jmq.jmsserver.data.handlers.admin.ShutdownHandler.hasDirectConnections()
         List connections = ConnectionUtil.getConnectionInfoList(null);

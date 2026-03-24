@@ -190,7 +190,7 @@ public class DestinationHandler extends PacketHandler {
      * (propName); }
      */
 
-    private boolean isXMLSchemaValidationOn(Destination d) {
+    private static boolean isXMLSchemaValidationOn(Destination d) {
         if (d == null) {
             return (false);
         }
@@ -204,7 +204,7 @@ public class DestinationHandler extends PacketHandler {
         return (d.validateXMLSchemaEnabled());
     }
 
-    private String getXMLSchemaURIList(Destination d) {
+    private static String getXMLSchemaURIList(Destination d) {
         if (d == null) {
             return (null);
         }
@@ -222,7 +222,7 @@ public class DestinationHandler extends PacketHandler {
         return (ret);
     }
 
-    private boolean getReloadXMLSchemaOnFailure(Destination d) {
+    private static boolean getReloadXMLSchemaOnFailure(Destination d) {
         if (d == null) {
             return (false);
         }

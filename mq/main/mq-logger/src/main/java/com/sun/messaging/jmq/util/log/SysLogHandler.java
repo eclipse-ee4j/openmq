@@ -96,7 +96,7 @@ public class SysLogHandler extends Handler {
         }
     }
 
-    private void handleSharedLibraryError(Error e) {
+    private static void handleSharedLibraryError(Error e) {
         java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Logger.LOGGERNAME);
         logSharedLibraryError(logger, e.getMessage());
         open = false;

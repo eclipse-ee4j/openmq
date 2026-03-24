@@ -1794,7 +1794,7 @@ public class DirectSession implements jakarta.jms.QueueSession, jakarta.jms.Topi
         return body;
     }
 
-    private <T> T returnPayload(Message message, Class<T> c) throws JMSException {
+    private static <T> T returnPayload(Message message, Class<T> c) throws JMSException {
         T body;
         body = message.getBody(c);
         if (body == null) {

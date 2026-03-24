@@ -243,7 +243,7 @@ abstract class RandomAccessStore {
         return ok;
     }
 
-    private void writeAttachment(RandomAccessFile rfile, long pos, byte[] buf, boolean sync) throws IOException {
+    private static void writeAttachment(RandomAccessFile rfile, long pos, byte[] buf, boolean sync) throws IOException {
 
         // writing in progress
         markWriting(rfile);
@@ -261,7 +261,7 @@ abstract class RandomAccessStore {
         }
     }
 
-    private void writeAttachmentData(RandomAccessFile rfile, long pos, int intvalue, boolean sync) throws IOException {
+    private static void writeAttachmentData(RandomAccessFile rfile, long pos, int intvalue, boolean sync) throws IOException {
 
         seek(rfile, pos);
         writeInt(rfile, intvalue);
@@ -472,7 +472,7 @@ abstract class RandomAccessStore {
     //
     // return index of end of data
     //
-    private long writeData(RandomAccessFile rfile, byte[] buf, byte[] attachment, boolean sync) throws IOException {
+    private static long writeData(RandomAccessFile rfile, byte[] buf, byte[] attachment, boolean sync) throws IOException {
 
         long endofdata;
 
@@ -855,7 +855,7 @@ abstract class RandomAccessStore {
         return new FileEnumeration(this, dataFiles.iterator());
     }
 
-    private byte[] loadDataFromFile(RandomAccessFile rfile) throws IOException {
+    private static byte[] loadDataFromFile(RandomAccessFile rfile) throws IOException {
 
         // go to beginning of file
         seek(rfile, 0);

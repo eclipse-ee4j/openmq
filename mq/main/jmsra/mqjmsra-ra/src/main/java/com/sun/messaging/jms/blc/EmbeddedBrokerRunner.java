@@ -186,7 +186,7 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
      *
      * @return The String[] of broker arguments
      */
-    private String[] assembleBrokerArgs(String brokerInstanceName, int brokerPort, String brokerHomeDir, String brokerLibDir, String brokerVarDir,
+    private static String[] assembleBrokerArgs(String brokerInstanceName, int brokerPort, String brokerHomeDir, String brokerLibDir, String brokerVarDir,
             String brokerExtraArgs, boolean useJNDIRMIServiceURL, int rmiRegistryPort, boolean startRMIRegistry, boolean doBind) {
 
         Vector<String> v = new Vector<>();

@@ -139,7 +139,7 @@ public class LabelledComponent extends JPanel {
     /*
      * Enable/disable all the components within the comp component.
      */
-    private void enableComponents(JComponent comp, boolean b) {
+    private static void enableComponents(JComponent comp, boolean b) {
         for (int i = 0; i < comp.getComponentCount(); i++) {
             comp.getComponent(i).setEnabled(b);
         }

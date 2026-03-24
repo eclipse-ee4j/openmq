@@ -163,7 +163,7 @@ public class JAASAccessControlModel implements AccessControlModel {
     }
 
     /** @throws AccessControlException */
-    private void checkPermission(Subject subject, Permission p) {
+    private static void checkPermission(Subject subject, Permission p) {
 
         final Permission perm = p;
         Subject.doAsPrivileged(subject, new PrivilegedAction() {
