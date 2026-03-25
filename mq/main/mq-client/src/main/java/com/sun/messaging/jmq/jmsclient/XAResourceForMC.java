@@ -26,7 +26,6 @@ import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
 
-import com.sun.messaging.jmq.util.DebugConverters;
 import com.sun.messaging.jmq.util.JMQXid;
 import com.sun.messaging.jmq.util.XidImpl;
 import com.sun.messaging.jms.ra.api.JMSRAManagedConnection;
@@ -1016,27 +1015,6 @@ public class XAResourceForMC extends XAResourceForX implements XAResource, XARes
 
     /****** XaResourceImpl private methods *****/
 
-    private static boolean isJoin(int flags) {
-        return ((flags & XAResource.TMJOIN) == XAResource.TMJOIN);
-    }
-
-    private static boolean isResume(int flags) {
-        return ((flags & XAResource.TMRESUME) == XAResource.TMRESUME);
-    }
-
-    private static boolean isFail(int flags) {
-        return ((flags & XAResource.TMFAIL) == XAResource.TMFAIL);
-    }
-
-    private static boolean isSuspend(int flags) {
-        return ((flags & XAResource.TMSUSPEND) == XAResource.TMSUSPEND);
-    }
-
-    // Used for debugging only
-    private static String printXid(Xid foreignXid) {
-        return DebugConverters.toString(foreignXid);
-    }
-
     // Used for debugging only
     private static String printFlags(int flags) {
         String result = ("(Flags: ");
@@ -1069,31 +1047,6 @@ public class XAResourceForMC extends XAResourceForX implements XAResource, XARes
         }
         result = result + (")");
         return result;
-    }
-
-    // Used for debugging only
-    private static boolean isNoFlags(int flags) {
-        return ((flags & XAResource.TMNOFLAGS) == XAResource.TMNOFLAGS);
-    }
-
-    // Used for debugging only
-    private static boolean isOnePhase(int flags) {
-        return ((flags & XAResource.TMONEPHASE) == XAResource.TMONEPHASE);
-    }
-
-    // Used for debugging only
-    private static boolean isSuccess(int flags) {
-        return ((flags & XAResource.TMSUCCESS) == XAResource.TMSUCCESS);
-    }
-
-    // Used for debugging only
-    private static boolean isTMENDRSCAN(int flags) {
-        return ((flags & XAResource.TMENDRSCAN) == XAResource.TMENDRSCAN);
-    }
-
-    // Used for debugging only
-    private static boolean TMSTARTRSCAN(int flags) {
-        return ((flags & XAResource.TMSTARTRSCAN) == XAResource.TMSTARTRSCAN);
     }
 
     @Override

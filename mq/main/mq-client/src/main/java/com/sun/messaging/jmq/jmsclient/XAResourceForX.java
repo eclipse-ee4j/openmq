@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,6 +20,7 @@ import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
 
+import com.sun.messaging.jmq.util.DebugConverters;
 import com.sun.messaging.jmq.util.JMQXid;
 
 import jakarta.jms.JMSException;
@@ -120,5 +121,51 @@ abstract class XAResourceForX {
         }
 
         this.removeXid(jmqXid);
+    }
+
+    static final boolean isJoin(int flags) {
+        return ((flags & XAResource.TMJOIN) == XAResource.TMJOIN);
+    }
+
+    static final boolean isResume(int flags) {
+        return ((flags & XAResource.TMRESUME) == XAResource.TMRESUME);
+    }
+
+    static final boolean isFail(int flags) {
+        return ((flags & XAResource.TMFAIL) == XAResource.TMFAIL);
+    }
+
+    static final boolean isSuspend(int flags) {
+        return ((flags & XAResource.TMSUSPEND) == XAResource.TMSUSPEND);
+    }
+
+    // Used for debugging only
+    static final String printXid(Xid foreignXid) {
+        return DebugConverters.toString(foreignXid);
+    }
+
+    // Used for debugging only
+    static final boolean isNoFlags(int flags) {
+        return ((flags & XAResource.TMNOFLAGS) == XAResource.TMNOFLAGS);
+    }
+
+    // Used for debugging only
+    static final boolean isOnePhase(int flags) {
+        return ((flags & XAResource.TMONEPHASE) == XAResource.TMONEPHASE);
+    }
+
+    // Used for debugging only
+    static final boolean isSuccess(int flags) {
+        return ((flags & XAResource.TMSUCCESS) == XAResource.TMSUCCESS);
+    }
+
+    // Used for debugging only
+    static final boolean isTMENDRSCAN(int flags) {
+        return ((flags & XAResource.TMENDRSCAN) == XAResource.TMENDRSCAN);
+    }
+
+    // Used for debugging only
+    static final boolean TMSTARTRSCAN(int flags) {
+        return ((flags & XAResource.TMSTARTRSCAN) == XAResource.TMSTARTRSCAN);
     }
 }
