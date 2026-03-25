@@ -165,9 +165,9 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
      */
     static class HATimerThread implements Runnable {
 
-        long nexttime = 0L;
-        long repeatItr = 0L;
-        Runnable child = null;
+        private long nexttime;
+        private final long repeatItr;
+        private final Runnable child;
 
         HATimerThread(Runnable runner, int initTO, int repeatItr) {
             nexttime = initTO + System.currentTimeMillis();

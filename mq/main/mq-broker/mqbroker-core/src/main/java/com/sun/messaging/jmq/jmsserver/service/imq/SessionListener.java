@@ -38,7 +38,7 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
      * IMQDirectService
      */
 
-    JMSServiceImpl parent;
+    private final JMSServiceImpl parent;
 
     /**
      * listener is alive
@@ -57,7 +57,7 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
     /**
      * session associated with this listener
      */
-    Session session = null;
+    private final Session session;
 
     /**
      * is this a sync or async consumer

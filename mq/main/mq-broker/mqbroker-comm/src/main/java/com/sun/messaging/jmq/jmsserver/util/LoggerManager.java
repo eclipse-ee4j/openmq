@@ -25,7 +25,7 @@ import com.sun.messaging.jmq.jmsserver.config.*;
  * jmq.util and doesn't know about ConfigListeners.
  */
 public class LoggerManager implements ConfigListener {
-    Logger logger = null;
+    private final Logger logger;
 
     private LoggerManager(Logger logger) {
         this.logger = logger;
