@@ -259,8 +259,9 @@ public class LockFile {
                     if (filelock == null) {
                         try { // try once more
                             Thread.sleep(500);
-                        } catch (Exception e) {
-                            /* ignore */}
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
                         filelock = fis.getChannel().tryLock(0L, Long.MAX_VALUE, true);
                         if (filelock == null) {
                             throw new IOException(CommGlobals.getBrokerResources().getKString(BrokerResources.X_OBTAIN_SHARED_LOCK_FILE, file.toString()));
@@ -314,8 +315,9 @@ public class LockFile {
                 if (filelock == null) {
                     try { // try once more
                         Thread.sleep(500);
-                    } catch (Exception e) {
-                        /* ignore */}
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
                     filelock = os.getChannel().tryLock();
                     if (filelock == null) {
                         throw new IOException(
