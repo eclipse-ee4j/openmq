@@ -236,15 +236,8 @@ public class KeystoreUtil implements SSLPropertyMap {
             throw new IOException(Globals.getBrokerResources().getKString(BrokerResources.E_KEYSTORE_NOT_EXIST, keystoreloc));
         }
         KeyStore ks = KeyStore.getInstance("JKS");
-        FileInputStream is = new FileInputStream(keystoreloc);
-        try {
+        try (FileInputStream is = new FileInputStream(keystoreloc)) {
             ks.load(is, keystorepwdc);
-        } finally {
-            try {
-                is.close();
-            } catch (Exception e) {
-                /* ignore */
-            }
         }
         return ks;
     }

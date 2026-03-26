@@ -226,15 +226,8 @@ public class MQRMIServerSocketFactory extends SslRMIServerSocketFactory {
 
                     ks = KeyStore.getInstance("JKS"); // Keystore type
 
-                    FileInputStream is = new FileInputStream(keystore_location);
-                    try {
+                    try (FileInputStream is = new FileInputStream(keystore_location)) {
                         ks.load(is, passphrase);
-                    } finally {
-                        try {
-                            is.close();
-                        } catch (Exception e) {
-                            /* ignore */
-                        }
                     }
                     kmf.init(ks, passphrase);
 
