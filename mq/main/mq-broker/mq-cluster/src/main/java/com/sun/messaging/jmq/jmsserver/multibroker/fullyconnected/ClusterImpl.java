@@ -2031,8 +2031,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
                 }
 
                 Map props = new HashMap();
-                InputStream is = callback.getFileInputStream(filename, targetBroker, props);
-                try {
+                try (InputStream is = callback.getFileInputStream(filename, targetBroker, props)) {
 
                     filesize = ((Long) props.get("filesize")).longValue();
                     lastmodtime = ((Long) props.get("lastmodtime")).longValue();
@@ -2074,11 +2073,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
                     gp.write(os);
                     os.flush();
 
-                } finally {
-                    try {
-                        is.close();
-                    } catch (Exception e) {
-                    }
                 }
             }
             if (numFiles > 0) {
