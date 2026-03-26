@@ -248,7 +248,7 @@ public class LockFile {
 
         FileInputStream fis = new FileInputStream(file);
         FileLock filelock = null;
-        try {
+        try (fis) {
             if (useFileLock) {
                 if (file.length() == 0) {
                     // The other broker process may have just created it
@@ -288,7 +288,6 @@ public class LockFile {
             if (filelock != null) {
                 filelock.release();
             }
-            fis.close();
         }
 
         return lf;
@@ -307,7 +306,7 @@ public class LockFile {
 
         FileOutputStream os = new FileOutputStream(file);
         FileLock filelock = null;
-        try {
+        try (os) {
             if (useFileLock) {
                 // get exclusive-lock
                 filelock = os.getChannel().tryLock();
@@ -333,7 +332,6 @@ public class LockFile {
             if (filelock != null) {
                 filelock.release();
             }
-            os.close();
         }
         return;
     }
