@@ -641,15 +641,12 @@ class MessageInfo {
         packetSize = data.length;
 
         ByteBuffer databuf = ByteBuffer.wrap(data);
-        JMQByteBufferInputStream bis = new JMQByteBufferInputStream(databuf);
-        try {
+        try (JMQByteBufferInputStream bis = new JMQByteBufferInputStream(databuf)) {
             Packet msg = new Packet(false);
             msg.generateTimestamp(false);
             msg.generateSequenceNumber(false);
             msg.readPacket(bis);
             return msg;
-        } finally {
-            bis.close();
         }
     }
 
@@ -670,11 +667,8 @@ class MessageInfo {
             } else {
                 ByteBuffer buf = ByteBuffer.wrap(new byte[packetSize]);
                 r.read(buf.array());
-                JMQByteBufferInputStream bis = new JMQByteBufferInputStream(buf);
-                try {
+                try (JMQByteBufferInputStream bis = new JMQByteBufferInputStream(buf)) {
                     pkt.readPacket(bis);
-                } finally {
-                    bis.close();
                 }
             }
 
