@@ -34,5 +34,4 @@
     <suppress checks="InterfaceIsType" files="com/sun/messaging/jmq/admin/apps/broker/BrokerCmdOptions.java" />
     <suppress checks="InterfaceIsType" files="com/sun/messaging/bridge/admin/bridgemgr/BridgeMgrOptions.java" />
     <suppress checks="InterfaceIsType" files="com/sun/messaging/jmq/jmsserver/persist/jdbc/DBConstants.java" />
-    <suppress checks="InterfaceIsType" files="com/sun/messaging/jmq/admin/apps/console/ConsoleHelpID.java" />
 </suppressions>

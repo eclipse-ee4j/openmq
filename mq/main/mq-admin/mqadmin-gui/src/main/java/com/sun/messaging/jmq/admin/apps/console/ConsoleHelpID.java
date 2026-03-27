@@ -16,31 +16,35 @@
  */
 
 package com.sun.messaging.jmq.admin.apps.console;
+
 /*
  * This package contains all the HelpSet IDs.
  */
 
-interface ConsoleHelpID {
+final class ConsoleHelpID {
+    private ConsoleHelpID() {
+        throw new UnsupportedOperationException();
+    }
 
     /*
      * All the specific help ids available in the helpset(s).
      */
-    String INTRO = "overview";
+    static final String INTRO = "overview";
 
-    String ADD_OBJECT_STORE = "add_object_store";
-    String CONNECT_OBJECT_STORE = "conndis_object_store";
-    String ADD_DEST_OBJECT = "add_destination_obj";
-    String ADD_CF_OBJECT = "add_connection_fact";
-    String OBJECT_STORE_PROPS = "object_store_properties";
-    String DEST_OBJECT_PROPS = "destination_obj_properties";
-    String CF_OBJECT_PROPS = "connection_factory_prop";
+    static final String ADD_OBJECT_STORE = "add_object_store";
+    static final String CONNECT_OBJECT_STORE = "conndis_object_store";
+    static final String ADD_DEST_OBJECT = "add_destination_obj";
+    static final String ADD_CF_OBJECT = "add_connection_fact";
+    static final String OBJECT_STORE_PROPS = "object_store_properties";
+    static final String DEST_OBJECT_PROPS = "destination_obj_properties";
+    static final String CF_OBJECT_PROPS = "connection_factory_prop";
 
-    String ADD_BROKER = "add_broker";
-    String CONNECT_BROKER = "conndis_broker";
-    String ADD_BROKER_DEST = "add_broker_destination";
-    String BROKER_PROPS = "broker_information";
-    String QUERY_BROKER = "broker_configuration";
-    String SERVICE_PROPS = "service_properties";
-    String BROKER_DEST_PROPS = "broker_destination_properties";
+    static final String ADD_BROKER = "add_broker";
+    static final String CONNECT_BROKER = "conndis_broker";
+    static final String ADD_BROKER_DEST = "add_broker_destination";
+    static final String BROKER_PROPS = "broker_information";
+    static final String QUERY_BROKER = "broker_configuration";
+    static final String SERVICE_PROPS = "service_properties";
+    static final String BROKER_DEST_PROPS = "broker_destination_properties";
 
 }
