@@ -99,7 +99,7 @@ public class HTTPProtocol implements Protocol {
 
             int port = servletPort;
             if (port == -1) {
-                port = HttpTunnelDefaults.DEFAULT_HTTP_TUNNEL_PORT;
+                port = HttpTunnelDefaultPorts.DEFAULT_HTTP_TUNNEL_PORT;
             }
 
             InetAddress paddr = InetAddress.getLocalHost();

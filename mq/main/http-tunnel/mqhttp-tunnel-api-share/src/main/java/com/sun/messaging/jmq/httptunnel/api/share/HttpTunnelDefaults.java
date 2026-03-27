@@ -25,16 +25,6 @@ public final class HttpTunnelDefaults {
         throw new UnsupportedOperationException();
     }
 
-    //
-    // VARIOUS DEFAULT VALUES :
-    //
-
-    /**
-     * Default listening port for the TCP connection between the servlet and the <code>HttpTunnelServerDriver</code>.
-     */
-    public static final int DEFAULT_HTTP_TUNNEL_PORT = 7675;
-    public static final int DEFAULT_HTTPS_TUNNEL_PORT = 7674;
-
     /**
      * Default connection retry attempt interval for the TCP connection between the servlet and the
      * <code>HttpTunnelServerDriver</code>.

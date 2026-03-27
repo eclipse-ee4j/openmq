@@ -23,6 +23,7 @@ import com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelPacket;
 import com.sun.messaging.jmq.httptunnel.tunnel.Link;
 import com.sun.messaging.jmq.httptunnel.api.server.HttpTunnelServerDriver;
 
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaultPorts.DEFAULT_HTTP_TUNNEL_PORT;
 import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.ACK;
 import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONNECTION_RETRY_INTERVAL;
 import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_ABORT_PACKET;
@@ -32,7 +33,6 @@ import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN
 import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_OPTION_PACKET;
 import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_SHUTDOWN;
 import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.DATA_PACKET;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.DEFAULT_HTTP_TUNNEL_PORT;
 import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.DUMMY_PACKET;
 import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.LINK_INIT_PACKET;
 import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.LISTEN_STATE_PACKET;

@@ -49,7 +49,7 @@ public class HttpsProtocol extends HTTPProtocol {
 
             int port = servletPort;
             if (port == -1) {
-                port = HttpTunnelDefaults.DEFAULT_HTTPS_TUNNEL_PORT;
+                port = HttpTunnelDefaultPorts.DEFAULT_HTTPS_TUNNEL_PORT;
             }
 
             InetAddress paddr = InetAddress.getLocalHost();

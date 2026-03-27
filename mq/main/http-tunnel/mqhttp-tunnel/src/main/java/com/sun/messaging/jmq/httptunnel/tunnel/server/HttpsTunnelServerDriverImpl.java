@@ -37,7 +37,7 @@ import javax.net.ssl.TrustManager;
 import com.sun.messaging.jmq.httptunnel.api.server.HttpsTunnelServerDriver;
 
 import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONNECTION_RETRY_INTERVAL;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.DEFAULT_HTTPS_TUNNEL_PORT;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaultPorts.DEFAULT_HTTPS_TUNNEL_PORT;
 
 /**
  * This class extends HttpTunnelServerDriver and uses SSL sockets to communicate with the tunneling servlet.

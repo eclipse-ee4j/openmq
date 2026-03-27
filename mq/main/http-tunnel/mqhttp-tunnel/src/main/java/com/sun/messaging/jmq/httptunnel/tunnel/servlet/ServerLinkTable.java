@@ -19,13 +19,13 @@ package com.sun.messaging.jmq.httptunnel.tunnel.servlet;
 
 import com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelPacket;
 
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaultPorts.DEFAULT_HTTPS_TUNNEL_PORT;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaultPorts.DEFAULT_HTTP_TUNNEL_PORT;
 import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_ABORT_PACKET;
 import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_INIT_ACK;
 import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_OPTION_PACKET;
 import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_SHUTDOWN;
 import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONOPT_PULL_PERIOD;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.DEFAULT_HTTPS_TUNNEL_PORT;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.DEFAULT_HTTP_TUNNEL_PORT;
 import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.MAX_PACKETSIZE;
 import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.MAX_PULL_BLOCK_PERIOD;
 

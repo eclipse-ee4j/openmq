@@ -565,6 +565,7 @@
            	<include name="com/sun/messaging/Version.class"/>   
 	
            	<include name="com/sun/messaging/jmq/httptunnel/api/share/HttpTunnelDefaults.class"/>   
+           	<include name="com/sun/messaging/jmq/httptunnel/api/share/HttpTunnelDefaultPorts.class"/>
            	<include name="com/sun/messaging/jmq/httptunnel/tunnel/HttpTunnelPacket.class"/>   
            	<include name="com/sun/messaging/jmq/httptunnel/tunnel/Link.class"/>   
            	<include name="com/sun/messaging/jmq/httptunnel/tunnel/servlet/*.class"/>   
