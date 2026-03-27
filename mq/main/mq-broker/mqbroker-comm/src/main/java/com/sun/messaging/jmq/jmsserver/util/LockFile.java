@@ -246,52 +246,51 @@ public class LockFile {
         byte[] data = new byte[128];
         LockFile lf = new LockFile();
 
-        FileInputStream fis = new FileInputStream(file);
-        FileLock filelock = null;
-        try {
-            if (useFileLock) {
-                if (file.length() == 0) {
-                    // The other broker process may have just created it
-                    return null;
-                } else {
-                    // get shared-lock
-                    filelock = fis.getChannel().tryLock(0L, Long.MAX_VALUE, true);
-                    if (filelock == null) {
-                        try { // try once more
-                            Thread.sleep(500);
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                        }
+        try (FileInputStream fis = new FileInputStream(file)) {
+            FileLock filelock = null;
+            try {
+                if (useFileLock) {
+                    if (file.length() == 0) {
+                        // The other broker process may have just created it
+                        return null;
+                    } else {
+                        // get shared-lock
                         filelock = fis.getChannel().tryLock(0L, Long.MAX_VALUE, true);
                         if (filelock == null) {
-                            throw new IOException(CommGlobals.getBrokerResources().getKString(BrokerResources.X_OBTAIN_SHARED_LOCK_FILE, file.toString()));
+                            try { // try once more
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                Thread.currentThread().interrupt();
+                            }
+                            filelock = fis.getChannel().tryLock(0L, Long.MAX_VALUE, true);
+                            if (filelock == null) {
+                                throw new IOException(CommGlobals.getBrokerResources().getKString(BrokerResources.X_OBTAIN_SHARED_LOCK_FILE, file.toString()));
+                            }
                         }
                     }
                 }
+                fis.read(data);
+                String s = new String(data, StandardCharsets.UTF_8);
+                int i1 = s.indexOf(':');
+                if (i1 == -1) {
+                    throw new IOException(CommGlobals.getBrokerResources().getKString(BrokerResources.X_LOCKFILE_CONTENT_FORMAT, file.toString(), "[" + s + "]"));
+                }
+                StringTokenizer st = new StringTokenizer(s.substring(0, i1), " \t\n\r\f");
+                lf.instance = st.nextToken();
+                int i2 = s.lastIndexOf(':');
+                if (i2 == -1 || i1 == i2) {
+                    throw new IOException(CommGlobals.getBrokerResources().getKString(BrokerResources.X_LOCKFILE_CONTENT_FORMAT, file.toString(), "[" + s + "]"));
+                }
+                st = new StringTokenizer(s.substring(i2 + 1), " \t\n\r\f");
+                lf.port = Integer.parseInt(st.nextToken());
+                st = new StringTokenizer(s.substring(i1 + 1, i2), " \t\n\r\f");
+                lf.hostname = st.nextToken();
+            } finally {
+                if (filelock != null) {
+                    filelock.release();
+                }
             }
-            fis.read(data);
-            String s = new String(data, StandardCharsets.UTF_8);
-            int i1 = s.indexOf(':');
-            if (i1 == -1) {
-                throw new IOException(CommGlobals.getBrokerResources().getKString(BrokerResources.X_LOCKFILE_CONTENT_FORMAT, file.toString(), "[" + s + "]"));
-            }
-            StringTokenizer st = new StringTokenizer(s.substring(0, i1), " \t\n\r\f");
-            lf.instance = st.nextToken();
-            int i2 = s.lastIndexOf(':');
-            if (i2 == -1 || i1 == i2) {
-                throw new IOException(CommGlobals.getBrokerResources().getKString(BrokerResources.X_LOCKFILE_CONTENT_FORMAT, file.toString(), "[" + s + "]"));
-            }
-            st = new StringTokenizer(s.substring(i2 + 1), " \t\n\r\f");
-            lf.port = Integer.parseInt(st.nextToken());
-            st = new StringTokenizer(s.substring(i1 + 1, i2), " \t\n\r\f");
-            lf.hostname = st.nextToken();
-        } finally {
-            if (filelock != null) {
-                filelock.release();
-            }
-            fis.close();
         }
-
         return lf;
     }
 
@@ -306,36 +305,36 @@ public class LockFile {
 
         String data = instance + ":" + hostname + ":" + port + "\n";
 
-        FileOutputStream os = new FileOutputStream(file);
-        FileLock filelock = null;
-        try {
-            if (useFileLock) {
-                // get exclusive-lock
-                filelock = os.getChannel().tryLock();
-                if (filelock == null) {
-                    try { // try once more
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                    }
+        try (FileOutputStream os = new FileOutputStream(file)) {
+            FileLock filelock = null;
+            try {
+                if (useFileLock) {
+                    // get exclusive-lock
                     filelock = os.getChannel().tryLock();
                     if (filelock == null) {
+                        try { // try once more
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                        filelock = os.getChannel().tryLock();
+                        if (filelock == null) {
+                            throw new IOException(
+                                    CommGlobals.getBrokerResources().getKString(BrokerResources.X_OBTAIN_EXCLUSIVE_LOCK_FILE, file.toString(), this.toString()));
+                        }
+                    }
+                    if (checkEmpty && file.length() != 0) {
                         throw new IOException(
-                                CommGlobals.getBrokerResources().getKString(BrokerResources.X_OBTAIN_EXCLUSIVE_LOCK_FILE, file.toString(), this.toString()));
+                                CommGlobals.getBrokerResources().getKString(BrokerResources.X_OBTAIN_EXCLUSIVE_LOCK_FILE_EMPTY, file, this.toString()));
                     }
                 }
-                if (checkEmpty && file.length() != 0) {
-                    throw new IOException(
-                            CommGlobals.getBrokerResources().getKString(BrokerResources.X_OBTAIN_EXCLUSIVE_LOCK_FILE_EMPTY, file, this.toString()));
+                os.write(data.getBytes(StandardCharsets.UTF_8));
+                os.getChannel().force(false);
+            } finally {
+                if (filelock != null) {
+                    filelock.release();
                 }
             }
-            os.write(data.getBytes(StandardCharsets.UTF_8));
-            os.getChannel().force(false);
-        } finally {
-            if (filelock != null) {
-                filelock.release();
-            }
-            os.close();
         }
         return;
     }
