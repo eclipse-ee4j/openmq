@@ -31,13 +31,13 @@ jobs:
 
     steps:
     - name: Download MQ Distribution
-      uses: actions/download-artifact@v8
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
         name: ${{ inputs.mq_distribution_artifact }}
     - name: Unzip MQ Distribution
       run: unzip -q -d ${MQ_DISTRIBUTION_ROOT} ${MQ_ZIP}
     - name: Set up Java
-      uses: actions/setup-java@v5
+      uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
       with:
         distribution: ${{ inputs.java_distribution }}
         java-version: ${{ inputs.java_version }}
@@ -144,7 +144,7 @@ jobs:
           -passfile admin.pass \
           shutdown bkr 2>/dev/null
     - name: Upload logs
-      uses: actions/upload-artifact@v7
+      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
       if: always()
       with:
         name: test-secure-sockets-logs-${{ inputs.java_version }}-${{ inputs.java_package }}

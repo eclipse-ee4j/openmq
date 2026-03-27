@@ -37,7 +37,7 @@ jobs:
 
     steps:
     - name: Download MQ Distribution
-      uses: actions/download-artifact@v8
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
         name: ${{ inputs.mq_distribution_artifact }}
     - name: Download DerbyDB
@@ -54,7 +54,7 @@ jobs:
       if: ${{ matrix.db_vendor == 'derby' }}
       run: unzip -q -d ${DERBY_HOME} ${DERBY_ZIP}
     - name: Set up Java
-      uses: actions/setup-java@v5
+      uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
       with:
         distribution: ${{ inputs.java_distribution }}
         java-version: ${{ inputs.java_version }}
@@ -173,7 +173,7 @@ jobs:
           -passfile admin.pass \
           shutdown bkr 2>/dev/null
     - name: Upload logs
-      uses: actions/upload-artifact@v7
+      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
       if: always()
       with:
         name: broker-jdbc-backed-logs-${{ matrix.db_vendor }}-${{ inputs.java_version }}-${{ inputs.java_package }}
@@ -186,7 +186,7 @@ jobs:
           missing.log
           ${{ env.MQ_VAR_HOME }}/instances/*/log/log.txt
     - name: Upload DerbyDB
-      uses: actions/upload-artifact@v7
+      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
       if: ${{ always() && (matrix.db_vendor == 'derby') }}
       with:
         name: broker-jdbc-backed-data-${{ matrix.db_vendor }}-${{ inputs.java_version }}-${{ inputs.java_package }}
