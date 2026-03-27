@@ -18,7 +18,9 @@
 package com.sun.messaging.jmq.httptunnel.tunnel.servlet;
 
 import com.sun.messaging.jmq.httptunnel.tunnel.*;
-import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults;
+
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.LINK_INIT_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.LISTEN_STATE_PACKET;
 
 import java.io.*;
 
@@ -27,7 +29,7 @@ import java.net.*;
 /**
  * This class implements the servlet end of the link between the servlet and the server application (JMQ broker).
  */
-public class ServerLink extends Link implements HttpTunnelDefaults {
+public class ServerLink extends Link {
     private static boolean DEBUG = Boolean.getBoolean("httptunnel.debug");
     private Socket serverConn = null;
     private ServerLinkTable parent = null;

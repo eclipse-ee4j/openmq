@@ -17,13 +17,14 @@
 
 package com.sun.messaging.jmq.httptunnel.tunnel;
 
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.MAX_PACKETSIZE;
+
 import java.io.*;
-import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults;
 
 /**
  * Provides an output stream for writing data to an HTTP tunnel connection.
  */
-public class HttpTunnelOutputStream extends OutputStream implements HttpTunnelDefaults {
+public class HttpTunnelOutputStream extends OutputStream {
     private HttpTunnelConnection conn = null;
 
     /**

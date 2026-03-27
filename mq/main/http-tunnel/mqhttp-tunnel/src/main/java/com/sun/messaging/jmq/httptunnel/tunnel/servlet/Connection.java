@@ -17,9 +17,9 @@
 
 package com.sun.messaging.jmq.httptunnel.tunnel.servlet;
 
-import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults;
-
 import java.util.Vector;
+
+import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults;
 
 @SuppressWarnings("JdkObsolete")
 class Connection {

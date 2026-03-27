@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -18,7 +18,16 @@
 package com.sun.messaging.jmq.httptunnel.tunnel.servlet;
 
 import com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelPacket;
-import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults;
+
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_ABORT_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_INIT_ACK;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_OPTION_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_SHUTDOWN;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONOPT_PULL_PERIOD;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.DEFAULT_HTTPS_TUNNEL_PORT;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.DEFAULT_HTTP_TUNNEL_PORT;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.MAX_PACKETSIZE;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.MAX_PULL_BLOCK_PERIOD;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -33,7 +42,7 @@ import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;
 
 @SuppressWarnings("JdkObsolete")
-public class ServerLinkTable implements HttpTunnelDefaults {
+public class ServerLinkTable {
     private static final int RUNNING = 0;
     private static final int SHUTTINGDOWN = 1;
     private static final int DESTROYED = 2;

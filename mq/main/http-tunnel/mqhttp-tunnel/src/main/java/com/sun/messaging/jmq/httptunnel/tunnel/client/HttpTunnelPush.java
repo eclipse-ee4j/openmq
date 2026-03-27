@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -18,7 +18,6 @@
 package com.sun.messaging.jmq.httptunnel.tunnel.client;
 
 import com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelPacket;
-import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +35,7 @@ import java.util.Vector;
  * cycles in HTTP I/O.
  */
 @SuppressWarnings("JdkObsolete")
-public class HttpTunnelPush extends Thread implements HttpTunnelDefaults {
+public class HttpTunnelPush extends Thread {
     private URL pushUrl = null;
     private Vector q = null;
     private boolean stopThread = false;

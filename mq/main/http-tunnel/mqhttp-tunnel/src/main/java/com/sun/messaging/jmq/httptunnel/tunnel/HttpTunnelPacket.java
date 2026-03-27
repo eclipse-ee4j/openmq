@@ -17,6 +17,18 @@
 
 package com.sun.messaging.jmq.httptunnel.tunnel;
 
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.ACK;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_ABORT_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_CLOSE_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_INIT_ACK;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_INIT_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_OPTION_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_REJECTED;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_SHUTDOWN;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.DATA_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.LINK_INIT_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.LISTEN_STATE_PACKET;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -25,12 +37,11 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults;
 
 /**
  * This class encapsulates the HTTP tunnel packet.
  */
-public class HttpTunnelPacket implements HttpTunnelDefaults {
+public class HttpTunnelPacket {
     protected static final short VERSION = 100;
     protected static final int HEADER_SIZE = 24;
     protected short version = VERSION;

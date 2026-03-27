@@ -20,7 +20,17 @@ package com.sun.messaging.jmq.httptunnel.tunnel.client;
 import com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelConnection;
 import com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDriver;
 import com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelPacket;
-import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults;
+
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.ACK;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_ABORT_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_CLOSE_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_INIT_ACK;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_INIT_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_OPTION_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_SHUTDOWN;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.DATA_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.DUMMY_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.NO_OP_PACKET;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -41,7 +51,7 @@ import java.util.logging.Logger;
  * continuously send HTTP pull requests to fetch packets sent by the server.
  */
 @SuppressWarnings("JdkObsolete")
-public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults, HttpTunnelDriver {
+public class HttpTunnelClientDriver extends Thread implements HttpTunnelDriver {
     private static boolean DEBUG = Boolean.getBoolean("httptunnel.debug");
     private boolean stopThread = false;
     private String urlString = null;

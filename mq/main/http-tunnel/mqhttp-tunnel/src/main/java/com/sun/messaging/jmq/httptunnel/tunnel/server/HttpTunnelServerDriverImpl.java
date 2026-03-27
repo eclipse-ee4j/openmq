@@ -22,7 +22,21 @@ import com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDriver;
 import com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelPacket;
 import com.sun.messaging.jmq.httptunnel.tunnel.Link;
 import com.sun.messaging.jmq.httptunnel.api.server.HttpTunnelServerDriver;
-import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults;
+
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.ACK;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONNECTION_RETRY_INTERVAL;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_ABORT_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_CLOSE_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_INIT_ACK;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_INIT_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_OPTION_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_SHUTDOWN;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.DATA_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.DEFAULT_HTTP_TUNNEL_PORT;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.DUMMY_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.LINK_INIT_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.LISTEN_STATE_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.MAX_CONNECTION_RETRY_WAIT;
 
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
@@ -48,7 +62,7 @@ import lombok.Setter;
  * continuously read incoming packets from the servlet over the TCP connection.
  */
 @SuppressWarnings("JdkObsolete")
-public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaults, HttpTunnelDriver, HttpTunnelServerDriver {
+public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDriver, HttpTunnelServerDriver {
     private static boolean DEBUG = Boolean.getBoolean("httptunnel.debug");
 
     public static boolean getDEBUG() {

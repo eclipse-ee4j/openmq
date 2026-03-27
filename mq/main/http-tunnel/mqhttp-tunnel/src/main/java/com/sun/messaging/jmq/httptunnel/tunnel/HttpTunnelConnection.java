@@ -20,7 +20,18 @@ package com.sun.messaging.jmq.httptunnel.tunnel;
 import java.util.*;
 import java.io.*;
 import com.sun.messaging.jmq.util.timer.*;
-import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults;
+
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.ACK;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_CLOSE_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_OPTION_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONOPT_CONNECTION_TIMEOUT;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONOPT_PULL_PERIOD;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.DATA_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.DEFAULT_WINDOW_SIZE;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.FAST_RETRANSMIT_ACK_COUNT;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.INITIAL_RETRANSMIT_PERIOD;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.MAX_RETRANSMIT_PERIOD;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.MIN_RETRANSMIT_PERIOD;
 
 /**
  * This class implements the state engine for a HTTP tunnel connection. It uses the unreliable packet delivery mechanism
@@ -29,7 +40,7 @@ import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults;
  * It also provides methods to read bytes from and write bytes to the connection stream.
  */
 @SuppressWarnings("JdkObsolete")
-public class HttpTunnelConnection implements HttpTunnelDefaults {
+public class HttpTunnelConnection {
     private HttpTunnelDriver wire;
     private int connId;
 

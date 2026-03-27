@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -18,7 +18,9 @@
 package com.sun.messaging.jmq.httptunnel.tunnel.servlet;
 
 import com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelPacket;
-import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults;
+
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.NO_OP_PACKET;
+import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.ONE_PACKET_PER_REQUEST;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -37,7 +39,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults {
+public class HttpTunnelServlet extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 4398262071227918600L;
     private int serviceCounter = 0;
