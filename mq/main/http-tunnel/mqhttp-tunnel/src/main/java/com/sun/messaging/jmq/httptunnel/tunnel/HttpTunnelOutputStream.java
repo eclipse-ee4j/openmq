@@ -17,7 +17,7 @@
 
 package com.sun.messaging.jmq.httptunnel.tunnel;
 
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.MAX_PACKETSIZE;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.MAX_PACKETSIZE;
 
 import java.io.*;
 

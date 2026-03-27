@@ -19,8 +19,8 @@ package com.sun.messaging.jmq.httptunnel.tunnel.servlet;
 
 import com.sun.messaging.jmq.httptunnel.tunnel.*;
 
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.LINK_INIT_PACKET;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.LISTEN_STATE_PACKET;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.LINK_INIT_PACKET;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.LISTEN_STATE_PACKET;
 
 import java.io.*;
 

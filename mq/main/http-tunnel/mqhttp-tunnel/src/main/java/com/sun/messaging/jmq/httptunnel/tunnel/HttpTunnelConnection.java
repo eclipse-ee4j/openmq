@@ -21,17 +21,17 @@ import java.util.*;
 import java.io.*;
 import com.sun.messaging.jmq.util.timer.*;
 
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.ACK;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_CLOSE_PACKET;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_OPTION_PACKET;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONOPT_CONNECTION_TIMEOUT;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONOPT_PULL_PERIOD;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.DATA_PACKET;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.DEFAULT_WINDOW_SIZE;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.FAST_RETRANSMIT_ACK_COUNT;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.INITIAL_RETRANSMIT_PERIOD;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.MAX_RETRANSMIT_PERIOD;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.MIN_RETRANSMIT_PERIOD;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.ACK;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.CONN_CLOSE_PACKET;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.CONN_OPTION_PACKET;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.CONOPT_CONNECTION_TIMEOUT;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.CONOPT_PULL_PERIOD;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.DATA_PACKET;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.DEFAULT_WINDOW_SIZE;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.FAST_RETRANSMIT_ACK_COUNT;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.INITIAL_RETRANSMIT_PERIOD;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.MAX_RETRANSMIT_PERIOD;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.MIN_RETRANSMIT_PERIOD;
 
 /**
  * This class implements the state engine for a HTTP tunnel connection. It uses the unreliable packet delivery mechanism

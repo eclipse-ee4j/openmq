@@ -21,13 +21,13 @@ import com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelPacket;
 
 import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaultPorts.DEFAULT_HTTPS_TUNNEL_PORT;
 import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaultPorts.DEFAULT_HTTP_TUNNEL_PORT;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_ABORT_PACKET;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_INIT_ACK;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_OPTION_PACKET;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_SHUTDOWN;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONOPT_PULL_PERIOD;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.MAX_PACKETSIZE;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.MAX_PULL_BLOCK_PERIOD;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.CONN_ABORT_PACKET;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.CONN_INIT_ACK;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.CONN_OPTION_PACKET;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.CONN_SHUTDOWN;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.CONOPT_PULL_PERIOD;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.MAX_PACKETSIZE;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.MAX_PULL_BLOCK_PERIOD;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;

@@ -19,8 +19,8 @@ package com.sun.messaging.jmq.httptunnel.tunnel.servlet;
 
 import com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelPacket;
 
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.NO_OP_PACKET;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.ONE_PACKET_PER_REQUEST;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.NO_OP_PACKET;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.ONE_PACKET_PER_REQUEST;
 
 import java.io.IOException;
 import java.io.PrintWriter;

@@ -17,17 +17,17 @@
 
 package com.sun.messaging.jmq.httptunnel.tunnel;
 
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.ACK;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_ABORT_PACKET;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_CLOSE_PACKET;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_INIT_ACK;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_INIT_PACKET;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_OPTION_PACKET;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_REJECTED;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.CONN_SHUTDOWN;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.DATA_PACKET;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.LINK_INIT_PACKET;
-import static com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults.LISTEN_STATE_PACKET;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.ACK;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.CONN_ABORT_PACKET;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.CONN_CLOSE_PACKET;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.CONN_INIT_ACK;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.CONN_INIT_PACKET;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.CONN_OPTION_PACKET;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.CONN_REJECTED;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.CONN_SHUTDOWN;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.DATA_PACKET;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.LINK_INIT_PACKET;
+import static com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDefaults.LISTEN_STATE_PACKET;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
