@@ -17,6 +17,11 @@
 
 package com.sun.messaging.jmq.util.options;
 
+import static com.sun.messaging.jmq.util.options.OptionType.OPTION_VALUE_HARDCODED;
+import static com.sun.messaging.jmq.util.options.OptionType.OPTION_VALUE_NEXT_ARG;
+import static com.sun.messaging.jmq.util.options.OptionType.OPTION_VALUE_NEXT_ARG_RES;
+import static com.sun.messaging.jmq.util.options.OptionType.OPTION_VALUE_SUFFIX_RES;
+
 import java.util.Properties;
 
 /**
@@ -40,7 +45,7 @@ import java.util.Properties;
  * @see OptionType
  * @see OptionDesc
  */
-public class OptionParser implements OptionType {
+public class OptionParser {
 
     /**
      * Parses arg list using the specified option description table and returns a Properties object which corresponds to it.

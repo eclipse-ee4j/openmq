@@ -28,7 +28,10 @@ package com.sun.messaging.jmq.util.options;
  *
  * @see OptionDesc
  */
-public interface OptionType {
+public final class OptionType {
+    private OptionType() {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Options that have a hardcoded value. The value will not be specified on the command line. Their value will come from
@@ -39,7 +42,7 @@ public interface OptionType {
      * <LI>jmqobjmgr -f
      * </UL>
      */
-    int OPTION_VALUE_HARDCODED = 1;
+    public static final int OPTION_VALUE_HARDCODED = 1;
 
     /**
      * Options that have a value specified on the command line. The value is the very next argument on the command line.
@@ -50,7 +53,7 @@ public interface OptionType {
      * </UL>
      *
      */
-    int OPTION_VALUE_NEXT_ARG = 2;
+    public static final int OPTION_VALUE_NEXT_ARG = 2;
 
     /**
      * Options that have a value specified on the command line. The value has a name/value pair format: <EM>name=value</EM>
@@ -64,7 +67,7 @@ public interface OptionType {
      * will be: <EM>obj.attrs.foo=bar</EM>
      *
      */
-    int OPTION_VALUE_NEXT_ARG_RES = 3;
+    public static final int OPTION_VALUE_NEXT_ARG_RES = 3;
 
     /**
      * Options that have a value specified on the command line. The value has a name/value pair format: <EM>name=value</EM>
@@ -78,5 +81,5 @@ public interface OptionType {
      * In this example, if the base property for <EM>-D</EM> is <EM>sys.props</EM>, the relevant property and value here
      * will be: <EM>sys.props.foo=bar</EM>
      */
-    int OPTION_VALUE_SUFFIX_RES = 4;
+    public static final int OPTION_VALUE_SUFFIX_RES = 4;
 }

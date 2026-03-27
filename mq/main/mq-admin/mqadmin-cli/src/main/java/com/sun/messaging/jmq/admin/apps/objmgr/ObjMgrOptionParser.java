@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,6 +16,10 @@
  */
 
 package com.sun.messaging.jmq.admin.apps.objmgr;
+
+import static com.sun.messaging.jmq.util.options.OptionType.OPTION_VALUE_HARDCODED;
+import static com.sun.messaging.jmq.util.options.OptionType.OPTION_VALUE_NEXT_ARG;
+import static com.sun.messaging.jmq.util.options.OptionType.OPTION_VALUE_NEXT_ARG_RES;
 
 import com.sun.messaging.jmq.util.options.OptionDesc;
 import com.sun.messaging.jmq.util.options.OptionParser;
