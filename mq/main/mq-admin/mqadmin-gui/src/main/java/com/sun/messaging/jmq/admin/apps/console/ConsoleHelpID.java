@@ -20,7 +20,7 @@ package com.sun.messaging.jmq.admin.apps.console;
  * This package contains all the HelpSet IDs.
  */
 
-public interface ConsoleHelpID {
+interface ConsoleHelpID {
 
     /*
      * All the specific help ids available in the helpset(s).
