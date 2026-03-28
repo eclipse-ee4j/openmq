@@ -26,7 +26,7 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 /**
  * This class contains utility methods used by jmqusermgr.
  */
-public class UserMgrUtils implements UserMgrOptions {
+public class UserMgrUtils {
 
     /**
      * Return user input. Throws an exception if an error occurred.
