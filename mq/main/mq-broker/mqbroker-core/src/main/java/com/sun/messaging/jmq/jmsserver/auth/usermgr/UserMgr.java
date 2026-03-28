@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,6 +16,30 @@
  */
 
 package com.sun.messaging.jmq.jmsserver.auth.usermgr;
+
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_CREATEMODE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_LONG_HELP1;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_LONG_HELP2;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_PASSFILE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_PASSWD;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_ROLE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_SHORT_HELP1;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_SHORT_HELP2;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_SILENTMODE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_SRC;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_SYSTEM_PROPERTY_PREFIX;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_USERNAME;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_VERSION1;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_VERSION2;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_ADD;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_DECODE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_DELETE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_ENCODE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_EXISTS;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_GETGROUP;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_GETGROUPSIZE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_LIST;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_UPDATE;
 
 import java.io.*;
 import java.util.Properties;
@@ -37,7 +61,7 @@ import com.sun.messaging.jmq.jmsserver.Broker;
 /**
  * This is a utility that allows administrators to manage the file based user repository in MQ.
  */
-public class UserMgr implements UserMgrOptions {
+public class UserMgr {
 
     private static BrokerResources br = Globals.getBrokerResources();
 
@@ -493,7 +517,7 @@ public class UserMgr implements UserMgrOptions {
             return (false);
         }
 
-        for (OPTION_USERNAME_INVALID_CHARS oc : OPTION_USERNAME_INVALID_CHARS.values()) {
+        for (UserMgrOptions.OPTION_USERNAME_INVALID_CHARS oc : UserMgrOptions.OPTION_USERNAME_INVALID_CHARS.values()) {
             if (userName.indexOf(oc.getChar()) != -1) {
                 return (false);
             }
@@ -513,7 +537,7 @@ public class UserMgr implements UserMgrOptions {
             throw (ex);
         }
 
-        for (OPTION_ROLE_VALID_VALUES ov : OPTION_ROLE_VALID_VALUES.values()) {
+        for (UserMgrOptions.OPTION_ROLE_VALID_VALUES ov : UserMgrOptions.OPTION_ROLE_VALID_VALUES.values()) {
             if (role.equals(ov.toString())) {
                 return (role);
             }
@@ -709,7 +733,7 @@ public class UserMgr implements UserMgrOptions {
             /*
              * Prints: admin user guest
              */
-            for (OPTION_ROLE_VALID_VALUES ov : OPTION_ROLE_VALID_VALUES.values()) {
+            for (UserMgrOptions.OPTION_ROLE_VALID_VALUES ov : UserMgrOptions.OPTION_ROLE_VALID_VALUES.values()) {
                 Output.stdErrPrintln("\t" + ov);
             }
             break;

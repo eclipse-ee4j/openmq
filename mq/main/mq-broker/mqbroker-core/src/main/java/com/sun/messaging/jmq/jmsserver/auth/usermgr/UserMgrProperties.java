@@ -17,6 +17,18 @@
 
 package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_CMD;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_ACTIVE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_FORCE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_INSTANCE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_PASSFILE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_PASSWD;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_ROLE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_SRC;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_TARGET;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_USERNAME;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_PASSWORD_FILE;
+
 import java.io.Serial;
 import java.util.Properties;
 
@@ -37,7 +49,7 @@ import java.util.Properties;
  *
  * @see BrokerCmdOptions
  */
-public class UserMgrProperties extends Properties implements UserMgrOptions {
+public class UserMgrProperties extends Properties {
 
     @Serial
     private static final long serialVersionUID = -7346038143570040359L;

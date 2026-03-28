@@ -17,6 +17,50 @@
 
 package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.CMD_ADD;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.CMD_DECODE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.CMD_DELETE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.CMD_ENCODE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.CMD_EXISTS;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.CMD_GETGROUP;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.CMD_GETGROUPSIZE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.CMD_LIST;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.CMD_UPDATE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_ACTIVE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_CREATEMODE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_FORCE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_INSTANCE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_PASSFILE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_PASSWD;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_ROLE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_SILENTMODE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_SRC;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_TARGET;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.OPTION_USERNAME;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_CMD;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_ACTIVE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_CREATEMODE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_FORCE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_INSTANCE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_PASSFILE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_PASSWD;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_ROLE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_SILENTMODE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_SRC;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_TARGET;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_NAME_OPTION_USERNAME;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_ADD;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_DECODE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_DELETE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_ENCODE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_EXISTS;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_GETGROUP;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_GETGROUPSIZE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_LIST;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_UPDATE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_OPTION_CREATEMODE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_OPTION_FORCE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_OPTION_SILENTMODE;
 import static com.sun.messaging.jmq.util.options.OptionType.OPTION_VALUE_HARDCODED;
 import static com.sun.messaging.jmq.util.options.OptionType.OPTION_VALUE_NEXT_ARG;
 
@@ -38,7 +82,7 @@ import com.sun.messaging.jmq.util.options.OptionException;
  * @see com.sun.messaging.jmq.admin.util.OptionDesc
  * @see com.sun.messaging.jmq.admin.util.OptionParser
  */
-public class UserMgrOptionParser extends OptionParser implements UserMgrOptions {
+public class UserMgrOptionParser extends OptionParser {
 
     /**
      * Options for the jmqobjmgr utility

@@ -24,7 +24,6 @@
 <suppressions>
     <suppress checks="InterfaceIsType" files="com/sun/messaging/bridge/api/BridgeCmdSharedResources.java" />
     <suppress checks="InterfaceIsType" files="com/sun/messaging/jmq/jmsselector/SQLParserConstants.java" />
-    <suppress checks="InterfaceIsType" files="com/sun/messaging/jmq/jmsserver/auth/usermgr/UserMgrOptions.java" />
     <suppress checks="InterfaceIsType" files="com/sun/messaging/jms/Session.java" />
     <suppress checks="InterfaceIsType" files="com/sun/messaging/jmq/jmsspi/JMSConstants.java" />
     <suppress checks="InterfaceIsType" files="com/sun/messaging/naming/AdminObjectConstants.java" />

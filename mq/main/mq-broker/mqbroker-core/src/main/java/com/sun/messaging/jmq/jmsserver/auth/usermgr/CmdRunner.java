@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,6 +27,18 @@ import com.sun.messaging.jmq.util.PassfileObfuscator;
 import com.sun.messaging.jmq.util.PassfileObfuscatorImpl;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.DEFAULT_DECODE_PREFIX;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.DEFAULT_ENCODE_PREFIX;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_ADD;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_DECODE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_DELETE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_ENCODE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_EXISTS;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_GETGROUP;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_GETGROUPSIZE;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_LIST;
+import static com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgrOptions.PROP_VALUE_CMD_UPDATE;
+
 /**
  * This class contains the logic to execute the user commands specified in the UserMgrProperties object. It has one
  * public entry point which is the runCommands() method. It is expected to display to the user if the command execution
@@ -36,7 +48,7 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
  *
  */
 @SuppressWarnings("JdkObsolete")
-public class CmdRunner implements UserMgrOptions {
+public class CmdRunner {
 
     private static BrokerResources br = Globals.getBrokerResources();
     private UserMgrProperties userMgrProps;
