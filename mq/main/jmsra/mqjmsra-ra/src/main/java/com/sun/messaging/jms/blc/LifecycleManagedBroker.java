@@ -579,7 +579,7 @@ public class LifecycleManagedBroker {
 
     /**
      * Specifies the rmiRegistryPort used by the lifecycle managed broker.<br/>
-     * This property only takes effect if the <tt>useINDIRmiServiceURL</tt> property is also set to true.</br>
+     * This property only takes effect if the <tt>useINDIRmiServiceURL</tt> property is also set to true.<br/>
      * Whether a new RMI registry is started or whether an existing RMI registry is used depends on the value of the
      * <tt>startRMIRegistry</tt> property.
      * 
@@ -805,7 +805,7 @@ public class LifecycleManagedBroker {
 
     /**
      * Specifies the lib directory for the lifecycle managed broker.<br/>
-     * This is used in the case of an embedded broker to set the <-tt>-libhome</tt> argument passed to the broker
+     * This is used in the case of an embedded broker to set the <tt>-libhome</tt> argument passed to the broker
      * executable.
      * 
      * @param brokerLibDir the lib directory for the lifecycle managed broker.
@@ -866,7 +866,7 @@ public class LifecycleManagedBroker {
 
     /**
      * Specifies the Java home directory for the lifecycle managed broker.<br/>
-     * This is used in the case of a local broker to set the <-tt>javahome</tt> argument passed to the broker executable and
+     * This is used in the case of a local broker to set the <tt>-javahome</tt> argument passed to the broker executable and
      * must be set to a directory containg a Java JRE.<br/>
      * It is not used in the case of an embedded broker.
      * 

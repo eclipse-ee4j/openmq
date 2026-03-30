@@ -234,7 +234,7 @@ public class UpdateProperties extends Properties {
     /**
      * Convenience method for updating a boolean property
      *
-     * @see updateProperty(String, String, boolean)
+     * @see #updateProperty(String, String, boolean)
      */
     public void updateBooleanProperty(String key, boolean value, boolean save) throws PropertyUpdateException, IOException {
         updateProperty(key, (Boolean.valueOf(value)).toString(), save);
