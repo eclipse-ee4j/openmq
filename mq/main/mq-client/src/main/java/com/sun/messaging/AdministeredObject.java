@@ -182,11 +182,10 @@ public abstract class AdministeredObject implements java.io.Serializable {
         Properties[] configurations = cachedConfigurationMap.get(defaultsBase);
         if (configurations == null) {
             // not in cache
-            try {
-                // Attempt to initialize the configuration from property files
-                InputStream is1 = getClass().getResourceAsStream(defaultsBase + AO_DEFAULTS + AO_PROP_EXT);
-                InputStream is2 = getClass().getResourceAsStream(defaultsBase + AO_TYPES + AO_PROP_EXT);
-                InputStream is3 = getClass().getResourceAsStream(defaultsBase + AO_LABELS + AO_PROP_EXT);
+            // Attempt to initialize the configuration from property files
+            try (InputStream is1 = getClass().getResourceAsStream(defaultsBase + AO_DEFAULTS + AO_PROP_EXT);
+                    InputStream is2 = getClass().getResourceAsStream(defaultsBase + AO_TYPES + AO_PROP_EXT);
+                    InputStream is3 = getClass().getResourceAsStream(defaultsBase + AO_LABELS + AO_PROP_EXT)) {
                 if (is1 != null && is2 != null && is3 != null) {
                     configuration = new Properties();
                     configuration.load(is1);

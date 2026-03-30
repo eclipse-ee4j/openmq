@@ -138,27 +138,28 @@ public class Version {
 
     public Version(boolean isJar) {
         this.isJar = isJar;
-        try {
-            InputStream is = getClass().getResourceAsStream(propname);
+        try (InputStream is = getClass().getResourceAsStream(propname)) {
             if (is == null) {
                 System.err.println(rb.getString(rb.E_VERSION_PROPS));
             }
             props = new Properties();
             props.load(is);
-
-            /*
-             * Load commercial version of property file if it exists. XXX might want to add version checks here prior to loading it.
-             */
-            is = getClass().getResourceAsStream(comm_propname);
-            if (is != null) {
-                props.load(is);
-            }
-
         } catch (Exception ex) {
             System.err.println(rb.getString(rb.E_VERSION_LOAD));
             ex.printStackTrace();
         }
 
+        /*
+         * Load commercial version of property file if it exists. XXX might want to add version checks here prior to loading it.
+         */
+        try (InputStream is = getClass().getResourceAsStream(comm_propname)) {
+            if (is != null) {
+                props.load(is);
+            }
+        } catch (Exception ex) {
+            System.err.println(rb.getString(rb.E_VERSION_LOAD));
+            ex.printStackTrace();
+        }
     }
 
     /**
