@@ -90,7 +90,7 @@
         <mockito.version>5.23.0</mockito.version>
         <lombok.version>1.18.44</lombok.version>
         <error-prone.version>2.49.0</error-prone.version>
-        <checker.version>3.55.1</checker.version>
+        <checker.version>4.0.0</checker.version>
     </properties>
 
     <dependencyManagement>
