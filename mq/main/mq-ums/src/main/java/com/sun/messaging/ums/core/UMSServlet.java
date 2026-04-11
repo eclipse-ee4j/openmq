@@ -867,6 +867,7 @@ public class UMSServlet extends HttpServlet {
         return headers;
     }
 
+    @SuppressWarnings("StringSplitter")
     private static void parseQueryString(Map map, String querystr) {
 
         String[] values = querystr.split("&");
