@@ -53,6 +53,7 @@ import jakarta.inject.Singleton;
  */
 @Service(name = "com.sun.messaging.jmq.jmsserver.persist.jdbc.JDBCStore")
 @Singleton
+@SuppressWarnings({"ForEachIterable"})
 public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
     private static boolean DEBUG = getDEBUG();

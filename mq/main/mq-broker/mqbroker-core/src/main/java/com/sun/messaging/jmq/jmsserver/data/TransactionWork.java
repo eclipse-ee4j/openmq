@@ -29,6 +29,7 @@ import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.log.Logger;
 
+@SuppressWarnings({"ForEachIterable"})
 public class TransactionWork {
     List<TransactionWorkMessage> sentMessages;
     List<TransactionWorkMessageAck> messageAcknowledgments;

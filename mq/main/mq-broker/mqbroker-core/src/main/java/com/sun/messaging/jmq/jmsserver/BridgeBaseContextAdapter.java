@@ -32,9 +32,7 @@ import com.sun.messaging.jmq.jmsserver.tlsutil.SSLPropertyMap;
 import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.bridge.api.BridgeBaseContext;
 
-/**
- *
- */
+@SuppressWarnings({"ForEachIterable"})
 public class BridgeBaseContextAdapter implements BridgeBaseContext, SSLPropertyMap {
     private static boolean DEBUG = false;
 

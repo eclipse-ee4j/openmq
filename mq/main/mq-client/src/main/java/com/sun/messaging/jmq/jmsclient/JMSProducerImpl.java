@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -50,7 +50,7 @@ import com.sun.messaging.jms.MQMessageNotWriteableRuntimeException;
 import com.sun.messaging.jms.MQMessageFormatRuntimeException;
 import com.sun.messaging.jms.MQRuntimeException;
 
-@SuppressWarnings("JdkObsolete")
+@SuppressWarnings({"JdkObsolete", "ForEachIterable"})
 public class JMSProducerImpl implements JMSProducer, Traceable {
 
     JMSContextImpl contextImpl;

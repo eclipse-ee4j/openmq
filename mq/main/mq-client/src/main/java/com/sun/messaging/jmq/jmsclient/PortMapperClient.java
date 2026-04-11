@@ -41,6 +41,7 @@ import com.sun.messaging.jmq.jmsclient.protocol.ssl.SSLUtil;
  *
  */
 
+@SuppressWarnings({"ForEachIterable"})
 public class PortMapperClient {
 
     protected ConnectionImpl connection = null;

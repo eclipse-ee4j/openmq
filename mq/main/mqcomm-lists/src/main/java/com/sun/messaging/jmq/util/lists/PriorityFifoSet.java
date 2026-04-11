@@ -27,6 +27,7 @@ import lombok.Getter;
  * Entries have a given priority, which is a minimum value of 0 (maximum priority)
  * to a given maximum (lowest priority).
  */
+@SuppressWarnings({"ForEachIterable"})
 class PriorityFifoSet<E> extends FifoSet<E> implements Prioritized<E> {
     private final SetEntry<E> priorities[];
     @Getter

@@ -35,6 +35,7 @@ import com.sun.messaging.jmq.io.PortMapperEntry;
  *
  */
 
+@SuppressWarnings({"ForEachIterable"})
 public class GenericPortMapperClient {
 
     protected PortMapperTable portMapperTable = null;

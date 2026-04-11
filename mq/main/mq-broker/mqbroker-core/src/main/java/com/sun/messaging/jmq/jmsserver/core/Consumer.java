@@ -51,7 +51,7 @@ import com.sun.messaging.jmq.jmsserver.FaultInjection;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterBroadcast;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.ConsumerSpi;
 
-@SuppressWarnings("JdkObsolete")
+@SuppressWarnings({"JdkObsolete", "ForEachIterable"})
 public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
     transient Logger logger = Globals.getLogger();
     static final long serialVersionUID = 3353669107150988952L;

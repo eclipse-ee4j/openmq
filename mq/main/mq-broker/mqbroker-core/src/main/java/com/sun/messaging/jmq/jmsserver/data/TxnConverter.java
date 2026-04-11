@@ -34,6 +34,7 @@ import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.log.Logger;
 
+@SuppressWarnings({"ForEachIterable"})
 class TxnConverter {
     TransactionList transactionList;
     TxnLoggingStore store;

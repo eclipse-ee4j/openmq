@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,6 +27,7 @@ import com.sun.messaging.jmq.jmsserver.persist.api.TransactionInfo;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.log.Logger;
 
+@SuppressWarnings({"ForEachIterable"})
 public class ToTxnLogConverter {
 
     static Logger logger = Globals.getLogger();

@@ -41,7 +41,7 @@ import com.sun.messaging.jmq.util.log.Logger;
 /**
  * Handler class which deals with normal (topic or queue) JMS messages
  */
-@SuppressWarnings("JdkObsolete")
+@SuppressWarnings({"JdkObsolete", "ForEachIterable"})
 public class DataHandler extends PacketHandler {
     private static boolean DEBUG = false;
 

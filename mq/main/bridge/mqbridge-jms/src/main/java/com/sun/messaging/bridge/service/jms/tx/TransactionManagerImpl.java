@@ -48,6 +48,7 @@ import com.sun.messaging.bridge.service.jms.resources.JMSBridgeResources;
  *
  * @author amyk
  */
+@SuppressWarnings({"ForEachIterable"})
 public class TransactionManagerImpl implements TransactionManager, TransactionManagerAdapter {
 
     private static int FORMATID = 1246580992; // JMQ'\0'

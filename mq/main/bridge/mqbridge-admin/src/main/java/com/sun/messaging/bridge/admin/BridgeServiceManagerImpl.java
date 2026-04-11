@@ -60,6 +60,7 @@ import org.glassfish.hk2.api.ServiceLocator;
  */
 @RunLevel(12) //Startup run level in Glassfish + 2
 @Service
+@SuppressWarnings({"ForEachIterable"})
 //@Singleton
 public class BridgeServiceManagerImpl extends BridgeServiceManager implements ExceptionListener, MessageListener, PostConstruct, PreDestroy {
 

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -71,6 +71,7 @@ import com.sun.messaging.jms.ra.api.JMSRAResourceAdapter;
  * <li>an attempt to set any of the properties needed to configure the broker lifecycle will cause an Exception.
  * </ul>
  */
+@SuppressWarnings({"ForEachIterable"})
 public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, java.io.Serializable, com.sun.messaging.jms.notification.EventListener {
 
     /**

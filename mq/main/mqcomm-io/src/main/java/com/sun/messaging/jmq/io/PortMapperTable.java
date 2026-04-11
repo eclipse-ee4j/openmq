@@ -32,6 +32,7 @@ import com.sun.messaging.jmq.resources.*;
 /**
  * A table of PortMapperEntries. Knows how to parse and generate the output used by the portmapper service.
  */
+@SuppressWarnings({"ForEachIterable"})
 public class PortMapperTable {
 
     private static boolean DEBUG = false;

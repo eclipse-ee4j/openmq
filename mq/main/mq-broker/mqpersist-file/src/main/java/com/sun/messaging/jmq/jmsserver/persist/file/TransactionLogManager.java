@@ -94,6 +94,7 @@ import com.sun.messaging.jmq.io.txnlog.file.FileTransactionLogWriter;
  *
  */
 
+@SuppressWarnings({"ForEachIterable"})
 public class TransactionLogManager implements CheckPointListener {
 
     private static boolean DEBUG = false;

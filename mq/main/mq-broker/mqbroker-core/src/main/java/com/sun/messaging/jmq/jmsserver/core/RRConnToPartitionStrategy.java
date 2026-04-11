@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,10 +26,9 @@ import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 import org.jvnet.hk2.annotations.Service;
 import org.glassfish.hk2.api.PerLookup;
 
-/**
- */
 @Service(name = "com.sun.messaging.jmq.jmsserver.core.RRConnToPartitionStrategy")
 @PerLookup
+@SuppressWarnings({"ForEachIterable"})
 public class RRConnToPartitionStrategy implements ConnToPartitionStrategy {
     private long lastid = 0L;
 

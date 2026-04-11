@@ -34,6 +34,7 @@ import com.sun.messaging.bridge.api.StompProtocolException;
 /**
  * @author amyk
  */
+@SuppressWarnings({"ForEachIterable"})
 public class StompTransactedSession extends StompSenderSession implements Runnable {
 
     private String _lastRolledbackTID = null;

@@ -60,7 +60,7 @@ import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.FaultInjection;
 
-@SuppressWarnings("JdkObsolete")
+@SuppressWarnings({"JdkObsolete", "ForEachIterable"})
 public class TransactionList implements ClusterListener, PartitionListener {
     protected static boolean DEBUG = false;
 

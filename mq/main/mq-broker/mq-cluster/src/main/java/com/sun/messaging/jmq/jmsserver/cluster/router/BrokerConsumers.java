@@ -79,7 +79,7 @@ import com.sun.messaging.jmq.jmsserver.persist.api.NoPersistPartitionedStoreImpl
 /**
  * This class represents the remote Consumers associated with the brokers in this cluster.
  */
-@SuppressWarnings("JdkObsolete")
+@SuppressWarnings({"JdkObsolete", "ForEachIterable"})
 class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.EventListener {
     Thread thr = null;
 

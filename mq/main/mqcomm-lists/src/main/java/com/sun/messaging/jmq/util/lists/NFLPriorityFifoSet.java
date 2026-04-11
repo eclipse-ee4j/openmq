@@ -25,7 +25,7 @@ import java.util.function.Predicate;
  * This is an Priority Fifo set which implements the if (endEntry != null) endEntry = priorities[pri]; SortedSet
  * interface.
  */
-@SuppressWarnings("SynchronizeOnNonFinalField")
+@SuppressWarnings({"SynchronizeOnNonFinalField", "ForEachIterable"})
 public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements FilterableSet<E>, EventBroadcaster, Limitable {
 
     private static boolean DEBUG = false;

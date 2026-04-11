@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Contributors to Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -77,7 +77,7 @@ import com.sun.messaging.jmq.util.lists.*;
 import java.util.*;
 import java.io.*;
 
-@SuppressWarnings("JdkObsolete")
+@SuppressWarnings({"JdkObsolete", "ForEachIterable"})
 public final class DestinationList implements ConnToPartitionStrategyContext {
     static boolean DEBUG = false;
 

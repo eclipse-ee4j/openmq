@@ -43,6 +43,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.util.log.Logger;
 
+@SuppressWarnings({"ForEachIterable"})
 public class FromTxnLogConverter {
 
     Store store;

@@ -42,6 +42,7 @@ import com.sun.messaging.jmq.jmsserver.multibroker.BrokerInfo;
 import com.sun.messaging.jmq.jmsserver.multibroker.heartbeat.spi.Heartbeat;
 import com.sun.messaging.jmq.jmsserver.multibroker.heartbeat.spi.HeartbeatCallback;
 
+@SuppressWarnings({"ForEachIterable"})
 public class HeartbeatService implements HeartbeatCallback, ClusterListener, ConfigListener {
     private static boolean DEBUG = false;
 

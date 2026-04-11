@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -37,6 +37,7 @@ import java.io.IOException;
 /**
  * This class implements ShareConfigRecordDAO
  */
+@SuppressWarnings({"ForEachIterable"})
 public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl implements ShareConfigRecordDAO {
 
     private final String tableName;

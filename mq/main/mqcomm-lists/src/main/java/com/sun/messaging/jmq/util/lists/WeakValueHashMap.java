@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2020, 2024 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,6 +21,7 @@ package com.sun.messaging.jmq.util.lists;
 import java.util.*;
 import java.lang.ref.*;
 
+@SuppressWarnings({"ForEachIterable"})
 public class WeakValueHashMap<K, V> implements Map<K, V> {
     String name = "Unknown";
 

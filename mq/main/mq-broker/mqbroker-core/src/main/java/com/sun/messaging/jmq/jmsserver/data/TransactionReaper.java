@@ -37,7 +37,7 @@ import com.sun.messaging.jmq.util.timer.TimerEventHandler;
 import com.sun.messaging.jmq.jmsserver.BrokerStateHandler;
 import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 
-@SuppressWarnings("JdkObsolete")
+@SuppressWarnings({"JdkObsolete", "ForEachIterable"})
 class TransactionReaper implements TimerEventHandler {
     TransactionList translist = null;
     Logger logger = Globals.getLogger();

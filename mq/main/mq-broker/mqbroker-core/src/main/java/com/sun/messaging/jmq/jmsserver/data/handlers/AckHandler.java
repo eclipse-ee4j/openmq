@@ -50,7 +50,7 @@ import com.sun.messaging.jmq.jmsserver.FaultInjection;
 /**
  * Handler class which deals with recording message acknowldegements
  */
-@SuppressWarnings("JdkObsolete")
+@SuppressWarnings({"JdkObsolete", "ForEachIterable"})
 public class AckHandler extends PacketHandler {
     // An Ack block is a Long ConsumerUID and a SysMessageID
     static final int ACK_BLOCK_SIZE = 8 + SysMessageID.ID_SIZE;

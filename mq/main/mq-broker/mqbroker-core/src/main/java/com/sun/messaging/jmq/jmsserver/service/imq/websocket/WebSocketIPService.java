@@ -69,6 +69,7 @@ import com.sun.messaging.jmq.jmsserver.service.imq.grizzly.GrizzlyService;
 /**
  * @author amyk
  */
+@SuppressWarnings({"ForEachIterable"})
 public class WebSocketIPService extends IMQService implements GrizzlyService, NotificationInfo {
     private static boolean DEBUG = (false || Globals.getLogger().getLevel() <= Logger.DEBUG);
 
