@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -487,6 +487,7 @@ public class DestinationConfig extends MQMBeanReadWrite {
         throw new InvalidAttributeValueException("Invalid value for attribute " + attrName + ": " + i + ". Please use a positive number or -1");
     }
 
+    @SuppressWarnings("JavaUtilDate")
     private void notifyAttrChange(String attrName, Object newVal, Object oldVal) {
         sendNotification(new AttributeChangeNotification(this, sequenceNumber++, new Date().getTime(), "Attribute change", attrName,
                 newVal.getClass().getName(), oldVal, newVal));

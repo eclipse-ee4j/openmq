@@ -52,6 +52,7 @@ public class HttpTunnelServlet extends HttpServlet {
     protected ServerLinkTable linkTable = null;
     protected Throwable initException = null;
 
+    @SuppressWarnings("JavaUtilDate")
     @Override
     public void init() throws ServletException {
         serviceCounter = 0;
@@ -128,6 +129,7 @@ public class HttpTunnelServlet extends HttpServlet {
         }
     }
 
+    @SuppressWarnings("JavaUtilDate")
     public void handleTest(HttpServletRequest request, HttpServletResponse response) {
         try {
             response.setContentType("text/html; charset=UTF-8 ");

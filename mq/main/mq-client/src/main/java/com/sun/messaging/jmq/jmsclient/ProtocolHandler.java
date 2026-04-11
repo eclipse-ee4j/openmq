@@ -335,6 +335,7 @@ public class ProtocolHandler {
      *
      * @exception JMSException any internal errors caused by the ReadWritePacket IO.
      */
+    @SuppressWarnings("JavaUtilDate")
     private void writePacketNoAck(ReadWritePacket pkt) throws JMSException {
 
         checkConnectionState(pkt);
@@ -1523,6 +1524,7 @@ public class ProtocolHandler {
      *
      * @exception JMSException any internal errors caused by the ReadWritePacket IO.
      */
+    @SuppressWarnings("JavaUtilDate")
     public ReadWritePacket readPacket() throws JMSException {
 
         ReadWritePacket pkt = null;
@@ -2744,6 +2746,7 @@ public class ProtocolHandler {
      *
      * 1 CREATED 2 STARTED 3 FAILED 4 INCOMPLETE 5 COMPLETE 6 PREPARED 7 COMMITED 8 ROLLEDBACK 9 TIMEDOUT
      */
+    @SuppressWarnings("JavaUtilDate")
     public int verifyHATransaction(long transactionID, int tstate, JMQXid xid) throws JMSException {
 
         ReadWritePacket pkt = new ReadWritePacket();

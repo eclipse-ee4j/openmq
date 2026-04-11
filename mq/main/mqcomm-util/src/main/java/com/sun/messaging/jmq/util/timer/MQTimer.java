@@ -41,6 +41,7 @@ public class MQTimer extends java.util.Timer {
         super("MQTimer-Thread", isDaemon);
     }
 
+    @SuppressWarnings("JavaUtilDate")
     public void initUncaughtExceptionHandler() {
         TimerTask uehtask = new TimerTask() {
             @Override

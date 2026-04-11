@@ -29,6 +29,7 @@ public class HttpsTunnelServlet extends HttpTunnelServlet {
     @Serial
     private static final long serialVersionUID = -5507561796961134088L;
 
+    @SuppressWarnings("JavaUtilDate")
     @Override
     public void init() throws ServletException {
         servletContext = this.getServletContext();
@@ -45,6 +46,7 @@ public class HttpsTunnelServlet extends HttpTunnelServlet {
         }
     }
 
+    @SuppressWarnings("JavaUtilDate")
     @Override
     public void handleTest(HttpServletRequest request, HttpServletResponse response) {
         try {

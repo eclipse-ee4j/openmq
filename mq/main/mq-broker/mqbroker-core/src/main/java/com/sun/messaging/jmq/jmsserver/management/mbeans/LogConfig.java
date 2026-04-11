@@ -227,6 +227,7 @@ public class LogConfig extends MQMBeanReadWrite implements ConfigListener {
         return true;
     }
 
+    @SuppressWarnings("JavaUtilDate")
     public void notifyAttrChange(String attrName, Object newVal, Object oldVal) {
         sendNotification(new AttributeChangeNotification(this, sequenceNumber++, new Date().getTime(), "Attribute change", attrName,
                 (newVal == null ? "" : newVal.getClass().getName()), oldVal, newVal));

@@ -295,6 +295,7 @@ public class FileLogRecordIterator implements Iterator {
 
     }
 
+    @SuppressWarnings("JavaUtilDate")
     private void log(String msg) {
         if (debug) {
             System.out.println(new Date() + ": " + msg);

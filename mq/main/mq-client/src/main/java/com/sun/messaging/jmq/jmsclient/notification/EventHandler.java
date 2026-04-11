@@ -104,6 +104,7 @@ public class EventHandler implements Runnable {
         }
     }
 
+    @SuppressWarnings("JavaUtilDate")
     private synchronized void onEvent(Event event) {
 
         if (debugEvent) {
@@ -206,6 +207,7 @@ public class EventHandler implements Runnable {
         }
     }
 
+    @SuppressWarnings("JavaUtilDate")
     private void deliverException(Event event) {
 
         try {
@@ -249,6 +251,7 @@ public class EventHandler implements Runnable {
         return keepRunning;
     }
 
+    @SuppressWarnings("JavaUtilDate")
     private void deliverConnectionEvent(Event event) {
 
         EventListener listener = connection.getEventListener();
@@ -271,6 +274,7 @@ public class EventHandler implements Runnable {
         }
     }
 
+    @SuppressWarnings("JavaUtilDate")
     private void deliverConsumerEvent(ConsumerEvent event) {
 
         com.sun.messaging.Destination dest = event.getDestination();

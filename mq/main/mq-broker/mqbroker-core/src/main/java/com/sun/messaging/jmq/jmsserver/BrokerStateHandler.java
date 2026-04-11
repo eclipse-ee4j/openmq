@@ -444,6 +444,7 @@ public class BrokerStateHandler {
                     (exitCode == getRestartCode()) ? BrokerEvent.Type.RESTART : BrokerEvent.Type.SHUTDOWN);
         }
 
+        @SuppressWarnings("JavaUtilDate")
         public int shutdown() {
             ClusteredBroker cb = null;
             BrokerState state = null;

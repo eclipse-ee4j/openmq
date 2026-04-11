@@ -1134,6 +1134,7 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
      * @param conn database connection
      * @return a HashMap of name value pair of information
      */
+    @SuppressWarnings("JavaUtilDate")
     @Override
     public HashMap getDebugInfo(Connection conn) {
 

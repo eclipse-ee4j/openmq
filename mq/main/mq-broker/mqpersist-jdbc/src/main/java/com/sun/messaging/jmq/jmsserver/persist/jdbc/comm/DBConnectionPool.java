@@ -442,6 +442,7 @@ public class DBConnectionPool {
     /**
      * Checks out a connection from the pool.
      */
+    @SuppressWarnings("JavaUtilDate")
     public Connection getConnection() throws BrokerException {
 
         if (DEBUG) {

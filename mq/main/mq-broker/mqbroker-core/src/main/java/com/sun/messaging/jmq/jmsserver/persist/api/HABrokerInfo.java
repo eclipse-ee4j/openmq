@@ -128,6 +128,7 @@ public final class HABrokerInfo implements Externalizable {
         return takeoverTimestamp;
     }
 
+    @SuppressWarnings("JavaUtilDate")
     @Override
     public String toString() {
         StringBuilder strBuf = new StringBuilder(128).append('(').append("brokerID=").append(id).append(", URL=").append(url).append(", version=").append(version)
