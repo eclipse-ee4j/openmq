@@ -16,9 +16,12 @@
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
+import java.util.Collections;
 import java.util.Hashtable;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
 
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAMonitorService;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
@@ -32,8 +35,39 @@ import com.sun.messaging.jmq.jmsserver.config.*;
 public class UpdateBrokerPropsHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 
+    /**
+     * Properties that an authenticated admin client is not allowed to set
+     * over the wire. {@code imq.cluster.url} is denied because the broker
+     * passes the value to {@link java.net.URL#openStream()} on startup, which
+     * an attacker could abuse for arbitrary file read or SSRF (CVE-2026-24457).
+     * These properties must be configured locally in {@code config.properties}
+     * by an operator with filesystem access to the broker host.
+     */
+    static final Set<String> REMOTE_UPDATE_DENYLIST;
+    static {
+        Set<String> denied = new TreeSet<>();
+        denied.add("imq.cluster.url");
+        REMOTE_UPDATE_DENYLIST = Collections.unmodifiableSet(denied);
+    }
+
     public UpdateBrokerPropsHandler(AdminDataHandler parent) {
         super(parent);
+    }
+
+    /**
+     * @return the first denied property name found in {@code props}, or
+     *     {@code null} if every property is permitted for remote update.
+     */
+    static String findDeniedProperty(Properties props) {
+        if (props == null) {
+            return null;
+        }
+        for (String name : props.stringPropertyNames()) {
+            if (REMOTE_UPDATE_DENYLIST.contains(name)) {
+                return name;
+            }
+        }
+        return null;
     }
 
     /**
@@ -64,6 +98,20 @@ public class UpdateBrokerPropsHandler extends AdminCmdHandler {
             // Get properties we are to update from message body
             Properties p = (Properties) getBodyObject(cmd_msg);
             logger.log(Logger.INFO, rb.I_UPDATE_BROKER_PROPS, "[" + p + "]");
+
+            String denied = findDeniedProperty(p);
+            if (denied != null) {
+                status = Status.BAD_REQUEST;
+                msg = "Property '" + denied + "' cannot be modified via the admin protocol; "
+                        + "set it locally in config.properties (CVE-2026-24457)";
+                logger.log(Logger.WARNING, msg);
+
+                Packet reply = new Packet(con.useDirectBuffers());
+                reply.setPacketType(PacketType.OBJECT_MESSAGE);
+                setProperties(reply, MessageType.UPDATE_BROKER_PROPS_REPLY, status, msg);
+                parent.sendReply(con, cmd_msg, reply);
+                return true;
+            }
 
             // Update the broker configuration
             BrokerConfig bcfg = Globals.getConfig();
