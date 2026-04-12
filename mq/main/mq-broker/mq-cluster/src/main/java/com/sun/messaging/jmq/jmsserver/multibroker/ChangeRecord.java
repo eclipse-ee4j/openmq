@@ -137,6 +137,7 @@ public class ChangeRecord {
         return getUniqueKey() + ", isAddOp() = " + isAddOp();
     }
 
+    @SuppressWarnings("ParameterComment")
     public static synchronized void syncChangeRecord(ChangeRecordCallback cb, MessageBusCallback mbcb, RaptorProtocol proto, boolean fromStart)
             throws BrokerException {
 

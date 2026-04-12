@@ -1064,7 +1064,6 @@
                                       -Xep:NotJavadoc:OFF \
                                       -Xep:OperatorPrecedence:OFF \
                                       -Xep:OverrideThrowableToString:OFF \
-                                      -Xep:ParameterComment:OFF \
                                       -Xep:ParameterMissingNullable:OFF \
                                       -Xep:PatternMatchingInstanceof:OFF \
                                       -Xep:PreferredInterfaceType:OFF \

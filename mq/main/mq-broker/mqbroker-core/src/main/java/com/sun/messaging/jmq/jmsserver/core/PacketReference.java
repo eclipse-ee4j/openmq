@@ -55,7 +55,7 @@ import com.sun.messaging.jmq.jmsserver.FaultInjection;
  *
  */
 
-@SuppressWarnings({"JdkObsolete", "ForEachIterable"})
+@SuppressWarnings({"JdkObsolete", "ForEachIterable", "ParameterComment"})
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PacketReference implements Sized, Ordered {
 

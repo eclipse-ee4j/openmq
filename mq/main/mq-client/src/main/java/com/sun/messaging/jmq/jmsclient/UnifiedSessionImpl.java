@@ -345,6 +345,7 @@ public class UnifiedSessionImpl extends SessionImpl implements com.sun.messaging
      * <li>if a shared durable subscription already exists with the same name and client identifier
      * </ul>
      */
+    @SuppressWarnings("ParameterComment")
     @Override
     public TopicSubscriber createDurableSubscriber(Topic topic, String name, String messageSelector, boolean noLocal) throws JMSException {
 
@@ -621,6 +622,7 @@ public class UnifiedSessionImpl extends SessionImpl implements com.sun.messaging
         return createSharedDurableConsumer(topic, name, null);
     }
 
+    @SuppressWarnings("ParameterComment")
     @Override
     public MessageConsumer createSharedDurableConsumer(Topic topic, String name, String messageSelector) throws JMSException {
         checkSessionState();

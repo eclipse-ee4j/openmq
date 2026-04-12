@@ -2876,6 +2876,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         public boolean storermerror = false;
     }
 
+    @SuppressWarnings("ParameterComment")
     private RemoveMessageReturnInfo _removeMessage(SysMessageID id, Reason r, Hashtable dmqProps, PacketReference remoteRef, boolean wait)
             throws BrokerException {
         RemoveMessageReturnInfo ret = new RemoveMessageReturnInfo();
