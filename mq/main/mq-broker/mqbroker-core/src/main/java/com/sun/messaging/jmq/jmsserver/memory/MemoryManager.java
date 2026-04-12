@@ -467,7 +467,7 @@ public class MemoryManager implements DiagManager.Data {
      * @param override if true, notify even if paused
      */
 
-    public void notifyAllOfStateChange(boolean override) {
+    private void notifyAllOfStateChange(boolean override) {
 
         if (turnOffMemory || !active) {
             return;
@@ -529,7 +529,7 @@ public class MemoryManager implements DiagManager.Data {
         }
     }
 
-    public void checkAndNotifyPaused() {
+    private void checkAndNotifyPaused() {
         if (DEBUG) {
             logger.log(Logger.DEBUGMED, "checkAndNotifyPaused [size,bytes,max] = [" + JMQSizeValue + "," + JMQBytesValue + "," + JMQMaxMessageSize + "]");
         }
@@ -705,7 +705,7 @@ public class MemoryManager implements DiagManager.Data {
     boolean completedRunningCleanup = true;
     int cleanupCnt = 0;
 
-    public void checkMemoryState() {
+    private void checkMemoryState() {
         if (turnOffMemory || !active) {
             return;
         }
@@ -833,7 +833,7 @@ public class MemoryManager implements DiagManager.Data {
         checkMemoryState();
     }
 
-    public void recalcMemory() {
+    private void recalcMemory() {
         // update memory values
         maxAvailableMemory = Runtime.getRuntime().totalMemory();
         updateMaxMessageSize(-2);
@@ -843,15 +843,15 @@ public class MemoryManager implements DiagManager.Data {
         }
     }
 
-    protected void gc() {
+    private void gc() {
         gc(1, GC_DELTA);
     }
 
-    protected void gc(int count) {
+    private void gc(int count) {
         gc(count, GC_DELTA);
     }
 
-    protected void gc(int count, long delta) {
+    private void gc(int count, long delta) {
         if (!NO_GC) {
             logger.log(Logger.DEBUG, "calling Runtime.freeMemory()");
             long free = Runtime.getRuntime().freeMemory();
