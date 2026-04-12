@@ -2876,7 +2876,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         public boolean storermerror = false;
     }
 
-    @SuppressWarnings("ParameterComment")
     private RemoveMessageReturnInfo _removeMessage(SysMessageID id, Reason r, Hashtable dmqProps, PacketReference remoteRef, boolean wait)
             throws BrokerException {
         RemoveMessageReturnInfo ret = new RemoveMessageReturnInfo();
@@ -2893,7 +2892,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         PacketReference ref = destMessages.get(id);
         if (ref == null) {
             // message already gone
-            DL.removePacketList(id, getDestinationUID(), null/* ref */);
+            DL.removePacketList(id, getDestinationUID(), /* ref= */ null);
             logger.log(Logger.DEBUG, "Reference already gone for " + id);
             return ret;
         }

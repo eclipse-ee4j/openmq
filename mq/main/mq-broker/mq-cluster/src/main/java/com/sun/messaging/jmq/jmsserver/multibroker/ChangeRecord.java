@@ -137,7 +137,6 @@ public class ChangeRecord {
         return getUniqueKey() + ", isAddOp() = " + isAddOp();
     }
 
-    @SuppressWarnings("ParameterComment")
     public static synchronized void syncChangeRecord(ChangeRecordCallback cb, MessageBusCallback mbcb, RaptorProtocol proto, boolean fromStart)
             throws BrokerException {
 
@@ -155,7 +154,7 @@ public class ChangeRecord {
 
         List<ChangeRecordInfo> records = null;
         try {
-            records = Globals.getStore().getShareConfigChangeStore().getChangeRecordsSince(seq, resetUUID, fromStart/* canReset */);
+            records = Globals.getStore().getShareConfigChangeStore().getChangeRecordsSince(seq, resetUUID, /* canReset= */ fromStart);
         } catch (BrokerException e) {
             if (e.getStatusCode() == Status.PRECONDITION_FAILED) {
                 Globals.getLogger().logStack(Logger.ERROR, e.getMessage(), e);

@@ -94,7 +94,7 @@ import com.sun.messaging.jmq.io.txnlog.TransactionLogType;
 /**
  * Handler class for transaction packets.
  */
-@SuppressWarnings({"JdkObsolete", "ForEachIterable", "ParameterComment"})
+@SuppressWarnings({"JdkObsolete", "ForEachIterable"})
 public class TransactionHandler extends PacketHandler {
     private static boolean DEBUG = false;
 
@@ -1795,7 +1795,7 @@ public class TransactionHandler extends PacketHandler {
                         ss.remove(lastref);
                     }
                 }
-                if (cs.routeMessages(ss, true /* toFront */)) {
+                if (cs.routeMessages(ss, /* toFront= */ true)) {
                     if (DEBUG) {
                         logger.log(Logger.INFO, "Sucessfully routed msgs to " + cs);
                     }
@@ -2154,7 +2154,7 @@ public class TransactionHandler extends PacketHandler {
                     }
                     continue;
                 }
-                if (!ss.isEmpty() && cs.routeMessages(ss, true /* toFront */)) {
+                if (!ss.isEmpty() && cs.routeMessages(ss, /* toFront= */ true)) {
                     // successful
                     sitr.remove();
                 }

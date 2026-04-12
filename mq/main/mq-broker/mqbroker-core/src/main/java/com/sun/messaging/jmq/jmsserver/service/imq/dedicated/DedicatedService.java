@@ -37,10 +37,9 @@ public class DedicatedService extends IMQIPService {
         super(name, protocol, type, router, min, max);
     }
 
-    @SuppressWarnings("ParameterComment")
     @Override
     public RunnableFactory getRunnableFactory() {
-        return new OperationRunnableFactory(true /* blocking */);
+        return new OperationRunnableFactory(/* blocking= */ true);
     }
 
     @Override

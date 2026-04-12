@@ -1229,7 +1229,6 @@ public class JMSServiceImpl implements JMSService {
      *
      *
      */
-    @SuppressWarnings("ParameterComment")
     @Override
     public JMSServiceReply startTransaction(long connectionId, long sessionId, Xid xid, int flags, JMSService.TransactionAutoRollback rollback, long timeout)
             throws JMSServiceException {
@@ -1248,7 +1247,7 @@ public class JMSServiceImpl implements JMSService {
         }
 
         try {
-            txnUID = protocol.startTransaction(jmqXid, xaFlags, null/* type */, timeout, cxn);
+            txnUID = protocol.startTransaction(jmqXid, xaFlags, /* type= */ null, timeout, cxn);
         } catch (BrokerException be) {
             String errStr = "startTransaction: start transaction failed. Connection ID: " + connectionId + ", session ID: " + sessionId + ", XID: " + xid;
 

@@ -81,7 +81,7 @@ import com.sun.messaging.jmq.util.selector.SelectorFormatException;
  * interaction (e.g. when callbacks happen) is different for the jms protocol and other protocols.
  */
 
-@SuppressWarnings({"JdkObsolete", "ForEachIterable", "ParameterComment"})
+@SuppressWarnings({"JdkObsolete", "ForEachIterable"})
 public class ProtocolImpl implements Protocol {
 
     private static boolean DEBUG = false;
@@ -772,7 +772,7 @@ public class ProtocolImpl implements Protocol {
         TransactionList tl = (TransactionList) oo[0];
         TransactionState ts = (TransactionState) oo[1];
 
-        handler.doPrepare(tl, id, null/* xaFlags */, ts, PacketType.PREPARE_TRANSACTION, con);
+        handler.doPrepare(tl, id, /* xaFlags= */ null, ts, PacketType.PREPARE_TRANSACTION, con);
     }
 
     /**
@@ -841,7 +841,7 @@ public class ProtocolImpl implements Protocol {
             }
         }
 
-        handler.preRollback(tl, id, xid, null/* xaFlags */, ts);
+        handler.preRollback(tl, id, xid, /* xaFlags= */ null, ts);
 
         BrokerException bex = null;
         if (redeliver) {
@@ -856,7 +856,7 @@ public class ProtocolImpl implements Protocol {
         }
 
         try {
-            handler.doRollback(tl, id, xid, null/* xaFlags */, ts, conlist, con, RollbackReason.APPLICATION);
+            handler.doRollback(tl, id, xid, /* xaFlags= */ null, ts, conlist, con, RollbackReason.APPLICATION);
         } catch (BrokerException e) {
             if (bex != null) {
                 throw bex;

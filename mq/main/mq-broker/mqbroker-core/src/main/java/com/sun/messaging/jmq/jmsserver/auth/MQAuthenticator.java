@@ -62,7 +62,6 @@ public class MQAuthenticator {
     }
 
     /** @throws AccessControlException */
-    @SuppressWarnings("ParameterComment")
     public void authenticate(String username, String password, boolean logout) throws BrokerException, LoginException {
 
         String authType = ac.getAuthType();
@@ -74,7 +73,7 @@ public class MQAuthenticator {
         hd.init(username, password);
 
         int seq = 0;
-        byte[] req = ac.getChallenge(seq, new Properties(), getAuthCacheData().getCacheData(), null /* overrideType */);
+        byte[] req = ac.getChallenge(seq, new Properties(), getAuthCacheData().getCacheData(), /* overrideType= */ null);
         do {
             req = ac.handleResponse(hd.handleRequest(req, seq++), seq);
         } while (req != null);

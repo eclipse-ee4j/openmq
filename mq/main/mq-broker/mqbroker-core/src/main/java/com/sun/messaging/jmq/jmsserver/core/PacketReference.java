@@ -55,7 +55,7 @@ import com.sun.messaging.jmq.jmsserver.FaultInjection;
  *
  */
 
-@SuppressWarnings({"JdkObsolete", "ForEachIterable", "ParameterComment"})
+@SuppressWarnings({"JdkObsolete", "ForEachIterable"})
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PacketReference implements Sized, Ordered {
 
@@ -73,7 +73,7 @@ public class PacketReference implements Sized, Ordered {
     private static final PacketReference INVALID_PACKET_REFERENCE = new PacketReference();
 
     static {
-        queueUID = new ConsumerUID(true /* empty */);
+        queueUID = new ConsumerUID(/* empty= */ true);
         queueUID.setShouldStore(true);
 
     }
@@ -1650,7 +1650,7 @@ public class PacketReference implements Sized, Ordered {
                     Globals.getBrokerResources().getKString(BrokerResources.X_REPLACE_PROPS_FOR_REPLACE_MSG, this, ex.getMessage()), ex);
         }
 
-        setPacketObject(true /* soft */, newp);
+        setPacketObject(/* soft= */ true, newp);
         if (isStoredWithInterest) {
             int cnt = 0;
             ConsumerUID uids[] = null;
