@@ -17,10 +17,11 @@
 
 package com.sun.messaging.jmq.jmsserver.memory.levels;
 
-import com.sun.messaging.jmq.jmsserver.memory.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.util.log.*;
+import com.sun.messaging.jmq.jmsserver.memory.MemoryGlobals;
+import com.sun.messaging.jmq.jmsserver.memory.MemoryLevelHandler;
+import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
+import com.sun.messaging.jmq.util.log.Logger;
 
 public class Red extends MemoryLevelHandler {
 
