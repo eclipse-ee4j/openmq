@@ -19,20 +19,18 @@ package com.sun.messaging.jmq.jmsserver.service.imq;
 
 import com.sun.messaging.jmq.jmsserver.pool.*;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OperationRunnableFactory implements RunnableFactory {
-    boolean blocking = true;
-
-    private OperationRunnableFactory(boolean blocking) {
-        this.blocking = blocking;
-    }
-
     public static RunnableFactory getBlockingRunnableFactory() {
-        return new OperationRunnableFactory(true);
+        return new OperationRunnableFactory();
     }
 
     @Override
     public BasicRunnable getRunnable(int indx, ThreadPool pool) {
-        return new OperationRunnable(indx, pool, blocking);
+        return new OperationRunnable(indx, pool, /* wait= */ true);
     }
 
 }
