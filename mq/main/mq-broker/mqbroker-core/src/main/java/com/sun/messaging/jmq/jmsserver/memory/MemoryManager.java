@@ -916,21 +916,5 @@ public class MemoryManager implements DiagManager.Data {
     public String getTitle() {
         return "MemoryManager";
     }
-
-    public String toDebugString() {
-        StringBuilder retstr = new StringBuilder();
-        retstr.append("MemoryManager: [").append(currentLevel).append("]\n");
-        for (int i = 0; i < levelHandlers.length; i++) {
-            retstr.append('\t').append(i).append('\t').append(levelHandlers[i].levelName()).append('\t').append(levelHandlers[i].getThresholdPercent())
-                    .append('\t').append(byteLevels[i]).append('\n');
-        }
-        for (MemoryLevelHandler levelHandler : levelHandlers) {
-            retstr.append("-------------------------------\n");
-            retstr.append(levelHandler.toDebugString()).append(" \n\n");
-        }
-        return retstr.toString();
-
-    }
-
 }
 
