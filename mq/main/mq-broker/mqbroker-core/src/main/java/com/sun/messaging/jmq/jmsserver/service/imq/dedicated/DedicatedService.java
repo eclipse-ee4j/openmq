@@ -39,7 +39,7 @@ public class DedicatedService extends IMQIPService {
 
     @Override
     public RunnableFactory getRunnableFactory() {
-        return new OperationRunnableFactory(/* blocking= */ true);
+        return OperationRunnableFactory.getBlockingRunnableFactory();
     }
 
     @Override

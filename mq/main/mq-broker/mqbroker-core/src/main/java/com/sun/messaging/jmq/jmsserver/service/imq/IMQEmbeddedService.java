@@ -73,7 +73,7 @@ public class IMQEmbeddedService extends IMQService {
     }
 
     protected RunnableFactory getRunnableFactory() {
-        return new OperationRunnableFactory(true);
+        return OperationRunnableFactory.getBlockingRunnableFactory();
     }
 
     @Override

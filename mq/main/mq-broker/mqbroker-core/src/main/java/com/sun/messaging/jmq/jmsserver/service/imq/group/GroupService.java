@@ -123,7 +123,7 @@ public class GroupService extends IMQIPService {
 
     @Override
     public RunnableFactory getRunnableFactory() {
-        return new GroupRunnableFactory();
+        return GroupRunnableFactory.getRunnableFactory();
     }
 
     ThreadPool getPool() {

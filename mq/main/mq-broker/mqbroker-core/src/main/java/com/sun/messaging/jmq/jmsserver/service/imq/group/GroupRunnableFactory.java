@@ -19,7 +19,14 @@ package com.sun.messaging.jmq.jmsserver.service.imq.group;
 
 import com.sun.messaging.jmq.jmsserver.pool.*;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GroupRunnableFactory implements RunnableFactory {
+    public static RunnableFactory getRunnableFactory() {
+        return new GroupRunnableFactory();
+    }
 
     @Override
     public BasicRunnable getRunnable(int indx, ThreadPool pool) {

@@ -22,8 +22,12 @@ import com.sun.messaging.jmq.jmsserver.pool.*;
 public class OperationRunnableFactory implements RunnableFactory {
     boolean blocking = true;
 
-    public OperationRunnableFactory(boolean blocking) {
+    private OperationRunnableFactory(boolean blocking) {
         this.blocking = blocking;
+    }
+
+    public static RunnableFactory getBlockingRunnableFactory() {
+        return new OperationRunnableFactory(true);
     }
 
     @Override
