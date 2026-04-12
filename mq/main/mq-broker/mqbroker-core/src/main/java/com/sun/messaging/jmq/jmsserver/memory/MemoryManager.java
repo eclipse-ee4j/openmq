@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -607,43 +607,6 @@ public class MemoryManager implements DiagManager.Data {
             return true;
         }
         return false;
-    }
-
-    /**
-     * @param size bytes addition to check
-     * @return false if allocate size of mem causes level change or currentLevel not in lowest level
-     */
-    public boolean allocateMemCheck(long size) {
-        if (DEBUG) {
-            int level = currentLevel;
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < byteLevels.length; i++) {
-                sb.append("byteLevel[").append(i).append("]=").append(byteLevels[i]).append(", ");
-            }
-            long freem = Runtime.getRuntime().freeMemory();
-            long totalm = Runtime.getRuntime().totalMemory();
-            long allocatedm = totalm - freem;
-
-            logger.log(logger.INFO, "MemoryManager: turnOffMemory=" + turnOffMemory + ", active=" + active + ", check size=" + size + ", currentLevel=" + level
-                    + "(" + byteLevels.length + "), " + sb.toString() + ", freemem=" + freem + ", totalmem=" + totalm + ", allocatedmem=" + allocatedm);
-        }
-
-        if (turnOffMemory || !active) {
-            return true;
-        }
-
-        int currentl = currentLevel;
-        if (currentl >= (byteLevels.length - 1)) {
-            return false;
-        }
-
-        long freem = Runtime.getRuntime().freeMemory();
-        long totalm = Runtime.getRuntime().totalMemory();
-        long allocatedm = totalm - freem + size;
-        if (allocatedm > byteLevels[byteLevels.length - 1]) {
-            return false;
-        }
-        return true;
     }
 
     private int calculateState() {
