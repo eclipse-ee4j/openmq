@@ -35,7 +35,6 @@ public class SelectorFilter {
         this.selector = sel;
     }
 
-    @SuppressWarnings("AlreadyChecked")
     public boolean test(Object o) {
         if (selector == null) {
             return false;
@@ -61,7 +60,7 @@ public class SelectorFilter {
             try {
                 boolean match = selector.match(props, headers);
                 if (DEBUG && match) {
-                    Globals.getLogger().log(Logger.DEBUG, "Match " + o + " against " + selector + " got " + match);
+                    Globals.getLogger().log(Logger.DEBUG, "Match " + o + " against " + selector + " got true");
                 }
                 return match;
             } catch (SelectorFormatException ex) {

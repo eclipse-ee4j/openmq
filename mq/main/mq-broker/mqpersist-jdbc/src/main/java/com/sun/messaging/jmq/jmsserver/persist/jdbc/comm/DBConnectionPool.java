@@ -638,11 +638,10 @@ public class DBConnectionPool {
     /**
      * @param destroy if true, only to be called from connectionErrorOccurred for PooledConnection
      */
-    @SuppressWarnings("AlreadyChecked")
     private void returnConnection(ConnectionInfo cinfo, Throwable ex, boolean destroy) {
         if (DEBUG) {
             logger.log(Logger.INFO,
-                    toString() + ".returnConnection: connection: " + cinfo + (ex == null ? "" : ", ex=" + ex) + (!destroy ? "" : ", destroy=" + destroy));
+                    toString() + ".returnConnection: connection: " + cinfo + (ex == null ? "" : ", ex=" + ex) + (!destroy ? "" : ", destroy=true" ));
         }
         if (destroy && Util.isConnectionError(ex, dbmgr, false)) {
             setInvalidateAllTimestamp();

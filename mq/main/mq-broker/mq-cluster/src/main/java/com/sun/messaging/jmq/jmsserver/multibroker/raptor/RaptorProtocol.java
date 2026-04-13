@@ -136,10 +136,9 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     private DestinationList DL = Globals.getDestinationList();
     private Map<String, ChangeRecord> inDSubToBrokerMap = Collections.synchronizedMap(new HashMap<>());
 
-    @SuppressWarnings("AlreadyChecked")
     public RaptorProtocol(MessageBusCallback cb, Cluster c, BrokerAddress myaddress, BrokerInfo myinfo) throws BrokerException {
         if (DEBUG_CLUSTER_ALL) {
-            DEBUG = DEBUG_CLUSTER_ALL; //NOPMD
+            DEBUG = true; //NOPMD
         }
         if (DEBUG) {
             logger.log(logger.INFO, "Initializing RaptorProtocol");
