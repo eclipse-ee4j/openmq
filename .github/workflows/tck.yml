@@ -53,7 +53,7 @@ jobs:
     env:
       OPENMQ_TCK_HOME: openmq-tck
       TCK_VERSION: 3.1.0
-      ANT_VERSION: 1.10.16
+      ANT_VERSION: 1.10.17
 
     steps:
     - name: Download MQ Distribution
