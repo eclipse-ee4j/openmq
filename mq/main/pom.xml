@@ -990,7 +990,6 @@
                                       -Xep:AddNullMarkedToClass:OFF \
                                       -Xep:AddressSelection:OFF \
                                       -Xep:AlmostJavadoc:OFF \
-                                      -Xep:AlreadyChecked:OFF \
                                       -Xep:AssertFalse:OFF \
                                       -Xep:AssignmentExpression:OFF \
                                       -Xep:AvoidObjectArrays:OFF \

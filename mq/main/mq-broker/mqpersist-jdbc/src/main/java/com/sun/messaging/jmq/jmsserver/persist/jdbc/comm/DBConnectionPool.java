@@ -638,6 +638,7 @@ public class DBConnectionPool {
     /**
      * @param destroy if true, only to be called from connectionErrorOccurred for PooledConnection
      */
+    @SuppressWarnings("AlreadyChecked")
     private void returnConnection(ConnectionInfo cinfo, Throwable ex, boolean destroy) {
         if (DEBUG) {
             logger.log(Logger.INFO,

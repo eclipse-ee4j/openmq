@@ -281,6 +281,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
     /**
      * Create a Durable Subscription Object
      */
+    @SuppressWarnings("AlreadyChecked")
     private Subscription(DestinationUID d, String selector, boolean noLocal, String durable, boolean share, boolean jmsshare, String clientID, boolean notify,
             boolean autostore /* false only in testing */, ConsumerUID requid, Integer sharecnt) throws IOException, SelectorFormatException, BrokerException {
 

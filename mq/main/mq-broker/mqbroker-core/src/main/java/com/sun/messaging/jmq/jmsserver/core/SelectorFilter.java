@@ -35,6 +35,7 @@ public class SelectorFilter {
         this.selector = sel;
     }
 
+    @SuppressWarnings("AlreadyChecked")
     public boolean test(Object o) {
         if (selector == null) {
             return false;
