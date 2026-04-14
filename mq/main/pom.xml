@@ -1111,7 +1111,6 @@
                                       -Xep:UnnecessaryLongToIntConversion:OFF \
                                       -Xep:UnnecessaryParentheses:OFF \
                                       -Xep:UnnecessarySemicolon:OFF \
-                                      -Xep:UnnecessaryStringBuilder:OFF \
                                       -Xep:UnsafeLocaleUsage:OFF \
                                       -Xep:UnsafeReflectiveConstructionCast:OFF \
                                       -Xep:UnsynchronizedOverridesSynchronized:OFF \
@@ -1195,6 +1194,7 @@ Existing jvm.config.error-prone can be copied to jvm.config.
                                 <recipe>org.openrewrite.staticanalysis.RemoveExtraSemicolons</recipe>
                                 <recipe>org.openrewrite.staticanalysis.NoFinalizer</recipe>
                                 <recipe>org.openrewrite.staticanalysis.NoToStringOnStringType</recipe>
+                                <recipe>org.openrewrite.staticanalysis.ReplaceStringBuilderWithString</recipe>
                                 <recipe>org.openrewrite.staticanalysis.UnnecessaryExplicitTypeArguments</recipe>
                                 <recipe>org.openrewrite.staticanalysis.UseDiamondOperator</recipe>
                                 <recipe>org.openrewrite.staticanalysis.PrimitiveWrapperClassConstructorToValueOf</recipe>

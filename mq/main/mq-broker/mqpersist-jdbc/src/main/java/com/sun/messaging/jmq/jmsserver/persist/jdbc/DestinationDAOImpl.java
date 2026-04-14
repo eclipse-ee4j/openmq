@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -59,34 +59,21 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
 
         tableName = dbMgr.getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(DESTINATION_COLUMN)
-                .append(", ").append(IS_LOCAL_COLUMN).append(", ").append(CONNECTION_ID_COLUMN).append(", ").append(CONNECTED_TS_COLUMN).append(", ")
-                .append(STORE_SESSION_ID_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ?, ?, ? )").toString();
+        insertSQL = "INSERT INTO " + tableName + " ( " + ID_COLUMN + ", " + DESTINATION_COLUMN + ", " + IS_LOCAL_COLUMN + ", " + CONNECTION_ID_COLUMN + ", " + CONNECTED_TS_COLUMN + ", " + STORE_SESSION_ID_COLUMN + ", " + CREATED_TS_COLUMN + ") VALUES ( ?, ?, ?, ?, ?, ?, ? )";
 
-        updateSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(DESTINATION_COLUMN).append(" = ?, ")
-                .append(IS_LOCAL_COLUMN).append(" = ?, ").append(CONNECTION_ID_COLUMN).append(" = ?").append(" WHERE ").append(ID_COLUMN).append(" = ?")
-                .toString();
+        updateSQL = "UPDATE " + tableName + " SET " + DESTINATION_COLUMN + " = ?, " + IS_LOCAL_COLUMN + " = ?, " + CONNECTION_ID_COLUMN + " = ?" + " WHERE " + ID_COLUMN + " = ?";
 
-        updateConnectedTimeSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(CONNECTED_TS_COLUMN).append(" = ?")
-                .append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
+        updateConnectedTimeSQL = "UPDATE " + tableName + " SET " + CONNECTED_TS_COLUMN + " = ?" + " WHERE " + ID_COLUMN + " = ?";
 
-        deleteSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
+        deleteSQL = "DELETE FROM " + tableName + " WHERE " + ID_COLUMN + " = ?";
 
-        deleteBySessionSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?").append(" AND ")
-                .append(STORE_SESSION_ID_COLUMN).append(" = ? ").append(" AND EXISTS (SELECT * FROM ")
-                .append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" WHERE ").append(StoreSessionDAO.ID_COLUMN).append(" = ? ")
-                .append(" AND ").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ? )").toString();
+        deleteBySessionSQL = "DELETE FROM " + tableName + " WHERE " + ID_COLUMN + " = ?" + " AND " + STORE_SESSION_ID_COLUMN + " = ? " + " AND EXISTS (SELECT * FROM " + dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX) + " WHERE " + (StoreSessionDAO.ID_COLUMN) + " = ? " + " AND " + (StoreSessionDAO.BROKER_ID_COLUMN) + " = ? )";
 
-        deleteSharedDstSQL = new StringBuilder(128).append(deleteSQL).append(" AND NOT EXISTS (SELECT * FROM ")
-                .append(dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX)).append(" WHERE ").append(MessageDAO.DESTINATION_ID_COLUMN).append(" = ?)")
-                .append(" AND NOT EXISTS (SELECT * FROM ").append(dbMgr.getTableName(BrokerDAO.TABLE_NAME_PREFIX)).append(" WHERE ").append(BrokerDAO.ID_COLUMN)
-                .append(" <> ? ").append(" AND ").append(BrokerDAO.STATE_COLUMN).append(" = ").append(BrokerState.I_OPERATING).append(')').toString();
+        deleteSharedDstSQL = deleteSQL + " AND NOT EXISTS (SELECT * FROM " + dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX) + " WHERE " + (MessageDAO.DESTINATION_ID_COLUMN) + " = ?)" + " AND NOT EXISTS (SELECT * FROM " + dbMgr.getTableName(BrokerDAO.TABLE_NAME_PREFIX) + " WHERE " + (BrokerDAO.ID_COLUMN) + " <> ? " + " AND " + (BrokerDAO.STATE_COLUMN) + " = " + (BrokerState.I_OPERATING) + ')';
 
-        selectSQL = new StringBuilder(128).append("SELECT ").append(DESTINATION_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN)
-                .append(" = ?").toString();
+        selectSQL = "SELECT " + DESTINATION_COLUMN + " FROM " + tableName + " WHERE " + ID_COLUMN + " = ?";
 
-        selectConnectedTimeSQL = new StringBuilder(128).append("SELECT ").append(CONNECTED_TS_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
-                .append(ID_COLUMN).append(" = ?").toString();
+        selectConnectedTimeSQL = "SELECT " + CONNECTED_TS_COLUMN + " FROM " + tableName + " WHERE " + ID_COLUMN + " = ?";
 
         StringBuilder tmpbuf = new StringBuilder(128).append("SELECT ").append(DESTINATION_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(ID_COLUMN).append(" IN (SELECT ").append(ID_COLUMN);
@@ -104,13 +91,9 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
         }
         selectDstsByBrokerSQL = tmpbuf.toString();
 
-        selectLocalDstsByBrokerSQL = new StringBuilder(128).append("SELECT ").append(DESTINATION_COLUMN).append(" FROM ").append(tableName).append(" dstTbl, ")
-                .append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" sesTbl WHERE ").append(" sesTbl.")
-                .append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?").append(" AND ").append(" sesTbl.").append(StoreSessionDAO.ID_COLUMN)
-                .append(" = dstTbl.").append(STORE_SESSION_ID_COLUMN).toString();
+        selectLocalDstsByBrokerSQL = "SELECT " + DESTINATION_COLUMN + " FROM " + tableName + " dstTbl, " + dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX) + " sesTbl WHERE " + " sesTbl." + (StoreSessionDAO.BROKER_ID_COLUMN) + " = ?" + " AND " + " sesTbl." + (StoreSessionDAO.ID_COLUMN) + " = dstTbl." + STORE_SESSION_ID_COLUMN;
 
-        selectExistSQL = new StringBuilder(128).append("SELECT ").append(ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN)
-                .append(" = ?").toString();
+        selectExistSQL = "SELECT " + ID_COLUMN + " FROM " + tableName + " WHERE " + ID_COLUMN + " = ?";
     }
 
     /**
@@ -495,10 +478,7 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
             // (SELECT id FROM mqses41cmycluster
             // WHERE id = mqdst41cmycluster.store_session_id AND
             // broker_id = 'mybroker')
-            whereClause = new StringBuilder(128).append("EXISTS (SELECT ").append(StoreSessionDAO.ID_COLUMN).append(" FROM ")
-                    .append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" WHERE ").append(StoreSessionDAO.ID_COLUMN).append(" = ")
-                    .append(tableName).append('.').append(STORE_SESSION_ID_COLUMN).append(" AND ").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = '")
-                    .append(dbMgr.getBrokerID()).append("')").toString();
+            whereClause = "EXISTS (SELECT " + (StoreSessionDAO.ID_COLUMN) + " FROM " + dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX) + " WHERE " + (StoreSessionDAO.ID_COLUMN) + " = " + tableName + '.' + STORE_SESSION_ID_COLUMN + " AND " + (StoreSessionDAO.BROKER_ID_COLUMN) + " = '" + dbMgr.getBrokerID() + "')";
         }
 
         deleteAll(conn, whereClause, null, 0);

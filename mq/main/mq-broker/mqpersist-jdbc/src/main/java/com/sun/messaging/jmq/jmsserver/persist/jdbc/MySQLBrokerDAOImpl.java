@@ -34,7 +34,7 @@ class MySQLBrokerDAOImpl extends BrokerDAOImpl {
     MySQLBrokerDAOImpl() throws BrokerException {
         PROC_IS_BEING_TAKENOVER = "MQ" + JDBCStore.STORE_VERSION + "SP0BKR" + JDBCStore.STORED_PROC_VERSION + DBManager.getDBManager().getTableSuffix(); //NOPMD
 
-        dropStoredProcSQL = new StringBuilder(128).append("DROP PROCEDURE IF EXISTS ").append(PROC_IS_BEING_TAKENOVER).toString();
+        dropStoredProcSQL = "DROP PROCEDURE IF EXISTS " + PROC_IS_BEING_TAKENOVER;
     }
 
     @Override
@@ -51,12 +51,7 @@ class MySQLBrokerDAOImpl extends BrokerDAOImpl {
                 myConn = true; // Set to true since this is our connection
             }
 
-            sql = new StringBuilder(128).append("CREATE PROCEDURE ").append(PROC_IS_BEING_TAKENOVER)
-                    .append("( IN brokerID VARCHAR (100), OUT status INT, OUT state INT )").append(" BEGIN ").append(" SET status=0; ").append("SELECT ")
-                    .append(STATE_COLUMN).append(" INTO state ").append("FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ")
-                    .append("brokerID; ").append(" IF state=").append(BrokerState.I_FAILOVER_PENDING).append(" OR state=")
-                    .append(BrokerState.I_FAILOVER_STARTED).append(" OR state=").append(BrokerState.I_FAILOVER_COMPLETE).append(" OR state=")
-                    .append(BrokerState.I_FAILOVER_FAILED).append(" THEN ").append(" SET status=1; ").append(" END IF; ").append("END;").toString();
+            sql = "CREATE PROCEDURE " + PROC_IS_BEING_TAKENOVER + "( IN brokerID VARCHAR (100), OUT status INT, OUT state INT )" + " BEGIN " + " SET status=0; " + "SELECT " + STATE_COLUMN + " INTO state " + "FROM " + tableName + " WHERE " + ID_COLUMN + " = " + "brokerID; " + " IF state=" + (BrokerState.I_FAILOVER_PENDING) + " OR state=" + (BrokerState.I_FAILOVER_STARTED) + " OR state=" + (BrokerState.I_FAILOVER_COMPLETE) + " OR state=" + (BrokerState.I_FAILOVER_FAILED) + " THEN " + " SET status=1; " + " END IF; " + "END;";
 
             stmt = conn.createStatement();
             try {

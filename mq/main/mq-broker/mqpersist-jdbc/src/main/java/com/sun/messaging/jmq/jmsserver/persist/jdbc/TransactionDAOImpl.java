@@ -75,94 +75,49 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
         tableName = dbMgr.getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(TYPE_COLUMN).append(", ")
-                .append(STATE_COLUMN).append(", ").append(AUTO_ROLLBACK_COLUMN).append(", ").append(XID_COLUMN).append(", ").append(TXN_STATE_COLUMN)
-                .append(", ").append(TXN_HOME_BROKER_COLUMN).append(", ").append(TXN_BROKERS_COLUMN).append(", ").append(STORE_SESSION_ID_COLUMN).append(", ")
-                .append(EXPIRED_TS_COLUMN).append(", ").append(ACCESSED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )").toString();
+        insertSQL = "INSERT INTO " + tableName + " ( " + ID_COLUMN + ", " + TYPE_COLUMN + ", " + STATE_COLUMN + ", " + AUTO_ROLLBACK_COLUMN + ", " + XID_COLUMN + ", " + TXN_STATE_COLUMN + ", " + TXN_HOME_BROKER_COLUMN + ", " + TXN_BROKERS_COLUMN + ", " + STORE_SESSION_ID_COLUMN + ", " + EXPIRED_TS_COLUMN + ", " + ACCESSED_TS_COLUMN + ") VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
 
-        updateTxnStateSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(STATE_COLUMN).append(" = ?, ")
-                .append(TXN_STATE_COLUMN).append(" = ?").append(" WHERE ").append(ID_COLUMN).append(" = ?").append(brokerNotTakenOverClause).toString();
+        updateTxnStateSQL = "UPDATE " + tableName + " SET " + STATE_COLUMN + " = ?, " + TXN_STATE_COLUMN + " = ?" + " WHERE " + ID_COLUMN + " = ?" + brokerNotTakenOverClause;
 
-        updateTxnHomeBrokerSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(TXN_HOME_BROKER_COLUMN).append(" = ?")
-                .append(" WHERE ").append(ID_COLUMN).append(" = ?").append(brokerNotTakenOverClause).toString();
+        updateTxnHomeBrokerSQL = "UPDATE " + tableName + " SET " + TXN_HOME_BROKER_COLUMN + " = ?" + " WHERE " + ID_COLUMN + " = ?" + brokerNotTakenOverClause;
 
-        updateTxnBrokersSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(TYPE_COLUMN).append(" = ?, ")
-                .append(TXN_BROKERS_COLUMN).append(" = ?").append(" WHERE ").append(ID_COLUMN).append(" = ?").append(brokerNotTakenOverClause).toString();
+        updateTxnBrokersSQL = "UPDATE " + tableName + " SET " + TYPE_COLUMN + " = ?, " + TXN_BROKERS_COLUMN + " = ?" + " WHERE " + ID_COLUMN + " = ?" + brokerNotTakenOverClause;
 
-        updateAccessedTimeSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(ACCESSED_TS_COLUMN).append(" = ?")
-                .append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
+        updateAccessedTimeSQL = "UPDATE " + tableName + " SET " + ACCESSED_TS_COLUMN + " = ?" + " WHERE " + ID_COLUMN + " = ?";
 
-        deleteSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
+        deleteSQL = "DELETE FROM " + tableName + " WHERE " + ID_COLUMN + " = ?";
 
         /*
          * deleteNotInStateSQL = new StringBuilder(128) .append( "DELETE FROM " ).append( tableName ) .append( " WHERE " )
          * .append( STATE_COLUMN ).append( " <> ?" ) .toString();
          */
 
-        selectTxnStateSQL = new StringBuilder(128).append("SELECT ").append(STATE_COLUMN).append(", ").append(TXN_STATE_COLUMN).append(" FROM ")
-                .append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
+        selectTxnStateSQL = "SELECT " + STATE_COLUMN + ", " + TXN_STATE_COLUMN + " FROM " + tableName + " WHERE " + ID_COLUMN + " = ?";
 
-        selectTxnHomeBrokerSQL = new StringBuilder(128).append("SELECT ").append(TXN_HOME_BROKER_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
-                .append(ID_COLUMN).append(" = ?").toString();
+        selectTxnHomeBrokerSQL = "SELECT " + TXN_HOME_BROKER_COLUMN + " FROM " + tableName + " WHERE " + ID_COLUMN + " = ?";
 
-        selectTxnBrokersSQL = new StringBuilder(128).append("SELECT ").append(TXN_BROKERS_COLUMN).append(", ").append(STATE_COLUMN).append(" FROM ")
-                .append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
+        selectTxnBrokersSQL = "SELECT " + TXN_BROKERS_COLUMN + ", " + STATE_COLUMN + " FROM " + tableName + " WHERE " + ID_COLUMN + " = ?";
 
-        selectAccessedTimeSQL = new StringBuilder(128).append("SELECT ").append(ACCESSED_TS_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
-                .append(ID_COLUMN).append(" = ?").toString();
+        selectAccessedTimeSQL = "SELECT " + ACCESSED_TS_COLUMN + " FROM " + tableName + " WHERE " + ID_COLUMN + " = ?";
 
-        selectTxnInfoSQL = new StringBuilder(128).append("SELECT ").append(TYPE_COLUMN).append(", ").append(STATE_COLUMN).append(", ").append(TXN_STATE_COLUMN)
-                .append(", ").append(TXN_HOME_BROKER_COLUMN).append(", ").append(TXN_BROKERS_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
-                .append(ID_COLUMN).append(" = ?").toString();
+        selectTxnInfoSQL = "SELECT " + TYPE_COLUMN + ", " + STATE_COLUMN + ", " + TXN_STATE_COLUMN + ", " + TXN_HOME_BROKER_COLUMN + ", " + TXN_BROKERS_COLUMN + " FROM " + tableName + " WHERE " + ID_COLUMN + " = ?";
 
-        selectTxnStatesByBrokerSQL = new StringBuilder(128).append("SELECT txnTbl.").append(ID_COLUMN).append(", ").append(TYPE_COLUMN).append(", ")
-                .append(STATE_COLUMN).append(", ").append(TXN_STATE_COLUMN).append(", ").append(TXN_BROKERS_COLUMN).append(" FROM ").append(tableName)
-                .append(" txnTbl, ").append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" sesTbl").append(" WHERE sesTbl.")
-                .append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?").append(" AND sesTbl.").append(StoreSessionDAO.ID_COLUMN).append(" = txnTbl.")
-                .append(STORE_SESSION_ID_COLUMN).append(" AND ").append(STATE_COLUMN).append(" <> -1").append(" AND ").append(TYPE_COLUMN).append(" IN (")
-                .append(TransactionInfo.TXN_LOCAL).append(", ").append(TransactionInfo.TXN_CLUSTER).append(')').toString();
+        selectTxnStatesByBrokerSQL = "SELECT txnTbl." + ID_COLUMN + ", " + TYPE_COLUMN + ", " + STATE_COLUMN + ", " + TXN_STATE_COLUMN + ", " + TXN_BROKERS_COLUMN + " FROM " + tableName + " txnTbl, " + dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX) + " sesTbl" + " WHERE sesTbl." + (StoreSessionDAO.BROKER_ID_COLUMN) + " = ?" + " AND sesTbl." + (StoreSessionDAO.ID_COLUMN) + " = txnTbl." + STORE_SESSION_ID_COLUMN + " AND " + STATE_COLUMN + " <> -1" + " AND " + TYPE_COLUMN + " IN (" + (TransactionInfo.TXN_LOCAL) + ", " + (TransactionInfo.TXN_CLUSTER) + ')';
 
-        selectTxnStatesBySessionSQL = new StringBuilder(128).append("SELECT ").append(ID_COLUMN).append(", ").append(TYPE_COLUMN).append(", ")
-                .append(STATE_COLUMN).append(", ").append(TXN_STATE_COLUMN).append(", ").append(TXN_BROKERS_COLUMN).append(" FROM ").append(tableName)
-                .append(" WHERE ").append(STORE_SESSION_ID_COLUMN).append("= ?").append(" AND ").append(STATE_COLUMN).append(" <> -1").append(" AND ")
-                .append(TYPE_COLUMN).append(" IN (").append(TransactionInfo.TXN_LOCAL).append(", ").append(TransactionInfo.TXN_CLUSTER).append(')').toString();
+        selectTxnStatesBySessionSQL = "SELECT " + ID_COLUMN + ", " + TYPE_COLUMN + ", " + STATE_COLUMN + ", " + TXN_STATE_COLUMN + ", " + TXN_BROKERS_COLUMN + " FROM " + tableName + " WHERE " + STORE_SESSION_ID_COLUMN + "= ?" + " AND " + STATE_COLUMN + " <> -1" + " AND " + TYPE_COLUMN + " IN (" + (TransactionInfo.TXN_LOCAL) + ", " + (TransactionInfo.TXN_CLUSTER) + ')';
 
-        selectTxnStatesByBrokerAndTypeSQL = new StringBuilder(128).append("SELECT txnTbl.").append(ID_COLUMN).append(", ").append(STATE_COLUMN).append(", ")
-                .append(TXN_STATE_COLUMN).append(" FROM ").append(tableName).append(" txnTbl, ").append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX))
-                .append(" sesTbl").append(" WHERE sesTbl.").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?").append(" AND sesTbl.")
-                .append(StoreSessionDAO.ID_COLUMN).append(" = txnTbl.").append(STORE_SESSION_ID_COLUMN).append(" AND ").append(STATE_COLUMN).append(" <> -1")
-                .append(" AND ").append(TYPE_COLUMN).append(" = ?").toString();
+        selectTxnStatesByBrokerAndTypeSQL = "SELECT txnTbl." + ID_COLUMN + ", " + STATE_COLUMN + ", " + TXN_STATE_COLUMN + " FROM " + tableName + " txnTbl, " + dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX) + " sesTbl" + " WHERE sesTbl." + (StoreSessionDAO.BROKER_ID_COLUMN) + " = ?" + " AND sesTbl." + (StoreSessionDAO.ID_COLUMN) + " = txnTbl." + STORE_SESSION_ID_COLUMN + " AND " + STATE_COLUMN + " <> -1" + " AND " + TYPE_COLUMN + " = ?";
 
-        selectTxnStatesBySessionAndTypeSQL = new StringBuilder(128).append("SELECT txnTbl.").append(ID_COLUMN).append(", ").append(STATE_COLUMN).append(", ")
-                .append(TXN_STATE_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(STORE_SESSION_ID_COLUMN).append("= ?").append(" AND ")
-                .append(STATE_COLUMN).append(" <> -1").append(" AND ").append(TYPE_COLUMN).append(" = ?").toString();
+        selectTxnStatesBySessionAndTypeSQL = "SELECT txnTbl." + ID_COLUMN + ", " + STATE_COLUMN + ", " + TXN_STATE_COLUMN + " FROM " + tableName + " WHERE " + STORE_SESSION_ID_COLUMN + "= ?" + " AND " + STATE_COLUMN + " <> -1" + " AND " + TYPE_COLUMN + " = ?";
 
         /*
          * Cannot specify a LOB column in a SELECT...DISTINCT so use subquery
          */
-        selectRemoteTxnStatesByBrokerAndTypeSQL = new StringBuilder(256).append("SELECT ").append(ID_COLUMN).append(", ").append(STATE_COLUMN).append(", ")
-                .append(TXN_STATE_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(TYPE_COLUMN).append(" = ?").append(" AND ")
-                .append(STORE_SESSION_ID_COLUMN).append(" NOT IN (SELECT ").append(StoreSessionDAO.ID_COLUMN).append(" FROM ")
-                .append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" WHERE ").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?)")
-                .append(" AND ").append(ID_COLUMN).append(" IN (SELECT DISTINCT c.").append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(" FROM ")
-                .append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" s, ").append(dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX))
-                .append(" m, ").append(dbMgr.getTableName(ConsumerStateDAO.TABLE_NAME_PREFIX)).append(" c").append(" WHERE s.")
-                .append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?").append(" AND s.").append(StoreSessionDAO.ID_COLUMN).append(" = m.")
-                .append(MessageDAO.STORE_SESSION_ID_COLUMN).append(" AND m.").append(MessageDAO.ID_COLUMN).append(" = c.")
-                .append(ConsumerStateDAO.MESSAGE_ID_COLUMN).append(" AND c.").append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(" IS NOT NULL)").toString();
+        selectRemoteTxnStatesByBrokerAndTypeSQL = "SELECT " + ID_COLUMN + ", " + STATE_COLUMN + ", " + TXN_STATE_COLUMN + " FROM " + tableName + " WHERE " + TYPE_COLUMN + " = ?" + " AND " + STORE_SESSION_ID_COLUMN + " NOT IN (SELECT " + (StoreSessionDAO.ID_COLUMN) + " FROM " + dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX) + " WHERE " + (StoreSessionDAO.BROKER_ID_COLUMN) + " = ?)" + " AND " + ID_COLUMN + " IN (SELECT DISTINCT c." + (ConsumerStateDAO.TRANSACTION_ID_COLUMN) + " FROM " + dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX) + " s, " + dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX) + " m, " + dbMgr.getTableName(ConsumerStateDAO.TABLE_NAME_PREFIX) + " c" + " WHERE s." + (StoreSessionDAO.BROKER_ID_COLUMN) + " = ?" + " AND s." + (StoreSessionDAO.ID_COLUMN) + " = m." + (MessageDAO.STORE_SESSION_ID_COLUMN) + " AND m." + (MessageDAO.ID_COLUMN) + " = c." + (ConsumerStateDAO.MESSAGE_ID_COLUMN) + " AND c." + (ConsumerStateDAO.TRANSACTION_ID_COLUMN) + " IS NOT NULL)";
 
-        selectRemoteTxnStatesBySessionAndTypeSQL = new StringBuilder(256).append("SELECT ").append(ID_COLUMN).append(", ").append(STATE_COLUMN).append(", ")
-                .append(TXN_STATE_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(TYPE_COLUMN).append(" = ?").append(" AND ")
-                .append(STORE_SESSION_ID_COLUMN).append("<> ?").append(" AND ").append(ID_COLUMN).append(" IN (SELECT DISTINCT c.")
-                .append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(" FROM ").append(dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX)).append(" m, ")
-                .append(dbMgr.getTableName(ConsumerStateDAO.TABLE_NAME_PREFIX)).append(" c").append(" WHERE m.").append(MessageDAO.STORE_SESSION_ID_COLUMN)
-                .append("= ?").append(" AND m.").append(MessageDAO.ID_COLUMN).append(" = c.").append(ConsumerStateDAO.MESSAGE_ID_COLUMN).append(" AND c.")
-                .append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(" IS NOT NULL)").toString();
+        selectRemoteTxnStatesBySessionAndTypeSQL = "SELECT " + ID_COLUMN + ", " + STATE_COLUMN + ", " + TXN_STATE_COLUMN + " FROM " + tableName + " WHERE " + TYPE_COLUMN + " = ?" + " AND " + STORE_SESSION_ID_COLUMN + "<> ?" + " AND " + ID_COLUMN + " IN (SELECT DISTINCT c." + (ConsumerStateDAO.TRANSACTION_ID_COLUMN) + " FROM " + dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX) + " m, " + dbMgr.getTableName(ConsumerStateDAO.TABLE_NAME_PREFIX) + " c" + " WHERE m." + (MessageDAO.STORE_SESSION_ID_COLUMN) + "= ?" + " AND m." + (MessageDAO.ID_COLUMN) + " = c." + (ConsumerStateDAO.MESSAGE_ID_COLUMN) + " AND c." + (ConsumerStateDAO.TRANSACTION_ID_COLUMN) + " IS NOT NULL)";
 
-        selectUsageInfoSQL = new StringBuilder(128).append("SELECT MAX(mcount), MAX(scount) FROM (").append("SELECT COUNT(*) AS mcount, 0 AS scount FROM ")
-                .append(dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX)).append(" WHERE ").append(MessageDAO.TRANSACTION_ID_COLUMN).append(" = ?")
-                .append(" UNION ").append("SELECT 0 AS mcount, COUNT(*) AS scount FROM ").append(dbMgr.getTableName(ConsumerStateDAO.TABLE_NAME_PREFIX))
-                .append(" WHERE ").append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(" = ?").append(") tmptbl").toString();
+        selectUsageInfoSQL = "SELECT MAX(mcount), MAX(scount) FROM (" + "SELECT COUNT(*) AS mcount, 0 AS scount FROM " + dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX) + " WHERE " + (MessageDAO.TRANSACTION_ID_COLUMN) + " = ?" + " UNION " + "SELECT 0 AS mcount, COUNT(*) AS scount FROM " + dbMgr.getTableName(ConsumerStateDAO.TABLE_NAME_PREFIX) + " WHERE " + (ConsumerStateDAO.TRANSACTION_ID_COLUMN) + " = ?" + ") tmptbl";
     }
 
     /**
@@ -810,10 +765,7 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
             // (SELECT id FROM mqses41cmycluster
             // WHERE id = mqtxn41cmycluster.store_session_id AND
             // broker_id = 'mybroker')
-            whereClause = new StringBuilder(128).append("EXISTS (SELECT ").append(StoreSessionDAO.ID_COLUMN).append(" FROM ")
-                    .append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" WHERE ").append(StoreSessionDAO.ID_COLUMN).append(" = ")
-                    .append(tableName).append('.').append(STORE_SESSION_ID_COLUMN).append(" AND ").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = '")
-                    .append(dbMgr.getBrokerID()).append("')").toString();
+            whereClause = "EXISTS (SELECT " + (StoreSessionDAO.ID_COLUMN) + " FROM " + dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX) + " WHERE " + (StoreSessionDAO.ID_COLUMN) + " = " + tableName + '.' + STORE_SESSION_ID_COLUMN + " AND " + (StoreSessionDAO.BROKER_ID_COLUMN) + " = '" + dbMgr.getBrokerID() + "')";
         }
 
         deleteAll(conn, whereClause, null, 0);
