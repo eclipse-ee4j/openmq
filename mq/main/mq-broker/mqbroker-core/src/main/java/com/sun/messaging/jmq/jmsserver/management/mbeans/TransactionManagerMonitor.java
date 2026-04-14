@@ -28,7 +28,6 @@ import javax.management.openmbean.CompositeData;
 import com.sun.messaging.jms.management.server.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.data.TransactionList;
-import com.sun.messaging.jmq.jmsserver.management.util.TransactionUtil;
 
 public class TransactionManagerMonitor extends MQMBeanReadOnly {
     private static MBeanAttributeInfo[] attrs = {
