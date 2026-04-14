@@ -141,11 +141,10 @@ public final class HABrokerInfo implements Externalizable {
                                  long sessionID,
                                  long heartbeat,
                                  String takeoverBrokerID) {
-        StringBuilder strBuf = new StringBuilder(128).append('(').append("brokerID=").append(id).append(", URL=").append(url).append(", version=").append(version)
-                .append(", state=").append(state).append(" [").append(BrokerState.getState(state)).append(']').append(", sessionID=")
-                .append(sessionID).append(", heartbeatTS=").append(heartbeat).append((heartbeat > 0) ? " [" + new Date(heartbeat) + "]" : "")
-                .append(", takeoverBrokerID=").append(takeoverBrokerID).append(')');
-        return strBuf.toString();
+        return "(" + "brokerID=" + id + ", URL=" + url + ", version=" + version
+                + ", state=" + state + " [" + BrokerState.getState(state) + "]" + ", sessionID="
+                + sessionID + ", heartbeatTS=" + heartbeat + ((heartbeat > 0) ? " [" + new Date(heartbeat) + "]" : "")
+                + ", takeoverBrokerID=" + takeoverBrokerID + ")";
     }
 
     @Override
