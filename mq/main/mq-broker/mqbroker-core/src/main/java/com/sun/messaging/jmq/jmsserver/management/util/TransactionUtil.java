@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -98,41 +99,6 @@ public class TransactionUtil {
 
         case TransactionState.TIMED_OUT:
             return (com.sun.messaging.jms.management.server.TransactionState.TIMED_OUT);
-
-        default:
-            return (-1);
-
-        }
-    }
-
-    public static int toInternalTransactionState(int externalTransactionState) {
-        switch (externalTransactionState) {
-        case com.sun.messaging.jms.management.server.TransactionState.CREATED:
-            return (TransactionState.CREATED);
-
-        case com.sun.messaging.jms.management.server.TransactionState.STARTED:
-            return (TransactionState.STARTED);
-
-        case com.sun.messaging.jms.management.server.TransactionState.FAILED:
-            return (TransactionState.FAILED);
-
-        case com.sun.messaging.jms.management.server.TransactionState.INCOMPLETE:
-            return (TransactionState.INCOMPLETE);
-
-        case com.sun.messaging.jms.management.server.TransactionState.COMPLETE:
-            return (TransactionState.COMPLETE);
-
-        case com.sun.messaging.jms.management.server.TransactionState.PREPARED:
-            return (TransactionState.PREPARED);
-
-        case com.sun.messaging.jms.management.server.TransactionState.COMMITTED:
-            return (TransactionState.COMMITTED);
-
-        case com.sun.messaging.jms.management.server.TransactionState.ROLLEDBACK:
-            return (TransactionState.ROLLEDBACK);
-
-        case com.sun.messaging.jms.management.server.TransactionState.TIMED_OUT:
-            return (TransactionState.TIMED_OUT);
 
         default:
             return (-1);
