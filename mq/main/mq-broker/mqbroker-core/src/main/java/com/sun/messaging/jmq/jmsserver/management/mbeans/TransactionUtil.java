@@ -38,7 +38,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.JMQXid;
 
 @SuppressWarnings("JdkObsolete")
-public final class TransactionUtil {
+final class TransactionUtil {
     private TransactionUtil() {
         throw new UnsupportedOperationException();
     }
@@ -75,7 +75,7 @@ public final class TransactionUtil {
      */
     private static volatile CompositeType monitorCompType = null;
 
-    public static int toExternalTransactionState(int internalTransactionState) {
+    private static int toExternalTransactionState(int internalTransactionState) {
         switch (internalTransactionState) {
         case TransactionState.CREATED:
             return (com.sun.messaging.jms.management.server.TransactionState.CREATED);
@@ -110,7 +110,7 @@ public final class TransactionUtil {
         }
     }
 
-    public static String[] getTransactionIDs() {
+    static String[] getTransactionIDs() {
         TransactionList[] tls = Globals.getDestinationList().getTransactionList(null);
         TransactionList tl = tls[0]; // PART
         Vector transactions = tl.getTransactions(-1);
@@ -137,7 +137,7 @@ public final class TransactionUtil {
         return (ids);
     }
 
-    public static CompositeData[] getTransactionInfo() throws BrokerException, OpenDataException {
+    static CompositeData[] getTransactionInfo() throws BrokerException, OpenDataException {
         String[] ids = getTransactionIDs();
 
         if (ids == null) {
@@ -153,7 +153,7 @@ public final class TransactionUtil {
         return (cds);
     }
 
-    public static CompositeData getTransactionInfo(String transactionID) throws BrokerException, OpenDataException {
+    static CompositeData getTransactionInfo(String transactionID) throws BrokerException, OpenDataException {
         CompositeData cd = null;
         TransactionUID tid = null;
         BrokerResources rb = Globals.getBrokerResources();
@@ -177,7 +177,7 @@ public final class TransactionUtil {
         return (cd);
     }
 
-    public static String getClientID(TransactionUID tid) {
+    private static String getClientID(TransactionUID tid) {
         TransactionList[] tls = Globals.getDestinationList().getTransactionList(null);
         TransactionList tl = tls[0]; // PART
         TransactionState ts;
@@ -195,7 +195,7 @@ public final class TransactionUtil {
         return (ts.getClientID());
     }
 
-    public static String getConnectionString(TransactionUID tid) {
+    private static String getConnectionString(TransactionUID tid) {
         TransactionList[] tls = Globals.getDestinationList().getTransactionList(null);
         TransactionList tl = tls[0]; // PART
         TransactionState ts;
@@ -213,13 +213,13 @@ public final class TransactionUtil {
         return (ts.getConnectionString());
     }
 
-    public static Long getCreationTime(TransactionUID tid) {
+    private static Long getCreationTime(TransactionUID tid) {
         long currentTime = System.currentTimeMillis();
 
         return (Long.valueOf(currentTime - tid.age(currentTime)));
     }
 
-    public static Long getNumAcks(TransactionUID tid) {
+    private static Long getNumAcks(TransactionUID tid) {
         TransactionList[] tls = Globals.getDestinationList().getTransactionList(null);
         TransactionList tl = tls[0]; // PART
 
@@ -230,7 +230,7 @@ public final class TransactionUtil {
         return (Long.valueOf(tl.retrieveNConsumedMessages(tid)));
     }
 
-    public static Long getNumMsgs(TransactionUID tid) {
+    private static Long getNumMsgs(TransactionUID tid) {
         TransactionList[] tls = Globals.getDestinationList().getTransactionList(null);
         TransactionList tl = tls[0]; // PART
 
@@ -241,7 +241,7 @@ public final class TransactionUtil {
         return (Long.valueOf(tl.retrieveNSentMessages(tid)));
     }
 
-    public static Integer getState(TransactionUID tid) {
+    private static Integer getState(TransactionUID tid) {
         TransactionList[] tls = Globals.getDestinationList().getTransactionList(null);
         TransactionList tl = tls[0]; // PART
         TransactionState ts;
@@ -259,7 +259,7 @@ public final class TransactionUtil {
         return (Integer.valueOf(toExternalTransactionState(ts.getState())));
     }
 
-    public static String getStateLabel(TransactionUID tid) {
+    private static String getStateLabel(TransactionUID tid) {
         Integer i = getState(tid);
 
         if (i == null) {
@@ -269,7 +269,7 @@ public final class TransactionUtil {
         return (com.sun.messaging.jms.management.server.TransactionState.toString(i.intValue()));
     }
 
-    public static String getUser(TransactionUID tid) {
+    private static String getUser(TransactionUID tid) {
         TransactionList[] tls = Globals.getDestinationList().getTransactionList(null);
         TransactionList tl = tls[0]; // PART
         TransactionState ts;
@@ -287,7 +287,7 @@ public final class TransactionUtil {
         return (ts.getUser());
     }
 
-    public static String getXID(TransactionUID tid) {
+    private static String getXID(TransactionUID tid) {
         TransactionList[] tls = Globals.getDestinationList().getTransactionList(null);
         TransactionList tl = tls[0];
         JMQXid xid;
