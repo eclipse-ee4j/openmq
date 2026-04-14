@@ -46,9 +46,18 @@ final class TransactionUtil {
     /*
      * Transaction Info item names for Monitor MBeans
      */
-    private static final String[] transactionInfoMonitorItemNames = { TransactionInfo.CLIENT_ID, TransactionInfo.CONNECTION_STRING,
-            TransactionInfo.CREATION_TIME, TransactionInfo.NUM_ACKS, TransactionInfo.NUM_MSGS, TransactionInfo.STATE, TransactionInfo.STATE_LABEL,
-            TransactionInfo.TRANSACTION_ID, TransactionInfo.USER, TransactionInfo.XID };
+    private static final String[] transactionInfoMonitorItemNames = {
+            TransactionInfo.CLIENT_ID,
+            TransactionInfo.CONNECTION_STRING,
+            TransactionInfo.CREATION_TIME,
+            TransactionInfo.NUM_ACKS,
+            TransactionInfo.NUM_MSGS,
+            TransactionInfo.STATE,
+            TransactionInfo.STATE_LABEL,
+            TransactionInfo.TRANSACTION_ID,
+            TransactionInfo.USER,
+            TransactionInfo.XID
+    };
 
     /*
      * Transaction Info item description for Monitor MBeans TBD: use real descriptions
@@ -58,16 +67,17 @@ final class TransactionUtil {
     /*
      * Transaction Info item types for Monitor MBeans
      */
-    private static final OpenType[] transactionInfoMonitorItemTypes = { SimpleType.STRING, // client ID
-            SimpleType.STRING, // connection string
-            SimpleType.LONG, // creation time
-            SimpleType.LONG, // num acks
-            SimpleType.LONG, // num msgs
+    private static final OpenType[] transactionInfoMonitorItemTypes = {
+            SimpleType.STRING,  // client ID
+            SimpleType.STRING,  // connection string
+            SimpleType.LONG,    // creation time
+            SimpleType.LONG,    // num acks
+            SimpleType.LONG,    // num msgs
             SimpleType.INTEGER, // state
-            SimpleType.STRING, // state label
-            SimpleType.STRING, // transaction ID
-            SimpleType.STRING, // user
-            SimpleType.STRING // xid
+            SimpleType.STRING,  // state label
+            SimpleType.STRING,  // transaction ID
+            SimpleType.STRING,  // user
+            SimpleType.STRING   // xid
     };
 
     /*
