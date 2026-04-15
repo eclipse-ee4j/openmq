@@ -46,10 +46,6 @@ public class KeystoreUtil implements SSLPropertyMap {
 
     protected static final BrokerResources br = Globals.getBrokerResources();
 
-    public static void clear() {
-        keystore_location = null;
-        pass_phrase = null;
-    }
 
     public static String getKeystoreLocation() throws IOException {
         if (keystore_location == null) {
