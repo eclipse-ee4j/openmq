@@ -224,16 +224,6 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     }
 
     /**
-     * Get the JDBC store version.
-     *
-     * @return JDBC store version
-     */
-    @Override
-    public final int getStoreVersion() {
-        return STORE_VERSION;
-    }
-
-    /**
      * @return list of property settings that must be enforced cluster-wide consistent
      */
     @Override

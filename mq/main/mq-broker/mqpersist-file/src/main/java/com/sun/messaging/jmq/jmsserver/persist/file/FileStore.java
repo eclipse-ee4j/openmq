@@ -651,16 +651,6 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         }
     }
 
-    /**
-     * Get the file store version.
-     *
-     * @return file store version
-     */
-    @Override
-    public final int getStoreVersion() {
-        return STORE_VERSION;
-    }
-
     private static final ConsumerUID[] emptyiid = new ConsumerUID[0];
     private static final int[] emptystate = new int[0];
 

@@ -256,8 +256,6 @@ public abstract class Store implements JMSBridgeStore {
         return DEBUG_SYNC;
     }
 
-    public abstract int getStoreVersion();
-
     public ShareConfigChangeStore getShareConfigChangeStore() throws BrokerException {
 
         if (!Globals.useSharedConfigRecord()) {
