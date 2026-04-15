@@ -4998,18 +4998,4 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
             setInProgress(false);
         }
     }
-
-    @Override
-    public void removeStoreSessionReaperListener(StoreSessionReaperListener listener) throws BrokerException {
-        checkClosedAndSetInProgress();
-        try {
-            synchronized (sessionReaperListeners) {
-                sessionReaperListeners.remove(listener);
-            }
-
-        } finally {
-            setInProgress(false);
-        }
-    }
-
 }
