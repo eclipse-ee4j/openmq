@@ -23,11 +23,6 @@ package com.sun.messaging.jmq.jmsserver;
 
 public interface GlobalErrorHandler {
     /**
-     * returns true if the method actually did something with the error
-     */
-    boolean handleGlobalError(Throwable ex, String reason);
-
-    /**
      * @param exitCode exit code to use if to exit JVM
      */
     boolean handleGlobalError(Throwable ex, String reason, Integer exitCode);

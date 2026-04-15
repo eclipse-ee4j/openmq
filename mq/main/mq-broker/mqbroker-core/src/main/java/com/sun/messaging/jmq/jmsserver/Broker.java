@@ -2157,11 +2157,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
     // HANDLE THINGS LIKE OUT OF MEMORY ERRORS
 
     @Override
-    public boolean handleGlobalError(Throwable ex, String reason) {
-        return handleGlobalError(ex, reason, null);
-    }
-
-    @Override
     public boolean handleGlobalError(Throwable ex, String reason, Integer exitCode) {
         logger.logStack(logger.ERROR, ex.toString() + "[" + reason + "]", ex);
         int exit = Globals.getBrokerStateHandler().getRestartCode();
