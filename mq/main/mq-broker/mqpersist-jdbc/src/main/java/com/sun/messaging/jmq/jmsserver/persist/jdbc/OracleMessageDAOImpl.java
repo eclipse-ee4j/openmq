@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -40,13 +40,10 @@ class OracleMessageDAOImpl extends MessageDAOImpl {
 
     OracleMessageDAOImpl() throws BrokerException {
         // Initialize message column with an "empty" BLOB
-        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(MESSAGE_SIZE_COLUMN)
-                .append(", ").append(STORE_SESSION_ID_COLUMN).append(", ").append(DESTINATION_ID_COLUMN).append(", ").append(TRANSACTION_ID_COLUMN).append(", ")
-                .append(CREATED_TS_COLUMN).append(", ").append(MESSAGE_COLUMN).append(") VALUES ( ?, ?, ?, ?, ?, ?, EMPTY_BLOB() )").toString();
+        insertSQL = "INSERT INTO " + tableName + " ( " + ID_COLUMN + ", " + MESSAGE_SIZE_COLUMN + ", " + STORE_SESSION_ID_COLUMN + ", " + DESTINATION_ID_COLUMN + ", " + TRANSACTION_ID_COLUMN + ", " + CREATED_TS_COLUMN + ", " + MESSAGE_COLUMN + ") VALUES ( ?, ?, ?, ?, ?, ?, EMPTY_BLOB() )";
 
         // Blob column need to be update separately
-        updateDestinationSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(DESTINATION_ID_COLUMN).append(" = ?, ")
-                .append(MESSAGE_SIZE_COLUMN).append(" = ? ").append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
+        updateDestinationSQL = "UPDATE " + tableName + " SET " + DESTINATION_ID_COLUMN + " = ?, " + MESSAGE_SIZE_COLUMN + " = ? " + " WHERE " + ID_COLUMN + " = ?";
     }
 
     /**

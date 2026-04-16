@@ -156,12 +156,7 @@ public class UpgradeHAStore implements DBConstants {
         String oldtable = StoreSessionDAO.TABLE_NAME_PREFIX + "S" + brokerID;
 
         // SQL to insert store sessions from Non-HA table into new table
-        String insertAllStoreSessionsFromOldSQL = new StringBuilder(128).append("INSERT INTO ").append(sesDAO.getTableName()).append(" ( ")
-                .append(StoreSessionDAO.ID_COLUMN).append(", ").append(StoreSessionDAO.BROKER_ID_COLUMN).append(", ").append(StoreSessionDAO.IS_CURRENT_COLUMN)
-                .append(", ").append(StoreSessionDAO.CREATED_BY_COLUMN).append(", ").append(StoreSessionDAO.CREATED_TS_COLUMN).append(") SELECT ")
-                .append(StoreSessionDAO.ID_COLUMN).append(", ").append(StoreSessionDAO.BROKER_ID_COLUMN).append(", ").append(StoreSessionDAO.IS_CURRENT_COLUMN)
-                .append(", ").append(StoreSessionDAO.CREATED_BY_COLUMN).append(", ").append(StoreSessionDAO.CREATED_TS_COLUMN).append(" FROM ").append(oldtable)
-                .toString();
+        String insertAllStoreSessionsFromOldSQL = "INSERT INTO " + sesDAO.getTableName() + " ( " + (StoreSessionDAO.ID_COLUMN) + ", " + (StoreSessionDAO.BROKER_ID_COLUMN) + ", " + (StoreSessionDAO.IS_CURRENT_COLUMN) + ", " + (StoreSessionDAO.CREATED_BY_COLUMN) + ", " + (StoreSessionDAO.CREATED_TS_COLUMN) + ") SELECT " + (StoreSessionDAO.ID_COLUMN) + ", " + (StoreSessionDAO.BROKER_ID_COLUMN) + ", " + (StoreSessionDAO.IS_CURRENT_COLUMN) + ", " + (StoreSessionDAO.CREATED_BY_COLUMN) + ", " + (StoreSessionDAO.CREATED_TS_COLUMN) + " FROM " + oldtable;
 
         Statement stmt = null;
         Exception myex = null;
@@ -190,17 +185,10 @@ public class UpgradeHAStore implements DBConstants {
         String oldtable = DestinationDAO.TABLE_NAME_PREFIX + "S" + brokerID;
 
         // SQL to select all destination from Non-HA table
-        String getAllDestFromOldSQL = new StringBuilder(128).append("SELECT ").append(DestinationDAO.DESTINATION_COLUMN).append(", ")
-                .append(DestinationDAO.CREATED_TS_COLUMN).append(", ").append(DestinationDAO.CONNECTED_TS_COLUMN).append(", ")
-                .append(DestinationDAO.STORE_SESSION_ID_COLUMN).append(" FROM ").append(oldtable).append(" WHERE ").append(DestinationDAO.ID_COLUMN)
-                .append(" NOT IN (SELECT ").append(DestinationDAO.ID_COLUMN).append(" FROM ").append(dstDAO.getTableName()).append(')').toString();
+        String getAllDestFromOldSQL = "SELECT " + (DestinationDAO.DESTINATION_COLUMN) + ", " + (DestinationDAO.CREATED_TS_COLUMN) + ", " + (DestinationDAO.CONNECTED_TS_COLUMN) + ", " + (DestinationDAO.STORE_SESSION_ID_COLUMN) + " FROM " + oldtable + " WHERE " + (DestinationDAO.ID_COLUMN) + " NOT IN (SELECT " + (DestinationDAO.ID_COLUMN) + " FROM " + dstDAO.getTableName() + ')';
 
         // SQL to insert a destination to new table
-        String insertDestSQL = new StringBuilder(128).append("INSERT INTO ").append(dstDAO.getTableName()).append(" ( ").append(DestinationDAO.ID_COLUMN)
-                .append(", ").append(DestinationDAO.DESTINATION_COLUMN).append(", ").append(DestinationDAO.IS_LOCAL_COLUMN).append(", ")
-                .append(DestinationDAO.CONNECTION_ID_COLUMN).append(", ").append(DestinationDAO.CONNECTED_TS_COLUMN).append(", ")
-                .append(DestinationDAO.STORE_SESSION_ID_COLUMN).append(", ").append(DestinationDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ?, ?, ? )")
-                .toString();
+        String insertDestSQL = "INSERT INTO " + dstDAO.getTableName() + " ( " + (DestinationDAO.ID_COLUMN) + ", " + (DestinationDAO.DESTINATION_COLUMN) + ", " + (DestinationDAO.IS_LOCAL_COLUMN) + ", " + (DestinationDAO.CONNECTION_ID_COLUMN) + ", " + (DestinationDAO.CONNECTED_TS_COLUMN) + ", " + (DestinationDAO.STORE_SESSION_ID_COLUMN) + ", " + (DestinationDAO.CREATED_TS_COLUMN) + ") VALUES ( ?, ?, ?, ?, ?, ?, ? )";
 
         boolean dobatch = dbMgr.supportsBatchUpdates();
         Statement stmt = null;
@@ -284,15 +272,10 @@ public class UpgradeHAStore implements DBConstants {
         String oldtbl = ConsumerDAO.TABLE_NAME_PREFIX + "S" + brokerID;
 
         // SQL to select all interest from Non-HA table
-        String getAllInterestFromOldSQL = new StringBuilder(128).append("SELECT ").append(ConsumerDAO.CONSUMER_COLUMN).append(", ")
-                .append(ConsumerDAO.CREATED_TS_COLUMN).append(", ").append(ConsumerDAO.ID_COLUMN).append(" FROM ").append(oldtbl).append(" WHERE ")
-                .append(ConsumerDAO.ID_COLUMN).append(" NOT IN (SELECT ").append(ConsumerDAO.ID_COLUMN).append(" FROM ").append(conDAO.getTableName())
-                .append(')').toString();
+        String getAllInterestFromOldSQL = "SELECT " + (ConsumerDAO.CONSUMER_COLUMN) + ", " + (ConsumerDAO.CREATED_TS_COLUMN) + ", " + (ConsumerDAO.ID_COLUMN) + " FROM " + oldtbl + " WHERE " + (ConsumerDAO.ID_COLUMN) + " NOT IN (SELECT " + (ConsumerDAO.ID_COLUMN) + " FROM " + conDAO.getTableName() + ')';
 
         // SQL to insert interest to new table
-        String insertInterestSQL = new StringBuilder(128).append("INSERT INTO ").append(conDAO.getTableName()).append(" ( ").append(ConsumerDAO.ID_COLUMN)
-                .append(", ").append(ConsumerDAO.CONSUMER_COLUMN).append(", ").append(ConsumerDAO.DURABLE_NAME_COLUMN).append(", ")
-                .append(ConsumerDAO.CLIENT_ID_COLUMN).append(", ").append(ConsumerDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ? )").toString();
+        String insertInterestSQL = "INSERT INTO " + conDAO.getTableName() + " ( " + (ConsumerDAO.ID_COLUMN) + ", " + (ConsumerDAO.CONSUMER_COLUMN) + ", " + (ConsumerDAO.DURABLE_NAME_COLUMN) + ", " + (ConsumerDAO.CLIENT_ID_COLUMN) + ", " + (ConsumerDAO.CREATED_TS_COLUMN) + ") VALUES ( ?, ?, ?, ?, ? )";
 
         boolean dobatch = dbMgr.supportsBatchUpdates();
         PreparedStatement pstmt = null;
@@ -399,9 +382,7 @@ public class UpgradeHAStore implements DBConstants {
         HashMap msgToDst = new HashMap();
 
         // SQL to select all messages from Non-HA table
-        String getAllMsgFromOldSQL = new StringBuilder(128).append("SELECT ").append(MessageDAO.ID_COLUMN).append(", ").append(MessageDAO.MESSAGE_COLUMN)
-                .append(", ").append(MessageDAO.DESTINATION_ID_COLUMN).append(", ").append(MessageDAO.STORE_SESSION_ID_COLUMN).append(", ")
-                .append(MessageDAO.CREATED_TS_COLUMN).append(" FROM ").append(oldmsgtbl).toString();
+        String getAllMsgFromOldSQL = "SELECT " + (MessageDAO.ID_COLUMN) + ", " + (MessageDAO.MESSAGE_COLUMN) + ", " + (MessageDAO.DESTINATION_ID_COLUMN) + ", " + (MessageDAO.STORE_SESSION_ID_COLUMN) + ", " + (MessageDAO.CREATED_TS_COLUMN) + " FROM " + oldmsgtbl;
 
         Statement stmt = null;
         ResultSet rs = null;
@@ -455,15 +436,9 @@ public class UpgradeHAStore implements DBConstants {
         String oldstatetbl = ConsumerStateDAO.TABLE_NAME_PREFIX + "S" + brokerID;
 
         // SQL to select all interest states from Non-HA table
-        String getAllStateFromOldSQL = new StringBuilder(128).append("SELECT ").append(ConsumerStateDAO.MESSAGE_ID_COLUMN).append(", ")
-                .append(ConsumerStateDAO.CONSUMER_ID_COLUMN).append(", ").append(ConsumerStateDAO.STATE_COLUMN).append(", ")
-                .append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(", ").append(ConsumerStateDAO.CREATED_TS_COLUMN).append(" FROM ").append(oldstatetbl)
-                .append(" WHERE ").append(TINTSTATE_CSTATE).append(" <> ").append(PartitionedStore.INTEREST_STATE_ACKNOWLEDGED).toString();
+        String getAllStateFromOldSQL = "SELECT " + (ConsumerStateDAO.MESSAGE_ID_COLUMN) + ", " + (ConsumerStateDAO.CONSUMER_ID_COLUMN) + ", " + (ConsumerStateDAO.STATE_COLUMN) + ", " + (ConsumerStateDAO.TRANSACTION_ID_COLUMN) + ", " + (ConsumerStateDAO.CREATED_TS_COLUMN) + " FROM " + oldstatetbl + " WHERE " + TINTSTATE_CSTATE + " <> " + (PartitionedStore.INTEREST_STATE_ACKNOWLEDGED);
 
-        String insertStateSQL = new StringBuilder(128).append("INSERT INTO ").append(stateDAO.getTableName()).append(" ( ")
-                .append(ConsumerStateDAO.MESSAGE_ID_COLUMN).append(", ").append(ConsumerStateDAO.CONSUMER_ID_COLUMN).append(", ")
-                .append(ConsumerStateDAO.STATE_COLUMN).append(", ").append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(", ")
-                .append(ConsumerStateDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ? )").toString();
+        String insertStateSQL = "INSERT INTO " + stateDAO.getTableName() + " ( " + (ConsumerStateDAO.MESSAGE_ID_COLUMN) + ", " + (ConsumerStateDAO.CONSUMER_ID_COLUMN) + ", " + (ConsumerStateDAO.STATE_COLUMN) + ", " + (ConsumerStateDAO.TRANSACTION_ID_COLUMN) + ", " + (ConsumerStateDAO.CREATED_TS_COLUMN) + ") VALUES ( ?, ?, ?, ?, ? )";
 
         boolean dobatch = dbMgr.supportsBatchUpdates();
         PreparedStatement pstmt = null;
@@ -538,19 +513,10 @@ public class UpgradeHAStore implements DBConstants {
         String oldtxntbl = TransactionDAO.TABLE_NAME_PREFIX + "S" + brokerID;
 
         // SQL to select all transactions from version Non_HA table
-        String getAllTxnsFromOldSQL = new StringBuilder(128).append("SELECT ").append(TransactionDAO.ID_COLUMN).append(", ").append(TransactionDAO.TYPE_COLUMN)
-                .append(", ").append(TransactionDAO.STATE_COLUMN).append(", ").append(TransactionDAO.TXN_STATE_COLUMN).append(", ")
-                .append(TransactionDAO.TXN_HOME_BROKER_COLUMN).append(", ").append(TransactionDAO.TXN_BROKERS_COLUMN).append(", ")
-                .append(TransactionDAO.STORE_SESSION_ID_COLUMN).append(" FROM ").append(oldtxntbl).append(" WHERE ").append(TransactionDAO.ID_COLUMN)
-                .append(" NOT IN (SELECT ").append(TransactionDAO.ID_COLUMN).append(" FROM ").append(txnDAO.getTableName()).append(')').toString();
+        String getAllTxnsFromOldSQL = "SELECT " + (TransactionDAO.ID_COLUMN) + ", " + (TransactionDAO.TYPE_COLUMN) + ", " + (TransactionDAO.STATE_COLUMN) + ", " + (TransactionDAO.TXN_STATE_COLUMN) + ", " + (TransactionDAO.TXN_HOME_BROKER_COLUMN) + ", " + (TransactionDAO.TXN_BROKERS_COLUMN) + ", " + (TransactionDAO.STORE_SESSION_ID_COLUMN) + " FROM " + oldtxntbl + " WHERE " + (TransactionDAO.ID_COLUMN) + " NOT IN (SELECT " + (TransactionDAO.ID_COLUMN) + " FROM " + txnDAO.getTableName() + ')';
 
         // SQL to insert transactions to new table
-        String insertTxnSQL = new StringBuilder(128).append("INSERT INTO ").append(txnDAO.getTableName()).append(" ( ").append(TransactionDAO.ID_COLUMN)
-                .append(", ").append(TransactionDAO.TYPE_COLUMN).append(", ").append(TransactionDAO.STATE_COLUMN).append(", ")
-                .append(TransactionDAO.AUTO_ROLLBACK_COLUMN).append(", ").append(TransactionDAO.XID_COLUMN).append(", ").append(TransactionDAO.TXN_STATE_COLUMN)
-                .append(", ").append(TransactionDAO.TXN_HOME_BROKER_COLUMN).append(", ").append(TransactionDAO.TXN_BROKERS_COLUMN).append(", ")
-                .append(TransactionDAO.STORE_SESSION_ID_COLUMN).append(", ").append(TransactionDAO.EXPIRED_TS_COLUMN).append(", ")
-                .append(TransactionDAO.ACCESSED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )").toString();
+        String insertTxnSQL = "INSERT INTO " + txnDAO.getTableName() + " ( " + (TransactionDAO.ID_COLUMN) + ", " + (TransactionDAO.TYPE_COLUMN) + ", " + (TransactionDAO.STATE_COLUMN) + ", " + (TransactionDAO.AUTO_ROLLBACK_COLUMN) + ", " + (TransactionDAO.XID_COLUMN) + ", " + (TransactionDAO.TXN_STATE_COLUMN) + ", " + (TransactionDAO.TXN_HOME_BROKER_COLUMN) + ", " + (TransactionDAO.TXN_BROKERS_COLUMN) + ", " + (TransactionDAO.STORE_SESSION_ID_COLUMN) + ", " + (TransactionDAO.EXPIRED_TS_COLUMN) + ", " + (TransactionDAO.ACCESSED_TS_COLUMN) + ") VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
 
         boolean dobatch = dbMgr.supportsBatchUpdates();
         PreparedStatement pstmt = null;

@@ -154,9 +154,7 @@ public abstract class CommDBManager {
             // we know how to deal w/ Oracle LOB handling!
             isOraDriver = "oracle".equalsIgnoreCase(dbProductName);
 
-            String logMsg = new StringBuilder(256).append(getLogStringTag() + "DBManager: database product name=").append(dbProductName)
-                    .append(", database version number=").append(dbProductVersion).append(", driver version number=").append(driverv)
-                    .append(", supports batch updates=").append(supportBatch).append(", supports getGeneratedKey=").append(supportGetGeneratedKey).toString();
+            String logMsg = getLogStringTag() + "DBManager: database product name=" + dbProductName + ", database version number=" + dbProductVersion + ", driver version number=" + driverv + ", supports batch updates=" + supportBatch + ", supports getGeneratedKey=" + supportGetGeneratedKey;
             logger.log(Logger.FORCE, getLogStringTag() + dbProductName + ", " + dbProductVersion + ", " + driverv);
             logger.log((Store.getDEBUG() ? Logger.INFO : Logger.DEBUG), logMsg);
         } catch (SQLException e) {

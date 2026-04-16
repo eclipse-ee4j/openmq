@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -58,31 +58,21 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
 
         tableName = dbMgr.getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(XID_COLUMN).append(", ").append(LOG_RECORD_COLUMN)
-                .append(", ").append(NAME_COLUMN).append(", ").append(BROKER_ID_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(", ")
-                .append(UPDATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ?, ?)").toString();
+        insertSQL = "INSERT INTO " + tableName + " ( " + XID_COLUMN + ", " + LOG_RECORD_COLUMN + ", " + NAME_COLUMN + ", " + BROKER_ID_COLUMN + ", " + CREATED_TS_COLUMN + ", " + UPDATED_TS_COLUMN + ") VALUES ( ?, ?, ?, ?, ?, ?)";
 
-        updateLogRecordSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(LOG_RECORD_COLUMN).append(" = ?, ")
-                .append(UPDATED_TS_COLUMN).append(" = ? ").append(" WHERE ").append(XID_COLUMN).append(" = ?").append(" AND ").append(BROKER_ID_COLUMN)
-                .append(" = ?").toString();
+        updateLogRecordSQL = "UPDATE " + tableName + " SET " + LOG_RECORD_COLUMN + " = ?, " + UPDATED_TS_COLUMN + " = ? " + " WHERE " + XID_COLUMN + " = ?" + " AND " + BROKER_ID_COLUMN + " = ?";
 
-        deleteSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(XID_COLUMN).append(" = ?").append(" AND ")
-                .append(BROKER_ID_COLUMN).append(" = ?").toString();
+        deleteSQL = "DELETE FROM " + tableName + " WHERE " + XID_COLUMN + " = ?" + " AND " + BROKER_ID_COLUMN + " = ?";
 
-        selectLogRecordSQL = new StringBuilder(128).append("SELECT ").append(LOG_RECORD_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
-                .append(XID_COLUMN).append(" = ?").append(" AND ").append(BROKER_ID_COLUMN).append(" = ?").toString();
+        selectLogRecordSQL = "SELECT " + LOG_RECORD_COLUMN + " FROM " + tableName + " WHERE " + XID_COLUMN + " = ?" + " AND " + BROKER_ID_COLUMN + " = ?";
 
-        selectUpdatedTimeSQL = new StringBuilder(128).append("SELECT ").append(UPDATED_TS_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
-                .append(XID_COLUMN).append(" = ?").toString();
+        selectUpdatedTimeSQL = "SELECT " + UPDATED_TS_COLUMN + " FROM " + tableName + " WHERE " + XID_COLUMN + " = ?";
 
-        selectCreatedTimeSQL = new StringBuilder(128).append("SELECT ").append(CREATED_TS_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
-                .append(XID_COLUMN).append(" = ?").toString();
+        selectCreatedTimeSQL = "SELECT " + CREATED_TS_COLUMN + " FROM " + tableName + " WHERE " + XID_COLUMN + " = ?";
 
-        selectLogRecordsByNameByBrokerSQL = new StringBuilder(128).append("SELECT ").append(XID_COLUMN).append(", ").append(LOG_RECORD_COLUMN).append(" FROM ")
-                .append(tableName).append(" WHERE ").append(NAME_COLUMN).append(" = ?").append(" AND ").append(BROKER_ID_COLUMN).append(" = ?").toString();
+        selectLogRecordsByNameByBrokerSQL = "SELECT " + XID_COLUMN + ", " + LOG_RECORD_COLUMN + " FROM " + tableName + " WHERE " + NAME_COLUMN + " = ?" + " AND " + BROKER_ID_COLUMN + " = ?";
 
-        selectTMNamesByBrokerSQL = new StringBuilder(128).append("SELECT ").append(NAME_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
-                .append(BROKER_ID_COLUMN).append(" = ?").toString();
+        selectTMNamesByBrokerSQL = "SELECT " + NAME_COLUMN + " FROM " + tableName + " WHERE " + BROKER_ID_COLUMN + " = ?";
     }
 
     @Override
@@ -274,8 +264,7 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
 
         DBManager dbMgr = DBManager.getDBManager();
 
-        String whereClause = new StringBuilder(128).append(BROKER_ID_COLUMN).append(" = '").append(dbMgr.getBrokerID()).append('\'').append(" AND ")
-                .append(NAME_COLUMN).append(" = '").append(name).append('\'').toString();
+        String whereClause = BROKER_ID_COLUMN + " = '" + dbMgr.getBrokerID() + '\'' + " AND " + NAME_COLUMN + " = '" + name + '\'';
 
         deleteAll(conn, whereClause, null, 0);
     }
@@ -290,7 +279,7 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
 
         DBManager dbMgr = DBManager.getDBManager();
 
-        String whereClause = new StringBuilder(128).append(BROKER_ID_COLUMN).append(" = '").append(dbMgr.getBrokerID()).append('\'').toString();
+        String whereClause = BROKER_ID_COLUMN + " = '" + dbMgr.getBrokerID() + '\'';
 
         deleteAll(conn, whereClause, null, 0);
     }
