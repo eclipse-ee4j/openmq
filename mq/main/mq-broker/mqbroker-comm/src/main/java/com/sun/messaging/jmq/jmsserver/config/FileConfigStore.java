@@ -43,10 +43,14 @@ public class FileConfigStore implements ConfigStore {
     private static final String cluster_prop = CommGlobals.IMQ + ".cluster.url";
 
     /**
-     * Only file-system URLs are accepted for {@code imq.cluster.url}. Allowing
-     * arbitrary schemes (http, https, ftp, jar, ...) at this sink would let an
-     * attacker who can set the property turn the broker into an SSRF gadget on
-     * every restart. See CVE-2026-24457.
+     * The {@code imq.cluster.url} property is intended to point at a cluster
+     * properties file on a local or shared filesystem, so we restrict it to
+     * the {@code file} scheme. Any other scheme that {@link java.net.URL#openStream()}
+     * understands (http, https, ftp, jar, ...) would expose the broker to
+     * SSRF, arbitrary file read, and -- depending on the JVM -- remote class
+     * loading on every restart. CVE-2026-24457 describes the underlying
+     * vulnerability but does not prescribe a specific scheme allow-list;
+     * {@code file} is the minimal set that preserves the intended use.
      */
     static final String ALLOWED_CLUSTER_URL_SCHEME = "file";
 
