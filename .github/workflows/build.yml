@@ -20,10 +20,6 @@ on:
       java_version:
         required: true
         type: string
-      mq_distribution_artifact:
-        required: false
-        type: string
-        default: 'mq-distribution'
 
 jobs:
   build:
@@ -43,6 +39,6 @@ jobs:
     - name: Upload MQ Distribution
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
-        name: ${{ inputs.mq_distribution_artifact }}
         retention-days: 1
         path: mq/dist/bundles/mq.zip
+        archive: false

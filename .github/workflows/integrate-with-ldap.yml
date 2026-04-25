@@ -24,9 +24,6 @@ on:
       java_package:
         type: string
         default: jre
-      mq_distribution_artifact:
-        type: string
-        default: 'mq-distribution'
 
 jobs:
   prepare-files-for-ldap-tests:
@@ -57,7 +54,8 @@ jobs:
     - name: Download MQ Distribution
       uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
-        name: ${{ inputs.mq_distribution_artifact }}
+        name: mq.zip
+        skip-decompress: true
     - name: Download Config Files
       uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
