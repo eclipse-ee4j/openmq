@@ -36,3 +36,39 @@ jobs:
         java-version: ${{ inputs.java_version }}
     - name: Docs Maven Build
       run: ./mvnw --show-version --no-transfer-progress --file docs install --define skipSBOM
+    - name: Upload mq-admin-guide
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        name: mq-admin-guide
+        retention-days: 1
+        path: docs/mq-admin-guide/target/staging
+    - name: Upload mq-dev-guide-c
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        name: mq-dev-guide-c
+        retention-days: 1
+        path: docs/mq-dev-guide-c/target/staging
+    - name: Upload mq-dev-guide-java
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        name: mq-dev-guide-java
+        retention-days: 1
+        path: docs/mq-dev-guide-java/target/staging
+    - name: Upload mq-dev-guide-jmx
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        name: mq-dev-guide-jmx
+        retention-days: 1
+        path: docs/mq-dev-guide-jmx/target/staging
+    - name: Upload mq-release-notes
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        name: mq-release-notes
+        retention-days: 1
+        path: docs/mq-release-notes/target/staging
+    - name: Upload mq-tech-over
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        name: mq-tech-over
+        retention-days: 1
+        path: docs/mq-tech-over/target/staging
