@@ -14,9 +14,9 @@ Release Notes
 ---------------
 
 These release notes contain important information available at the time
-of release of Message Queue 6.7.0. New features and enhancements, known
+of release of Message Queue 6.9.0. New features and enhancements, known
 issues and limitations, and other information are addressed here. Read
-this document before you begin using Message Queue 6.7.0.
+this document before you begin using Message Queue 6.9.0.
 
 The most up-to-date version of these release notes can be found at
 `https://eclipse-ee4j.github.io/openmq/guides/`
@@ -28,8 +28,10 @@ and product.
 These release notes contain the following sections:
 
 * link:#aemab[Release Notes Revision History]
-* link:#CHDFAIFD[About Message Queue 6.7.0]
-* link:#aenav[Message Queue 6.7 Supported Platforms and Components]
+* link:#CHDFAIFD[About Message Queue 6.9.0]
+* link:#aenav[Message Queue 6.9 Supported Platforms and Components]
+* link:#CHDCIIHO[Bugs Fixed in Message Queue 6.9.0]
+* link:#CHDCIIHN[Bugs Fixed in Message Queue 6.8.0]
 * link:#CHDCIIHM[Bugs Fixed in Message Queue 6.7.0]
 * link:#CHDCIIHK[Bugs Fixed in Message Queue 6.5.0]
 * link:#CHDCIIHJ[Bugs Fixed in Message Queue 6.4.0]
@@ -77,6 +79,10 @@ Table 1-1 Revision History
 [width="100%",cols="20%,80%",options="header",]
 |=======================================================================
 |Date |Description of Changes
+|May 2026 |Release of this document for Message Queue 6.9.0
+
+|March 2026 |Release of this document for Message Queue 6.8.0
+
 |September 2025 |Release of this document for Message Queue 6.7.0
 
 |June 2024 |Release of this document for Message Queue 6.5.0
@@ -140,22 +146,51 @@ Beta. Adds description of JAAS support.
 |May 2006 |Initial release of this document for Message Queue 4.0.
 |=======================================================================
 
-[[CHDFAIFD]][[about-message-queue-6.7.0]]
+[[CHDFAIFD]][[about-message-queue-6.9.0]]
 
-About Message Queue 6.7.0
+About Message Queue 6.9.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Message Queue is a full-featured message service that provides reliable,
 asynchronous messaging in conformance with the Jakarta Messaging.
-Message Queue 6.7.0 conforms to Jakarta Messaging 3.1.
+Message Queue 6.9.0 conforms to Jakarta Messaging 3.1.
 In addition, Message
 Queue provides features that go beyond the JMS specification to meet the
 needs of large-scale enterprise deployments.
 
-Like previous release of Message Queue, the Message Queue 6.7.0
+Like previous release of Message Queue, the Message Queue 6.9.0
 binary release does not include the C-API library although the C-API
 source code is available at
 https://github.com/eclipse-ee4j/openmq[]`https://github.com/eclipse-ee4j/openmq`
+
+[[CHDCIIHO]][[bugs-fixed-in-message-queue-6.9.0]]
+
+Bugs Fixed in Message Queue 6.9.0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[NOTE]
+=======================================================================
+
+There are some additional issues listed at github location
+https://github.com/eclipse-ee4j/openmq/milestone/42?closed=1[OpenMQ
+Issues] that are addressed in Message Queue 6.9.0.
+
+=======================================================================
+
+[[CHDCIIHN]][[bugs-fixed-in-message-queue-6.8.0]]
+
+Bugs Fixed in Message Queue 6.8.0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[NOTE]
+=======================================================================
+
+There are some additional issues listed at github location
+https://github.com/eclipse-ee4j/openmq/milestone/40?closed=1[OpenMQ
+Issues] that are addressed in Message Queue 6.8.0.
+
+=======================================================================
+
 
 [[CHDCIIHM]][[bugs-fixed-in-message-queue-6.7.0]]
 
