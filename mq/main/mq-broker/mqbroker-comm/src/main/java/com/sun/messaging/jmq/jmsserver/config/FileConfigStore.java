@@ -43,6 +43,18 @@ public class FileConfigStore implements ConfigStore {
     private static final String cluster_prop = CommGlobals.IMQ + ".cluster.url";
 
     /**
+     * The {@code imq.cluster.url} property is intended to point at a cluster
+     * properties file on a local or shared filesystem, so we restrict it to
+     * the {@code file} scheme. Any other scheme that {@link java.net.URL#openStream()}
+     * understands (http, https, ftp, jar, ...) would expose the broker to
+     * SSRF, arbitrary file read, and -- depending on the JVM -- remote class
+     * loading on every restart. CVE-2026-24457 describes the underlying
+     * vulnerability but does not prescribe a specific scheme allow-list;
+     * {@code file} is the minimal set that preserves the intended use.
+     */
+    static final String ALLOWED_CLUSTER_URL_SCHEME = "file";
+
+    /**
      * path to the actual location of the instance property file
      */
     private String storedprop_loc = null;
@@ -145,6 +157,13 @@ public class FileConfigStore implements ConfigStore {
 
         try {
             URL curl = new URL(cluster_url_str);
+            if (!isAllowedClusterUrl(curl)) {
+                logger.log(Logger.WARNING,
+                        "Refusing to load " + cluster_prop + "='" + cluster_url_str
+                                + "': scheme '" + curl.getProtocol() + "' is not permitted; only '"
+                                + ALLOWED_CLUSTER_URL_SCHEME + "' is allowed (CVE-2026-24457)");
+                return storedprops;
+            }
             try (InputStream cu_is = curl.openStream()) {
                 try (BufferedInputStream bfile = new BufferedInputStream(cu_is)) {
                     storedprops.load(bfile);
@@ -154,6 +173,20 @@ public class FileConfigStore implements ConfigStore {
             logger.log(Logger.WARNING, BrokerResources.W_BAD_PROPERTY_FILE, "cluster", cluster_url_str, ex);
         }
         return storedprops;
+    }
+
+    /**
+     * @return {@code true} only when the URL uses the {@code file} scheme.
+     *     Anything else (http, https, ftp, jar, gopher, ...) would let an
+     *     attacker exfiltrate data or probe internal endpoints when the
+     *     broker loads cluster properties on startup.
+     */
+    static boolean isAllowedClusterUrl(URL url) {
+        if (url == null) {
+            return false;
+        }
+        String scheme = url.getProtocol();
+        return scheme != null && ALLOWED_CLUSTER_URL_SCHEME.equalsIgnoreCase(scheme);
     }
 
     /**
