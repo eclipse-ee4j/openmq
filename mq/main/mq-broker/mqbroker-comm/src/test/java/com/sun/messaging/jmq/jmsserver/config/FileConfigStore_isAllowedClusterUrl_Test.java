@@ -18,6 +18,7 @@ package com.sun.messaging.jmq.jmsserver.config;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.net.URI;
 import java.net.URL;
 
 import org.junit.jupiter.api.Test;
@@ -38,8 +39,7 @@ class FileConfigStore_isAllowedClusterUrl_Test {
             "FILE:///tmp/cluster.properties",
     })
     void shouldAcceptFileUrl(String spec) throws Exception {
-        @SuppressWarnings("deprecation")
-        URL url = new URL(spec);
+        URL url = new URI(spec).toURL();
         assertThat(FileConfigStore.isAllowedClusterUrl(url)).isTrue();
     }
 
@@ -51,8 +51,7 @@ class FileConfigStore_isAllowedClusterUrl_Test {
             "jar:file:/tmp/x.jar!/cluster.properties",
     })
     void shouldRejectNonFileUrl(String spec) throws Exception {
-        @SuppressWarnings("deprecation")
-        URL url = new URL(spec);
+        URL url = new URI(spec).toURL();
         assertThat(FileConfigStore.isAllowedClusterUrl(url))
                 .as("CVE-2026-24457: only file:// is permitted for imq.cluster.url")
                 .isFalse();
