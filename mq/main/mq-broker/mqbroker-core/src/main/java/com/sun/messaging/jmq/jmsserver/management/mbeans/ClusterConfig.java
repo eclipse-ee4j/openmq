@@ -17,7 +17,10 @@
 
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Date;
@@ -481,13 +484,13 @@ public class ClusterConfig extends MQMBeanReadWrite implements ConfigListener {
     public void validate(String name, String value) throws PropertyUpdateException {
         if ("imq.cluster.url".equals(name) && value != null && !value.isEmpty()) {
             try {
-                java.net.URL u = new java.net.URI(value).toURL();
+                URL u = new URI(value).toURL();
                 if (!"file".equalsIgnoreCase(u.getProtocol())) {
                     throw new PropertyUpdateException(
                             "Property '" + name + "' only accepts file URLs; '"
                                     + u.getProtocol() + "' is not permitted (CVE-2026-24457)");
                 }
-            } catch (java.net.MalformedURLException | URISyntaxException e) {
+            } catch (MalformedURLException | URISyntaxException e) {
                 throw new PropertyUpdateException(
                         "Property '" + name + "' value is not a valid URL: " + value, e);
             }
