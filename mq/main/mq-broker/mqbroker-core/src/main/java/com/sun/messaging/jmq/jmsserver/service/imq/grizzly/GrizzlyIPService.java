@@ -35,8 +35,8 @@ import org.glassfish.grizzly.ssl.SSLFilter;
 import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
 import org.glassfish.grizzly.threadpool.GrizzlyExecutorService;
 import org.glassfish.grizzly.threadpool.ThreadPoolConfig;
+import org.glassfish.grizzly.threadpool.ThreadPoolInfo;
 import org.glassfish.grizzly.threadpool.ThreadPoolProbe;
-import org.glassfish.grizzly.threadpool.AbstractThreadPool;
 
 import com.sun.messaging.jmq.util.GoodbyeReason;
 import com.sun.messaging.jmq.util.ServiceState;
@@ -732,21 +732,21 @@ public class GrizzlyIPService extends IMQService implements GrizzlyService, Noti
         }
 
         @Override
-        public void onThreadPoolStartEvent(AbstractThreadPool threadPool) {
+        public void onThreadPoolStartEvent(ThreadPoolInfo threadPool) {
             if (DEBUG) {
                 logger.log(logger.INFO, "ThreadPool[" + pname + "] started, " + threadPool);
             }
         }
 
         @Override
-        public void onThreadPoolStopEvent(AbstractThreadPool threadPool) {
+        public void onThreadPoolStopEvent(ThreadPoolInfo threadPool) {
             if (DEBUG) {
                 logger.log(logger.INFO, "ThreadPool[" + pname + "] stopped");
             }
         }
 
         @Override
-        public void onThreadAllocateEvent(AbstractThreadPool threadPool, Thread thread) {
+        public void onThreadAllocateEvent(ThreadPoolInfo threadPool, Thread thread) {
             int cnt = counter.getAndIncrement();
             if (DEBUG) {
                 logger.log(logger.INFO, "ThreadPool[" + pname + "] thread allocated[" + (++cnt) + "]");
@@ -754,7 +754,7 @@ public class GrizzlyIPService extends IMQService implements GrizzlyService, Noti
         }
 
         @Override
-        public void onThreadReleaseEvent(AbstractThreadPool threadPool, Thread thread) {
+        public void onThreadReleaseEvent(ThreadPoolInfo threadPool, Thread thread) {
             int cnt = counter.getAndDecrement();
             if (DEBUG) {
                 logger.log(logger.INFO, "ThreadPool[" + pname + "] thread released[" + (--cnt) + "]");
@@ -762,42 +762,42 @@ public class GrizzlyIPService extends IMQService implements GrizzlyService, Noti
         }
 
         @Override
-        public void onMaxNumberOfThreadsEvent(AbstractThreadPool threadPool, int maxNumberOfThreads) {
+        public void onMaxNumberOfThreadsEvent(ThreadPoolInfo threadPool, int maxNumberOfThreads) {
             if (DEBUG) {
                 logger.log(logger.INFO, "ThreadPool[" + pname + "] threads max " + maxNumberOfThreads + " reached");
             }
         }
 
         @Override
-        public void onTaskQueueEvent(AbstractThreadPool threadPool, Runnable task) {
+        public void onTaskQueueEvent(ThreadPoolInfo threadPool, Runnable task) {
             if (DEBUG) {
                 logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task queue event:" + task);
             }
         }
 
         @Override
-        public void onTaskDequeueEvent(AbstractThreadPool threadPool, Runnable task) {
+        public void onTaskDequeueEvent(ThreadPoolInfo threadPool, Runnable task) {
             if (DEBUG) {
                 logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task dequeue event:" + task);
             }
         }
 
         @Override
-        public void onTaskCompleteEvent(AbstractThreadPool threadPool, Runnable task) {
+        public void onTaskCompleteEvent(ThreadPoolInfo threadPool, Runnable task) {
             if (DEBUG) {
                 logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task complete event:" + task);
             }
         }
 
         @Override
-        public void onTaskQueueOverflowEvent(AbstractThreadPool threadPool) {
+        public void onTaskQueueOverflowEvent(ThreadPoolInfo threadPool) {
             if (DEBUG) {
                 logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task queue overflow event");
             }
         }
 
         @Override
-        public void onTaskCancelEvent(AbstractThreadPool threadPool, Runnable task) {
+        public void onTaskCancelEvent(ThreadPoolInfo threadPool, Runnable task) {
             if (DEBUG) {
                 logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task canceled event");
             }
