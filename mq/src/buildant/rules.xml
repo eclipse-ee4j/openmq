@@ -243,6 +243,9 @@
 	    <path location="${ws.top.dir}/main/http-tunnel/mqhttp-tunnel/src/main/java"/>
 	    <path location="${ws.top.dir}/main/mq-ums/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/mqcomm-io/src/main/java"/>
+	    <path location="${ws.top.dir}/main/mqcomm-lists/src/main/java/"/>
+	    <path location="${ws.top.dir}/main/mqcomm-options/src/main/java/"/>
+	    <path location="${ws.top.dir}/main/mqcomm-selector/src/main/java/"/>
 	    <path location="${ws.top.dir}/main/mqcomm-util/src/main/java"/>
 	    <path location="${ws.top.dir}/main/persist/mqdisk-io/src/main/java"/>
 	    <path location="${ws.top.dir}/main/persist/mq-txnlog/src/main/java"/>
