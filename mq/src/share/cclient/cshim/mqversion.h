@@ -25,9 +25,9 @@
 
 #define MQ_NAME    "Eclipse OpenMQ(tm)"
 
-#define MQ_VERSION "6.9.0"
+#define MQ_VERSION "6.10.0"
 #define MQ_VMAJOR   6
-#define MQ_VMINOR   9
+#define MQ_VMINOR   10
 #define MQ_VMICRO   0
 #define MQ_SVCPACK  0
 #define MQ_URELEASE 0

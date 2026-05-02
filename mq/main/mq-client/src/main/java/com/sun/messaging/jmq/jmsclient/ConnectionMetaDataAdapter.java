@@ -25,9 +25,9 @@ public abstract class ConnectionMetaDataAdapter implements ConnectionMetaData {
     private static final int JMSMajorVersion = 3;
     private static final int JMSMinorVersion = 1;
     private static final String JMSProviderName = new Version().getProductName();
-    private static final String providerVersion = "6.9";
+    private static final String providerVersion = "6.10";
     private static final int providerMajorVersion = 6;
-    private static final int providerMinorVersion = 9;
+    private static final int providerMinorVersion = 10;
 
     public static String getMqName() {
         return JMSProviderName;
