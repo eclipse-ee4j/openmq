@@ -232,6 +232,7 @@
 		 destdir="${javadocs.dir}"
 		 version="true"
 		 use="true"
+		 failonerror="true"
 		 additionalparam="-Xdoclint:all,-accessibility,-html,-missing,-reference,-syntax"
 		 windowtitle="${JMQ_SOFTWARE_NAME_SHORT}, 5.1 API Specification"
 		 doctitle="${JMQ_SOFTWARE_NAME_SHORT}, 5.1 API Specification">
