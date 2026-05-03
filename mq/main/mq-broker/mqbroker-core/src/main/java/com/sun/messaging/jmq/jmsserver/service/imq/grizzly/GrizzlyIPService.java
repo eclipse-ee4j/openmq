@@ -35,8 +35,6 @@ import org.glassfish.grizzly.ssl.SSLFilter;
 import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
 import org.glassfish.grizzly.threadpool.GrizzlyExecutorService;
 import org.glassfish.grizzly.threadpool.ThreadPoolConfig;
-import org.glassfish.grizzly.threadpool.ThreadPoolInfo;
-import org.glassfish.grizzly.threadpool.ThreadPoolProbe;
 
 import com.sun.messaging.jmq.util.GoodbyeReason;
 import com.sun.messaging.jmq.util.ServiceState;
@@ -52,6 +50,7 @@ import com.sun.messaging.jmq.jmsserver.net.Protocol;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.imq.Operation;
+import com.sun.messaging.jmq.jmsserver.service.imq.ThreadPoolProbeImpl;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQService;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQIPServiceFactory;
@@ -111,13 +110,13 @@ public class GrizzlyIPService extends IMQService implements GrizzlyService, Noti
             String pname = "MQ-writer-thread-pool[" + getName() + "]";
             final ThreadPoolConfig wpc = ThreadPoolConfig.defaultConfig().copy().setPoolName(pname).setCorePoolSize(protocol.getMinThreads())
                     .setMaxPoolSize(protocol.getMaxThreads());
-            wpc.getInitialMonitoringConfig().addProbes(new ThreadPoolProbeImpl(pname, writerPoolThreadCnt));
+            wpc.getInitialMonitoringConfig().addProbes(new ThreadPoolProbeImpl(DEBUG, logger, pname, writerPoolThreadCnt));
             writerPool = GrizzlyExecutorService.createInstance(wpc);
 
             pname = "MQ-reader-thread-pool[" + getName() + "]";
             final ThreadPoolConfig rpc = ThreadPoolConfig.defaultConfig().copy().setPoolName(pname).setCorePoolSize(protocol.getMinThreads())
                     .setMaxPoolSize(protocol.getMaxThreads());
-            rpc.getInitialMonitoringConfig().addProbes(new ThreadPoolProbeImpl(pname, readerPoolThreadCnt));
+            rpc.getInitialMonitoringConfig().addProbes(new ThreadPoolProbeImpl(DEBUG, logger, pname, readerPoolThreadCnt));
             GrizzlyExecutorService pool = GrizzlyExecutorService.createInstance(rpc);
 
             FilterChainBuilder filterChainBuilder = FilterChainBuilder.stateless();
@@ -720,87 +719,5 @@ public class GrizzlyIPService extends IMQService implements GrizzlyService, Noti
                     + "writerPoolQueueSize: " + writerPool.getConfiguration().getQueue().size();
         }
 
-    }
-
-    class ThreadPoolProbeImpl implements ThreadPoolProbe {
-        private String pname = null;
-        private AtomicInteger counter = null;
-
-        ThreadPoolProbeImpl(String pname, AtomicInteger counter) {
-            this.pname = pname;
-            this.counter = counter;
-        }
-
-        @Override
-        public void onThreadPoolStartEvent(ThreadPoolInfo threadPool) {
-            if (DEBUG) {
-                logger.log(logger.INFO, "ThreadPool[" + pname + "] started, " + threadPool);
-            }
-        }
-
-        @Override
-        public void onThreadPoolStopEvent(ThreadPoolInfo threadPool) {
-            if (DEBUG) {
-                logger.log(logger.INFO, "ThreadPool[" + pname + "] stopped");
-            }
-        }
-
-        @Override
-        public void onThreadAllocateEvent(ThreadPoolInfo threadPool, Thread thread) {
-            int cnt = counter.getAndIncrement();
-            if (DEBUG) {
-                logger.log(logger.INFO, "ThreadPool[" + pname + "] thread allocated[" + (++cnt) + "]");
-            }
-        }
-
-        @Override
-        public void onThreadReleaseEvent(ThreadPoolInfo threadPool, Thread thread) {
-            int cnt = counter.getAndDecrement();
-            if (DEBUG) {
-                logger.log(logger.INFO, "ThreadPool[" + pname + "] thread released[" + (--cnt) + "]");
-            }
-        }
-
-        @Override
-        public void onMaxNumberOfThreadsEvent(ThreadPoolInfo threadPool, int maxNumberOfThreads) {
-            if (DEBUG) {
-                logger.log(logger.INFO, "ThreadPool[" + pname + "] threads max " + maxNumberOfThreads + " reached");
-            }
-        }
-
-        @Override
-        public void onTaskQueueEvent(ThreadPoolInfo threadPool, Runnable task) {
-            if (DEBUG) {
-                logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task queue event:" + task);
-            }
-        }
-
-        @Override
-        public void onTaskDequeueEvent(ThreadPoolInfo threadPool, Runnable task) {
-            if (DEBUG) {
-                logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task dequeue event:" + task);
-            }
-        }
-
-        @Override
-        public void onTaskCompleteEvent(ThreadPoolInfo threadPool, Runnable task) {
-            if (DEBUG) {
-                logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task complete event:" + task);
-            }
-        }
-
-        @Override
-        public void onTaskQueueOverflowEvent(ThreadPoolInfo threadPool) {
-            if (DEBUG) {
-                logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task queue overflow event");
-            }
-        }
-
-        @Override
-        public void onTaskCancelEvent(ThreadPoolInfo threadPool, Runnable task) {
-            if (DEBUG) {
-                logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task canceled event");
-            }
-        }
     }
 }
