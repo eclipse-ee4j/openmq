@@ -200,11 +200,7 @@ public class UpgradeStore implements DBConstants {
         String getAllDestFromOldSQL = strBuf.toString();
 
         // SQL to insert a destination to new table
-        String insertDestSQL = new StringBuilder(128).append("INSERT INTO ").append(dstDAO.getTableName()).append(" ( ").append(DestinationDAO.ID_COLUMN)
-                .append(", ").append(DestinationDAO.DESTINATION_COLUMN).append(", ").append(DestinationDAO.IS_LOCAL_COLUMN).append(", ")
-                .append(DestinationDAO.CONNECTION_ID_COLUMN).append(", ").append(DestinationDAO.CONNECTED_TS_COLUMN).append(", ")
-                .append(DestinationDAO.STORE_SESSION_ID_COLUMN).append(", ").append(DestinationDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ?, ?, ? )")
-                .toString();
+        String insertDestSQL = "INSERT INTO " + dstDAO.getTableName() + " ( " + (DestinationDAO.ID_COLUMN) + ", " + (DestinationDAO.DESTINATION_COLUMN) + ", " + (DestinationDAO.IS_LOCAL_COLUMN) + ", " + (DestinationDAO.CONNECTION_ID_COLUMN) + ", " + (DestinationDAO.CONNECTED_TS_COLUMN) + ", " + (DestinationDAO.STORE_SESSION_ID_COLUMN) + ", " + (DestinationDAO.CREATED_TS_COLUMN) + ") VALUES ( ?, ?, ?, ?, ?, ?, ? )";
 
         boolean dobatch = dbMgr.supportsBatchUpdates();
         Statement stmt = null;
@@ -423,10 +419,7 @@ public class UpgradeStore implements DBConstants {
 
         String getAllStateFromOldSQL = strBuf.toString();
 
-        String insertStateSQL = new StringBuilder(128).append("INSERT INTO ").append(stateDAO.getTableName()).append(" ( ")
-                .append(ConsumerStateDAO.MESSAGE_ID_COLUMN).append(", ").append(ConsumerStateDAO.CONSUMER_ID_COLUMN).append(", ")
-                .append(ConsumerStateDAO.STATE_COLUMN).append(", ").append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(", ")
-                .append(ConsumerStateDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ? )").toString();
+        String insertStateSQL = "INSERT INTO " + stateDAO.getTableName() + " ( " + (ConsumerStateDAO.MESSAGE_ID_COLUMN) + ", " + (ConsumerStateDAO.CONSUMER_ID_COLUMN) + ", " + (ConsumerStateDAO.STATE_COLUMN) + ", " + (ConsumerStateDAO.TRANSACTION_ID_COLUMN) + ", " + (ConsumerStateDAO.CREATED_TS_COLUMN) + ") VALUES ( ?, ?, ?, ?, ? )";
 
         boolean dobatch = dbMgr.supportsBatchUpdates();
         PreparedStatement pstmt = null;
@@ -570,9 +563,7 @@ public class UpgradeStore implements DBConstants {
         String getAllInterestFromOldSQL = strBuf.toString();
 
         // SQL to insert interest to new table
-        String insertInterestSQL = new StringBuilder(128).append("INSERT INTO ").append(conDAO.getTableName()).append(" ( ").append(ConsumerDAO.ID_COLUMN)
-                .append(", ").append(ConsumerDAO.CONSUMER_COLUMN).append(", ").append(ConsumerDAO.DURABLE_NAME_COLUMN).append(", ")
-                .append(ConsumerDAO.CLIENT_ID_COLUMN).append(", ").append(ConsumerDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ? )").toString();
+        String insertInterestSQL = "INSERT INTO " + conDAO.getTableName() + " ( " + (ConsumerDAO.ID_COLUMN) + ", " + (ConsumerDAO.CONSUMER_COLUMN) + ", " + (ConsumerDAO.DURABLE_NAME_COLUMN) + ", " + (ConsumerDAO.CLIENT_ID_COLUMN) + ", " + (ConsumerDAO.CREATED_TS_COLUMN) + ") VALUES ( ?, ?, ?, ?, ? )";
 
         boolean dobatch = dbMgr.supportsBatchUpdates();
         PreparedStatement pstmt = null;
@@ -663,12 +654,7 @@ public class UpgradeStore implements DBConstants {
         String getAllTxnsFromOldSQL = strBuf.toString();
 
         // SQL to insert transactions to new table
-        String insertTxnSQL = new StringBuilder(128).append("INSERT INTO ").append(txnDAO.getTableName()).append(" ( ").append(TransactionDAO.ID_COLUMN)
-                .append(", ").append(TransactionDAO.TYPE_COLUMN).append(", ").append(TransactionDAO.STATE_COLUMN).append(", ")
-                .append(TransactionDAO.AUTO_ROLLBACK_COLUMN).append(", ").append(TransactionDAO.XID_COLUMN).append(", ").append(TransactionDAO.TXN_STATE_COLUMN)
-                .append(", ").append(TransactionDAO.TXN_HOME_BROKER_COLUMN).append(", ").append(TransactionDAO.TXN_BROKERS_COLUMN).append(", ")
-                .append(TransactionDAO.STORE_SESSION_ID_COLUMN).append(", ").append(TransactionDAO.EXPIRED_TS_COLUMN).append(", ")
-                .append(TransactionDAO.ACCESSED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )").toString();
+        String insertTxnSQL = "INSERT INTO " + txnDAO.getTableName() + " ( " + (TransactionDAO.ID_COLUMN) + ", " + (TransactionDAO.TYPE_COLUMN) + ", " + (TransactionDAO.STATE_COLUMN) + ", " + (TransactionDAO.AUTO_ROLLBACK_COLUMN) + ", " + (TransactionDAO.XID_COLUMN) + ", " + (TransactionDAO.TXN_STATE_COLUMN) + ", " + (TransactionDAO.TXN_HOME_BROKER_COLUMN) + ", " + (TransactionDAO.TXN_BROKERS_COLUMN) + ", " + (TransactionDAO.STORE_SESSION_ID_COLUMN) + ", " + (TransactionDAO.EXPIRED_TS_COLUMN) + ", " + (TransactionDAO.ACCESSED_TS_COLUMN) + ") VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
 
         boolean dobatch = dbMgr.supportsBatchUpdates();
         PreparedStatement pstmt = null;
@@ -764,9 +750,7 @@ public class UpgradeStore implements DBConstants {
 
         // SQL to insert acknowledgements to consumer state table;
         // for 400, txn ack is represent as a column in consumer state table.
-        String insertTxnAckSQL = new StringBuilder(128).append("UPDATE ").append(stateDAO.getTableName()).append(" SET ")
-                .append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(" = ? ").append(" WHERE ").append(ConsumerStateDAO.MESSAGE_ID_COLUMN).append(" = ?")
-                .append(" AND ").append(ConsumerStateDAO.CONSUMER_ID_COLUMN).append(" = ?").toString();
+        String insertTxnAckSQL = "UPDATE " + stateDAO.getTableName() + " SET " + (ConsumerStateDAO.TRANSACTION_ID_COLUMN) + " = ? " + " WHERE " + (ConsumerStateDAO.MESSAGE_ID_COLUMN) + " = ?" + " AND " + (ConsumerStateDAO.CONSUMER_ID_COLUMN) + " = ?";
 
         boolean dobatch = dbMgr.supportsBatchUpdates();
         PreparedStatement pstmt = null;
@@ -840,8 +824,7 @@ public class UpgradeStore implements DBConstants {
         String getAllRecordFromOldSQL = strBuf.toString();
 
         // SQL to insert ConfigRecord to new table
-        String insertRecordSQL = new StringBuilder(128).append("INSERT INTO ").append(recordDAO.getTableName()).append(" ( ")
-                .append(ConfigRecordDAO.RECORD_COLUMN).append(", ").append(ConfigRecordDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ? )").toString();
+        String insertRecordSQL = "INSERT INTO " + recordDAO.getTableName() + " ( " + (ConfigRecordDAO.RECORD_COLUMN) + ", " + (ConfigRecordDAO.CREATED_TS_COLUMN) + ") VALUES ( ?, ? )";
 
         PreparedStatement pstmt = null;
         Statement stmt = null;
@@ -897,8 +880,7 @@ public class UpgradeStore implements DBConstants {
         String getAllPropFromOldSQL = "SELECT " + TPROP_CNAME + ", " + TPROP_CVALUE + " FROM " + oldPropTable;
 
         // SQL to insert property to new table
-        String insertPropSQL = new StringBuilder(128).append("INSERT INTO ").append(propDAO.getTableName()).append(" ( ").append(PropertyDAO.PROPNAME_COLUMN)
-                .append(", ").append(PropertyDAO.PROPVALUE_COLUMN).append(") VALUES ( ?, ? )").toString();
+        String insertPropSQL = "INSERT INTO " + propDAO.getTableName() + " ( " + (PropertyDAO.PROPNAME_COLUMN) + ", " + (PropertyDAO.PROPVALUE_COLUMN) + ") VALUES ( ?, ? )";
 
         boolean dobatch = dbMgr.supportsBatchUpdates();
         Statement stmt = null;

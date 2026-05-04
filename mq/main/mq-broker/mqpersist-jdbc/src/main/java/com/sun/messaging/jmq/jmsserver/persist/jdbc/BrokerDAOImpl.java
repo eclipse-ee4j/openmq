@@ -75,50 +75,29 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
 
         tableName = dbMgr.getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(URL_COLUMN).append(", ")
-                .append(VERSION_COLUMN).append(", ").append(STATE_COLUMN).append(", ").append(TAKEOVER_BROKER_COLUMN).append(", ").append(HEARTBEAT_TS_COLUMN)
-                .append(") VALUES ( ?, ?, ?, ?, ?, ? )").toString();
+        insertSQL = "INSERT INTO " + tableName + " ( " + ID_COLUMN + ", " + URL_COLUMN + ", " + VERSION_COLUMN + ", " + STATE_COLUMN + ", " + TAKEOVER_BROKER_COLUMN + ", " + HEARTBEAT_TS_COLUMN + ") VALUES ( ?, ?, ?, ?, ?, ? )";
 
-        updateVersionSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(VERSION_COLUMN).append(" = ? ").append(" WHERE ")
-                .append(ID_COLUMN).append(" = ?").toString();
+        updateVersionSQL = "UPDATE " + tableName + " SET " + VERSION_COLUMN + " = ? " + " WHERE " + ID_COLUMN + " = ?";
 
-        updateURLSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(URL_COLUMN).append(" = ? ").append(" WHERE ")
-                .append(ID_COLUMN).append(" = ?").toString();
+        updateURLSQL = "UPDATE " + tableName + " SET " + URL_COLUMN + " = ? " + " WHERE " + ID_COLUMN + " = ?";
 
-        resetTakeoverBrokerSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(TAKEOVER_BROKER_COLUMN).append(" = NULL, ")
-                .append(STATE_COLUMN).append(" = ? ").append(" WHERE ").append(ID_COLUMN).append(" = ?").append(" AND ").append(TAKEOVER_BROKER_COLUMN)
-                .append(" IS NOT NULL").append(" AND ").append(STATE_COLUMN).append(" = ").append(BrokerState.I_FAILOVER_COMPLETE).toString();
+        resetTakeoverBrokerSQL = "UPDATE " + tableName + " SET " + TAKEOVER_BROKER_COLUMN + " = NULL, " + STATE_COLUMN + " = ? " + " WHERE " + ID_COLUMN + " = ?" + " AND " + TAKEOVER_BROKER_COLUMN + " IS NOT NULL" + " AND " + STATE_COLUMN + " = " + (BrokerState.I_FAILOVER_COMPLETE);
 
-        restoreOnTakeoverFailSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(TAKEOVER_BROKER_COLUMN).append(" = NULL, ")
-                .append(STATE_COLUMN).append(" = ? ").append(" WHERE ").append(ID_COLUMN).append(" = ?").append(" AND ").append(STATE_COLUMN).append(" = ")
-                .append(BrokerState.I_FAILOVER_STARTED).append(" AND ").append(TAKEOVER_BROKER_COLUMN).append(" = ?").toString();
+        restoreOnTakeoverFailSQL = "UPDATE " + tableName + " SET " + TAKEOVER_BROKER_COLUMN + " = NULL, " + STATE_COLUMN + " = ? " + " WHERE " + ID_COLUMN + " = ?" + " AND " + STATE_COLUMN + " = " + (BrokerState.I_FAILOVER_STARTED) + " AND " + TAKEOVER_BROKER_COLUMN + " = ?";
 
-        restoreHeartbeatOnTakeoverFailSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(HEARTBEAT_TS_COLUMN)
-                .append(" = ? ").append(" WHERE ").append(ID_COLUMN).append(" = ?").append(" AND ").append(STATE_COLUMN).append(" = ")
-                .append(BrokerState.I_FAILOVER_STARTED).append(" AND ").append(HEARTBEAT_TS_COLUMN).append(" = ? ").append(" AND ")
-                .append(TAKEOVER_BROKER_COLUMN).append(" = ?").toString();
+        restoreHeartbeatOnTakeoverFailSQL = "UPDATE " + tableName + " SET " + HEARTBEAT_TS_COLUMN + " = ? " + " WHERE " + ID_COLUMN + " = ?" + " AND " + STATE_COLUMN + " = " + (BrokerState.I_FAILOVER_STARTED) + " AND " + HEARTBEAT_TS_COLUMN + " = ? " + " AND " + TAKEOVER_BROKER_COLUMN + " = ?";
 
-        updateHeartbeatSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(HEARTBEAT_TS_COLUMN).append(" = ?")
-                .append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
+        updateHeartbeatSQL = "UPDATE " + tableName + " SET " + HEARTBEAT_TS_COLUMN + " = ?" + " WHERE " + ID_COLUMN + " = ?";
 
-        updateHeartbeatAndCheckStateSQL = new StringBuilder(updateHeartbeatSQL).append(" AND ").append(HEARTBEAT_TS_COLUMN).append(" = ?").append(" AND ")
-                .append(STATE_COLUMN).append(" NOT IN (").append(BrokerState.I_FAILOVER_PENDING).append(", ").append(BrokerState.I_FAILOVER_STARTED)
-                .append(", ").append(BrokerState.I_FAILOVER_COMPLETE).append(", ").append(BrokerState.I_FAILOVER_FAILED).append(')').toString();
+        updateHeartbeatAndCheckStateSQL = updateHeartbeatSQL + " AND " + HEARTBEAT_TS_COLUMN + " = ?" + " AND " + STATE_COLUMN + " NOT IN (" + (BrokerState.I_FAILOVER_PENDING) + ", " + (BrokerState.I_FAILOVER_STARTED) + ", " + (BrokerState.I_FAILOVER_COMPLETE) + ", " + (BrokerState.I_FAILOVER_FAILED) + ')';
 
-        updateStateThisBrokerSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(STATE_COLUMN).append(" = ?")
-                .append(" WHERE ").append(ID_COLUMN).append(" = ?").append(" AND ").append(STATE_COLUMN).append(" = ?").append(" AND ")
-                .append(TAKEOVER_BROKER_COLUMN).append(" IS NULL ").toString();
+        updateStateThisBrokerSQL = "UPDATE " + tableName + " SET " + STATE_COLUMN + " = ?" + " WHERE " + ID_COLUMN + " = ?" + " AND " + STATE_COLUMN + " = ?" + " AND " + TAKEOVER_BROKER_COLUMN + " IS NULL ";
 
-        updateStateOtherBrokerSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(STATE_COLUMN).append(" = ?")
-                .append(" WHERE ").append(ID_COLUMN).append(" = ?").append(" AND ").append(STATE_COLUMN).append(" = ?").append(" AND ")
-                .append(TAKEOVER_BROKER_COLUMN).append(" = ?").toString();
+        updateStateOtherBrokerSQL = "UPDATE " + tableName + " SET " + STATE_COLUMN + " = ?" + " WHERE " + ID_COLUMN + " = ?" + " AND " + STATE_COLUMN + " = ?" + " AND " + TAKEOVER_BROKER_COLUMN + " = ?";
 
-        takeoverSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(TAKEOVER_BROKER_COLUMN).append(" = ?, ")
-                .append(STATE_COLUMN).append(" = ?, ").append(HEARTBEAT_TS_COLUMN).append(" = ?").append(" WHERE ").append(ID_COLUMN).append(" = ?")
-                .append(" AND ").append(STATE_COLUMN).append(" = ?").append(" AND ").append(HEARTBEAT_TS_COLUMN).append(" = ?").append(" AND ")
-                .append(TAKEOVER_BROKER_COLUMN).append(" is NULL").toString();
+        takeoverSQL = "UPDATE " + tableName + " SET " + TAKEOVER_BROKER_COLUMN + " = ?, " + STATE_COLUMN + " = ?, " + HEARTBEAT_TS_COLUMN + " = ?" + " WHERE " + ID_COLUMN + " = ?" + " AND " + STATE_COLUMN + " = ?" + " AND " + HEARTBEAT_TS_COLUMN + " = ?" + " AND " + TAKEOVER_BROKER_COLUMN + " is NULL";
 
-        deleteSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
+        deleteSQL = "DELETE FROM " + tableName + " WHERE " + ID_COLUMN + " = ?";
 
         /*
          * All the supported store sessions for a broker is kept in the session table but for convenience we will load the
@@ -126,33 +105,23 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
          * another broker, then its value will be 0.
          */
 
-        selectAllSQL = new StringBuilder(128).append("SELECT bTbl.").append(ID_COLUMN).append(", ").append(URL_COLUMN).append(", ").append(VERSION_COLUMN)
-                .append(", ").append(STATE_COLUMN).append(", ").append(TAKEOVER_BROKER_COLUMN).append(", ").append(HEARTBEAT_TS_COLUMN).append(", sTbl.")
-                .append(StoreSessionDAO.ID_COLUMN).append(" AS ").append(STORE_SESSION_ID_COLUMN).append(" FROM ").append(tableName).append(" bTbl LEFT JOIN ")
-                .append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" sTbl ON bTbl.").append(ID_COLUMN).append(" = sTbl.")
-                .append(StoreSessionDAO.BROKER_ID_COLUMN).append(" AND sTbl.").append(StoreSessionDAO.IS_CURRENT_COLUMN).append(" = 1").toString();
+        selectAllSQL = "SELECT bTbl." + ID_COLUMN + ", " + URL_COLUMN + ", " + VERSION_COLUMN + ", " + STATE_COLUMN + ", " + TAKEOVER_BROKER_COLUMN + ", " + HEARTBEAT_TS_COLUMN + ", sTbl." + (StoreSessionDAO.ID_COLUMN) + " AS " + STORE_SESSION_ID_COLUMN + " FROM " + tableName + " bTbl LEFT JOIN " + dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX) + " sTbl ON bTbl." + ID_COLUMN + " = sTbl." + (StoreSessionDAO.BROKER_ID_COLUMN) + " AND sTbl." + (StoreSessionDAO.IS_CURRENT_COLUMN) + " = 1";
 
-        selectAllByStateSQL = new StringBuilder(128).append(selectAllSQL).append(" WHERE bTbl.").append(STATE_COLUMN).append(" = ?").toString();
+        selectAllByStateSQL = selectAllSQL + " WHERE bTbl." + STATE_COLUMN + " = ?";
 
-        selectSQL = new StringBuilder(128).append(selectAllSQL).append(" WHERE bTbl.").append(ID_COLUMN).append(" = ?").toString();
+        selectSQL = selectAllSQL + " WHERE bTbl." + ID_COLUMN + " = ?";
 
-        selectHeartbeatSQL = new StringBuilder(128).append("SELECT ").append(HEARTBEAT_TS_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
-                .append(ID_COLUMN).append(" = ?").toString();
+        selectHeartbeatSQL = "SELECT " + HEARTBEAT_TS_COLUMN + " FROM " + tableName + " WHERE " + ID_COLUMN + " = ?";
 
-        selectAllHeartbeatsSQL = new StringBuilder(128).append("SELECT ").append(ID_COLUMN).append(", ").append(HEARTBEAT_TS_COLUMN).append(" FROM ")
-                .append(tableName).toString();
+        selectAllHeartbeatsSQL = "SELECT " + ID_COLUMN + ", " + HEARTBEAT_TS_COLUMN + " FROM " + tableName;
 
-        selectStateSQL = new StringBuilder(128).append("SELECT ").append(STATE_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN)
-                .append(" = ?").toString();
+        selectStateSQL = "SELECT " + STATE_COLUMN + " FROM " + tableName + " WHERE " + ID_COLUMN + " = ?";
 
-        selectAllStatesSQL = new StringBuilder(128).append("SELECT ").append(ID_COLUMN).append(", ").append(STATE_COLUMN).append(" FROM ").append(tableName)
-                .toString();
+        selectAllStatesSQL = "SELECT " + ID_COLUMN + ", " + STATE_COLUMN + " FROM " + tableName;
 
         // SQL that can be embedded in EXISTS clause to check if the specified
         // broker is being takenover (uses by other DAOs)
-        selectIsBeingTakenOverSQL = new StringBuilder(128).append("SELECT 1 FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ? AND ")
-                .append(STATE_COLUMN).append(" IN (").append(BrokerState.I_FAILOVER_PENDING).append(", ").append(BrokerState.I_FAILOVER_STARTED).append(", ")
-                .append(BrokerState.I_FAILOVER_COMPLETE).append(", ").append(BrokerState.I_FAILOVER_FAILED).append(')').toString();
+        selectIsBeingTakenOverSQL = "SELECT 1 FROM " + tableName + " WHERE " + ID_COLUMN + " = ? AND " + STATE_COLUMN + " IN (" + (BrokerState.I_FAILOVER_PENDING) + ", " + (BrokerState.I_FAILOVER_STARTED) + ", " + (BrokerState.I_FAILOVER_COMPLETE) + ", " + (BrokerState.I_FAILOVER_FAILED) + ')';
     }
 
     /**
