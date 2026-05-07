@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -39,7 +39,6 @@ import java.util.logging.Logger;
 import jakarta.jms.Connection;
 import jakarta.jms.DeliveryMode;
 import jakarta.jms.ExceptionListener;
-import jakarta.jms.InvalidSelectorException;
 import jakarta.jms.JMSException;
 import jakarta.jms.Message;
 import jakarta.jms.ObjectMessage;
@@ -255,18 +254,6 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         }
 
         throw new JMSException(ar.getKString(ar.X_JMSSPI_INVALID_OBJECT_TYPE));
-    }
-
-    @Override
-    public void validateJMSSelector(String selector) throws JMSException {
-        com.sun.messaging.jmq.jmsselector.JMSSelector jmsselector = new com.sun.messaging.jmq.jmsselector.JMSSelector();
-        try {
-            jmsselector.validateSelectorPattern(selector);
-        } catch (com.sun.messaging.jmq.jmsselector.InvalidJMSSelectorException e) {
-            throw new InvalidSelectorException(e.getMessage());
-        } catch (Exception e) {
-            throw new JMSException(e.getMessage());
-        }
     }
 
     /**

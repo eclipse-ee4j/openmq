@@ -323,7 +323,7 @@ public class PropertyValueComparator { // XX:JAVA2 implements Comparator {
      */
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof com.sun.messaging.jmq.jmsselector.PropertyValueComparator) {
+        if (obj instanceof PropertyValueComparator) {
             return true;
         } else {
             return false;

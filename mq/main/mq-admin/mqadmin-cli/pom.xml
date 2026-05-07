@@ -59,10 +59,6 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqcomm-jmsselector</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
             <artifactId>mqjmx-api</artifactId>
         </dependency>
         <dependency>
