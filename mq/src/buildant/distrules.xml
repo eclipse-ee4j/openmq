@@ -130,10 +130,56 @@
 			</fileset>
 		</copy>
 		<chmod file="${mq.zip.installdir}/bin/imq*" perm="755"/>
+		<!-- .bat files for Windows -->
+		<copy tofile="${mq.zip.installdir}/bin/imqadmin.bat">
+			<fileset dir="${base_src.dir}/win32/bin">
+				<include name="imqadmin.bat"/>
+			</fileset>
+		</copy>
+		<copy tofile="${mq.zip.installdir}/bin/imqbridgemgr.bat">
+			<fileset dir="${base_src.dir}/win32/bin">
+				<include name="imqbridgemgr.bat"/>
+			</fileset>
+		</copy>
+		<copy tofile="${mq.zip.installdir}/bin/imqbrokerd.bat">
+			<fileset dir="${base_src.dir}/win32/bin">
+				<include name="imqbrokerd.bat"/>
+			</fileset>
+		</copy>
+		<copy tofile="${mq.zip.installdir}/bin/imqcmd.bat">
+			<fileset dir="${base_src.dir}/win32/bin">
+				<include name="imqcmd.bat"/>
+			</fileset>
+		</copy>
+		<copy tofile="${mq.zip.installdir}/bin/imqdbmgr.bat">
+			<fileset dir="${base_src.dir}/win32/bin">
+				<include name="imqdbmgr.bat"/>
+			</fileset>
+		</copy>
+		<copy tofile="${mq.zip.installdir}/bin/imqkeytool.bat">
+			<fileset dir="${base_src.dir}/win32/bin">
+				<include name="imqkeytool.bat"/>
+			</fileset>
+		</copy>
+		<copy tofile="${mq.zip.installdir}/bin/imqobjmgr.bat">
+			<fileset dir="${base_src.dir}/win32/bin">
+				<include name="imqobjmgr.bat"/>
+			</fileset>
+		</copy>
+		<copy tofile="${mq.zip.installdir}/bin/imqusermgr.bat">
+			<fileset dir="${base_src.dir}/win32/bin">
+				<include name="imqusermgr.bat"/>
+			</fileset>
+		</copy>
 
 		<!-- lib dir -->
 		<echo level="info" message="### lib files"/>
 		<mkdir dir="${mq.zip.installdir}/lib"/>
+		<copy tofile="${mq.zip.installdir}/lib/imqinit.bat">
+			<fileset dir="${base_src.dir}/win32/lib">
+				<include name="imqinit.bat"/>
+			</fileset>
+		</copy>
 
 		<copy todir="${mq.zip.installdir}/lib">
 			<fileset dir="${classes.dir}">

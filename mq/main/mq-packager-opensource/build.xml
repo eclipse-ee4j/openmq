@@ -351,6 +351,89 @@
 			</fileset>
 		</chmod>
 
+		<echo level="info" message="### Make directories under ${ws.binary.win32.dir}/opt" />
+		<mkdir dir="${ws.binary.win32.dir}/opt/lib/props/broker" />
+		<mkdir dir="${ws.binary.win32.dir}/opt/lib/dtd" />
+		<mkdir dir="${ws.binary.win32.dir}/opt/lib/images/admin" />
+		<mkdir dir="${ws.binary.win32.dir}/opt/lib/help" />
+		<mkdir dir="${ws.binary.win32.dir}/opt/lib/ext" />
+		<mkdir dir="${ws.binary.win32.dir}/opt/etc" />
+		<mkdir dir="${ws.binary.win32.dir}/opt/bin" />
+
+		<echo level="info" message="### ${ws.binary.win32.dir}/opt/etc/" />
+		<copy todir="${ws.binary.win32.dir}/opt/etc/">
+			<fileset dir="${ws.top.dir}/src/win32/etc/">
+				<include name="imqenv.conf" />
+			</fileset>
+		</copy>
+		<copy todir="${ws.binary.win32.dir}/opt/etc/">
+			<fileset dir="${ws.top.dir}/src/share/etc/">
+				<include name="passfile.sample" />
+			</fileset>
+		</copy>
+
+		<echo level="info" message="### ${ws.binary.win32.dir}/opt/lib/props/" />
+		<copy todir="${ws.binary.win32.dir}/opt/lib/props/broker">
+			<fileset dir="${ws.top.dir}/src/share/props/broker/">
+				<include name="default.properties" />
+				<include name="install.properties" />
+			</fileset>
+		</copy>
+
+		<echo level="info" message="### ${ws.binary.win32.dir}/opt/lib/images/" />
+		<copy todir="${ws.binary.win32.dir}/opt/lib/images/admin">
+			<fileset dir="${ws.top.dir}/src/share/lib/images/admin/">
+				<include name="*.gif" />
+			</fileset>
+		</copy>
+
+		<echo level="info" message="### ${ws.binary.win32.dir}/opt/lib/help/" />
+		<unzip src="${ws.top.dir}/main/helpfiles/target/helpfiles.jar"
+			dest="${ws.binary.win32.dir}/opt/lib/help" />
+
+		<echo level="info" message="### ${ws.binary.win32.dir}/opt/lib/ (imqinit)" />
+		<copy todir="${ws.binary.win32.dir}/opt/lib/">
+			<fileset dir="${ws.top.dir}/src/win32/lib">
+				<include name="imqinit.bat" />
+			</fileset>
+		</copy>
+
+		<echo level="info" message="### ${ws.binary.win32.dir}/opt/lib/dtd/" />
+		<copy todir="${ws.binary.win32.dir}/opt/lib/dtd">
+			<fileset
+				dir="${ws.top.dir}/main/bridge/mqbridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
+				<include name="sun_jmsbridge*.dtd" />
+			</fileset>
+		</copy>
+
+		<echo level="info" message="### ${ws.binary.win32.dir}/opt/bin/ (short-name aliases)" />
+		<copy todir="${ws.binary.win32.dir}/opt/bin/">
+			<fileset dir="${ws.top.dir}/src/win32/bin">
+				<include name="adminconsole.bat" />
+				<include name="broker.bat" />
+				<include name="bridgemgr.bat" />
+				<include name="dbmgr.bat" />
+				<include name="icmd.bat" />
+				<include name="ikeytool.bat" />
+				<include name="objmgr.bat" />
+				<include name="usermgr.bat" />
+			</fileset>
+		</copy>
+
+		<echo level="info" message="### ${ws.binary.win32.dir}/opt/bin/ (imq* canonical scripts)" />
+		<copy todir="${ws.binary.win32.dir}/opt/bin/">
+			<fileset dir="${ws.top.dir}/src/win32/bin">
+				<include name="imqadmin.bat" />
+				<include name="imqbridgemgr.bat" />
+				<include name="imqbrokerd.bat" />
+				<include name="imqcmd.bat" />
+				<include name="imqdbmgr.bat" />
+				<include name="imqkeytool.bat" />
+				<include name="imqobjmgr.bat" />
+				<include name="imqusermgr.bat" />
+			</fileset>
+		</copy>
+
 		<echo level="info" message="### " />
 		<echo level="info" message="### Copy javahelp.jar to jhall.jar for gmake build" />
 
