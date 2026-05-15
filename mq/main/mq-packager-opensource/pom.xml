@@ -37,6 +37,7 @@
         <ws.dist.bundles.dir>../../dist/bundles</ws.dist.bundles.dir>
         <ws.binary.share.dir>../../binary/share</ws.binary.share.dir>
         <ws.binary.solaris.dir>../../binary/solaris</ws.binary.solaris.dir>
+        <ws.binary.win32.dir>../../binary/win32</ws.binary.win32.dir>
         <ws.binary.Linux.dir>../../binary/Linux</ws.binary.Linux.dir>
         <ws.binary.Darwin.dir>../../binary/Darwin</ws.binary.Darwin.dir>
         <ws.top.dir>${basedir}/../..</ws.top.dir>

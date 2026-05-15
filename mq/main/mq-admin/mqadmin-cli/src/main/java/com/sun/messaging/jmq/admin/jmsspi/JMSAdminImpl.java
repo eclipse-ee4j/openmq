@@ -623,15 +623,15 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
 
         Vector v = new Vector();
 
-        String append = null;
         if (!argsOnly) {
             String iMQBrokerPath;
 
             if (isWindows()) {
                 // Windows path
                 // <iMQHome>\\imqbrokersvc.exe -console
-                iMQBrokerPath = iMQHome + java.io.File.separator + "imqbrokersvc.exe";
-                append = "-console";
+                v.add("cmd.exe");
+                v.add("/c");
+                iMQBrokerPath = iMQHome + java.io.File.separator + "imqbrokerd.bat";
             } else {
                 // Unix path.
                 // <iMQHome>/bin/imqbrokerd
@@ -668,10 +668,6 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         if (serverName != null) {
             v.add("-name");
             v.add(serverName);
-        }
-
-        if (append != null) {
-            v.add(append);
         }
 
         v.add("-port");
@@ -910,9 +906,6 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * @exception JMSException thrown if the delete fails.
      */
     @Override
-    @SuppressWarnings({
-        "deprecation" // exec(java.lang.String) in java.lang.Runtime has been deprecated
-    })
     public void deleteProviderInstance(String mqBinDir, String optArgs, String serverName) throws IOException, JMSException {
         String iMQBrokerPath;
         int exitCode = 0;
@@ -921,7 +914,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         if (isWindows()) {
             // Windows path
             // <mqBinDir>\\bin\\imqbrokerd.exe
-            iMQBrokerPath = mqBinDir + java.io.File.separator + "imqbrokerd.exe";
+            iMQBrokerPath = mqBinDir + java.io.File.separator + "imqbrokerd.bat";
         } else {
             // Unix path.
             // <mqBinDir>/bin/imqbrokerd
@@ -936,7 +929,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         // constraints -
         //
         // 1. The "-javahome" argument, if present, must be first.
-        // Otherwise it does not work on Windoze. The caller (of
+        // Otherwise it does not work on Windows. The caller (of
         // this method) is responsible for making sure that the
         // "-javahome" argument is first in the 'optArgs' string.
         //
@@ -948,16 +941,29 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         // handling on solaris.
         //
 
-        String cmdLine = iMQBrokerPath;
+        Vector v = new Vector();
+        if (isWindows()) {
+            v.add("cmd.exe");
+            v.add("/c");
+        }
+        v.add(iMQBrokerPath);
         if (optArgs != null) {
-            cmdLine = cmdLine + " " + optArgs;
+            for (String arg : optArgs.trim().split("\\s+")) {
+                if (!arg.isEmpty()) {
+                    v.add(arg);
+                }
+            }
         }
         if (serverName != null) {
-            cmdLine = cmdLine + " -name " + serverName;
+            v.add("-name");
+            v.add(serverName);
         }
-        cmdLine = cmdLine + " -remove instance -silent -force";
+        v.add("-remove");
+        v.add("instance");
+        v.add("-silent");
+        v.add("-force");
 
-        Process p = Runtime.getRuntime().exec(cmdLine);
+        Process p = Runtime.getRuntime().exec((String[]) v.toArray(new String[0]));
 
         // Close the receiver end of stdout and stderr streams.
         // Otherwise the child process blocks while trying to
@@ -1021,7 +1027,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         if (isWindows()) {
             // Windows path
             // <mqBinDir>\\bin\\imqbrokerd.exe
-            iMQBrokerPath = mqBinDir + java.io.File.separator + "imqbrokerd.exe";
+            iMQBrokerPath = mqBinDir + java.io.File.separator + "imqbrokerd.bat";
         } else {
             // Unix path.
             // <mqBinDir>/bin/imqbrokerd
@@ -1036,7 +1042,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         // constraints -
         //
         // 1. The "-javahome" argument, if present, must be first.
-        // Otherwise it does not work on Windoze. The caller (of
+        // Otherwise it does not work on Windows. The caller (of
         // this method) is responsible for making sure that the
         // "-javahome" argument is first in the 'optArgs' string.
         //
@@ -1049,6 +1055,10 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         //
 
         Vector v = new Vector();
+        if (isWindows()) {
+            v.add("cmd.exe");
+            v.add("/c");
+        }
         v.add(iMQBrokerPath);
 
         if (optArgs != null) {
