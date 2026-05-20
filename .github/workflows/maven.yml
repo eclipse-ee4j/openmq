@@ -59,6 +59,32 @@ jobs:
       mq_command: ${{ matrix.mq_command}}
       java_package: jdk
 
+  smoke-win:
+    name: Smoke Tests (Windows) ${{ matrix.mq_command }} @ Java ${{ matrix.java_version }}
+    needs: build
+
+    strategy:
+      matrix:
+        java_version:
+        - 21
+        - 25
+        - 26
+        mq_command: [
+                      'imqadmin.bat',
+                      'imqbridgemgr.bat',
+                      'imqbrokerd.bat',
+                      'imqcmd.bat',
+                      'imqdbmgr.bat',
+                      'imqobjmgr.bat',
+                      'imqusermgr.bat'
+                    ]
+
+    uses: ./.github/workflows/smoke-win-mq-command.yml
+    with:
+      java_version: ${{ matrix.java_version }}
+      mq_command: ${{ matrix.mq_command}}
+      java_package: jdk
+
   test-cluster-messages-GH-2272:
     name: Test Message Handling In Cluster GH-2272
     needs: smoke
