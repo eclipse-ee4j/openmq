@@ -52,7 +52,7 @@ import java.io.IOException;
  * @see CharacterDecoder
  * @see BASE64Encoder
  */
-public abstract class CharacterEncoder {
+public abstract sealed class CharacterEncoder permits BASE64Encoder {
 
     /** Stream that understands "printing" */
     protected PrintStream pStream;

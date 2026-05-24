@@ -55,7 +55,7 @@ import java.io.IOException;
  * @see BASE64Decoder
  */
 
-public abstract class CharacterDecoder {
+public abstract sealed class CharacterDecoder permits BASE64Decoder {
 
     /** @return the number of bytes per atom of decoding */
     protected abstract int bytesPerAtom();

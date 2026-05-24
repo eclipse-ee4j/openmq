@@ -32,7 +32,7 @@ import java.io.IOException;
  * @see BASE64Decoder
  */
 
-public class BASE64Encoder extends CharacterEncoder {
+public final class BASE64Encoder extends CharacterEncoder {
 
     /** this class encodes three bytes per atom. */
     @Override

@@ -41,7 +41,7 @@ import java.io.InputStream;
  * @see BASE64Decoder
  */
 
-public class BASE64Decoder extends CharacterDecoder {
+public final class BASE64Decoder extends CharacterDecoder {
 
     /** This class has 4 bytes per atom */
     @Override
