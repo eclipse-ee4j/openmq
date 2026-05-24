@@ -18,16 +18,21 @@ package com.sun.messaging.jmq.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 import org.junit.jupiter.api.Test;
 
 class BASE64EncoderTest {
     private BASE64Encoder encoder = new BASE64Encoder();
 
     @Test
-    void testEncodingDate() {
+    void testEncodingDate() throws IOException {
         var plain = "Thu 16 Dec 20:37:57 UTC 2021";
+        var buffer = new ByteArrayOutputStream();
 
-        var encoded = encoder.encodeBuffer(plain.getBytes());
+        encoder.encodeBuffer(plain.getBytes(), buffer);
+        var encoded = buffer.toString();
 
         assertThat(encoded).isEqualTo("VGh1IDE2IERlYyAyMDozNzo1NyBVVEMgMjAyMQ==" + System.lineSeparator());
     }

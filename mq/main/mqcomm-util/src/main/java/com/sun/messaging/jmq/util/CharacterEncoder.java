@@ -205,20 +205,4 @@ public abstract class CharacterEncoder {
         encodeBuffer(inStream, aStream);
     }
 
-    /**
-     * A 'streamless' version of encode that simply takes a buffer of bytes and returns a string containing the encoded
-     * buffer.
-     */
-    public String encodeBuffer(byte aBuffer[]) {
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        ByteArrayInputStream inStream = new ByteArrayInputStream(aBuffer);
-        try {
-            encodeBuffer(inStream, outStream);
-        } catch (Exception IOException) {
-            // This should never happen.
-            return null;
-        }
-        return (outStream.toString());
-    }
-
 }

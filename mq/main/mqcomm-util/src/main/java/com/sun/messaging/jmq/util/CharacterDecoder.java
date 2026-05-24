@@ -155,13 +155,4 @@ public abstract class CharacterDecoder {
         decodeBuffer(inStream, outStream);
         return (outStream.toByteArray());
     }
-
-    /**
-     * Decode the contents of the inputstream into a buffer.
-     */
-    public byte decodeBuffer(InputStream in)[] throws IOException {
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        decodeBuffer(in, outStream);
-        return (outStream.toByteArray());
-    }
 }
