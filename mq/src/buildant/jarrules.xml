@@ -193,6 +193,7 @@
            	<include name="com/sun/messaging/jmq/util/BASE64Encoder.class"/>   
            	<include name="com/sun/messaging/jmq/util/CharacterDecoder.class"/>   
            	<include name="com/sun/messaging/jmq/util/CharacterEncoder.class"/>   
+           	<include name="com/sun/messaging/jmq/util/Base64PemCharArray.class"/>
            	<include name="com/sun/messaging/jmq/util/XidImpl.class"/>   
            	<include name="com/sun/messaging/jmq/util/JMQXid.class"/>   
            	<include name="com/sun/messaging/jmq/util/DebugPrinter.class"/>   
