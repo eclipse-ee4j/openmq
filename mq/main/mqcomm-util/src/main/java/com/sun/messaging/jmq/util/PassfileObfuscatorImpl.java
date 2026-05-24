@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021, 2024 Contributors to the Eclipse Foundation
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,6 +24,9 @@ import java.util.Collections;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.security.MessageDigest;
+
+import com.sun.messaging.jmq.util.encoder.BASE64Decoder;
+import com.sun.messaging.jmq.util.encoder.BASE64Encoder;
 
 public class PassfileObfuscatorImpl implements PassfileObfuscator {
 

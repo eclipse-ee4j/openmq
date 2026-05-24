@@ -22,7 +22,7 @@ import java.nio.charset.StandardCharsets;
 import javax.security.auth.login.LoginException;
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.auth.api.client.*;
-import com.sun.messaging.jmq.util.BASE64Encoder;
+import com.sun.messaging.jmq.util.encoder.BASE64Encoder;
 
 /**
  * JMQ AdminKey authentication request handler authType: jmqadminkey

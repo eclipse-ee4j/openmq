@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2022, 2025 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,8 +17,9 @@
 
 package com.sun.messaging.ums.service;
 
-import com.sun.messaging.jmq.util.BASE64Decoder;
-import com.sun.messaging.jmq.util.BASE64Encoder;
+import com.sun.messaging.jmq.util.encoder.BASE64Decoder;
+import com.sun.messaging.jmq.util.encoder.BASE64Encoder;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;

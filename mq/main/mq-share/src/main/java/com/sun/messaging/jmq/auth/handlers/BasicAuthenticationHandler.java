@@ -21,7 +21,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import javax.security.auth.login.LoginException;
 import com.sun.messaging.jmq.auth.api.client.*;
-import com.sun.messaging.jmq.util.BASE64Encoder;
+import com.sun.messaging.jmq.util.encoder.BASE64Encoder;
 
 /**
  * MQ basic authentication request handler

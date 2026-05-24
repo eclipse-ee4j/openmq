@@ -25,12 +25,12 @@ import javax.security.auth.Subject;
 import javax.security.auth.Refreshable;
 import javax.security.auth.login.LoginException;
 import com.sun.messaging.jmq.auth.api.FailedLoginException;
-import com.sun.messaging.jmq.util.BASE64Decoder;
 import com.sun.messaging.jmq.auth.jaas.MQUser;
 import com.sun.messaging.jmq.auth.jaas.MQAdminGroup;
 import com.sun.messaging.jmq.auth.api.server.*;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.Globals;
+import com.sun.messaging.jmq.util.encoder.BASE64Decoder;
 import com.sun.messaging.jmq.util.log.Logger;
 
 /**
