@@ -94,7 +94,7 @@
         <spotbugs.plugin.version>4.9.8.3</spotbugs.plugin.version>
         <checkstyle.version>13.4.2</checkstyle.version>
         <maven.checkstyle.plugin.version>3.6.0</maven.checkstyle.plugin.version>
-        <surefire.failsafe.version>3.5.5</surefire.failsafe.version>
+        <surefire.failsafe.version>3.5.6</surefire.failsafe.version>
     </properties>
 
     <build>
