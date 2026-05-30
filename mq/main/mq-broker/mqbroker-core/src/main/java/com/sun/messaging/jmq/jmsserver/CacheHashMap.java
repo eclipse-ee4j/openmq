@@ -16,7 +16,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-package com.sun.messaging.jmq.util;
+package com.sun.messaging.jmq.jmsserver;
 
 import java.io.Serial;
 import java.util.LinkedHashMap;

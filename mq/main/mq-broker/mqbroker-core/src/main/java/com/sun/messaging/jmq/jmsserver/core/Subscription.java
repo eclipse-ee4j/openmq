@@ -25,6 +25,7 @@ import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.util.lists.*;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.util.selector.*;
+import com.sun.messaging.jmq.jmsserver.CacheHashMap;
 import com.sun.messaging.jmq.jmsserver.FaultInjection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.util.PartitionNotFoundException;
@@ -39,7 +40,6 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.SubscriptionSpi;
 import com.sun.messaging.jmq.jmsserver.persist.api.NoPersistPartitionedStoreImpl;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
-import com.sun.messaging.jmq.util.CacheHashMap;
 
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 

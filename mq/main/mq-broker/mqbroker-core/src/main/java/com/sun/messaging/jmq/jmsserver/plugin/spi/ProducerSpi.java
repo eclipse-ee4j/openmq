@@ -20,6 +20,7 @@ package com.sun.messaging.jmq.jmsserver.plugin.spi;
 import java.util.*;
 
 import com.sun.messaging.jmq.util.log.*;
+import com.sun.messaging.jmq.jmsserver.CacheHashMap;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.io.PacketType;
 import com.sun.messaging.jmq.io.Packet;
@@ -28,7 +29,6 @@ import com.sun.messaging.jmq.jmsserver.core.ProducerUID;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
-import com.sun.messaging.jmq.util.CacheHashMap;
 
 @SuppressWarnings({"JdkObsolete", "ForEachIterable"})
 public abstract class ProducerSpi {
