@@ -52,23 +52,25 @@ public class ToTxnLogConverter {
         while (txIter.hasNext()) {
             TransactionInformation txnInfo = txIter.next();
             int type = txnInfo.getType();
-            LocalTxnConverter localConverter = new LocalTxnConverter(transactionList, store);
-            ClusterTxnConverter clusterConverter = new ClusterTxnConverter(transactionList, store);
-            RemoteTxnConverter remoteConverter = new RemoteTxnConverter(transactionList, store);
+            TxnConverter converter;
             switch (type) {
             case TransactionInfo.TXN_LOCAL:
-                localConverter.convert(txnInfo);
+                converter = new LocalTxnConverter(transactionList, store);
                 break;
             case TransactionInfo.TXN_CLUSTER:
-                clusterConverter.convert(txnInfo);
+                converter = new ClusterTxnConverter(transactionList, store);
                 break;
             case TransactionInfo.TXN_REMOTE:
-                remoteConverter.convert(txnInfo);
+                converter = new RemoteTxnConverter(transactionList, store);
                 break;
             default: {
+                converter = null;
                 String msg = getPrefix() + "convertToTxnLogFormat: unknown transaction type " + type + " for " + txnInfo;
                 logger.log(Logger.ERROR, msg);
             }
+            }
+            if (converter != null) {
+                converter.convert(txnInfo);
             }
 
         }
