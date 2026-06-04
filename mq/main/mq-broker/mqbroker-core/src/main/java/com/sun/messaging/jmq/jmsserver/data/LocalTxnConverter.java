@@ -32,6 +32,7 @@ class LocalTxnConverter extends TxnConverter {
         return Thread.currentThread() + " ToTxnLogConverter.LocalTxnConverter.";
     }
 
+    @Override
     void convert(TransactionInformation txnInfo) throws BrokerException {
         if (ToTxnLogConverter.DEBUG) {
             logger.log(Logger.DEBUG, getPrefix() + " convertLocalToTxnLogFormat " + txnInfo);

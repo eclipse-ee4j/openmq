@@ -39,6 +39,7 @@ class RemoteTxnConverter extends TxnConverter {
         return Thread.currentThread() + " ToTxnLogConverter.RemoteTxnConverter.";
     }
 
+    @Override
     void convert(TransactionInformation txnInfo) throws BrokerException {
         if (ToTxnLogConverter.DEBUG) {
             logger.log(Logger.DEBUG, getPrefix() + " convert " + txnInfo);

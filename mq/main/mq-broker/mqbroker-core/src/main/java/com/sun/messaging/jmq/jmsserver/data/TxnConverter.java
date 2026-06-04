@@ -35,7 +35,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.log.Logger;
 
 @SuppressWarnings({"ForEachIterable"})
-class TxnConverter {
+abstract class TxnConverter {
     TransactionList transactionList;
     TxnLoggingStore store;
     static Logger logger = Globals.getLogger();
@@ -46,9 +46,9 @@ class TxnConverter {
         this.store = store;
     }
 
-    String getPrefix() {
-        return Thread.currentThread() + " ToTxnLogConverter.TxnConverter.";
-    }
+    abstract String getPrefix();
+
+    abstract void convert(TransactionInformation txnInfo) throws BrokerException;
 
     void getSentMessages(TransactionInformation txnInfo, TransactionWork txnWork) throws BrokerException {
         // get messages for this txn
