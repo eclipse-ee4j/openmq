@@ -28,7 +28,7 @@ class ClusterTxnConverter extends TxnConverter {
 
     @Override
     String getPrefix() {
-        return Thread.currentThread() + " ToTxnLogConverter.ClusterTxnConverter.";
+        return Thread.currentThread() + " ClusterTxnConverter.";
     }
 
     @Override

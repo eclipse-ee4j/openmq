@@ -36,7 +36,7 @@ class RemoteTxnConverter extends TxnConverter {
 
     @Override
     String getPrefix() {
-        return Thread.currentThread() + " ToTxnLogConverter.RemoteTxnConverter.";
+        return Thread.currentThread() + " RemoteTxnConverter.";
     }
 
     @Override

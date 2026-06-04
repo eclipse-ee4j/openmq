@@ -29,7 +29,7 @@ class LocalTxnConverter extends TxnConverter {
 
     @Override
     String getPrefix() {
-        return Thread.currentThread() + " ToTxnLogConverter.LocalTxnConverter.";
+        return Thread.currentThread() + " LocalTxnConverter.";
     }
 
     @Override
