@@ -2,8 +2,7 @@
 <!--
 
     Copyright (c) 2012, 2020 Oracle and/or its affiliates. All rights reserved.
-    Copyright (c) 2020 Payara Services Ltd.
-    Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
+    Copyright (c) 2021 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,62 +23,31 @@
 
     <parent>
         <groupId>org.glassfish.mq</groupId>
-        <artifactId>bridge</artifactId>
+        <artifactId>mq</artifactId>
         <version>6.10.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>mqbridge-admin</artifactId>
+    <artifactId>mqadmin-utils</artifactId>
 
-    <name>MQ Bridge Admin</name>
+    <name>MQ Admin Utils</name>
 
     <properties>
-        <ws.binary.share.dir>../../../binary/share</ws.binary.share.dir>
+        <ws.binary.share.dir>../../binary/share</ws.binary.share.dir>
+        <findbugs.exclude>${project.basedir}/exclude.xml</findbugs.exclude>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.glassfish.hk2</groupId>
-            <artifactId>hk2-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.hk2</groupId>
-            <artifactId>hk2-runlevel</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.jms</groupId>
-            <artifactId>jakarta.jms-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqbridge-api</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.glassfish.mq</groupId>
             <artifactId>mq-client</artifactId>
         </dependency>
         <dependency>
             <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqadmin-utils</artifactId>
+            <artifactId>mqadmin-resources</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqadmin-cli</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.inject</groupId>
-            <artifactId>jakarta.inject-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqcomm-io</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqcomm-util</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqcomm-options</artifactId>
+            <groupId>jakarta.jms</groupId>
+            <artifactId>jakarta.jms-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.glassfish.mq</groupId>
@@ -98,8 +66,7 @@
                             <target>
                                 <echo level="info" message="Make directory ${ws.binary.share.dir}/opt" />
                                 <mkdir dir="${ws.binary.share.dir}/opt/classes" />
-                                <echo
-                                    level="info" message="Copy ${project.build.outputDirectory} to ${ws.binary.share.dir}/opt/classes" />
+                                <echo level="info" message="Copy ${project.build.outputDirectory} to ${ws.binary.share.dir}/opt/classes" />
                                 <copy todir="${ws.binary.share.dir}/opt/classes/">
                                     <fileset dir="${project.build.outputDirectory}/" />
                                 </copy>
@@ -111,7 +78,6 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
     </build>
 
@@ -119,7 +85,7 @@
         <profile>
             <id>cpd</id>
             <properties>
-                <minimumTokens>186</minimumTokens>
+                <minimumTokens>32</minimumTokens>
             </properties>
         </profile>
     </profiles>
