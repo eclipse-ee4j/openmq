@@ -316,6 +316,11 @@
             </dependency>
             <dependency>
                 <groupId>org.glassfish.mq</groupId>
+                <artifactId>mqadmin-resources</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.mq</groupId>
                 <artifactId>mqadmin-cli</artifactId>
                 <version>${project.version}</version>
             </dependency>

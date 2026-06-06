@@ -27,9 +27,9 @@
         <version>6.10.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>mqadmin-cli</artifactId>
+    <artifactId>mqadmin-resources</artifactId>
 
-    <name>MQ Admin CLI</name>
+    <name>MQ Admin Resources</name>
 
     <properties>
         <ws.binary.share.dir>../../../binary/share</ws.binary.share.dir>
@@ -40,38 +40,6 @@
         <dependency>
             <groupId>org.glassfish.mq</groupId>
             <artifactId>mqcomm-util</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqcomm-options</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqcomm-io</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mq-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqadmin-resources</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.jms</groupId>
-            <artifactId>jakarta.jms-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqcomm-selector</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqjmx-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mq-share</artifactId>
         </dependency>
     </dependencies>
 
@@ -98,7 +66,6 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
     </build>
 
@@ -106,7 +73,7 @@
         <profile>
             <id>cpd</id>
             <properties>
-                <minimumTokens>256</minimumTokens>
+                <minimumTokens>39</minimumTokens>
             </properties>
         </profile>
     </profiles>

@@ -32,6 +32,7 @@
     <name>MQ Admin</name>
 
     <modules>
+        <module>mqadmin-resources</module>
         <module>mqadmin-cli</module>
         <module>mqadmin-gui</module>
     </modules>

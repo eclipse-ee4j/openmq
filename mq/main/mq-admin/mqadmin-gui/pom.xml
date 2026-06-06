@@ -46,6 +46,10 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqadmin-resources</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
             <artifactId>mqadmin-cli</artifactId>
         </dependency>
         <dependency>
