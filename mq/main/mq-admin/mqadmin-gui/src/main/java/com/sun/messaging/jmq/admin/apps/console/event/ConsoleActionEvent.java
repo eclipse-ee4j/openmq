@@ -38,15 +38,6 @@ public class ConsoleActionEvent extends AdminEvent {
     public static final int REFRESH = 5;
 
     /**
-     * Creates an instance of ConsoleActionEvent
-     *
-     * @param source the object where the event originated
-     */
-    public ConsoleActionEvent(Object source) {
-        super(source);
-    }
-
-    /**
      * Creates an instance of ConsoleActionEvent of the specified type.
      *
      * @param source the object where the event originated
