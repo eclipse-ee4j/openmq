@@ -53,6 +53,7 @@
         <module>mq-broker</module>
         <module>mq-client</module>
         <module>mqadmin-utils</module>
+        <module>mqadmin-commons</module>
         <module>mq-admin</module>
         <module>helpfiles</module>
         <module>mq-packager-opensource</module>
@@ -323,6 +324,11 @@
             <dependency>
                 <groupId>org.glassfish.mq</groupId>
                 <artifactId>mqadmin-utils</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.mq</groupId>
+                <artifactId>mqadmin-commons</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

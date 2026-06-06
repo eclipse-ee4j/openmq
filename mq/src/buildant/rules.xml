@@ -258,6 +258,7 @@
 	    <path location="${ws.top.dir}/main/bridge/mqbridge-stomp/src/main/java"/>
 	    <path location="${ws.top.dir}/main/jmsra/mqjmsra-api/src/main/java"/>
 	    <path location="${ws.top.dir}/main/mqadmin-utils/src/main/java"/>
+	    <path location="${ws.top.dir}/main/mqadmin-commons/src/main/java"/>
 	    <path location="${ws.top.dir}/main/mq-admin/mqadmin-resources/src/main/java"/>
 	    <path location="${ws.top.dir}/main/mq-admin/mqadmin-cli/src/main/java"/>
 	    <path location="${ws.top.dir}/main/mq-admin/mqadmin-gui/src/main/java"/>

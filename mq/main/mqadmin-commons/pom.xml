@@ -23,16 +23,16 @@
 
     <parent>
         <groupId>org.glassfish.mq</groupId>
-        <artifactId>mq-admin</artifactId>
+        <artifactId>mq</artifactId>
         <version>6.10.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>mqadmin-cli</artifactId>
+    <artifactId>mqadmin-commons</artifactId>
 
-    <name>MQ Admin CLI</name>
+    <name>MQ Admin Commons</name>
 
     <properties>
-        <ws.binary.share.dir>../../../binary/share</ws.binary.share.dir>
+        <ws.binary.share.dir>../../binary/share</ws.binary.share.dir>
         <findbugs.exclude>${project.basedir}/exclude.xml</findbugs.exclude>
     </properties>
 
@@ -40,10 +40,6 @@
         <dependency>
             <groupId>org.glassfish.mq</groupId>
             <artifactId>mqcomm-util</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqcomm-options</artifactId>
         </dependency>
         <dependency>
             <groupId>org.glassfish.mq</groupId>
@@ -62,20 +58,8 @@
             <artifactId>mqadmin-utils</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqadmin-commons</artifactId>
-        </dependency>
-        <dependency>
             <groupId>jakarta.jms</groupId>
             <artifactId>jakarta.jms-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqcomm-selector</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqjmx-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.glassfish.mq</groupId>
@@ -106,7 +90,6 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
     </build>
 
@@ -114,7 +97,7 @@
         <profile>
             <id>cpd</id>
             <properties>
-                <minimumTokens>256</minimumTokens>
+                <minimumTokens>96</minimumTokens>
             </properties>
         </profile>
     </profiles>
