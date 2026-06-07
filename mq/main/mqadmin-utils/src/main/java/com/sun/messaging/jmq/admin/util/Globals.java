@@ -31,7 +31,7 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  * <P>
  */
 
-public class Globals extends CommonGlobals {
+public final class Globals {
     private static final Object lock = Globals.class;
 
     private static AdminResources ar = null;
