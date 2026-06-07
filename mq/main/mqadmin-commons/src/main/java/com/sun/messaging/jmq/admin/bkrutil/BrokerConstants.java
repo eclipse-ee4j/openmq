@@ -37,9 +37,6 @@ public interface BrokerConstants {
     String PROP_NAME_BKR_LOG_LEVEL = ".level";
     String PROP_NAME_BKR_LOG_ROLL_SIZE = "java.util.logging.FileHandler.limit";
     String PROP_NAME_BKR_LOG_ROLL_INTERVAL = "imq.log.file.rolloversecs";
-    /*
-     * public static String PROP_NAME_BKR_METRIC_INTERVAL = "imq.metrics.interval";
-     */
     String PROP_NAME_BKR_MAX_MSG = "imq.system.max_count";
     String PROP_NAME_BKR_MAX_TTL_MSG_BYTES = "imq.system.max_size";
     String PROP_NAME_BKR_MAX_MSG_BYTES = "imq.message.max_size";
@@ -64,7 +61,6 @@ public interface BrokerConstants {
     String PROP_NAME_BKR_AUTOCREATE_DESTINATION_USE_DMQ = "imq.autocreate.destination.useDMQ";
     String PROP_NAME_BKR_IS_EMBEDDED = "imq.embedded";
     String PROP_NAME_BKR_VARHOME = "imq.varhome";
-    String PROP_NAME_BKR_LICENSE_DESC = "imq.license.description";
     String PROP_NAME_DMQ_CUR_MSG = "imq.dmq.current_count";
     String PROP_NAME_DMQ_CUR_TTL_MSG_BYTES = "imq.dmq.current_size";
 
@@ -108,13 +104,6 @@ public interface BrokerConstants {
     List<String> BKR_LOG_LEVEL_VALID_VALUES = List.of("NONE", "ERROR", "WARNING", "INFO");
 
     /*
-     * Queue flavour property names, as expected by the broker
-     */
-    String PROP_NAME_QUEUE_FLAVOUR_SINGLE = "single";
-    String PROP_NAME_QUEUE_FLAVOUR_FAILOVER = "failover";
-    String PROP_NAME_QUEUE_FLAVOUR_ROUNDROBIN = "round-robin";
-
-    /*
      * Valid values for broker log level. Note: Indices for the strings below need to match the array contents.
      */
     List<String> BKR_LIMIT_BEHAV_VALID_VALUES = List.of("FLOW_CONTROL", "REMOVE_OLDEST", "REJECT_NEWEST", "REMOVE_LOW_PRIORITY");
@@ -129,6 +118,5 @@ public interface BrokerConstants {
     int TXN_LOCAL = 0;
     int TXN_CLUSTER = 1;
     int TXN_REMOTE = 2;
-    int TXN_UNKNOWN = -1;
 
 }
