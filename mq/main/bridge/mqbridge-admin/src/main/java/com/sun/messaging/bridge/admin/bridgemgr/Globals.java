@@ -18,14 +18,13 @@
 package com.sun.messaging.bridge.admin.bridgemgr;
 
 import java.util.Locale;
-import com.sun.messaging.jmq.admin.util.CommonGlobals;
 import com.sun.messaging.bridge.admin.bridgemgr.resources.BridgeAdminResources;
 
 /**
  * singleton class which contains globals for bridge admin
  */
 
-final class Globals extends CommonGlobals {
+final class Globals {
     private static BridgeAdminResources bar = null;
 
     private Globals() {
