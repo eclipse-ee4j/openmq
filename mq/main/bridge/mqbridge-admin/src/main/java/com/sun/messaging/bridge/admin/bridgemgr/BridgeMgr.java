@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,6 +22,7 @@ import java.util.Enumeration;
 
 import com.sun.messaging.jmq.util.options.OptionException;
 import com.sun.messaging.jmq.admin.apps.broker.CommonCmdRunnerUtil;
+import com.sun.messaging.jmq.admin.util.CommonGlobals;
 import com.sun.messaging.bridge.admin.bridgemgr.resources.BridgeAdminResources;
 
 /**
@@ -34,7 +35,7 @@ public class BridgeMgr implements BridgeMgrOptions {
 
     public static void main(String[] args) {
         if (silentModeOptionSpecified(args)) {
-            Globals.setSilentMode(true);
+            CommonGlobals.setSilentMode(true);
         }
 
         /*
@@ -89,14 +90,14 @@ public class BridgeMgr implements BridgeMgrOptions {
                 String name = (String) e.nextElement(), value = sysProps.getProperty(name);
 
                 if (bridgeMgrProps.adminDebugModeSet()) {
-                    Globals.stdOutPrintln("Setting system property: " + name + "=" + value);
+                    CommonGlobals.stdOutPrintln("Setting system property: " + name + "=" + value);
                 }
 
                 try {
                     System.setProperty(name, value);
                 } catch (Exception ex) {
-                    Globals.stdErrPrintln("Failed to set system property: " + name + "=" + value);
-                    Globals.stdErrPrintln(ex.toString());
+                    CommonGlobals.stdErrPrintln("Failed to set system property: " + name + "=" + value);
+                    CommonGlobals.stdErrPrintln(ex.toString());
                 }
             }
         }
@@ -119,20 +120,20 @@ public class BridgeMgr implements BridgeMgrOptions {
 
         if (bridgeMgrProps.debugModeSet() || bridgeMgrProps.noCheckModeSet()) {
             if (bridgeMgrProps.adminDebugModeSet()) {
-                Globals.stdOutPrintln("Option checking turned off.");
+                CommonGlobals.stdOutPrintln("Option checking turned off.");
             }
             return;
         }
 
         if (bridgeMgrProps.adminDebugModeSet()) {
-            Globals.stdErrPrintln("BridgeMgrProperties dump:");
+            CommonGlobals.stdErrPrintln("BridgeMgrProperties dump:");
             bridgeMgrProps.list(System.err);
-            Globals.stdErrPrintln("-------------\n");
-            Globals.stdErrPrintln("Command: " + bridgeMgrProps.getCommand());
-            Globals.stdErrPrintln("Command Argument: " + bridgeMgrProps.getCommandArg());
-            Globals.stdErrPrintln("Broker Host/Port: " + bridgeMgrProps.getBrokerHostPort());
-            Globals.stdErrPrintln("Admin User ID: " + bridgeMgrProps.getAdminUserId());
-            Globals.stdErrPrintln("Admin User Password: " + bridgeMgrProps.getAdminPasswd());
+            CommonGlobals.stdErrPrintln("-------------\n");
+            CommonGlobals.stdErrPrintln("Command: " + bridgeMgrProps.getCommand());
+            CommonGlobals.stdErrPrintln("Command Argument: " + bridgeMgrProps.getCommandArg());
+            CommonGlobals.stdErrPrintln("Broker Host/Port: " + bridgeMgrProps.getBrokerHostPort());
+            CommonGlobals.stdErrPrintln("Admin User ID: " + bridgeMgrProps.getAdminUserId());
+            CommonGlobals.stdErrPrintln("Admin User Password: " + bridgeMgrProps.getAdminPasswd());
         }
 
         String cmd = bridgeMgrProps.getCommand();
@@ -426,15 +427,15 @@ public class BridgeMgr implements BridgeMgrOptions {
 
         switch (type) {
         case BridgeMgrException.BRIDGE_NAME_NOT_SPEC:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_BRIDGE_NAME_NOT_SPEC, Option.BRIDGE_NAME));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_BRIDGE_NAME_NOT_SPEC, Option.BRIDGE_NAME));
             break;
 
         case BridgeMgrException.LINK_NAME_NOT_SPEC:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_LINK_NAME_NOT_SPEC, Option.LINK_NAME));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_LINK_NAME_NOT_SPEC, Option.LINK_NAME));
             break;
 
         case BridgeMgrException.LINK_OPTION_NOT_ALLOWED_FOR_CMDARG:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_OPTION_NOT_ALLOWED_FOR_CMDARG, Option.LINK_NAME, cmd + " " + cmdArg));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_OPTION_NOT_ALLOWED_FOR_CMDARG, Option.LINK_NAME, cmd + " " + cmdArg));
             break;
 
         default:

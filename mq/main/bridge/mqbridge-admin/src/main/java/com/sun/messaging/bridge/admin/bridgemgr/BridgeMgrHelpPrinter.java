@@ -18,6 +18,7 @@
 package com.sun.messaging.bridge.admin.bridgemgr;
 
 import com.sun.messaging.jmq.admin.apps.broker.CommonHelpPrinter;
+import com.sun.messaging.jmq.admin.util.CommonGlobals;
 import com.sun.messaging.bridge.admin.bridgemgr.resources.BridgeAdminResources;
 
 /**
@@ -52,33 +53,33 @@ public class BridgeMgrHelpPrinter implements CommonHelpPrinter, BridgeMgrOptions
     }
 
     private void printUsage() {
-        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_USAGE));
+        CommonGlobals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_USAGE));
     }
 
     private void printSubcommands() {
-        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_SUBCOMMANDS));
+        CommonGlobals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_SUBCOMMANDS));
     }
 
     private void printOptions() {
-        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_OPTIONS));
+        CommonGlobals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_OPTIONS));
     }
 
     private void printExamples() {
-        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES1));
-        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES2));
-        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES3));
-        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES4));
-        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES5));
-        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES6));
-        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES7));
-        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES8));
-        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES9));
-        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES10));
-        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES11));
-        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES12));
-        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES13));
-        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES14));
-        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES15));
-        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES16));
+        CommonGlobals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES1));
+        CommonGlobals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES2));
+        CommonGlobals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES3));
+        CommonGlobals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES4));
+        CommonGlobals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES5));
+        CommonGlobals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES6));
+        CommonGlobals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES7));
+        CommonGlobals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES8));
+        CommonGlobals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES9));
+        CommonGlobals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES10));
+        CommonGlobals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES11));
+        CommonGlobals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES12));
+        CommonGlobals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES13));
+        CommonGlobals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES14));
+        CommonGlobals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES15));
+        CommonGlobals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_EXAMPLES16));
     }
 }

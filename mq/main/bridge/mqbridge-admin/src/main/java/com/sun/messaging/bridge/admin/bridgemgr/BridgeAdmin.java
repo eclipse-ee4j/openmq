@@ -27,6 +27,7 @@ import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdminConn;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdminException;
 import com.sun.messaging.jmq.admin.event.CommonCmdStatusEvent;
+import com.sun.messaging.jmq.admin.util.CommonGlobals;
 import com.sun.messaging.bridge.admin.util.AdminMessageType;
 import com.sun.messaging.bridge.api.BridgeCmdSharedReplyData;
 
@@ -140,7 +141,7 @@ class BridgeAdmin extends BrokerAdminConn {
     public void sendHelloMessage() throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendHelloMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendHelloMessage *****");
         }
 
         checkIfBusy();
@@ -154,7 +155,7 @@ class BridgeAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(AdminMessageType.Type.HELLO, "HELLO");
-                Globals.stdOutPrintln("\t" + AdminMessageType.PropName.PROTOCOL_LEVEL + "=" + 440);
+                CommonGlobals.stdOutPrintln("\t" + AdminMessageType.PropName.PROTOCOL_LEVEL + "=" + 440);
             }
             sender.send(mesg);
 
@@ -167,7 +168,7 @@ class BridgeAdmin extends BrokerAdminConn {
     public void receiveHelloReplyMessage() throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveHelloReplyMessage() *****");
+            CommonGlobals.stdOutPrintln("***** receiveHelloReplyMessage() *****");
         }
 
         Message mesg = null;
@@ -180,16 +181,16 @@ class BridgeAdmin extends BrokerAdminConn {
             TemporaryQueue replyTo = (TemporaryQueue) mesg.getJMSReplyTo();
             if (replyTo == null) {
                 // no need to I18N - internal programming error
-                Globals.stdErrPrintln("HELLO_REPLY protocol error: no JMSReplyTo");
+                CommonGlobals.stdErrPrintln("HELLO_REPLY protocol error: no JMSReplyTo");
                 throw new BrokerAdminException(BrokerAdminException.MSG_REPLY_ERROR);
             }
             if (getDebug()) {
-                Globals.stdOutPrintln("*****Got replyQueue from broker: " + replyTo);
+                CommonGlobals.stdOutPrintln("*****Got replyQueue from broker: " + replyTo);
             }
             _sender = session.createSender(replyTo);
             _sender.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
             if (getDebug()) {
-                Globals.stdOutPrintln("***** Created a _sender: " + _sender);
+                CommonGlobals.stdOutPrintln("***** Created a _sender: " + _sender);
             }
 
             isConnected = true;
@@ -208,7 +209,7 @@ class BridgeAdmin extends BrokerAdminConn {
             int replyType, String replyTypeString, boolean debugMode) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** send " + msgType + " Message *****");
+            CommonGlobals.stdOutPrintln("***** send " + msgType + " Message *****");
         }
 
         checkIfBusy();
@@ -239,9 +240,9 @@ class BridgeAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(msgType, msgTypeString);
-                Globals.stdOutPrintln("\t" + AdminMessageType.PropName.BRIDGE_NAME + "=" + bridgeName);
-                Globals.stdOutPrintln("\t" + AdminMessageType.PropName.BRIDGE_TYPE + "=" + bridgeType);
-                Globals.stdOutPrintln("\t" + AdminMessageType.PropName.LINK_NAME + "=" + linkName);
+                CommonGlobals.stdOutPrintln("\t" + AdminMessageType.PropName.BRIDGE_NAME + "=" + bridgeName);
+                CommonGlobals.stdOutPrintln("\t" + AdminMessageType.PropName.BRIDGE_TYPE + "=" + bridgeType);
+                CommonGlobals.stdOutPrintln("\t" + AdminMessageType.PropName.LINK_NAME + "=" + linkName);
 
             }
             _sender.send(mesg);
@@ -253,7 +254,7 @@ class BridgeAdmin extends BrokerAdminConn {
     public boolean receiveCommandReplyMessage(int replyType, String replyTypeString) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receive " + replyTypeString + " Message() *****");
+            CommonGlobals.stdOutPrintln("***** receive " + replyTypeString + " Message() *****");
         }
 
         Message mesg = null;
@@ -281,7 +282,7 @@ class BridgeAdmin extends BrokerAdminConn {
     public ArrayList<BridgeCmdSharedReplyData> receiveListReplyMessage(boolean waitForResponse) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveListReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveListReplyMessage *****");
         }
 
         ObjectMessage mesg = null;
@@ -292,7 +293,7 @@ class BridgeAdmin extends BrokerAdminConn {
             checkReplyTypeStatus(mesg, AdminMessageType.Type.LIST_REPLY, "LIST_REPLY");
 
             if (getDebug()) {
-                Globals.stdErrPrintln("Received list reply: " + mesg);
+                CommonGlobals.stdErrPrintln("Received list reply: " + mesg);
             }
 
             Object obj;
@@ -303,7 +304,7 @@ class BridgeAdmin extends BrokerAdminConn {
             }
 
             if (getDebug()) {
-                Globals.stdErrPrintln("Unexpected reply from broker: " + obj);
+                CommonGlobals.stdErrPrintln("Unexpected reply from broker: " + obj);
             }
 
             throw new RuntimeException("Unexpected reply type " + obj + " for LIST");
@@ -318,7 +319,7 @@ class BridgeAdmin extends BrokerAdminConn {
     public void sendDebugMessage(String debugArg, String targetName, Properties props) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** send debug " + debugArg + " Message *****");
+            CommonGlobals.stdOutPrintln("***** send debug " + debugArg + " Message *****");
         }
 
         checkIfBusy();
@@ -346,8 +347,8 @@ class BridgeAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(AdminMessageType.Type.DEBUG, "DEBUG");
-                Globals.stdOutPrintln("\t" + AdminMessageType.PropName.CMD_ARG + "=" + debugArg);
-                Globals.stdOutPrintln("\t" + AdminMessageType.PropName.TARGET + "=" + targetName);
+                CommonGlobals.stdOutPrintln("\t" + AdminMessageType.PropName.CMD_ARG + "=" + debugArg);
+                CommonGlobals.stdOutPrintln("\t" + AdminMessageType.PropName.TARGET + "=" + targetName);
             }
             _sender.send(mesg);
         } catch (Exception e) {
@@ -362,7 +363,7 @@ class BridgeAdmin extends BrokerAdminConn {
     public Hashtable receiveDebugReplyMessage(boolean waitForResponse) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveDebugReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveDebugReplyMessage *****");
         }
 
         ObjectMessage mesg = null;
@@ -389,7 +390,7 @@ class BridgeAdmin extends BrokerAdminConn {
     }
 
     private static void printMsgType(int msgType, String msgTypeString) {
-        Globals.stdOutPrintln("\t" + AdminMessageType.PropName.MESSAGE_TYPE + "=" + msgType + "(" + msgTypeString + ")");
+        CommonGlobals.stdOutPrintln("\t" + AdminMessageType.PropName.MESSAGE_TYPE + "=" + msgType + "(" + msgTypeString + ")");
     }
 
 }
