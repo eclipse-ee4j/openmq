@@ -25,7 +25,7 @@ import com.sun.messaging.bridge.admin.bridgemgr.resources.BridgeAdminResources;
  * singleton class which contains globals for bridge admin
  */
 
-public class Globals extends CommonGlobals {
+final class Globals extends CommonGlobals {
     private static BridgeAdminResources bar = null;
 
     private Globals() {
