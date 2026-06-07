@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -76,8 +76,6 @@ public final class Globals extends CommGlobals {
      * the thread pool OutOfMemory Error handler (if any)
      */
     private static GlobalErrorHandler errhandler = null;
-
-    private static volatile Globals globals = null;
 
     private static Protocol protocol = null;
 
@@ -157,7 +155,6 @@ public final class Globals extends CommGlobals {
         clusterConfig = null;
         coreLifecycle = null;
         corePlugins.clear();
-        globals = null;
 
         myaddr = null;
         version = null;
@@ -310,17 +307,6 @@ public final class Globals extends CommGlobals {
 
     public static boolean bridgeEnabled() {
         return BridgeBaseContextAdapter.bridgeEnabled();
-    }
-
-    public static Globals getGlobals() {
-        if (globals == null) {
-            synchronized (lock) {
-                if (globals == null) {
-                    globals = new Globals();
-                }
-            }
-        }
-        return globals;
     }
 
     public static MQTimer getTimer() {
