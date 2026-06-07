@@ -37,24 +37,11 @@ public class Globals extends CommonGlobals {
     private static AdminResources ar = null;
     private static AdminConsoleResources acr = null;
 
-    private static Globals globals = null;
-
     // ------------------------------------------------------------------------
     // -- static brokerConfig objects --
     // ------------------------------------------------------------------------
 
     private Globals() {
-    }
-
-    public static Globals getGlobals() {
-        if (globals == null) {
-            synchronized (lock) {
-                if (globals == null) {
-                    globals = new Globals();
-                }
-            }
-        }
-        return globals;
     }
 
     public static AdminResources getAdminResources() {

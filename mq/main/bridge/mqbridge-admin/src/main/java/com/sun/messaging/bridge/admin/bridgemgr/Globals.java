@@ -26,18 +26,9 @@ import com.sun.messaging.bridge.admin.bridgemgr.resources.BridgeAdminResources;
  */
 
 public class Globals extends CommonGlobals {
-    private static Globals globals = null;
-
     private static BridgeAdminResources bar = null;
 
     private Globals() {
-    }
-
-    public static synchronized Globals getGlobals() {
-        if (globals == null) {
-            globals = new Globals();
-        }
-        return globals;
     }
 
     public static synchronized BridgeAdminResources getBridgeAdminResources() {
