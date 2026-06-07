@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,7 +27,7 @@ import com.sun.messaging.jmq.util.options.InvalidBasePropNameException;
 import com.sun.messaging.jmq.util.options.InvalidHardCodedValueException;
 import com.sun.messaging.jmq.util.options.MissingArgException;
 import com.sun.messaging.jmq.util.options.BadNameValueArgException;
-
+import com.sun.messaging.jmq.admin.util.CommonGlobals;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminResources;
 
@@ -41,7 +41,7 @@ import com.sun.messaging.jmq.admin.resources.AdminResources;
  * <LI>Query and display an administration object
  * <LI>List all administration objects
  * </OL>
- * 
+ *
  * The user will execute this utility by running a imqobjmgr script.
  *
  */
@@ -57,7 +57,7 @@ public class ObjMgr implements ObjMgrOptions {
         int exitcode = 0;
 
         if (silentModeOptionSpecified(args)) {
-            Globals.setSilentMode(true);
+            CommonGlobals.setSilentMode(true);
         }
 
         /*
@@ -104,7 +104,7 @@ public class ObjMgr implements ObjMgrOptions {
                 tmpProps.load(fis);
 
             } catch (IOException ioe) {
-                Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_PROB_LOADING_PROP_FILE), false);
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_PROB_LOADING_PROP_FILE), false);
                 System.err.println(ioe);
                 System.exit(1);
             }
@@ -119,7 +119,7 @@ public class ObjMgr implements ObjMgrOptions {
                 try {
                     checkVersion(propFileName, v, VERSION, FIRST_VERSION);
                 } catch (ObjMgrException ome) {
-                    Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ome.getMessage(), false);
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ome.getMessage(), false);
                     // System.err.println(ome);
                     System.exit(1);
                 }
@@ -131,7 +131,7 @@ public class ObjMgr implements ObjMgrOptions {
             for (Enumeration e = objMgrProps.propertyNames(); e.hasMoreElements();) {
                 String propName = (String) e.nextElement(), propVal;
                 /*
-                 * Globals.stdErrPrintln("Override propname: " + propName);
+                 * CommonGlobals.stdErrPrintln("Override propname: " + propName);
                  */
 
                 if (propName == null) {
@@ -190,20 +190,20 @@ public class ObjMgr implements ObjMgrOptions {
     private static void checkOptions(ObjMgrProperties objMgrProps) throws ObjMgrException {
 
         /*
-         * Globals.stdErrPrintln("ObjMgrProperties dump:"); objMgrProps.list(System.err);
-         * Globals.stdErrPrintln("-------------\n");
-         * 
+         * CommonGlobals.stdErrPrintln("ObjMgrProperties dump:"); objMgrProps.list(System.err);
+         * CommonGlobals.stdErrPrintln("-------------\n");
+         *
          * String objType = objMgrProps.getObjType(); Properties props = objMgrProps.getObjProperties(); ObjStoreAttrs osa =
          * objMgrProps.getObjStoreAttrs();
-         * 
-         * Globals.stdErrPrintln("Obj Type: " + objType); Globals.stdErrPrintln("");
-         * Globals.stdErrPrintln("objMgrProps.forceModeSet(): " + objMgrProps.forceModeSet());
-         * Globals.stdErrPrintln("objMgrProps.previewModeSet(): " + objMgrProps.previewModeSet());
-         * Globals.stdErrPrintln("objMgrProps.getInputFileName(): " + objMgrProps.getInputFileName());
-         * 
-         * Globals.stdErrPrintln("ObjProps:"); props.list(System.err); Globals.stdErrPrintln("");
-         * 
-         * Globals.stdErrPrintln("ObjStoreAttrs:\n " + osa); Globals.stdErrPrintln("");
+         *
+         * CommonGlobals.stdErrPrintln("Obj Type: " + objType); CommonGlobals.stdErrPrintln("");
+         * CommonGlobals.stdErrPrintln("objMgrProps.forceModeSet(): " + objMgrProps.forceModeSet());
+         * CommonGlobals.stdErrPrintln("objMgrProps.previewModeSet(): " + objMgrProps.previewModeSet());
+         * CommonGlobals.stdErrPrintln("objMgrProps.getInputFileName(): " + objMgrProps.getInputFileName());
+         *
+         * CommonGlobals.stdErrPrintln("ObjProps:"); props.list(System.err); CommonGlobals.stdErrPrintln("");
+         *
+         * CommonGlobals.stdErrPrintln("ObjStoreAttrs:\n " + osa); CommonGlobals.stdErrPrintln("");
          */
 
         String cmd = objMgrProps.getCommand();
@@ -406,7 +406,7 @@ public class ObjMgr implements ObjMgrOptions {
     }
 
     /*
-     * private static void previewCommands(ObjMgrProperties objMgrProps) { Globals.stdOutPrintln("Preview mode", true); }
+     * private static void previewCommands(ObjMgrProperties objMgrProps) { CommonGlobals.stdOutPrintln("Preview mode", true); }
      */
 
     /**
@@ -415,7 +415,7 @@ public class ObjMgr implements ObjMgrOptions {
     private static void printBanner() {
 
         Version version = new Version(false);
-        Globals.stdOutPrintln(version.getBanner(false));
+        CommonGlobals.stdOutPrintln(version.getBanner(false));
     }
 
     /*
@@ -473,10 +473,10 @@ public class ObjMgr implements ObjMgrOptions {
     private static void printVersion() {
 
         Version version = new Version(false);
-        Globals.stdOutPrintln(version.getVersion());
-        Globals.stdOutPrintln(ar.getString(ar.I_JAVA_VERSION) + System.getProperty("java.version") + " " + System.getProperty("java.vendor") + " "
+        CommonGlobals.stdOutPrintln(version.getVersion());
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JAVA_VERSION) + System.getProperty("java.version") + " " + System.getProperty("java.vendor") + " "
                 + System.getProperty("java.home"));
-        Globals.stdOutPrintln(ar.getString(ar.I_JAVA_CLASSPATH) + System.getProperty("java.class.path"));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JAVA_CLASSPATH) + System.getProperty("java.class.path"));
     }
 
     /*
@@ -487,29 +487,29 @@ public class ObjMgr implements ObjMgrOptions {
         String option = e.getOption();
 
         if (e instanceof UnrecognizedOptionException) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_UNRECOG_OPTION, option, "imqobjmgr"), true);
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_UNRECOG_OPTION, option, "imqobjmgr"), true);
 
         } else if (e instanceof InvalidBasePropNameException) {
-            Globals.stdErrPrintln(ar.getString(ar.I_INTERNAL_ERROR_MESG), ar.getKString(ar.E_INVALID_BASE_PROPNAME, option), true);
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_INTERNAL_ERROR_MESG), ar.getKString(ar.E_INVALID_BASE_PROPNAME, option), true);
 
         } else if (e instanceof InvalidHardCodedValueException) {
-            Globals.stdErrPrintln(ar.getString(ar.I_INTERNAL_ERROR_MESG), ar.getKString(ar.E_INVALID_HARDCODED_VAL, option), true);
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_INTERNAL_ERROR_MESG), ar.getKString(ar.E_INVALID_HARDCODED_VAL, option), true);
 
         } else if (e instanceof MissingArgException) {
             /*
              * REVISIT: We can provide more specific messages here depending on what the option was e.g. for -t: Error: An object
              * type was expected for option -t
              */
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_MISSING_ARG, option, "imqobjmgr"), true);
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_MISSING_ARG, option, "imqobjmgr"), true);
 
         } else if (e instanceof BadNameValueArgException) {
             BadNameValueArgException bnvae = (BadNameValueArgException) e;
             String badArg = bnvae.getArg();
 
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_BAD_NV_ARG, badArg, option), true);
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_BAD_NV_ARG, badArg, option), true);
 
         } else {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_OPTION_PARSE_ERROR), true);
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_OPTION_PARSE_ERROR), true);
         }
     }
 
@@ -529,32 +529,32 @@ public class ObjMgr implements ObjMgrOptions {
             break;
 
         case ObjMgrException.BAD_CMD_SPEC:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_BAD_COMMAND_SPEC, objMgrProps.getCommand()), true);
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_BAD_COMMAND_SPEC, objMgrProps.getCommand()), true);
             break;
 
         case ObjMgrException.NO_OBJ_TYPE_SPEC:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_NO_OBJ_TYPE_SPEC, ObjMgrOptions.OBJMGR_TYPE), true);
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_NO_OBJ_TYPE_SPEC, ObjMgrOptions.OBJMGR_TYPE), true);
             break;
 
         case ObjMgrException.INVALID_OBJ_TYPE:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_OBJ_TYPE, objMgrProps.getObjType()), true);
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_OBJ_TYPE, objMgrProps.getObjType()), true);
             break;
 
         case ObjMgrException.INVALID_READONLY_VALUE:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_READONLY_VALUE, objMgrProps.getProperty(OBJMGR_READONLY_PROP_NAME)),
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_READONLY_VALUE, objMgrProps.getProperty(OBJMGR_READONLY_PROP_NAME)),
                     true);
             break;
 
         case ObjMgrException.NO_LOOKUP_NAME_SPEC:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_NO_LOOKUP_NAME, ObjMgrOptions.OBJMGR_NAME), true);
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_NO_LOOKUP_NAME, ObjMgrOptions.OBJMGR_NAME), true);
             break;
 
         case ObjMgrException.NO_DEST_NAME_SPEC:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_NO_DEST_NAME, ObjMgrOptions.OBJMGR_OBJ_ATTRS), true);
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_NO_DEST_NAME, ObjMgrOptions.OBJMGR_OBJ_ATTRS), true);
             break;
 
         default:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_OPTION_VALID_ERROR), true);
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_OPTION_VALID_ERROR), true);
             break;
         }
     }

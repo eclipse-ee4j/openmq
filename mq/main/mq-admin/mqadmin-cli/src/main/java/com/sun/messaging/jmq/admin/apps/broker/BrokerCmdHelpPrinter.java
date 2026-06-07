@@ -17,6 +17,7 @@
 
 package com.sun.messaging.jmq.admin.apps.broker;
 
+import com.sun.messaging.jmq.admin.util.CommonGlobals;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerConstants;
 import com.sun.messaging.jmq.admin.resources.AdminResources;
@@ -54,15 +55,15 @@ public class BrokerCmdHelpPrinter implements CommonHelpPrinter, BrokerCmdOptions
     }
 
     private void printUsage() {
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_USAGE));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_USAGE));
     }
 
     private void printSubcommands() {
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_SUBCOMMANDS));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_SUBCOMMANDS));
     }
 
     private void printOptions() {
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_OPTIONS));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_OPTIONS));
     }
 
     private void printAttributes() {
@@ -75,54 +76,54 @@ public class BrokerCmdHelpPrinter implements CommonHelpPrinter, BrokerCmdOptions
 
         tAttrs = PROP_NAME_OPTION_MAX_PER_MESG_SIZE;
 
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_ATTRIBUTES1));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_ATTRIBUTES1));
 
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_ATTRIBUTES2));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_ATTRIBUTES2));
         printQueueAttrs();
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_ATTRIBUTES3, tAttrs));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_ATTRIBUTES3, tAttrs));
         printTopicAttrs();
 
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_DEST_UNLIMITED));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_DEST_UNLIMITED));
 
         for (int i = 0; i < DEST_ATTRS_UNLIMITED.length; ++i) {
-            Globals.stdOutPrintln("    " + DEST_ATTRS_UNLIMITED[i]);
+            CommonGlobals.stdOutPrintln("    " + DEST_ATTRS_UNLIMITED[i]);
         }
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
 
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_VALID_VALUES, PROP_NAME_LIMIT_BEHAVIOUR));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_VALID_VALUES, PROP_NAME_LIMIT_BEHAVIOUR));
 
-        Globals.stdOutPrint("\t");
+        CommonGlobals.stdOutPrint("\t");
         for (int i = 0; i < BKR_LIMIT_BEHAV_VALID_VALUES.size(); ++i) {
-            Globals.stdOutPrint(BKR_LIMIT_BEHAV_VALID_VALUES.get(i));
+            CommonGlobals.stdOutPrint(BKR_LIMIT_BEHAV_VALID_VALUES.get(i));
 
             if ((i + 1) < BKR_LIMIT_BEHAV_VALID_VALUES.size()) {
-                Globals.stdOutPrint(" ");
+                CommonGlobals.stdOutPrint(" ");
             }
         }
-        Globals.stdOutPrintln("\n");
+        CommonGlobals.stdOutPrintln("\n");
 
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_ATTRIBUTES4));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_ATTRIBUTES4));
         printBrokerAttrs();
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_ATTRIBUTES5));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_ATTRIBUTES5));
         printServiceAttrs();
     }
 
     private void printExamples() {
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES1));
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES2));
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES3));
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES4));
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES5));
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES6));
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES7));
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES8));
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES9));
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES10));
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES11));
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES12));
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES13));
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES14));
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES15));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES1));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES2));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES3));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES4));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES5));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES6));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES7));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES8));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES9));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES10));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES11));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES12));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES13));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES14));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_EXAMPLES15));
     }
 
     private void printBrokerAttrs() {
@@ -192,26 +193,26 @@ public class BrokerCmdHelpPrinter implements CommonHelpPrinter, BrokerCmdOptions
 
         bcp.print();
 
-        Globals.stdOutPrintln("");
-        Globals.stdOutPrint(indent);
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_VALID_VALUES, PROP_NAME_BKR_LOG_LEVEL));
+        CommonGlobals.stdOutPrintln("");
+        CommonGlobals.stdOutPrint(indent);
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_VALID_VALUES, PROP_NAME_BKR_LOG_LEVEL));
 
-        Globals.stdOutPrint("\t");
+        CommonGlobals.stdOutPrint("\t");
         for (int i = 0; i < BKR_LOG_LEVEL_VALID_VALUES.size(); ++i) {
-            Globals.stdOutPrint(BKR_LOG_LEVEL_VALID_VALUES.get(i));
+            CommonGlobals.stdOutPrint(BKR_LOG_LEVEL_VALID_VALUES.get(i));
 
             if ((i + 1) < BKR_LOG_LEVEL_VALID_VALUES.size()) {
-                Globals.stdOutPrint(" ");
+                CommonGlobals.stdOutPrint(" ");
             }
         }
-        Globals.stdOutPrintln("\n");
+        CommonGlobals.stdOutPrintln("\n");
 
-        Globals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_BKR_UNLIMITED));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_BROKERCMD_HELP_BKR_UNLIMITED));
 
         for (int i = 0; i < BKR_ATTRS_UNLIMITED.length; ++i) {
-            Globals.stdOutPrintln("    " + BKR_ATTRS_UNLIMITED[i]);
+            CommonGlobals.stdOutPrintln("    " + BKR_ATTRS_UNLIMITED[i]);
         }
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
 
     }
 
@@ -278,7 +279,7 @@ public class BrokerCmdHelpPrinter implements CommonHelpPrinter, BrokerCmdOptions
 
         bcp.print();
 
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
     }
 
     private void printTopicAttrs() {
@@ -332,7 +333,7 @@ public class BrokerCmdHelpPrinter implements CommonHelpPrinter, BrokerCmdOptions
 
         bcp.print();
 
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
     }
 
     private void printServiceAttrs() {

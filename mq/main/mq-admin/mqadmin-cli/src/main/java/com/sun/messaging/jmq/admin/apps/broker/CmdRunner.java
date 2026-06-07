@@ -29,6 +29,7 @@ import java.util.Enumeration;
 import jakarta.jms.DeliveryMode;
 import jakarta.jms.Message;
 
+import com.sun.messaging.jmq.admin.util.CommonGlobals;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminResources;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
@@ -61,7 +62,7 @@ import com.sun.messaging.jms.management.server.BrokerState;
  * This class contains the logic to execute the user commands specified in the BrokerCmdProperties object. It has one
  * public entry point which is the runCommands() method. It is expected to display to the user if the command execution
  * was successful or not.
- * 
+ *
  * @see com.sun.messaging.jmq.admin.apps.objmgr.ObjMgr
  *
  */
@@ -207,7 +208,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         if (CMDARG_DESTINATION.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_DST_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_DST_FAIL));
                 return (1);
             }
 
@@ -217,11 +218,11 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             if (listAll) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_DST));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_DST));
             } else if (DestType.isQueue(destTypeMask)) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_QUEUE_DST));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_QUEUE_DST));
             } else if (DestType.isTopic(destTypeMask)) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_TOPIC_DST));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_TOPIC_DST));
             }
             printBrokerInfo(broker);
 
@@ -239,22 +240,22 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     } else if (DestType.isQueue(destTypeMask)) {
                         listDests(brokerCmdProps, dests, LIST_QUEUE);
                     }
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_DST_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_DST_SUC));
                 } else {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_DST_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_DST_FAIL));
                     return (1);
                 }
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_DST_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_DST_FAIL));
                 return (1);
             }
 
         } else if (CMDARG_SERVICE.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_SVC_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_SVC_FAIL));
                 return (1);
             }
 
@@ -263,7 +264,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker = promptForAuthentication(broker);
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_SVC));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_SVC));
             printBrokerInfo(broker);
 
             try {
@@ -309,16 +310,16 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     }
 
                     bcp.println();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_SVC_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_SVC_SUC));
 
                 } else {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_SVC_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_SVC_FAIL));
                     return (1);
                 }
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_SVC_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_SVC_FAIL));
                 return (1);
             }
 
@@ -327,7 +328,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             boolean listDstName = false; // display dst if we list all
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_SUB_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_SUB_FAIL));
                 return (1);
             }
 
@@ -339,9 +340,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             String destName = brokerCmdProps.getDestName();
 
             if (destName != null) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_SUB, destName));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_SUB, destName));
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_ALL_SUB));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_ALL_SUB));
             }
             printBrokerInfo(broker);
 
@@ -351,7 +352,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_SUB_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_SUB_FAIL));
                 return (1);
             }
 
@@ -369,7 +370,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_SUB_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_SUB_FAIL));
                 return (1);
             }
 
@@ -460,23 +461,23 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     // Use durname+clientID as the key when listing.
                     bcp.setKeyCriteria(new int[] { 0, 1 });
                     bcp.println();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_SUB_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_SUB_SUC));
 
                 } else {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_SUB_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_SUB_FAIL));
                     return (1);
                 }
 
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_SUB_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_SUB_FAIL));
                 return (1);
             }
         } else if (CMDARG_TRANSACTION.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_TXN_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_TXN_FAIL));
                 return (1);
             }
 
@@ -485,7 +486,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker = promptForAuthentication(broker);
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_TXN));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_TXN));
             printBrokerInfo(broker);
 
             try {
@@ -580,25 +581,25 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                         }
                     }
 
-                    Globals.stdOutPrintln("Transactions that are owned by this broker");
+                    CommonGlobals.stdOutPrintln("Transactions that are owned by this broker");
                     bcp.println();
 
-                    Globals.stdOutPrintln("   Transactions that involve remote brokers");
+                    CommonGlobals.stdOutPrintln("   Transactions that involve remote brokers");
                     bcp_local.setIndent(3);
                     bcp_local.println();
 
-                    Globals.stdOutPrintln("Transactions that are owned by a remote broker");
+                    CommonGlobals.stdOutPrintln("Transactions that are owned by a remote broker");
                     bcp_remote.println();
 
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_TXN_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_TXN_SUC));
 
                 } else {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_TXN_NONE));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_TXN_NONE));
                 }
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_TXN_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_TXN_FAIL));
                 return (1);
             }
 
@@ -606,7 +607,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             String svcName = brokerCmdProps.getService();
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_CXN_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_CXN_FAIL));
                 return (1);
             }
 
@@ -616,13 +617,13 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             if (svcName == null) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_CXN));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_CXN));
                 printBrokerInfo(broker);
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_CXN_FOR_SVC));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_CXN_FOR_SVC));
                 printServiceInfo(svcName);
 
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
                 printBrokerInfo(broker);
             }
 
@@ -680,9 +681,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
                         /*
                          * tmpStr = (String)cxnInfo.get(PROP_NAME_CXN_CLIENT_ID); row[i++] = checkNullAndPrint(tmpStr);
-                         * 
+                         *
                          * tmpInt = (Integer)cxnInfo.get(PROP_NAME_CXN_PORT); row[i++] = checkNullAndPrint(tmpInt);
-                         * 
+                         *
                          * tmpStr = (String)cxnInfo.get(PROP_NAME_CXN_CLIENT_PLATFORM); row[i++] = checkNullAndPrint(tmpStr);
                          */
 
@@ -690,20 +691,20 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     }
 
                     bcp.println();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_CXN_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_CXN_SUC));
 
                 } else {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_CXN_NONE));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_CXN_NONE));
                 }
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_CXN_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_CXN_FAIL));
                 return (1);
             }
         } else if (CMDARG_BROKER.equals(commandArg)) {
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_BKR_FAIL));
                 return (1);
             }
 
@@ -712,7 +713,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker = promptForAuthentication(broker);
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -889,20 +890,20 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     }
 
                     bcp.println();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_BKR_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_BKR_SUC));
                 } else {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_BKR_NONE));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_BKR_NONE));
                 }
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_BKR_FAIL));
                 return (1);
             }
         } else if (CMDARG_JMX_CONNECTOR.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_JMX_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_JMX_FAIL));
                 return (1);
             }
 
@@ -911,7 +912,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker = promptForAuthentication(broker);
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_JMX));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_JMX));
             printBrokerInfo(broker);
 
             try {
@@ -941,25 +942,25 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     }
 
                     bcp.println();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_JMX_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_JMX_SUC));
 
                 } else {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_JMX_NONE));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_JMX_NONE));
 
-                    Globals.stdOutPrintln("");
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_JMX_SUC));
+                    CommonGlobals.stdOutPrintln("");
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_JMX_SUC));
                 }
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_JMX_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_JMX_FAIL));
                 return (1);
             }
 
         } else if (CMDARG_MSG.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln("Listing messages failed.");
+                CommonGlobals.stdErrPrintln("Listing messages failed.");
                 return (1);
             }
 
@@ -972,10 +973,10 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             destTypeMask = getDestTypeMask(brokerCmdProps);
             Long maxNumMsgsRetrieved = brokerCmdProps.getMaxNumMsgsRetrieved(), startMsgIndex = brokerCmdProps.getStartMsgIndex();
 
-            Globals.stdOutPrintln("Listing messages for the destination");
+            CommonGlobals.stdOutPrintln("Listing messages for the destination");
             printDestinationInfo();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -1018,18 +1019,18 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     }
 
                     bcp.println();
-                    Globals.stdOutPrintln("Successfully listed messages.");
+                    CommonGlobals.stdOutPrintln("Successfully listed messages.");
 
                 } else {
-                    Globals.stdErrPrintln("There are no messages.");
+                    CommonGlobals.stdErrPrintln("There are no messages.");
 
-                    Globals.stdOutPrintln("");
-                    Globals.stdOutPrintln("Successfully listed messages.");
+                    CommonGlobals.stdOutPrintln("");
+                    CommonGlobals.stdOutPrintln("Successfully listed messages.");
                 }
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln("Listing messages failed.");
+                CommonGlobals.stdErrPrintln("Listing messages failed.");
                 return (1);
             }
         }
@@ -1237,7 +1238,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         if (CMDARG_BROKER.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_BKR_FAIL));
                 return (1);
             }
 
@@ -1245,7 +1246,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker = promptForAuthentication(broker);
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -1254,43 +1255,43 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_BKR_FAIL));
                 return (1);
             }
 
             if (!force) {
                 input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_PAUSE_BKR_OK), noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
                 try {
                     broker.sendPauseMessage(null);
                     broker.receivePauseReplyMessage();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_BKR_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_BKR_SUC));
 
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_BKR_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_BKR_FAIL));
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_BKR_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_BKR_NOOP));
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_BKR_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_BKR_NOOP));
                 return (1);
             }
 
         } else if (CMDARG_SERVICE.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_SVC_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_SVC_FAIL));
                 return (1);
             }
 
@@ -1300,10 +1301,10 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
             String svcName = brokerCmdProps.getTargetName();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_SVC));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_SVC));
             printServiceInfo();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -1312,7 +1313,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_SVC_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_SVC_FAIL));
                 return (1);
             }
 
@@ -1326,36 +1327,36 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_SVC_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_SVC_FAIL));
                 return (1);
             }
 
             if (!force) {
                 input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_PAUSE_SVC_OK), noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
                 try {
                     broker.sendPauseMessage(svcName);
                     broker.receivePauseReplyMessage();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_SVC_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_SVC_SUC));
 
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_SVC_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_SVC_FAIL));
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_SVC_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_SVC_NOOP));
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_SVC_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_SVC_NOOP));
                 return (1);
             }
 
@@ -1376,9 +1377,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
             if (broker == null) {
                 if (pauseAll) {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DSTS_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DSTS_FAIL));
                 } else {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DST_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DST_FAIL));
                 }
                 return (1);
             }
@@ -1388,15 +1389,15 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             if (pauseAll) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DSTS));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DSTS));
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DST));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DST));
                 printDestinationInfo();
             }
 
             // Only print out the pause type if it was specified
             if (pauseTypeStr != null) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_USING_ATTR));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_USING_ATTR));
 
                 row[0] = ar.getString(ar.I_JMQCMD_PAUSE_DST_TYPE);
                 row[1] = pauseTypeStr;
@@ -1404,7 +1405,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 bcp.println();
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -1414,9 +1415,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 handleBrokerAdminException(bae);
 
                 if (pauseAll) {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DSTS_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DSTS_FAIL));
                 } else {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DST_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DST_FAIL));
                 }
                 return (1);
             }
@@ -1427,7 +1428,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 } else {
                     input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_PAUSE_DST_OK), noShort);
                 }
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
@@ -1436,37 +1437,37 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     broker.sendPauseMessage(destName, destTypeMask, pauseType);
                     broker.receivePauseReplyMessage();
                     if (pauseAll) {
-                        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DSTS_SUC));
+                        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DSTS_SUC));
                     } else {
-                        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DST_SUC));
+                        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DST_SUC));
                     }
 
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
                     if (pauseAll) {
-                        Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DSTS_FAIL));
+                        CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DSTS_FAIL));
                     } else {
-                        Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DST_FAIL));
+                        CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DST_FAIL));
                     }
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
                 if (pauseAll) {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DSTS_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DSTS_NOOP));
                 } else {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DST_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DST_NOOP));
                 }
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
                 if (pauseAll) {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DSTS_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DSTS_NOOP));
                 } else {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DST_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DST_NOOP));
                 }
                 return (1);
             }
@@ -1503,7 +1504,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             resetType = brokerCmdProps.getResetType();
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESET_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESET_BKR_FAIL));
                 return (1);
             }
 
@@ -1511,11 +1512,11 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker = promptForAuthentication(broker);
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESET_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESET_BKR));
 
             // Only print out the pause type if it was specified
             if (resetType != null) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_USING_ATTR));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_USING_ATTR));
 
                 row[0] = ar.getString(ar.I_JMQCMD_RESET_BKR_TYPE);
                 row[1] = resetType;
@@ -1523,7 +1524,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 bcp.println();
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -1532,13 +1533,13 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESET_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESET_BKR_FAIL));
                 return (1);
             }
 
             if (!force) {
                 input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_RESET_BKR_OK), noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
@@ -1546,23 +1547,23 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     String resetTypeVal = getResetTypeVal(resetType);
                     broker.sendResetBrokerMessage(resetTypeVal);
                     broker.receiveResetBrokerReplyMessage();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESET_BKR_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESET_BKR_SUC));
 
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESET_BKR_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESET_BKR_FAIL));
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESET_BKR_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESET_BKR_NOOP));
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESET_BKR_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESET_BKR_NOOP));
                 return (1);
             }
 
@@ -1588,7 +1589,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         broker = init();
 
         if (broker == null) {
-            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_CHECKPOINT_BKR_FAIL));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_CHECKPOINT_BKR_FAIL));
             return (1);
         }
 
@@ -1600,7 +1601,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         // boolean noFailover = brokerCmdProps.noFailoverSet();
         // int time = brokerCmdProps.getTime();
 
-        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CHECKPOINT_BKR));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CHECKPOINT_BKR));
         printBrokerInfo(broker);
 
         try {
@@ -1610,36 +1611,36 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         } catch (BrokerAdminException bae) {
             handleBrokerAdminException(bae);
 
-            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_CHECKPOINT_BKR_FAIL));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_CHECKPOINT_BKR_FAIL));
             return (1);
         }
 
         if (!force) {
             input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_CHECKPOINT_BKR_OK), noShort);
-            Globals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln("");
         }
 
         if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
             try {
                 broker.sendCheckpointBrokerMessage();
                 broker.receiveCheckpointBrokerReplyMessage();
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CHECKPOINT_BKR_SUC));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CHECKPOINT_BKR_SUC));
 
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_CHECKPOINT_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_CHECKPOINT_BKR_FAIL));
                 return (1);
             }
 
         } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CHECKPOINT_BKR_NOOP));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CHECKPOINT_BKR_NOOP));
             return (0);
 
         } else {
-            Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CHECKPOINT_BKR_NOOP));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CHECKPOINT_BKR_NOOP));
             return (1);
         }
 
@@ -1668,7 +1669,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         if (CMDARG_BROKER.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_BKR_FAIL));
                 return (1);
             }
 
@@ -1676,7 +1677,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker = promptForAuthentication(broker);
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -1685,43 +1686,43 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_BKR_FAIL));
                 return (1);
             }
 
             if (!force) {
                 input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_RESUME_BKR_OK), noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
                 try {
                     broker.sendResumeMessage(null);
                     broker.receiveResumeReplyMessage();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_BKR_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_BKR_SUC));
 
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_BKR_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_BKR_FAIL));
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_BKR_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_BKR_NOOP));
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_BKR_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_BKR_NOOP));
                 return (1);
             }
 
         } else if (CMDARG_SERVICE.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_SVC_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_SVC_FAIL));
                 return (1);
             }
 
@@ -1730,10 +1731,10 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             String svcName = brokerCmdProps.getTargetName();
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_SVC));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_SVC));
             printServiceInfo();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -1742,7 +1743,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_SVC_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_SVC_FAIL));
                 return (1);
             }
 
@@ -1756,36 +1757,36 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_SVC_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_SVC_FAIL));
                 return (1);
             }
 
             if (!force) {
                 input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_RESUME_SVC_OK), noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
                 try {
                     broker.sendResumeMessage(svcName);
                     broker.receiveResumeReplyMessage();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_SVC_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_SVC_SUC));
 
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_SVC_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_SVC_FAIL));
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_SVC_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_SVC_NOOP));
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_SVC_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_SVC_NOOP));
                 return (1);
             }
         } else if (CMDARG_DESTINATION.equals(commandArg)) {
@@ -1802,9 +1803,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
             if (broker == null) {
                 if (resumeAll) {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_DSTS_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_DSTS_FAIL));
                 } else {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_DST_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_DST_FAIL));
                 }
                 return (1);
             }
@@ -1814,13 +1815,13 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             if (resumeAll) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_DSTS));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_DSTS));
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_DST));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_DST));
 
                 printDestinationInfo();
 
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             }
 
             printBrokerInfo(broker);
@@ -1832,9 +1833,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 handleBrokerAdminException(bae);
 
                 if (resumeAll) {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_DSTS_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_DSTS_FAIL));
                 } else {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_DST_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_DST_FAIL));
                 }
                 return (1);
             }
@@ -1845,7 +1846,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 } else {
                     input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_RESUME_DST_OK), noShort);
                 }
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
@@ -1853,37 +1854,37 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     broker.sendResumeMessage(destName, destTypeMask);
                     broker.receiveResumeReplyMessage();
                     if (resumeAll) {
-                        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_DSTS_SUC));
+                        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_DSTS_SUC));
                     } else {
-                        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_DST_SUC));
+                        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_DST_SUC));
                     }
 
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
                     if (resumeAll) {
-                        Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_DSTS_FAIL));
+                        CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_DSTS_FAIL));
                     } else {
-                        Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_DST_FAIL));
+                        CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESUME_DST_FAIL));
                     }
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
                 if (resumeAll) {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_DSTS_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_DSTS_NOOP));
                 } else {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_DST_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_DST_NOOP));
                 }
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
                 if (resumeAll) {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_DSTS_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_DSTS_NOOP));
                 } else {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_DST_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_DST_NOOP));
                 }
                 return (1);
             }
@@ -1909,7 +1910,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         broker = init();
 
         if (broker == null) {
-            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_SHUTDOWN_BKR_FAIL));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_SHUTDOWN_BKR_FAIL));
             return (1);
         }
 
@@ -1921,7 +1922,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         boolean noFailover = brokerCmdProps.noFailoverSet();
         int time = brokerCmdProps.getTime();
 
-        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SHUTDOWN_BKR));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SHUTDOWN_BKR));
         printBrokerInfo(broker);
 
         try {
@@ -1931,13 +1932,13 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         } catch (BrokerAdminException bae) {
             handleBrokerAdminException(bae);
 
-            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_SHUTDOWN_BKR_FAIL));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_SHUTDOWN_BKR_FAIL));
             return (1);
         }
 
         if (!force) {
             input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_SHUTDOWN_BKR_OK), noShort);
-            Globals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln("");
         }
 
         if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
@@ -1946,26 +1947,26 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker.receiveShutdownReplyMessage();
 
                 if (waitForShutdown(broker, sessionID, brokerCmdProps)) {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SHUTDOWN_BKR_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SHUTDOWN_BKR_SUC));
                 } else {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SENT_SHUTDOWN_BKR_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SENT_SHUTDOWN_BKR_SUC));
                 }
 
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_SHUTDOWN_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_SHUTDOWN_BKR_FAIL));
                 return (1);
             }
 
         } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SHUTDOWN_BKR_NOOP));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SHUTDOWN_BKR_NOOP));
             return (0);
 
         } else {
-            Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SHUTDOWN_BKR_NOOP));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SHUTDOWN_BKR_NOOP));
             return (1);
         }
         /*
@@ -2016,7 +2017,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
         boolean brokerDown = false;
 
-        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_WAITING_FOR_SHUTDOWN, hostName + ":" + portString));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_WAITING_FOR_SHUTDOWN, hostName + ":" + portString));
         while (!brokerDown) {
             try {
                 Thread.sleep(sleepTime);
@@ -2076,7 +2077,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         broker = init();
 
         if (broker == null) {
-            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESTART_BKR_FAIL));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESTART_BKR_FAIL));
             return (1);
         }
 
@@ -2085,7 +2086,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             broker = promptForAuthentication(broker);
         }
 
-        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESTART_BKR));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESTART_BKR));
         printBrokerInfo(broker);
 
         try {
@@ -2094,13 +2095,13 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         } catch (BrokerAdminException bae) {
             handleBrokerAdminException(bae);
 
-            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESTART_BKR_FAIL));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESTART_BKR_FAIL));
             return (1);
         }
 
         if (!force) {
             input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_RESTART_BKR_OK), noShort);
-            Globals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln("");
         }
 
         if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
@@ -2111,28 +2112,28 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                  * Shutdown was successful. Now wait to see if jmqcmd can get reconnected back to the broker.
                  */
                 if (reconnectToBroker(broker)) {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESTART_BKR_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESTART_BKR_SUC));
                 }
                 else {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESTART_BKR_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESTART_BKR_FAIL));
                     return (1);
                 }
 
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESTART_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESTART_BKR_FAIL));
                 return (1);
             }
 
         } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESTART_BKR_NOOP));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESTART_BKR_NOOP));
             return (0);
 
         } else {
-            Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESTART_BKR_NOOP));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESTART_BKR_NOOP));
             return (1);
         }
 
@@ -2151,7 +2152,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         broker = init();
 
         if (broker == null) {
-            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_CREATE_DST_FAIL));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_CREATE_DST_FAIL));
             return (1);
         }
 
@@ -2164,7 +2165,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         destTypeMask = getDestTypeMask(brokerCmdProps);
         destAttrs = brokerCmdProps.getTargetAttrs();
 
-        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CREATE_DST));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CREATE_DST));
 
         BrokerCmdPrinter bcp = new BrokerCmdPrinter(2, 4);
         String[] row = new String[2];
@@ -2257,7 +2258,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         }
         bcp.println();
 
-        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
         printBrokerInfo(broker);
 
         try {
@@ -2335,12 +2336,12 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
             broker.sendCreateDestinationMessage(destInfo);
             broker.receiveCreateDestinationReplyMessage();
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CREATE_DST_SUC));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CREATE_DST_SUC));
 
         } catch (BrokerAdminException bae) {
             handleBrokerAdminException(bae);
 
-            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_CREATE_DST_FAIL));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_CREATE_DST_FAIL));
             return (1);
         }
 
@@ -2367,7 +2368,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         if (CMDARG_DESTINATION.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DST_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DST_FAIL));
                 return (1);
             }
 
@@ -2378,10 +2379,10 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             String destName = brokerCmdProps.getTargetName();
             int destTypeMask = getDestTypeMask(brokerCmdProps);
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DST));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DST));
             printDestinationInfo();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -2390,42 +2391,42 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DST_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DST_FAIL));
                 return (1);
             }
 
             if (!force) {
                 input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_DESTROY_DST_OK), noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
                 try {
                     broker.sendDestroyDestinationMessage(destName, destTypeMask);
                     broker.receiveDestroyDestinationReplyMessage();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DST_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DST_SUC));
 
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DST_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DST_FAIL));
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DST_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DST_NOOP));
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DST_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DST_NOOP));
                 return (1);
             }
         } else if (CMDARG_DURABLE.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DUR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DUR_FAIL));
                 return (1);
             }
 
@@ -2436,10 +2437,10 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             String subName = brokerCmdProps.getTargetName();
             String clientID = brokerCmdProps.getClientID();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DUR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DUR));
             printDurableSubscriptionInfo();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -2448,41 +2449,41 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DUR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DUR_FAIL));
                 return (1);
             }
 
             if (!force) {
                 input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_DESTROY_DUR_OK), noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
                 try {
                     broker.sendDestroyDurableMessage(subName, clientID);
                     broker.receiveDestroyDurableReplyMessage();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DUR_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DUR_SUC));
 
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DUR_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DUR_FAIL));
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DUR_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DUR_NOOP));
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DUR_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_DUR_NOOP));
                 return (1);
             }
         } else if (CMDARG_CONNECTION.equals(commandArg)) {
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_CXN_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_CXN_FAIL));
                 return (1);
             }
 
@@ -2496,15 +2497,15 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             try {
                 cxnId = Long.valueOf(cxnIdStr);
             } catch (NumberFormatException nfe) {
-                Globals.stdErrPrintln(ar.getString(ar.E_INVALID_CXN_ID, cxnIdStr));
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_CXN_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.E_INVALID_CXN_ID, cxnIdStr));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_CXN_FAIL));
                 return (1);
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_CXN));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_CXN));
             printConnectionInfo();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -2513,44 +2514,44 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_CXN_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_CXN_FAIL));
                 return (1);
             }
 
             if (!force) {
                 input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_DESTROY_CXN_OK), noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
                 try {
                     broker.sendDestroyConnectionMessage(cxnId);
                     broker.receiveDestroyConnectionReplyMessage();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_CXN_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_CXN_SUC));
 
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_CXN_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_CXN_FAIL));
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_CXN_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_CXN_NOOP));
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_CXN_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_CXN_NOOP));
                 return (1);
             }
         } else if (CMDARG_MSG.equals(commandArg)) {
             if (broker == null) {
                 /*
-                 * Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_MSG_FAIL));
+                 * CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_MSG_FAIL));
                  */
-                Globals.stdErrPrintln("Destroying message failed.");
+                CommonGlobals.stdErrPrintln("Destroying message failed.");
                 return (1);
             }
 
@@ -2563,15 +2564,15 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             String msgID = brokerCmdProps.getMsgID();
 
             /*
-             * Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_MSG));
+             * CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_MSG));
              */
-            Globals.stdOutPrintln("Destroying message:");
+            CommonGlobals.stdOutPrintln("Destroying message:");
             printMessageInfo();
 
-            Globals.stdOutPrintln("In the destination");
+            CommonGlobals.stdOutPrintln("In the destination");
             printDestinationInfo();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -2581,9 +2582,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 handleBrokerAdminException(bae);
 
                 /*
-                 * Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_MSG_FAIL));
+                 * CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_MSG_FAIL));
                  */
-                Globals.stdErrPrintln("Destroying message failed.");
+                CommonGlobals.stdErrPrintln("Destroying message failed.");
                 return (1);
             }
 
@@ -2592,7 +2593,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                  * input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_DESTROY_MSG_OK), noShort);
                  */
                 input = CommonCmdRunnerUtil.getUserInput("Are you sure you want to destroy this message? (y/n)[n] ", noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
@@ -2600,34 +2601,34 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     broker.sendDestroyMessagesMessage(destName, destTypeMask, msgID);
                     broker.receiveDestroyMessagesReplyMessage();
                     /*
-                     * Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_MSG_SUC));
+                     * CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_MSG_SUC));
                      */
-                    Globals.stdOutPrintln("Successfully destroyed message.");
+                    CommonGlobals.stdOutPrintln("Successfully destroyed message.");
 
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
                     /*
-                     * Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_MSG_FAIL));
+                     * CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_DESTROY_MSG_FAIL));
                      */
-                    Globals.stdErrPrintln("Destroying message failed.");
+                    CommonGlobals.stdErrPrintln("Destroying message failed.");
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
                 /*
-                 * Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_MSG_NOOP));
+                 * CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_MSG_NOOP));
                  */
-                Globals.stdOutPrintln("The message was not destroyed.\n");
+                CommonGlobals.stdOutPrintln("The message was not destroyed.\n");
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
                 /*
-                 * Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_MSG_NOOP));
+                 * CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_DESTROY_MSG_NOOP));
                  */
-                Globals.stdOutPrintln("The message was not destroyed.\n");
+                CommonGlobals.stdOutPrintln("The message was not destroyed.\n");
                 return (1);
             }
         }
@@ -2657,7 +2658,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         if (CMDARG_DESTINATION.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PURGE_DST_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PURGE_DST_FAIL));
                 return (1);
             }
 
@@ -2668,10 +2669,10 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             destName = brokerCmdProps.getTargetName();
             destTypeMask = getDestTypeMask(brokerCmdProps);
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PURGE_DST));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PURGE_DST));
             printDestinationInfo();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -2680,43 +2681,43 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PURGE_DST_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PURGE_DST_FAIL));
                 return (1);
             }
 
             if (!force) {
                 input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_PURGE_DST_OK), noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
                 try {
                     broker.sendPurgeDestinationMessage(destName, destTypeMask);
                     broker.receivePurgeDestinationReplyMessage();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PURGE_DST_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PURGE_DST_SUC));
 
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PURGE_DST_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PURGE_DST_FAIL));
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PURGE_DST_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PURGE_DST_NOOP));
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PURGE_DST_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PURGE_DST_NOOP));
                 return (1);
             }
 
         } else if (CMDARG_DURABLE.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PURGE_DUR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PURGE_DUR_FAIL));
                 return (1);
             }
 
@@ -2727,10 +2728,10 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             String subName = brokerCmdProps.getTargetName();
             String clientID = brokerCmdProps.getClientID();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PURGE_DUR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PURGE_DUR));
             printDurableSubscriptionInfo();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -2739,36 +2740,36 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PURGE_DUR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PURGE_DUR_FAIL));
                 return (1);
             }
 
             if (!force) {
                 input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_PURGE_DUR_OK), noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
                 try {
                     broker.sendPurgeDurableMessage(subName, clientID);
                     broker.receivePurgeDurableReplyMessage();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PURGE_DUR_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PURGE_DUR_SUC));
 
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PURGE_DUR_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_PURGE_DUR_FAIL));
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PURGE_DUR_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PURGE_DUR_NOOP));
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PURGE_DUR_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PURGE_DUR_NOOP));
                 return (1);
             }
         }
@@ -2797,7 +2798,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         if (CMDARG_DESTINATION.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln("Purging all the destinations failed");
+                CommonGlobals.stdErrPrintln("Purging all the destinations failed");
                 return (1);
             }
 
@@ -2805,9 +2806,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker = promptForAuthentication(broker);
             }
 
-            Globals.stdOutPrintln("Purging all the destinations");
+            CommonGlobals.stdOutPrintln("Purging all the destinations");
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -2816,13 +2817,13 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln("Purging all the destinations failed");
+                CommonGlobals.stdErrPrintln("Purging all the destinations failed");
                 return (1);
             }
 
             if (!force) {
                 input = CommonCmdRunnerUtil.getUserInput("Are you sure you want to purge all the destinations? (y/n)[n] ", noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
@@ -2849,7 +2850,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                             if (MessageType.JMQ_ADMIN_DEST.equals(destName) || MessageType.JMQ_BRIDGE_ADMIN_DEST.equals(destName)
                                     || DestType.isInternal(dInfo.fulltype) || DestType.isTemporary(dInfo.type)) {
 
-                                Globals.stdOutPrintln("Skipping destination: " + destName);
+                                CommonGlobals.stdOutPrintln("Skipping destination: " + destName);
                                 continue;
                             }
 
@@ -2858,18 +2859,18 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                                 broker.receivePurgeDestinationReplyMessage();
 
                                 if (DestType.isQueue(destTypeMask)) {
-                                    Globals.stdOutPrintln("Successfully purged queue " + destName);
+                                    CommonGlobals.stdOutPrintln("Successfully purged queue " + destName);
                                 } else {
-                                    Globals.stdOutPrintln("Successfully purged topic " + destName);
+                                    CommonGlobals.stdOutPrintln("Successfully purged topic " + destName);
                                 }
                                 dstsPurged = true;
                             } catch (BrokerAdminException purgeEx) {
                                 handleBrokerAdminException(purgeEx);
 
                                 if (DestType.isQueue(destTypeMask)) {
-                                    Globals.stdOutPrintln("Purging failed for queue " + destName);
+                                    CommonGlobals.stdOutPrintln("Purging failed for queue " + destName);
                                 } else {
-                                    Globals.stdOutPrintln("Purging failed for topic " + destName);
+                                    CommonGlobals.stdOutPrintln("Purging failed for topic " + destName);
                                 }
                                 ret_code = 1;
                             }
@@ -2879,24 +2880,24 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     }
 
                     if (!dstsPurged) {
-                        Globals.stdOutPrintln("No destinations purged.");
+                        CommonGlobals.stdOutPrintln("No destinations purged.");
                     }
 
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
-                    Globals.stdErrPrintln("Purging all the destinations failed");
+                    CommonGlobals.stdErrPrintln("Purging all the destinations failed");
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                Globals.stdOutPrintln("The destinations were not purged.");
+                CommonGlobals.stdOutPrintln("The destinations were not purged.");
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln("The destinations were not purged.");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("The destinations were not purged.");
                 return (1);
             }
 
@@ -2926,7 +2927,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         if (CMDARG_DESTINATION.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln("Destroying all the destinations failed");
+                CommonGlobals.stdErrPrintln("Destroying all the destinations failed");
                 return (1);
             }
 
@@ -2934,9 +2935,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker = promptForAuthentication(broker);
             }
 
-            Globals.stdOutPrintln("Destroying all the destinations");
+            CommonGlobals.stdOutPrintln("Destroying all the destinations");
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -2945,13 +2946,13 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln("Destroying all the destinations failed");
+                CommonGlobals.stdErrPrintln("Destroying all the destinations failed");
                 return (1);
             }
 
             if (!force) {
                 input = CommonCmdRunnerUtil.getUserInput("Are you sure you want to destroy all the destinations? (y/n)[n] ", noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
@@ -2978,7 +2979,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                             if (MessageType.JMQ_ADMIN_DEST.equals(destName) || MessageType.JMQ_BRIDGE_ADMIN_DEST.equals(destName)
                                     || DestType.isInternal(dInfo.fulltype) || DestType.isTemporary(dInfo.type) || DestType.isDMQ(dInfo.type)) {
 
-                                Globals.stdOutPrintln("Skipping destination: " + destName);
+                                CommonGlobals.stdOutPrintln("Skipping destination: " + destName);
                                 continue;
                             }
 
@@ -2987,18 +2988,18 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                                 broker.receiveDestroyDestinationReplyMessage();
 
                                 if (DestType.isQueue(destTypeMask)) {
-                                    Globals.stdOutPrintln("Successfully destroyed queue " + destName);
+                                    CommonGlobals.stdOutPrintln("Successfully destroyed queue " + destName);
                                 } else {
-                                    Globals.stdOutPrintln("Successfully destroyed topic " + destName);
+                                    CommonGlobals.stdOutPrintln("Successfully destroyed topic " + destName);
                                 }
                                 dstsDestroyed = true;
                             } catch (BrokerAdminException destroyEx) {
                                 handleBrokerAdminException(destroyEx);
 
                                 if (DestType.isQueue(destTypeMask)) {
-                                    Globals.stdOutPrintln("Destroy failed for queue " + destName);
+                                    CommonGlobals.stdOutPrintln("Destroy failed for queue " + destName);
                                 } else {
-                                    Globals.stdOutPrintln("Destroy failed for topic " + destName);
+                                    CommonGlobals.stdOutPrintln("Destroy failed for topic " + destName);
                                 }
                                 ret_code = 1;
                             }
@@ -3007,24 +3008,24 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     }
 
                     if (!dstsDestroyed) {
-                        Globals.stdOutPrintln("No destinations destroyed.");
+                        CommonGlobals.stdOutPrintln("No destinations destroyed.");
                     }
 
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
-                    Globals.stdErrPrintln("Destroying all the destinations failed");
+                    CommonGlobals.stdErrPrintln("Destroying all the destinations failed");
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                Globals.stdOutPrintln("The destinations were not destroyed.");
+                CommonGlobals.stdOutPrintln("The destinations were not destroyed.");
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln("The destinations were not destroyed.");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("The destinations were not destroyed.");
                 return (1);
             }
 
@@ -3053,7 +3054,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
         if (CMDARG_BROKER.equals(commandArg)) {
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UPDATE_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UPDATE_BKR_FAIL));
                 return (1);
             }
 
@@ -3062,25 +3063,25 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             targetAttrs = brokerCmdProps.getTargetAttrs();
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_BKR));
-            Globals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_BKR));
+            CommonGlobals.stdOutPrintln("");
             printAttrs(targetAttrs);
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             if (!force) {
                 input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_UPDATE_BKR_OK), noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
 
                 if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_BKR_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_BKR_NOOP));
                     return (0);
 
                 } else if (!(yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input))) {
-                    Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                    Globals.stdOutPrintln("");
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_BKR_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                    CommonGlobals.stdOutPrintln("");
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_BKR_NOOP));
                     return (1);
                 }
             }
@@ -3090,12 +3091,12 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
                 broker.sendUpdateBrokerPropsMessage(targetAttrs);
                 broker.receiveUpdateBrokerPropsReplyMessage();
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_BKR_SUC));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_BKR_SUC));
 
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UPDATE_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UPDATE_BKR_FAIL));
                 return (1);
             }
 
@@ -3104,7 +3105,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             String svcName;
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UPDATE_SVC_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UPDATE_SVC_FAIL));
                 return (1);
             }
 
@@ -3114,11 +3115,11 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
             targetAttrs = brokerCmdProps.getTargetAttrs();
             svcName = brokerCmdProps.getTargetName();
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_SVC, svcName));
-            Globals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_SVC, svcName));
+            CommonGlobals.stdOutPrintln("");
             printAttrs(targetAttrs);
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             si = getServiceInfoFromAttrs(targetAttrs);
@@ -3146,7 +3147,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UPDATE_SVC_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UPDATE_SVC_FAIL));
                 return (1);
             }
 
@@ -3154,19 +3155,19 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 /*
                  * Rollback the fix for bug 4432483: jmqcmd, jmqadmin: setting admin max threads = 0 is allowed & hangs. Now this check
                  * is done by the broker. if ((si.isModified(ServiceInfo.MAX_THREADS)) && (si.maxThreads == 0)) {
-                 * Globals.stdErrPrintln(ar.getString(ar.W_SET_MAX_THREAD_ZERO, svcName)); }
+                 * CommonGlobals.stdErrPrintln(ar.getString(ar.W_SET_MAX_THREAD_ZERO, svcName)); }
                  */
                 input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_UPDATE_SVC_OK), noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
 
                 if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_SVC_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_SVC_NOOP));
                     return (0);
 
                 } else if (!(yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input))) {
-                    Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                    Globals.stdOutPrintln("");
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_SVC_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                    CommonGlobals.stdOutPrintln("");
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_SVC_NOOP));
                     return (1);
                 }
             }
@@ -3174,26 +3175,26 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             /*
              * Rollback the fix for bug 4432483: jmqcmd, jmqadmin: setting admin max threads = 0 is allowed & hangs. if
              * ((si.isModified(ServiceInfo.MAX_THREADS)) && (si.maxThreads == 0) && (ServiceType.ADMIN == svcType)) {
-             * Globals.stdErrPrintln(ar.getString(ar.E_ADMIN_MAX_THREAD));
-             * Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UPDATE_SVC_FAIL)); return (1); }
+             * CommonGlobals.stdErrPrintln(ar.getString(ar.E_ADMIN_MAX_THREAD));
+             * CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UPDATE_SVC_FAIL)); return (1); }
              */
 
             // If the port is -1, it is not used, so disallow the update.
             if ((si.isModified(ServiceInfo.PORT)) && (svcPort == -1)) {
-                Globals.stdErrPrintln(ar.getString(ar.E_PORT_NOT_ALLOWED_TO_CHANGE, svcName));
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UPDATE_SVC_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.E_PORT_NOT_ALLOWED_TO_CHANGE, svcName));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UPDATE_SVC_FAIL));
                 return (1);
             }
 
             try {
                 broker.sendUpdateServiceMessage(si);
                 broker.receiveUpdateServiceReplyMessage();
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_SVC_SUC));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_SVC_SUC));
 
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UPDATE_SVC_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UPDATE_SVC_FAIL));
                 return (1);
             }
 
@@ -3203,7 +3204,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             int destTypeMask;
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UPDATE_DEST_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UPDATE_DEST_FAIL));
                 return (1);
             }
 
@@ -3215,14 +3216,14 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             destTypeMask = getDestTypeMask(brokerCmdProps);
             destName = brokerCmdProps.getTargetName();
             if (DestType.isQueue(destTypeMask)) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_DEST_Q, destName));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_DEST_Q, destName));
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_DEST_T, destName));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_DEST_T, destName));
             }
-            Globals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln("");
             printAttrs(targetAttrs);
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             if (!force) {
@@ -3236,16 +3237,16 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 } else {
                     input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_UPDATE_DEST_OK), noShort);
                 }
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
 
                 if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_DEST_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_DEST_NOOP));
                     return (0);
 
                 } else if (!(yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input))) {
-                    Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                    Globals.stdOutPrintln("");
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_DEST_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                    CommonGlobals.stdOutPrintln("");
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_DEST_NOOP));
                     return (1);
                 }
             }
@@ -3259,12 +3260,12 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
                 broker.sendUpdateDestinationMessage(di);
                 broker.receiveUpdateDestinationReplyMessage();
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_DEST_SUC));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_DEST_SUC));
 
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UPDATE_DEST_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UPDATE_DEST_FAIL));
                 return (1);
             }
 
@@ -3515,7 +3516,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         if (CMDARG_DESTINATION.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_DST_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_DST_FAIL));
                 return (1);
             }
 
@@ -3527,10 +3528,10 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             String destName = brokerCmdProps.getTargetName();
             int destTypeMask = getDestTypeMask(brokerCmdProps);
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_DST));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_DST));
             printDestinationInfo();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -3783,25 +3784,25 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
                     bcp.println();
 
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_DST_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_DST_SUC));
                 } else {
                     // Should not get here, since if something went wrong we should get
                     // a BrokerAdminException
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_INCORRECT_DATA_RET));
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_DST_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_INCORRECT_DATA_RET));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_DST_FAIL));
                     return (1);
                 }
 
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_DST_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_DST_FAIL));
                 return (1);
             }
         } else if (CMDARG_SERVICE.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_SVC_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_SVC_FAIL));
                 return (1);
             }
 
@@ -3812,10 +3813,10 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
             String svcName = brokerCmdProps.getTargetName();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_SVC));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_SVC));
             printServiceInfo();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -3896,25 +3897,25 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     bcp.add(row);
 
                     bcp.println();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_SVC_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_SVC_SUC));
 
                 } else {
                     // Should not get here, since if something went wrong we should get
                     // a BrokerAdminException
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_INCORRECT_DATA_RET));
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_SVC_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_INCORRECT_DATA_RET));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_SVC_FAIL));
                     return (1);
                 }
 
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_SVC_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_SVC_FAIL));
                 return (1);
             }
         } else if (CMDARG_BROKER.equals(commandArg)) {
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_BKR_FAIL));
                 return (1);
             }
 
@@ -3923,7 +3924,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker = promptForAuthentication(broker);
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -3933,7 +3934,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 Properties bkrProps = broker.receiveGetBrokerPropsReplyMessage();
 
                 if (bkrProps == null) {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_BKR_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_BKR_FAIL));
                     return (1);
                 }
 
@@ -3943,18 +3944,18 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     printDisplayableBrokerAttrs(bkrProps);
                 }
 
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_BKR_SUC));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_BKR_SUC));
 
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_BKR_FAIL));
                 return (1);
             }
         } else if (CMDARG_TRANSACTION.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_TXN_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_TXN_FAIL));
                 return (1);
             }
 
@@ -3969,15 +3970,15 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             try {
                 tid = Long.valueOf(tidStr);
             } catch (NumberFormatException nfe) {
-                Globals.stdErrPrintln(ar.getString(ar.E_INVALID_TXN_ID, tidStr));
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_TXN_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.E_INVALID_TXN_ID, tidStr));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_TXN_FAIL));
                 return (1);
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_TXN));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_TXN));
             printTransactionInfo();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -3996,26 +3997,26 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                         printDisplayableTxnAttrs(txnInfo);
                     }
 
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_TXN_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_TXN_SUC));
 
                 } else {
                     // Should not get here, since if something went wrong we should get
                     // a BrokerAdminException
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_INCORRECT_DATA_RET));
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_TXN_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_INCORRECT_DATA_RET));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_TXN_FAIL));
                     return (1);
                 }
 
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_TXN_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_TXN_FAIL));
                 return (1);
             }
         } else if (CMDARG_CONNECTION.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_CXN_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_CXN_FAIL));
                 return (1);
             }
 
@@ -4030,15 +4031,15 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             try {
                 cxnId = Long.valueOf(cxnIdStr);
             } catch (NumberFormatException nfe) {
-                Globals.stdErrPrintln(ar.getString(ar.E_INVALID_CXN_ID, cxnIdStr));
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_CXN_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.E_INVALID_CXN_ID, cxnIdStr));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_CXN_FAIL));
                 return (1);
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_CXN));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_CXN));
             printConnectionInfo();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -4057,28 +4058,28 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                         printDisplayableCxnAttrs(cxnInfo);
                     }
 
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_CXN_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_CXN_SUC));
 
                 } else {
                     // Should not get here, since if something went wrong we should get
                     // a BrokerAdminException
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_INCORRECT_DATA_RET));
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_CXN_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_INCORRECT_DATA_RET));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_CXN_FAIL));
                     return (1);
                 }
 
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_CXN_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_CXN_FAIL));
                 return (1);
             }
         } else if (CMDARG_MSG.equals(commandArg)) {
             if (broker == null) {
                 /*
-                 * Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_MSG_FAIL));
+                 * CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_MSG_FAIL));
                  */
-                Globals.stdErrPrintln("Querying message failed.");
+                CommonGlobals.stdErrPrintln("Querying message failed.");
                 return (1);
             }
 
@@ -4092,15 +4093,15 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             String msgID = brokerCmdProps.getMsgID();
 
             /*
-             * Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_MSG));
+             * CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_MSG));
              */
-            Globals.stdOutPrintln("Querying message:");
+            CommonGlobals.stdOutPrintln("Querying message:");
             printMessageInfo();
 
-            Globals.stdOutPrintln("In the destination");
+            CommonGlobals.stdOutPrintln("In the destination");
             printDestinationInfo();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -4115,29 +4116,29 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     printDisplayableMsgAttrs(oneMsg);
 
                     /*
-                     * Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_MSG_SUC));
+                     * CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_MSG_SUC));
                      */
-                    Globals.stdOutPrintln("Successfully queried message.");
+                    CommonGlobals.stdOutPrintln("Successfully queried message.");
 
                 } else {
                     /*
-                     * Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_MSG_NONE));
+                     * CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_MSG_NONE));
                      */
-                    Globals.stdErrPrintln("There are no messages.");
+                    CommonGlobals.stdErrPrintln("There are no messages.");
 
-                    Globals.stdOutPrintln("");
+                    CommonGlobals.stdOutPrintln("");
                     /*
-                     * Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_MSG_SUC));
+                     * CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_MSG_SUC));
                      */
-                    Globals.stdOutPrintln("Successfully queried message.");
+                    CommonGlobals.stdOutPrintln("Successfully queried message.");
                 }
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
                 /*
-                 * Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_MSG_FAIL));
+                 * CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_MSG_FAIL));
                  */
-                Globals.stdErrPrintln("Querying message failed.");
+                CommonGlobals.stdErrPrintln("Querying message failed.");
                 return (1);
             }
         }
@@ -4169,7 +4170,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             bcp = setupMetricTitle(commandArg, metricType);
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_METRICS_SVC_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_METRICS_SVC_FAIL));
                 return (1);
             }
 
@@ -4180,10 +4181,10 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
             String svcName = brokerCmdProps.getTargetName();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_METRICS_SVC));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_METRICS_SVC));
             printServiceInfo();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -4197,7 +4198,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     MetricCounters mc = (MetricCounters) broker.receiveGetMetricsReplyMessage();
 
                     if (mc == null) {
-                        Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_METRICS_SVC_FAIL));
+                        CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_METRICS_SVC_FAIL));
                         return (1);
                     }
 
@@ -4222,22 +4223,22 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     try {
                         Thread.sleep(sleepTime * 1000);
                     } catch (InterruptedException ie) {
-                        Globals.stdErrPrintln(ie.toString());
+                        CommonGlobals.stdErrPrintln(ie.toString());
                     }
                 }
 
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_METRICS_SVC_SUC));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_METRICS_SVC_SUC));
 
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_METRICS_SVC_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_METRICS_SVC_FAIL));
                 return (1);
             }
         } else if (CMDARG_BROKER.equals(commandArg)) {
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_METRICS_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_METRICS_BKR_FAIL));
                 return (1);
             }
 
@@ -4248,7 +4249,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker = promptForAuthentication(broker);
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_METRICS_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_METRICS_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -4262,7 +4263,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     MetricCounters mc = (MetricCounters) broker.receiveGetMetricsReplyMessage();
 
                     if (mc == null) {
-                        Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_METRICS_BKR_FAIL));
+                        CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_METRICS_BKR_FAIL));
                         return (1);
                     }
 
@@ -4287,18 +4288,18 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     try {
                         Thread.sleep(sleepTime * 1000);
                     } catch (InterruptedException ie) {
-                        Globals.stdErrPrintln(ie.toString());
+                        CommonGlobals.stdErrPrintln(ie.toString());
                     }
 
                 }
 
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_METRICS_BKR_SUC));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_METRICS_BKR_SUC));
 
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_METRICS_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_METRICS_BKR_FAIL));
                 return (1);
             }
         } else if (CMDARG_DESTINATION.equals(commandArg)) {
@@ -4310,7 +4311,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
             bcp = setupDestMetricTitle(commandArg, metricType, destTypeMask);
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_METRICS_DST_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_METRICS_DST_FAIL));
                 return (1);
             }
 
@@ -4319,10 +4320,10 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker = promptForAuthentication(broker);
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_METRICS_DST));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_METRICS_DST));
             printDestinationInfo();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -4336,7 +4337,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     DestMetricsCounters mc = (DestMetricsCounters) broker.receiveGetMetricsReplyMessage();
 
                     if (mc == null) {
-                        Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_METRICS_DST_FAIL));
+                        CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_METRICS_DST_FAIL));
                         return (1);
                     }
 
@@ -4361,18 +4362,18 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     try {
                         Thread.sleep(sleepTime * 1000);
                     } catch (InterruptedException ie) {
-                        Globals.stdErrPrintln(ie.toString());
+                        CommonGlobals.stdErrPrintln(ie.toString());
                     }
 
                 }
 
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_METRICS_DST_SUC));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_METRICS_DST_SUC));
 
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_METRICS_DST_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_METRICS_DST_FAIL));
                 return (1);
             }
 
@@ -4993,7 +4994,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         broker = init();
 
         if (broker == null) {
-            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RELOAD_CLS_FAIL));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RELOAD_CLS_FAIL));
             return (1);
         }
 
@@ -5002,7 +5003,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             broker = promptForAuthentication(broker);
         }
 
-        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RELOAD_CLS));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RELOAD_CLS));
         printBrokerInfo(broker);
 
         try {
@@ -5011,12 +5012,12 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             broker.sendReloadClusterMessage();
             broker.receiveReloadClusterReplyMessage();
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RELOAD_CLS_SUC));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RELOAD_CLS_SUC));
 
         } catch (BrokerAdminException bae) {
             handleBrokerAdminException(bae);
 
-            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RELOAD_CLS_FAIL));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RELOAD_CLS_FAIL));
             return (1);
         }
 
@@ -5033,7 +5034,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         broker = init();
 
         if (broker == null) {
-            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_CHANGEMASTER_CLS_FAIL));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_CHANGEMASTER_CLS_FAIL));
             return (1);
         }
 
@@ -5043,24 +5044,24 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         }
 
         Properties targetAttrs = brokerCmdProps.getTargetAttrs();
-        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CHANGEMASTER_CLS));
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CHANGEMASTER_CLS));
+        CommonGlobals.stdOutPrintln("");
         printAttrs(targetAttrs);
-        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
         printBrokerInfo(broker);
 
         if (!force) {
             String input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_CHANGEMASTER_OK), noShort);
-            Globals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln("");
 
             if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CHANGEMASTER_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CHANGEMASTER_NOOP));
                 return (0);
 
             } else if (!(yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input))) {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CHANGEMASTER_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CHANGEMASTER_NOOP));
                 return (1);
             }
         }
@@ -5069,11 +5070,11 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             connectToBroker(broker);
             broker.sendClusterChangeMasterMessage(targetAttrs);
             broker.receiveClusterChangeMasterReplyMessage();
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CHANGEMASTER_CLS_SUC));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_CHANGEMASTER_CLS_SUC));
 
         } catch (BrokerAdminException bae) {
             handleBrokerAdminException(bae);
-            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_CHANGEMASTER_CLS_FAIL));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_CHANGEMASTER_CLS_FAIL));
             return (1);
         }
         broker.close();
@@ -5094,7 +5095,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         broker = init();
 
         if (broker == null) {
-            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMMIT_TXN_FAIL));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMMIT_TXN_FAIL));
             return (1);
         }
 
@@ -5103,10 +5104,10 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             broker = promptForAuthentication(broker);
         }
 
-        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMMIT_TXN));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMMIT_TXN));
         printTransactionInfo();
 
-        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
         printBrokerInfo(broker);
 
         tidStr = brokerCmdProps.getTargetName();
@@ -5114,8 +5115,8 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         try {
             tid = Long.valueOf(tidStr);
         } catch (NumberFormatException nfe) {
-            Globals.stdErrPrintln(ar.getString(ar.E_INVALID_TXN_ID, tidStr));
-            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMMIT_TXN_FAIL));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.E_INVALID_TXN_ID, tidStr));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMMIT_TXN_FAIL));
             return (1);
         }
 
@@ -5128,35 +5129,35 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             String input = null;
             if (!force) {
                 input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_COMMIT_TXN_OK), noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
                 try {
                     broker.sendCommitTxnMessage(tid);
                     broker.receiveCommitTxnReplyMessage();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMMIT_TXN_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMMIT_TXN_SUC));
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMMIT_TXN_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMMIT_TXN_FAIL));
                     return (1);
                 }
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMMIT_TXN_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMMIT_TXN_NOOP));
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMMIT_TXN_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMMIT_TXN_NOOP));
                 return (1);
             }
 
         } catch (BrokerAdminException bae) {
             handleBrokerAdminException(bae);
 
-            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMMIT_TXN_FAIL));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMMIT_TXN_FAIL));
             return (1);
         }
 
@@ -5177,7 +5178,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         broker = init();
 
         if (broker == null) {
-            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_ROLLBACK_TXN_FAIL));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_ROLLBACK_TXN_FAIL));
             return (1);
         }
 
@@ -5186,10 +5187,10 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             broker = promptForAuthentication(broker);
         }
 
-        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_ROLLBACK_TXN));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_ROLLBACK_TXN));
         printTransactionInfo();
 
-        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
         printBrokerInfo(broker);
 
         tidStr = brokerCmdProps.getTargetName();
@@ -5197,8 +5198,8 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         try {
             tid = Long.valueOf(tidStr);
         } catch (NumberFormatException nfe) {
-            Globals.stdErrPrintln(ar.getString(ar.E_INVALID_TXN_ID, tidStr));
-            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_ROLLBACK_TXN_FAIL));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.E_INVALID_TXN_ID, tidStr));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_ROLLBACK_TXN_FAIL));
             return (1);
         }
 
@@ -5223,8 +5224,8 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } else {
                 // Should not get here, since if something went wrong we should get
                 // a BrokerAdminException
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_INCORRECT_DATA_RET));
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_ROLLBACK_TXN_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_INCORRECT_DATA_RET));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_ROLLBACK_TXN_FAIL));
                 return (1);
             }
 
@@ -5240,34 +5241,34 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             String input = null;
             if (!force) {
                 input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_ROLLBACK_TXN_OK, txnState), noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
                 try {
                     broker.sendRollbackTxnMessage(tid, brokerCmdProps.msgOptionSet());
                     broker.receiveRollbackTxnReplyMessage();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_ROLLBACK_TXN_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_ROLLBACK_TXN_SUC));
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_ROLLBACK_TXN_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_ROLLBACK_TXN_FAIL));
                     return (1);
                 }
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_ROLLBACK_TXN_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_ROLLBACK_TXN_NOOP));
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_ROLLBACK_TXN_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_ROLLBACK_TXN_NOOP));
                 return (1);
             }
         } catch (BrokerAdminException bae) {
             handleBrokerAdminException(bae);
 
-            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_ROLLBACK_TXN_FAIL));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_ROLLBACK_TXN_FAIL));
             return (1);
         }
 
@@ -5302,9 +5303,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
             if (broker == null) {
                 if (compactAll) {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DSTS_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DSTS_FAIL));
                 } else {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DST_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DST_FAIL));
                 }
                 return (1);
             }
@@ -5314,13 +5315,13 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             if (compactAll) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DSTS));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DSTS));
                 printBrokerInfo(broker);
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DST));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DST));
                 printDestinationInfo();
 
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_SPECIFY_BKR));
                 printBrokerInfo(broker);
             }
 
@@ -5331,9 +5332,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 handleBrokerAdminException(bae);
 
                 if (compactAll) {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DSTS_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DSTS_FAIL));
                 } else {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DST_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DST_FAIL));
                 }
                 return (1);
             }
@@ -5344,7 +5345,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 } else {
                     input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_COMPACT_DST_OK), noShort);
                 }
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
@@ -5353,37 +5354,37 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     broker.receiveCompactDestinationReplyMessage();
 
                     if (compactAll) {
-                        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DSTS_SUC));
+                        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DSTS_SUC));
                     } else {
-                        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DST_SUC));
+                        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DST_SUC));
                     }
 
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
                     if (compactAll) {
-                        Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DSTS_FAIL));
+                        CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DSTS_FAIL));
                     } else {
-                        Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DST_FAIL));
+                        CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DST_FAIL));
                     }
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
                 if (compactAll) {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DSTS_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DSTS_NOOP));
                 } else {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DST_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DST_NOOP));
                 }
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
                 if (compactAll) {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DSTS_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DSTS_NOOP));
                 } else {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DST_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DST_NOOP));
                 }
                 return (1);
             }
@@ -5414,7 +5415,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         if (CMDARG_BROKER.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUIESCE_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUIESCE_BKR_FAIL));
                 return (1);
             }
 
@@ -5422,7 +5423,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker = promptForAuthentication(broker);
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUIESCE_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUIESCE_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -5431,36 +5432,36 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUIESCE_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUIESCE_BKR_FAIL));
                 return (1);
             }
 
             if (!force) {
                 input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_QUIESCE_BKR_OK), noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
                 try {
                     broker.sendQuiesceMessage();
                     broker.receiveQuiesceReplyMessage();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUIESCE_BKR_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUIESCE_BKR_SUC));
 
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUIESCE_BKR_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUIESCE_BKR_FAIL));
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUIESCE_BKR_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUIESCE_BKR_NOOP));
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUIESCE_BKR_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUIESCE_BKR_NOOP));
                 return (1);
             }
 
@@ -5491,7 +5492,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         if (CMDARG_BROKER.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UNQUIESCE_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UNQUIESCE_BKR_FAIL));
                 return (1);
             }
 
@@ -5499,7 +5500,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker = promptForAuthentication(broker);
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UNQUIESCE_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UNQUIESCE_BKR));
             printBrokerInfo(broker);
 
             try {
@@ -5508,36 +5509,36 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UNQUIESCE_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UNQUIESCE_BKR_FAIL));
                 return (1);
             }
 
             if (!force) {
                 input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_UNQUIESCE_BKR_OK), noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
                 try {
                     broker.sendUnquiesceMessage();
                     broker.receiveUnquiesceReplyMessage();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UNQUIESCE_BKR_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UNQUIESCE_BKR_SUC));
 
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UNQUIESCE_BKR_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_UNQUIESCE_BKR_FAIL));
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UNQUIESCE_BKR_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UNQUIESCE_BKR_NOOP));
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UNQUIESCE_BKR_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UNQUIESCE_BKR_NOOP));
                 return (1);
             }
 
@@ -5569,7 +5570,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             String brokerID = brokerCmdProps.getTargetName();
 
             if (broker == null) {
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_FAIL));
                 return (1);
             }
 
@@ -5577,9 +5578,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker = promptForAuthentication(broker);
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR));
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_BKR_PERFORMING_TAKEOVER));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_BKR_PERFORMING_TAKEOVER));
 
             printBrokerInfo(broker);
 
@@ -5589,7 +5590,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_FAIL));
                 return (1);
             }
 
@@ -5606,19 +5607,19 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 String value1 = bkrProps.getProperty(PROP_NAME_BKR_CLS_HA);
                 String value2 = bkrProps.getProperty(PROP_NAME_BKR_STORE_MIGRATABLE);
                 if (!Boolean.parseBoolean(value1) && !Boolean.parseBoolean(value2)) {
-                    Globals.stdErrPrintln(ar.getString(ar.E_BROKER_NO_TAKEOVER_SUPPORT));
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.E_BROKER_NO_TAKEOVER_SUPPORT));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_FAIL));
                     return (1);
                 }
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_BKR_FAIL));
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_FAIL));
                 return (1);
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_BKR_STORE_TAKEOVER));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_BKR_STORE_TAKEOVER));
 
             BrokerCmdPrinter bcp = new BrokerCmdPrinter(5, 3, "-");
             String[] row = new String[5];
@@ -5654,8 +5655,8 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                Globals.stdErrPrintln(ar.getString(ar.E_FAILED_TO_OBTAIN_CLUSTER_INFO));
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.E_FAILED_TO_OBTAIN_CLUSTER_INFO));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_FAIL));
                 return (1);
             }
 
@@ -5710,8 +5711,8 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             if (!found) {
-                Globals.stdErrPrintln(ar.getString(ar.E_CANNOT_FIND_BROKERID, brokerID));
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.E_CANNOT_FIND_BROKERID, brokerID));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_FAIL));
                 return (1);
             }
 
@@ -5719,30 +5720,30 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
             if (!force) {
                 input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_TAKEOVER_BKR_OK), noShort);
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
                 try {
                     broker.sendTakeoverMessage(brokerID);
                     broker.receiveTakeoverReplyMessage();
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_SUC));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_SUC));
 
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
 
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_FAIL));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_FAIL));
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_NOOP));
                 return (0);
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_NOOP));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_NOOP));
                 return (1);
             }
 
@@ -5775,14 +5776,14 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         if (CMDARG_BROKER.equals(commandArg)) {
             String brokerID = brokerCmdProps.getTargetName();
             if (brokerID == null && partition != null) {
-                Globals.stdErrPrintln(ar.getString(ar.E_MIGRATE_PARTITION_NO_TARGET_BROKER, partition));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.E_MIGRATE_PARTITION_NO_TARGET_BROKER, partition));
                 return (1);
             }
             if (broker == null) {
                 if (partition == null) {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_FAIL_NOT_MIGRATED));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_FAIL_NOT_MIGRATED));
                 } else {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_FAIL_NOT_MIGRATED, partition, brokerID));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_FAIL_NOT_MIGRATED, partition, brokerID));
                 }
                 return (1);
             }
@@ -5790,9 +5791,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker = promptForAuthentication(broker);
             }
             if (partition == null) {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR));
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION, partition));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION, partition));
             }
             printBrokerInfo(broker);
             try {
@@ -5801,9 +5802,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
                 if (partition == null) {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_FAIL_NOT_MIGRATED));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_FAIL_NOT_MIGRATED));
                 } else {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_FAIL_NOT_MIGRATED, partition, brokerID));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_FAIL_NOT_MIGRATED, partition, brokerID));
                 }
                 return (1);
             }
@@ -5822,22 +5823,22 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 String value3 = bkrProps.getProperty(PROP_NAME_BKR_PARTITION_MIGRATABLE);
                 // isHA = Boolean.valueOf(value1).booleanValue();
                 if (partition == null && !Boolean.parseBoolean(value2)) {
-                    Globals.stdErrPrintln(ar.getString(ar.E_BROKER_NO_STORE_MIGRATION_SUPPORT));
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_FAIL_NOT_MIGRATED));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.E_BROKER_NO_STORE_MIGRATION_SUPPORT));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_FAIL_NOT_MIGRATED));
                     return (1);
                 }
                 if (partition != null && !Boolean.parseBoolean(value3)) {
-                    Globals.stdErrPrintln(ar.getString(ar.E_MIGRATE_PARTITION_NO_SUPPORT));
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_FAIL_NOT_MIGRATED, partition, brokerID));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.E_MIGRATE_PARTITION_NO_SUPPORT));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_FAIL_NOT_MIGRATED, partition, brokerID));
                     return (1);
                 }
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
-                Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_BKR_FAIL));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_QUERY_BKR_FAIL));
                 if (partition == null) {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_FAIL_NOT_MIGRATED));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_FAIL_NOT_MIGRATED));
                 } else {
-                    Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_FAIL_NOT_MIGRATED, partition, brokerID));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_FAIL_NOT_MIGRATED, partition, brokerID));
                 }
                 return (1);
             }
@@ -5845,9 +5846,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             if (brokerID != null) {
 
                 if (partition == null) {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_TO));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_TO));
                 } else {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_TO, partition));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_TO, partition));
                 }
                 int numcolums = 4;
                 if (partition != null) {
@@ -5886,11 +5887,11 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     bkrList = broker.receiveGetClusterReplyMessage();
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
-                    Globals.stdErrPrintln(ar.getString(ar.E_FAILED_TO_OBTAIN_CLUSTER_INFO));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.E_FAILED_TO_OBTAIN_CLUSTER_INFO));
                     if (partition == null) {
-                        Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_FAIL_NOT_MIGRATED));
+                        CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_FAIL_NOT_MIGRATED));
                     } else {
-                        Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_FAIL_NOT_MIGRATED, partition, brokerID));
+                        CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_FAIL_NOT_MIGRATED, partition, brokerID));
                     }
                     return (1);
                 }
@@ -5940,11 +5941,11 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     break;
                 }
                 if (!found) {
-                    Globals.stdErrPrintln(ar.getString(ar.E_CANNOT_FIND_BROKERID, brokerID));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.E_CANNOT_FIND_BROKERID, brokerID));
                     if (partition == null) {
-                        Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_FAIL_NOT_MIGRATED));
+                        CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_FAIL_NOT_MIGRATED));
                     } else {
-                        Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_FAIL_NOT_MIGRATED, partition, brokerID));
+                        CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_FAIL_NOT_MIGRATED, partition, brokerID));
                     }
                     return (1);
                 }
@@ -5957,16 +5958,16 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 } else {
                     input = CommonCmdRunnerUtil.getUserInput(ar.getString(ar.Q_MIGRATE_PARTITION_OK, partition, brokerID), noShort);
                 }
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
                 try {
                     broker.sendMigrateStoreMessage(brokerID, partition);
                     String tobroker = broker.receiveMigrateStoreReplyMessage();
                     if (partition == null) {
-                        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_SUC, tobroker));
+                        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_SUC, tobroker));
                     } else {
-                        Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_SUC, partition, tobroker));
+                        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_SUC, partition, tobroker));
                     }
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
@@ -5989,34 +5990,34 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     }
                     if (st == null) {
                         if (partition == null) {
-                            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_FAIL, bk));
+                            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_FAIL, bk));
                         } else {
-                            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_FAIL, partition, brokerID));
+                            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_FAIL, partition, brokerID));
                         }
                     } else {
                         if (partition == null) {
-                            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_FAIL_STATUS, bk, st));
+                            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_FAIL_STATUS, bk, st));
                         } else {
                             Object[] args = { partition, brokerID, st };
-                            Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_FAIL_STATUS, args));
+                            CommonGlobals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_FAIL_STATUS, args));
                         }
                     }
                     return (1);
                 }
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
                 if (partition == null) {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_NOOP));
                 } else {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_NOOP, partition, brokerID));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_NOOP, partition, brokerID));
                 }
                 return (0);
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
                 if (partition == null) {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_NOOP));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_NOOP));
                 } else {
-                    Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_NOOP, partition, brokerID));
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_NOOP, partition, brokerID));
                 }
                 return (1);
             }
@@ -6041,7 +6042,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         if (CMDARG_DESTINATION.equals(commandArg)) {
 
             if (broker == null) {
-                Globals.stdOutPrintln("Problems connecting to the broker.");
+                CommonGlobals.stdOutPrintln("Problems connecting to the broker.");
                 return (1);
             }
 
@@ -6060,20 +6061,20 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 Vector dest = broker.receiveGetDestinationsReplyMessage();
 
                 if ((dest != null) && (dest.size() == 1)) {
-                    Globals.stdOutPrintln(Boolean.TRUE.toString());
+                    CommonGlobals.stdOutPrintln(Boolean.TRUE.toString());
                     retValue = 0;
 
                 } else {
                     // Should not get here, since if something went wrong we should get
                     // a BrokerAdminException
-                    Globals.stdErrPrintln("Problems retrieving the destination info.");
+                    CommonGlobals.stdErrPrintln("Problems retrieving the destination info.");
                     return (1);
                 }
 
             } catch (BrokerAdminException bae) {
                 // com.sun.messaging.jmq.io.Status.java: 404 == not found
                 if (bae.getReplyStatus() == 404) {
-                    Globals.stdOutPrintln(Boolean.FALSE.toString());
+                    CommonGlobals.stdOutPrintln(Boolean.FALSE.toString());
                     retValue = 0;
                 } else {
                     handleBrokerAdminException(bae);
@@ -6114,7 +6115,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             if (CMDARG_DESTINATION.equals(commandArg)) {
 
                 if (broker == null) {
-                    Globals.stdOutPrintln("Problems connecting to the broker.");
+                    CommonGlobals.stdOutPrintln("Problems connecting to the broker.");
                     retValue = 1;
                     return (1);
                 }
@@ -6139,24 +6140,24 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                         DestinationInfo dInfo = (DestinationInfo) thisEnum.nextElement();
 
                         if (PROP_NAME_OPTION_MAX_MESG_BYTE.equals(attrName)) {
-                            Globals.stdOutPrintln(Long.toString(dInfo.maxMessageBytes));
+                            CommonGlobals.stdOutPrintln(Long.toString(dInfo.maxMessageBytes));
                             retValue = 0;
 
                         } else if (PROP_NAME_OPTION_MAX_MESG.equals(attrName)) {
-                            Globals.stdOutPrintln(Integer.toString(dInfo.maxMessages));
+                            CommonGlobals.stdOutPrintln(Integer.toString(dInfo.maxMessages));
                             retValue = 0;
 
                         } else if (PROP_NAME_OPTION_MAX_PER_MESG_SIZE.equals(attrName)) {
-                            Globals.stdOutPrintln(Long.toString(dInfo.maxMessageSize));
+                            CommonGlobals.stdOutPrintln(Long.toString(dInfo.maxMessageSize));
                             retValue = 0;
 
                         } else if (PROP_NAME_OPTION_CUR_MESG_BYTE.equals(attrName)) {
-                            Globals.stdOutPrintln(Long.toString(dInfo.nMessageBytes));
+                            CommonGlobals.stdOutPrintln(Long.toString(dInfo.nMessageBytes));
                             retValue = 0;
 
                         } else if (PROP_NAME_OPTION_CUR_MESG.equals(attrName)) {
                             String val = Integer.toString(dInfo.nMessages);
-                            Globals.stdOutPrintln(val);
+                            CommonGlobals.stdOutPrintln(val);
                             if (result != null) {
                                 result.add(val);
                             }
@@ -6164,62 +6165,62 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
                         } else if (PROP_NAME_OPTION_CUR_UNACK_MESG.equals(attrName)) {
                             String val = Integer.toString(dInfo.nUnackMessages);
-                            Globals.stdOutPrintln(val);
+                            CommonGlobals.stdOutPrintln(val);
                             if (result != null) {
                                 result.add(val);
                             }
                             retValue = 0;
 
                         } else if (PROP_NAME_OPTION_CUR_PRODUCERS.equals(attrName)) {
-                            Globals.stdOutPrintln(Integer.toString(dInfo.nProducers));
+                            CommonGlobals.stdOutPrintln(Integer.toString(dInfo.nProducers));
                             retValue = 0;
 
                         } else if (PROP_NAME_MAX_FAILOVER_CONSUMER_COUNT.equals(attrName)) {
-                            Globals.stdOutPrintln(Integer.toString(dInfo.maxFailoverConsumers));
+                            CommonGlobals.stdOutPrintln(Integer.toString(dInfo.maxFailoverConsumers));
                             retValue = 0;
 
                         } else if (PROP_NAME_MAX_ACTIVE_CONSUMER_COUNT.equals(attrName)) {
-                            Globals.stdOutPrintln(Integer.toString(dInfo.maxActiveConsumers));
+                            CommonGlobals.stdOutPrintln(Integer.toString(dInfo.maxActiveConsumers));
                             retValue = 0;
 
                         } else if (PROP_NAME_IS_LOCAL_DEST.equals(attrName)) {
                             if (dInfo.isDestinationLocal()) {
-                                Globals.stdOutPrintln(Boolean.TRUE.toString());
+                                CommonGlobals.stdOutPrintln(Boolean.TRUE.toString());
                             } else {
-                                Globals.stdOutPrintln(Boolean.FALSE.toString());
+                                CommonGlobals.stdOutPrintln(Boolean.FALSE.toString());
                             }
                             retValue = 0;
 
                         } else if (PROP_NAME_LIMIT_BEHAVIOUR.equals(attrName)) {
-                            Globals.stdOutPrintln(DestLimitBehavior.getString(dInfo.destLimitBehavior));
+                            CommonGlobals.stdOutPrintln(DestLimitBehavior.getString(dInfo.destLimitBehavior));
                             retValue = 0;
 
                         } else if (PROP_NAME_LOCAL_DELIVERY_PREF.equals(attrName)) {
                             int cdp = dInfo.destCDP;
 
                             if (cdp == ClusterDeliveryPolicy.LOCAL_PREFERRED) {
-                                Globals.stdOutPrintln(Boolean.TRUE.toString());
+                                CommonGlobals.stdOutPrintln(Boolean.TRUE.toString());
                             } else {
-                                Globals.stdOutPrintln(Boolean.FALSE.toString());
+                                CommonGlobals.stdOutPrintln(Boolean.FALSE.toString());
                             }
                             retValue = 0;
 
                         } else if (PROP_NAME_CONSUMER_FLOW_LIMIT.equals(attrName)) {
-                            Globals.stdOutPrintln(Integer.toString(dInfo.maxPrefetch));
+                            CommonGlobals.stdOutPrintln(Integer.toString(dInfo.maxPrefetch));
                             retValue = 0;
 
                         } else if (PROP_NAME_MAX_PRODUCERS.equals(attrName)) {
-                            Globals.stdOutPrintln(Integer.toString(dInfo.maxProducers));
+                            CommonGlobals.stdOutPrintln(Integer.toString(dInfo.maxProducers));
                             retValue = 0;
 
                         } else if (PROP_NAME_OPTION_CUR_A_CONSUMERS.equals(attrName)) {
                             String val = null;
                             if (DestType.isQueue(destTypeMask)) {
                                 val = Integer.toString(dInfo.naConsumers);
-                                Globals.stdOutPrintln(val);
+                                CommonGlobals.stdOutPrintln(val);
                             } else {
                                 val = Integer.toString(dInfo.nConsumers);
-                                Globals.stdOutPrintln(val);
+                                CommonGlobals.stdOutPrintln(val);
                             }
                             if (result != null) {
                                 result.add(val);
@@ -6227,34 +6228,34 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                             retValue = 0;
 
                         } else if (PROP_NAME_OPTION_CUR_B_CONSUMERS.equals(attrName)) {
-                            Globals.stdOutPrintln(Integer.toString(dInfo.nfConsumers));
+                            CommonGlobals.stdOutPrintln(Integer.toString(dInfo.nfConsumers));
                             retValue = 0;
 
                         } else if (PROP_NAME_USE_DMQ.equals(attrName)) {
-                            Globals.stdOutPrintln(Boolean.toString(dInfo.useDMQ()));
+                            CommonGlobals.stdOutPrintln(Boolean.toString(dInfo.useDMQ()));
                             retValue = 0;
 
                         } else if (PROP_NAME_VALIDATE_XML_SCHEMA_ENABLED.equals(attrName)) {
-                            Globals.stdOutPrintln(Boolean.toString(dInfo.validateXMLSchemaEnabled()));
+                            CommonGlobals.stdOutPrintln(Boolean.toString(dInfo.validateXMLSchemaEnabled()));
                             retValue = 0;
 
                         } else if (PROP_NAME_XML_SCHEMA_URI_LIST.equals(attrName)) {
-                            Globals.stdOutPrintln(dInfo.XMLSchemaUriList);
+                            CommonGlobals.stdOutPrintln(dInfo.XMLSchemaUriList);
                             retValue = 0;
 
                         } else if (PROP_NAME_RELOAD_XML_SCHEMA_ON_FAILURE.equals(attrName)) {
-                            Globals.stdOutPrintln(Boolean.toString(dInfo.reloadXMLSchemaOnFailure()));
+                            CommonGlobals.stdOutPrintln(Boolean.toString(dInfo.reloadXMLSchemaOnFailure()));
                             retValue = 0;
 
                         } else {
                             // Should not get here since we check for valid attribute
                             // names in BrokerCmd.checkGetAttr().
-                            Globals.stdErrPrintln(attrName + " is not recognized.");
+                            CommonGlobals.stdErrPrintln(attrName + " is not recognized.");
                             retValue = 1;
                             return (1);
                         }
                     } else {
-                        Globals.stdErrPrintln("Problems retrieving the destination info.");
+                        CommonGlobals.stdErrPrintln("Problems retrieving the destination info.");
                         retValue = 1;
                         return (1);
                     }
@@ -6269,7 +6270,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } else if (CMDARG_SERVICE.equals(commandArg)) {
 
                 if (broker == null) {
-                    Globals.stdOutPrintln("Problems connecting to the broker.");
+                    CommonGlobals.stdOutPrintln("Problems connecting to the broker.");
                     return (1);
                 }
 
@@ -6291,26 +6292,26 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                         ServiceInfo sInfo = (ServiceInfo) thisEnum.nextElement();
 
                         if (BrokerCmdOptions.PROP_NAME_SVC_PORT.equals(attrName)) {
-                            Globals.stdOutPrintln(Integer.toString(sInfo.port));
+                            CommonGlobals.stdOutPrintln(Integer.toString(sInfo.port));
                             retValue = 0;
 
                         } else if (BrokerCmdOptions.PROP_NAME_SVC_MIN_THREADS.equals(attrName)) {
-                            Globals.stdOutPrintln(Integer.toString(sInfo.minThreads));
+                            CommonGlobals.stdOutPrintln(Integer.toString(sInfo.minThreads));
                             retValue = 0;
 
                         } else if (BrokerCmdOptions.PROP_NAME_SVC_MAX_THREADS.equals(attrName)) {
-                            Globals.stdOutPrintln(Integer.toString(sInfo.maxThreads));
+                            CommonGlobals.stdOutPrintln(Integer.toString(sInfo.maxThreads));
                             retValue = 0;
 
                         } else {
                             // Should not get here since we check for valid attribute
                             // names in BrokerCmd.checkGetAttr().
-                            Globals.stdOutPrintln(attrName + " is not recognized.");
+                            CommonGlobals.stdOutPrintln(attrName + " is not recognized.");
                             retValue = 1;
                             return (1);
                         }
                     } else {
-                        Globals.stdOutPrintln("Problems retrieving the service info.");
+                        CommonGlobals.stdOutPrintln("Problems retrieving the service info.");
                         retValue = 1;
                         return (1);
                     }
@@ -6325,7 +6326,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } else if (CMDARG_BROKER.equals(commandArg)) {
 
                 if (broker == null) {
-                    Globals.stdOutPrintln("Problems connecting to the broker.");
+                    CommonGlobals.stdOutPrintln("Problems connecting to the broker.");
                     retValue = 1;
                     return (1);
                 }
@@ -6344,7 +6345,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     Properties bkrProps = broker.receiveGetBrokerPropsReplyMessage();
 
                     if (bkrProps == null) {
-                        Globals.stdOutPrintln("Problems retrieving the broker info.");
+                        CommonGlobals.stdOutPrintln("Problems retrieving the broker info.");
                         retValue = 1;
                         return (1);
                     }
@@ -6352,36 +6353,36 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     String value;
 
                     value = bkrProps.getProperty(attrName, "");
-                    Globals.stdOutPrintln(value);
+                    CommonGlobals.stdOutPrintln(value);
                     retValue = 0;
 
                     /*
                      * if (PROP_NAME_BKR_PRIMARY_PORT.equals(attrName)) { value = bkrProps.getProperty(PROP_NAME_BKR_PRIMARY_PORT, "");
-                     * Globals.stdOutPrintln(value); retValue = 0;
-                     * 
+                     * CommonGlobals.stdOutPrintln(value); retValue = 0;
+                     *
                      * } else if (PROP_NAME_BKR_AUTOCREATE_TOPIC.equals(attrName)) { value =
-                     * bkrProps.getProperty(PROP_NAME_BKR_AUTOCREATE_TOPIC, ""); Globals.stdOutPrintln(value); retValue = 0;
-                     * 
+                     * bkrProps.getProperty(PROP_NAME_BKR_AUTOCREATE_TOPIC, ""); CommonGlobals.stdOutPrintln(value); retValue = 0;
+                     *
                      * } else if (PROP_NAME_BKR_AUTOCREATE_QUEUE.equals(attrName)) { value =
-                     * bkrProps.getProperty(PROP_NAME_BKR_AUTOCREATE_QUEUE, ""); Globals.stdOutPrintln(value); retValue = 0;
-                     * 
+                     * bkrProps.getProperty(PROP_NAME_BKR_AUTOCREATE_QUEUE, ""); CommonGlobals.stdOutPrintln(value); retValue = 0;
+                     *
                      * } else if (PROP_NAME_BKR_MAX_MSG.equals(attrName)) { value = bkrProps.getProperty(PROP_NAME_BKR_MAX_MSG, "");
-                     * Globals.stdOutPrintln(value); retValue = 0;
-                     * 
+                     * CommonGlobals.stdOutPrintln(value); retValue = 0;
+                     *
                      * } else if (PROP_NAME_BKR_MAX_TTL_MSG_BYTES.equals(attrName)) { value =
-                     * bkrProps.getProperty(PROP_NAME_BKR_MAX_TTL_MSG_BYTES, ""); Globals.stdOutPrintln(value); retValue = 0;
-                     * 
+                     * bkrProps.getProperty(PROP_NAME_BKR_MAX_TTL_MSG_BYTES, ""); CommonGlobals.stdOutPrintln(value); retValue = 0;
+                     *
                      * } else if (PROP_NAME_BKR_MAX_MSG_BYTES.equals(attrName)) { value = bkrProps.getProperty(PROP_NAME_BKR_MAX_MSG_BYTES,
-                     * ""); Globals.stdOutPrintln(value); retValue = 0;
-                     * 
+                     * ""); CommonGlobals.stdOutPrintln(value); retValue = 0;
+                     *
                      * } else if (PROP_NAME_BKR_CUR_MSG.equals(attrName)) { value = bkrProps.getProperty(PROP_NAME_BKR_CUR_MSG, "");
-                     * Globals.stdOutPrintln(value); retValue = 0;
-                     * 
+                     * CommonGlobals.stdOutPrintln(value); retValue = 0;
+                     *
                      * } else if (PROP_NAME_BKR_CUR_TTL_MSG_BYTES.equals(attrName)) { value =
-                     * bkrProps.getProperty(PROP_NAME_BKR_CUR_TTL_MSG_BYTES, ""); Globals.stdOutPrintln(value); retValue = 0;
-                     * 
+                     * bkrProps.getProperty(PROP_NAME_BKR_CUR_TTL_MSG_BYTES, ""); CommonGlobals.stdOutPrintln(value); retValue = 0;
+                     *
                      * } else { // Should not get here since we check for valid attribute // names in BrokerCmd.checkGetAttr().
-                     * Globals.stdOutPrintln(attrName + " is not recognized."); retValue = 1; return (1); }
+                     * CommonGlobals.stdOutPrintln(attrName + " is not recognized."); retValue = 1; return (1); }
                      */
 
                 } catch (BrokerAdminException bae) {
@@ -6401,7 +6402,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 }
 
                 if (broker == null) {
-                    Globals.stdOutPrintln("Problems connecting to the broker.");
+                    CommonGlobals.stdOutPrintln("Problems connecting to the broker.");
                     retValue = 1;
                     return (1);
                 }
@@ -6427,10 +6428,10 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                                 String val = null;
                                 if (clientID != null && clientID.equals(dinfo.clientID)) {
                                     val = Integer.toString(dinfo.activeCount);
-                                    Globals.stdOutPrintln(val);
+                                    CommonGlobals.stdOutPrintln(val);
                                 } else {
                                     val = Integer.toString(dinfo.activeCount);
-                                    Globals.stdOutPrintln(val);
+                                    CommonGlobals.stdOutPrintln(val);
                                 }
                                 if (result != null) {
                                     result.add(val);
@@ -6439,15 +6440,15 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                             }
                         } else if (destName != null && dinfo.consumer != null && destName.equals(dinfo.consumer.destination)) {
                             if (clientID != null && clientID.equals(dinfo.clientID)) {
-                                Globals.stdOutPrintln(Integer.toString(dinfo.activeCount));
+                                CommonGlobals.stdOutPrintln(Integer.toString(dinfo.activeCount));
                                 return 0;
                             } else {
-                                Globals.stdOutPrintln(Integer.toString(dinfo.activeCount));
+                                CommonGlobals.stdOutPrintln(Integer.toString(dinfo.activeCount));
                                 return 0;
                             }
                         }
                     }
-                    Globals.stdErrPrintln("Subscription not found.");
+                    CommonGlobals.stdErrPrintln("Subscription not found.");
                     return 1;
                 } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
@@ -6458,7 +6459,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 String attrName = brokerCmdProps.getSingleTargetAttr();
 
                 if (broker == null) {
-                    Globals.stdOutPrintln("Problems connecting to the broker.");
+                    CommonGlobals.stdOutPrintln("Problems connecting to the broker.");
                     retValue = 1;
                     return (1);
                 }
@@ -6476,13 +6477,13 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     }
                     if (BrokerCmdOptions.PROP_NAME_OPTION_CUR_TXNS.equals(attrName)) {
                         String val = String.valueOf(txns.size());
-                        Globals.stdOutPrintln(val);
+                        CommonGlobals.stdOutPrintln(val);
                         if (result != null) {
                             result.add(val);
                         }
                         retValue = 0;
                     } else if (BrokerCmdOptions.PROP_NAME_OPTION_ALL_TXNS.equals(attrName)) {
-                        Globals.stdOutPrintln(txns.toString());
+                        CommonGlobals.stdOutPrintln(txns.toString());
                         if (result != null) {
                             result.addAll(txns);
                         }
@@ -6512,7 +6513,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         broker = init();
 
         if (broker == null) {
-            Globals.stdOutPrintln("Problems connecting to the broker.");
+            CommonGlobals.stdOutPrintln("Problems connecting to the broker.");
             return (1);
         }
 
@@ -6524,7 +6525,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         try {
             connectToBroker(broker);
             broker.sendShutdownMessage(false, true);
-            Globals.stdOutPrintln("Ungracefully shutdown the broker.");
+            CommonGlobals.stdOutPrintln("Ungracefully shutdown the broker.");
             return (0);
 
         } catch (BrokerAdminException bae) {
@@ -6544,7 +6545,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         broker = init();
 
         if (broker == null) {
-            Globals.stdOutPrintln("Problems connecting to the broker.");
+            CommonGlobals.stdOutPrintln("Problems connecting to the broker.");
             return (1);
         }
 
@@ -6562,7 +6563,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         targetType = brokerCmdProps.getDestType();
         optionalProps = brokerCmdProps.getTargetAttrs();
 
-        Globals.stdOutPrintln("Sending the following DEBUG message:");
+        CommonGlobals.stdOutPrintln("Sending the following DEBUG message:");
 
         bcp = new BrokerCmdPrinter(2, 4, "-", BrokerCmdPrinter.LEFT, false);
         String[] row = new String[2];
@@ -6588,11 +6589,11 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         bcp.println();
 
         if ((optionalProps != null) && (optionalProps.size() > 0)) {
-            Globals.stdOutPrintln("Optional properties:");
+            CommonGlobals.stdOutPrintln("Optional properties:");
             printAttrs(optionalProps, true);
         }
 
-        Globals.stdOutPrintln("To the broker specified by:");
+        CommonGlobals.stdOutPrintln("To the broker specified by:");
         printBrokerInfo(broker);
 
         try {
@@ -6601,13 +6602,13 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             debugHash = broker.receiveDebugReplyMessage();
 
             if (debugHash != null && !debugHash.isEmpty()) {
-                Globals.stdOutPrintln("Data received back from broker:");
+                CommonGlobals.stdOutPrintln("Data received back from broker:");
                 CommonCmdRunnerUtil.printDebugHash(debugHash);
             } else {
-                Globals.stdOutPrintln("No additional data received back from broker.\n");
+                CommonGlobals.stdOutPrintln("No additional data received back from broker.\n");
             }
 
-            Globals.stdOutPrintln("DEBUG message sent successfully.");
+            CommonGlobals.stdOutPrintln("DEBUG message sent successfully.");
 
             return (0);
 
@@ -7083,7 +7084,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
             bcp.println();
         } else {
-            Globals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln("");
         }
 
         /*
@@ -7181,7 +7182,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
     }
 
     /*
-     * Prints out the appropriate error message using Globals.stdErrPrintln()
+     * Prints out the appropriate error message using CommonGlobals.stdErrPrintln()
      */
     private void handleBrokerAdminException(BrokerAdminException bae) {
         CommonCmdRunnerUtil.printBrokerAdminException(bae, OPTION_BROKER_HOSTPORT, brokerCmdProps.debugModeSet());
@@ -7363,9 +7364,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
     /*
      * Not used private String checkAndPrintUnlimitedLong(long value) { String ret;
-     * 
+     *
      * if (value == 0) { ret = ar.getString(ar.I_UNLIMITED) + " (-1)"; } else { ret = new Long(value).toString(); }
-     * 
+     *
      * return (ret); }
      */
 
@@ -7415,11 +7416,11 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
     /*
      * Not used private String checkAndPrintUnlimitedBytes(String s) { SizeString ss; String ret, value = s.trim();
-     * 
+     *
      * try { ss = new SizeString(value); } catch (Exception e) { return (value); }
-     * 
+     *
      * if (ss.getBytes() == 0) { ret = ar.getString(ar.I_UNLIMITED) + " (-1)"; } else { ret = value; }
-     * 
+     *
      * return (ret); }
      */
 
@@ -7514,8 +7515,8 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
             if (count >= broker.getNumRetries()) {
                 connected = false;
-                Globals.stdErrPrintln(ar.getString(ar.E_JMQCMD_CONNECT_ERROR, broker.getBrokerHost(), broker.getBrokerPort()));
-                Globals.stdErrPrintln(ar.getString(ar.E_MAX_RECONNECT_REACHED, Long.valueOf(broker.getTimeout() * broker.getNumRetries() / 1000)));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.E_JMQCMD_CONNECT_ERROR, broker.getBrokerHost(), broker.getBrokerPort()));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.E_MAX_RECONNECT_REACHED, Long.valueOf(broker.getTimeout() * broker.getNumRetries() / 1000)));
             }
         }
         return connected;

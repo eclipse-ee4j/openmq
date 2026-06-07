@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,6 +23,7 @@ import com.sun.messaging.InvalidPropertyException;
 import com.sun.messaging.InvalidPropertyValueException;
 import com.sun.messaging.ReadOnlyPropertyException;
 import com.sun.messaging.jmq.admin.objstore.ObjStoreAttrs;
+import com.sun.messaging.jmq.admin.util.CommonGlobals;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.util.JMSObjFactory;
 import com.sun.messaging.jmq.admin.resources.AdminResources;
@@ -51,7 +52,7 @@ public class CmdPreviewer implements ObjMgrOptions {
         /*
          * Determine type of command and invoke the relevant preview method.
          */
-        Globals.stdOutPrintln(ar.getString(ar.I_PREVIEW_ON));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_PREVIEW_ON));
 
         String cmd = objMgrProps.getCommand();
         if (cmd.equals(OBJMGR_ADD_PROP_VALUE)) {
@@ -109,41 +110,41 @@ public class CmdPreviewer implements ObjMgrOptions {
             }
         } catch (Exception e) {
             handleRunCommandExceptions(e, lookupName);
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_PREV_ADD_FAILED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_PREV_ADD_FAILED));
             return;
         }
 
         if (force) {
-            Globals.stdOutPrintln(ar.getString(ar.I_PROMPT_OFF));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_PROMPT_OFF));
         } else {
-            Globals.stdOutPrintln(ar.getString(ar.I_PROMPT_ON));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_PROMPT_ON));
         }
 
-        Globals.stdOutPrintln("");
-        Globals.stdOutPrintln(ar.getString(ar.I_PREVIEW_ADD, Utils.getObjTypeString(type)));
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_PREVIEW_ADD, Utils.getObjTypeString(type)));
+        CommonGlobals.stdOutPrintln("");
 
         ObjMgrPrinter omp = new ObjMgrPrinter(2, 4);
         omp.printObjPropertiesFromObj((AdministeredObject) newObj);
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
 
         ObjMgrPrinter.printReadOnly(objMgrProps.readOnlyValue());
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
 
-        Globals.stdOutPrintln(ar.getString(ar.I_ADD_CMD_DESC_LOOKUP));
-        Globals.stdOutPrintln("");
-        Globals.stdOutPrintln(lookupName);
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_ADD_CMD_DESC_LOOKUP));
+        CommonGlobals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(lookupName);
+        CommonGlobals.stdOutPrintln("");
 
-        Globals.stdOutPrintln(ar.getString(ar.I_ADD_CMD_DESC_STORE));
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_ADD_CMD_DESC_STORE));
+        CommonGlobals.stdOutPrintln("");
 
         ObjMgrPrinter omp2 = new ObjMgrPrinter(osa, 2, 4);
         omp2.print();
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
 
-        Globals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_ADDED));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_ADDED));
     }
 
     /*
@@ -164,25 +165,25 @@ public class CmdPreviewer implements ObjMgrOptions {
         boolean force = objMgrProps.forceModeSet();
 
         if (force) {
-            Globals.stdOutPrintln(ar.getString(ar.I_PROMPT_OFF));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_PROMPT_OFF));
         } else {
-            Globals.stdOutPrintln(ar.getString(ar.I_PROMPT_ON));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_PROMPT_ON));
         }
 
-        Globals.stdOutPrintln("");
-        Globals.stdOutPrintln(ar.getString(ar.I_PREVIEW_DELETE));
-        Globals.stdOutPrintln("");
-        Globals.stdOutPrintln(lookupName);
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_PREVIEW_DELETE));
+        CommonGlobals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(lookupName);
+        CommonGlobals.stdOutPrintln("");
 
-        Globals.stdOutPrintln(ar.getString(ar.I_DELETE_CMD_DESC_STORE));
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_DELETE_CMD_DESC_STORE));
+        CommonGlobals.stdOutPrintln("");
 
         ObjMgrPrinter omp = new ObjMgrPrinter(osa, 2, 4);
         omp.print();
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
 
-        Globals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_DELETED));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_DELETED));
 
     }
 
@@ -197,19 +198,19 @@ public class CmdPreviewer implements ObjMgrOptions {
         ObjStoreAttrs osa = objMgrProps.getObjStoreAttrs();
         String lookupName = objMgrProps.getLookupName();
 
-        Globals.stdOutPrintln(ar.getString(ar.I_PREVIEW_QUERY));
-        Globals.stdOutPrintln("");
-        Globals.stdOutPrintln(lookupName);
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_PREVIEW_QUERY));
+        CommonGlobals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(lookupName);
+        CommonGlobals.stdOutPrintln("");
 
-        Globals.stdOutPrintln(ar.getString(ar.I_QUERY_CMD_DESC_STORE));
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_QUERY_CMD_DESC_STORE));
+        CommonGlobals.stdOutPrintln("");
 
         ObjMgrPrinter omp = new ObjMgrPrinter(osa, 2, 4);
         omp.print();
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
 
-        Globals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_QUERIED));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_QUERIED));
     }
 
     /*
@@ -226,18 +227,18 @@ public class CmdPreviewer implements ObjMgrOptions {
         String typeString = Utils.getObjTypeString(type);
 
         if (typeString != null) {
-            Globals.stdOutPrintln(ar.getString(ar.I_PREVIEW_LIST_TYPE, typeString));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_PREVIEW_LIST_TYPE, typeString));
         } else {
-            Globals.stdOutPrintln(ar.getString(ar.I_PREVIEW_LIST));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_PREVIEW_LIST));
         }
 
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
 
         ObjMgrPrinter omp = new ObjMgrPrinter(osa, 2, 4);
         omp.print();
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
 
-        Globals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_LISTED));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_LISTED));
     }
 
     /*
@@ -260,12 +261,12 @@ public class CmdPreviewer implements ObjMgrOptions {
         String typeString = Utils.getObjTypeString(type);
 
         if (force) {
-            Globals.stdOutPrintln(ar.getString(ar.I_PROMPT_OFF));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_PROMPT_OFF));
         } else {
-            Globals.stdOutPrintln(ar.getString(ar.I_PROMPT_ON));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_PROMPT_ON));
         }
 
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
 
         if (typeString != null) {
             /*
@@ -293,56 +294,56 @@ public class CmdPreviewer implements ObjMgrOptions {
                 }
             } catch (Exception e) {
                 handleRunCommandExceptions(e, lookupName);
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_OBJ_PREV_UPDATE_FAILED));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_PREV_UPDATE_FAILED));
                 return;
             }
 
-            Globals.stdOutPrintln(ar.getString(ar.I_PREVIEW_UPDATE_TYPE, typeString));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_PREVIEW_UPDATE_TYPE, typeString));
 
-            Globals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln("");
 
             ObjMgrPrinter omp = new ObjMgrPrinter(objProps, 2, 4);
             omp.print();
 
         } else {
-            Globals.stdOutPrintln(ar.getString(ar.I_PREVIEW_UPDATE));
-            Globals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_PREVIEW_UPDATE));
+            CommonGlobals.stdOutPrintln("");
 
             ObjMgrPrinter omp = new ObjMgrPrinter(objProps, 2, 4);
             omp.print();
         }
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
         ObjMgrPrinter.printReadOnly(objMgrProps.readOnlyValue());
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
 
-        Globals.stdOutPrintln(ar.getString(ar.I_WITH_LOOKUP_NAME));
-        Globals.stdOutPrintln("");
-        Globals.stdOutPrintln(lookupName);
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_WITH_LOOKUP_NAME));
+        CommonGlobals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(lookupName);
+        CommonGlobals.stdOutPrintln("");
 
-        Globals.stdOutPrintln(ar.getString(ar.I_UPDATE_CMD_DESC_STORE));
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_UPDATE_CMD_DESC_STORE));
+        CommonGlobals.stdOutPrintln("");
 
         ObjMgrPrinter omp = new ObjMgrPrinter(osa, 2, 4);
         omp.print();
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
 
-        Globals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_UPDATED));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_UPDATED));
     }
 
     private void handleRunCommandExceptions(Exception e, String lookupName) {
 
         if (e instanceof InvalidPropertyException) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_PROPNAME, e.getMessage()));
-            Globals.stdErrPrintln("");
-            Globals.stdErrPrintln(ar.getString(ar.I_VALID_PROPNAMES));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_PROPNAME, e.getMessage()));
+            CommonGlobals.stdErrPrintln("");
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_VALID_PROPNAMES));
 
         } else if (e instanceof InvalidPropertyValueException) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_PROP_VALUE, e.getMessage()));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_PROP_VALUE, e.getMessage()));
 
         } else if (e instanceof ReadOnlyPropertyException) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_CANT_MOD_READONLY));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_CANT_MOD_READONLY));
         }
     }
 

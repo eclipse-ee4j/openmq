@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -31,7 +31,7 @@ import com.sun.messaging.jmq.util.DestMetricsCounters;
 
 import com.sun.messaging.jmq.admin.event.BrokerCmdStatusEvent;
 import com.sun.messaging.jmq.admin.event.CommonCmdStatusEvent;
-import com.sun.messaging.jmq.admin.util.Globals;
+import com.sun.messaging.jmq.admin.util.CommonGlobals;
 
 /**
  * This class provides the convenient methods for sending administration messages to the JMQ broker.
@@ -176,7 +176,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendHelloMessage() throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendHelloMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendHelloMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -190,7 +190,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(MessageType.HELLO, "HELLO");
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_PROTOCOL_LEVEL + "=" + 102);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_PROTOCOL_LEVEL + "=" + 102);
             }
             sender.send(mesg);
 
@@ -201,7 +201,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveHelloReplyMessage() throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveHelloReplyMessage() *****");
+            CommonGlobals.stdOutPrintln("***** receiveHelloReplyMessage() *****");
         }
         Message mesg = null;
 
@@ -221,7 +221,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendGetServicesMessage(String svcName) throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendGetServicesMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendGetServicesMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -242,7 +242,7 @@ public class BrokerAdmin extends BrokerAdminConn {
             if (getDebug()) {
                 printMsgType(MessageType.GET_SERVICES, "GET_SERVICES");
                 if (svcName != null) {
-                    Globals.stdOutPrintln("\t" + MessageType.JMQ_SERVICE_NAME + "=" + svcName);
+                    CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_SERVICE_NAME + "=" + svcName);
                 }
             }
             sender.send(mesg);
@@ -258,7 +258,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public Vector receiveGetServicesReplyMessage(boolean waitForResponse) throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveGetServicesReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveGetServicesReplyMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -291,7 +291,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendPauseMessage(String svcName) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendPauseMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendPauseMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -313,7 +313,7 @@ public class BrokerAdmin extends BrokerAdminConn {
             if (getDebug()) {
                 printMsgType(MessageType.PAUSE, "PAUSE");
                 if (svcName != null) {
-                    Globals.stdOutPrintln("\t" + MessageType.JMQ_SERVICE_NAME + "=" + svcName);
+                    CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_SERVICE_NAME + "=" + svcName);
                 }
             }
             sender.send(mesg);
@@ -325,7 +325,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendPauseMessage(String dstName, int dstType, int pauseType) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendPauseMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendPauseMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -349,11 +349,11 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(MessageType.PAUSE, "PAUSE");
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_DESTINATION + "=" + dstName);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_DESTINATION + "=" + dstName);
 
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_DEST_TYPE + "=" + dstType);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_DEST_TYPE + "=" + dstType);
 
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_DEST_STATE + "=" + pauseType);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_DEST_STATE + "=" + pauseType);
             }
             sender.send(mesg);
         } catch (Exception e) {
@@ -364,7 +364,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void receivePauseReplyMessage() throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receivePauseReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receivePauseReplyMessage *****");
         }
         Message mesg = null;
 
@@ -382,7 +382,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendResetBrokerMessage(String resetType) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendResetBrokerMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendResetBrokerMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -400,7 +400,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(MessageType.RESET_BROKER, "RESET_BROKER");
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_RESET_TYPE + "=" + resetType);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_RESET_TYPE + "=" + resetType);
             }
             sender.send(mesg);
         } catch (Exception e) {
@@ -411,7 +411,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void receiveResetBrokerReplyMessage() throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveResetBrokerReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveResetBrokerReplyMessage *****");
         }
         Message mesg = null;
 
@@ -429,7 +429,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendCheckpointBrokerMessage() throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendCheckpointBrokerMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendCheckpointBrokerMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -454,7 +454,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void receiveCheckpointBrokerReplyMessage() throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveCheckpointBrokerReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveCheckpointBrokerReplyMessage *****");
         }
         Message mesg = null;
 
@@ -472,7 +472,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendResumeMessage(String svcName) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendResumeMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendResumeMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -494,7 +494,7 @@ public class BrokerAdmin extends BrokerAdminConn {
             if (getDebug()) {
                 printMsgType(MessageType.RESUME, "RESUME");
                 if (svcName != null) {
-                    Globals.stdOutPrintln("\t" + MessageType.JMQ_SERVICE_NAME + "=" + svcName);
+                    CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_SERVICE_NAME + "=" + svcName);
                 }
             }
             sender.send(mesg);
@@ -506,7 +506,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendResumeMessage(String dstName, int dstType) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendResumeMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendResumeMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -527,9 +527,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(MessageType.RESUME, "RESUME");
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_DESTINATION + "=" + dstName);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_DESTINATION + "=" + dstName);
 
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_DEST_TYPE + "=" + dstType);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_DEST_TYPE + "=" + dstType);
             }
             sender.send(mesg);
         } catch (Exception e) {
@@ -540,7 +540,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void receiveResumeReplyMessage() throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveResumeReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveResumeReplyMessage *****");
         }
         Message mesg = null;
 
@@ -558,7 +558,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendQuiesceMessage() throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendQuiesceMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendQuiesceMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -583,7 +583,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void receiveQuiesceReplyMessage() throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveQuiesceReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveQuiesceReplyMessage *****");
         }
         Message mesg = null;
 
@@ -601,7 +601,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendUnquiesceMessage() throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendUnquiesceMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendUnquiesceMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -626,7 +626,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void receiveUnquiesceReplyMessage() throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveUnquiesceReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveUnquiesceReplyMessage *****");
         }
         Message mesg = null;
 
@@ -644,7 +644,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendTakeoverMessage(String brokerID) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendTakeoverMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendTakeoverMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -660,7 +660,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(MessageType.TAKEOVER_BROKER, "TAKEOVER_BROKER");
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_BROKER_ID + " = " + brokerID);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_BROKER_ID + " = " + brokerID);
             }
             sender.send(mesg);
         } catch (Exception e) {
@@ -671,7 +671,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void receiveTakeoverReplyMessage() throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveTakeoverReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveTakeoverReplyMessage *****");
         }
         Message mesg = null;
 
@@ -689,7 +689,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendMigrateStoreMessage(String brokerID, String partition) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendMigrateStoreMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendMigrateStoreMessage *****");
         }
         ObjectMessage mesg = null;
         checkIfBusy();
@@ -706,7 +706,7 @@ public class BrokerAdmin extends BrokerAdminConn {
             statusEvent = createStatusEvent(BrokerCmdStatusEvent.MIGRATESTORE_BKR, MessageType.MIGRATESTORE_BROKER_REPLY, "MIGRATESTORE_BROKER_REPLY");
             if (getDebug()) {
                 printMsgType(MessageType.MIGRATESTORE_BROKER, "MIGRATESTORE_BROKER");
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_BROKER_ID + " = " + brokerID);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_BROKER_ID + " = " + brokerID);
             }
             sender.send(mesg);
         } catch (Exception e) {
@@ -717,7 +717,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public String receiveMigrateStoreReplyMessage() throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveMigrateStoreReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveMigrateStoreReplyMessage *****");
         }
         Message mesg = null;
         try {
@@ -744,7 +744,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendGetDestinationsMessage(String dstName, int dstType, boolean showpartition, boolean loaddestination) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendGetDestinationsMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendGetDestinationsMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -774,8 +774,8 @@ public class BrokerAdmin extends BrokerAdminConn {
             if (getDebug()) {
                 printMsgType(MessageType.GET_DESTINATIONS, "GET_DESTINATIONS");
                 if (dstName != null) {
-                    Globals.stdOutPrintln("\t" + MessageType.JMQ_DESTINATION + "=" + dstName);
-                    Globals.stdOutPrintln("\t" + MessageType.JMQ_DEST_TYPE + "=" + dstType);
+                    CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_DESTINATION + "=" + dstName);
+                    CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_DEST_TYPE + "=" + dstType);
                 }
             }
             sender.send(mesg);
@@ -790,7 +790,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public Vector receiveGetDestinationsReplyMessage(boolean waitForResponse) throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveGetDestinationsReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveGetDestinationsReplyMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -822,7 +822,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendCreateDestinationMessage(DestinationInfo dstInfo) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendCreateDestinationMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendCreateDestinationMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -850,7 +850,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void receiveCreateDestinationReplyMessage() throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveCreateDestinationReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveCreateDestinationReplyMessage *****");
         }
         Message mesg = null;
 
@@ -869,7 +869,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendDestroyDestinationMessage(String dstName, int dstType) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendDestroyDestinationMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendDestroyDestinationMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -887,8 +887,8 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(MessageType.DESTROY_DESTINATION, "DESTROY_DESTINATION");
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_DESTINATION + "=" + dstName);
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_DEST_TYPE + "=" + dstType);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_DESTINATION + "=" + dstName);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_DEST_TYPE + "=" + dstType);
             }
             sender.send(mesg);
         } catch (Exception e) {
@@ -898,7 +898,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveDestroyDestinationReplyMessage() throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveDestroyDestinationReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveDestroyDestinationReplyMessage *****");
         }
         Message mesg = null;
 
@@ -916,7 +916,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendPurgeDestinationMessage(String dstName, int dstType) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendPurgeDestinationMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendPurgeDestinationMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -934,8 +934,8 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(MessageType.PURGE_DESTINATION, "PURGE_DESTINATION");
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_DESTINATION + "=" + dstName);
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_DEST_TYPE + "=" + dstType);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_DESTINATION + "=" + dstName);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_DEST_TYPE + "=" + dstType);
             }
 
             sender.send(mesg);
@@ -946,7 +946,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receivePurgeDestinationReplyMessage() throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receivePurgeDestinationReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receivePurgeDestinationReplyMessage *****");
         }
         Message mesg = null;
 
@@ -964,7 +964,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendGetBrokerPropsMessage() throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendGetBrokerPropsMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendGetBrokerPropsMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -994,7 +994,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public Properties receiveGetBrokerPropsReplyMessage(boolean waitForResponse) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveGetBrokerPropsReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveGetBrokerPropsReplyMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1022,7 +1022,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendUpdateBrokerPropsMessage(Properties props) throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendUpdateBrokerPropsMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendUpdateBrokerPropsMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1038,7 +1038,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(MessageType.UPDATE_BROKER_PROPS, "UPDATE_BROKER_PROPS");
-                Globals.stdOutPrintln("\tProperties=" + props);
+                CommonGlobals.stdOutPrintln("\tProperties=" + props);
             }
             sender.send(mesg);
         } catch (Exception e) {
@@ -1048,7 +1048,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveUpdateBrokerPropsReplyMessage() throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveUpdateBrokerPropsReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveUpdateBrokerPropsReplyMessage *****");
         }
         Message mesg = null;
 
@@ -1066,7 +1066,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendUpdateDestinationMessage(DestinationInfo dstInfo) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendUpdateDestinationMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendUpdateDestinationMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1094,7 +1094,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void receiveUpdateDestinationReplyMessage() throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveUpdateDestinationReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveUpdateDestinationReplyMessage *****");
         }
         Message mesg = null;
 
@@ -1112,7 +1112,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendUpdateServiceMessage(ServiceInfo svcInfo) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendUpdateServiceMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendUpdateServiceMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1139,7 +1139,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveUpdateServiceReplyMessage() throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveUpdateServiceReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveUpdateServiceReplyMessage *****");
         }
         Message mesg = null;
 
@@ -1164,7 +1164,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendShutdownMessage(boolean restart, boolean kill, boolean noFailover, int time) throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendShutdownMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendShutdownMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1193,13 +1193,13 @@ public class BrokerAdmin extends BrokerAdminConn {
             if (getDebug()) {
                 printMsgType(MessageType.SHUTDOWN, "SHUTDOWN");
                 if (restart) {
-                    Globals.stdOutPrintln("\t" + MessageType.JMQ_RESTART + "=true");
+                    CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_RESTART + "=true");
                 } else {
-                    Globals.stdOutPrintln("\t" + MessageType.JMQ_NO_FAILOVER + "=" + noFailover);
-                    Globals.stdOutPrintln("\t" + MessageType.JMQ_TIME + "=" + time);
+                    CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_NO_FAILOVER + "=" + noFailover);
+                    CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_TIME + "=" + time);
                 }
                 if (kill) {
-                    Globals.stdOutPrintln("\t" + MessageType.JMQ_KILL + "=true");
+                    CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_KILL + "=true");
                 }
             }
             sender.send(mesg);
@@ -1210,7 +1210,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveShutdownReplyMessage() throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveShutdownReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveShutdownReplyMessage *****");
         }
         Message mesg = null;
 
@@ -1243,7 +1243,7 @@ public class BrokerAdmin extends BrokerAdminConn {
      */
     public void sendGetDurablesMessage(String topicName, String durName) throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendGetDurablesMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendGetDurablesMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1266,9 +1266,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(MessageType.GET_DURABLES, "GET_DURABLES");
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_DESTINATION + "=" + topicName);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_DESTINATION + "=" + topicName);
                 if (durName != null) {
-                    Globals.stdOutPrintln("\t" + MessageType.JMQ_DURABLE_NAME + "=" + durName);
+                    CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_DURABLE_NAME + "=" + durName);
                 }
             }
             sender.send(mesg);
@@ -1285,7 +1285,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public Vector receiveGetDurablesReplyMessage(boolean waitForResponse) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveGetDurablesReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveGetDurablesReplyMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1316,7 +1316,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendDestroyDurableMessage(String durName, String clientID) throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendDestroyDurableMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendDestroyDurableMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1337,8 +1337,8 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(MessageType.DESTROY_DURABLE, "DESTROY_DURABLE");
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_DURABLE_NAME + "=" + durName);
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_CLIENT_ID + "=" + clientID);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_DURABLE_NAME + "=" + durName);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_CLIENT_ID + "=" + clientID);
             }
             sender.send(mesg);
 
@@ -1349,7 +1349,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendPurgeDurableMessage(String durName, String clientID) throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendPurgeDurableMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendPurgeDurableMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1370,8 +1370,8 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(MessageType.PURGE_DURABLE, "PURGE_DURABLE");
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_DURABLE_NAME + "=" + durName);
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_CLIENT_ID + "=" + clientID);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_DURABLE_NAME + "=" + durName);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_CLIENT_ID + "=" + clientID);
             }
             sender.send(mesg);
 
@@ -1382,7 +1382,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveDestroyDurableReplyMessage() throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveDestroyDurableReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveDestroyDurableReplyMessage *****");
         }
         Message mesg = null;
 
@@ -1399,7 +1399,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receivePurgeDurableReplyMessage() throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receivePurgeDurableReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receivePurgeDurableReplyMessage *****");
         }
         Message mesg = null;
 
@@ -1416,7 +1416,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendGetMetricsMessage(String svcName) throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendGetMetricsMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendGetMetricsMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1438,7 +1438,7 @@ public class BrokerAdmin extends BrokerAdminConn {
             if (getDebug()) {
                 printMsgType(MessageType.GET_METRICS, "GET_METRICS");
                 if (svcName != null) {
-                    Globals.stdOutPrintln("\t" + MessageType.JMQ_SERVICE_NAME + "=" + svcName);
+                    CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_SERVICE_NAME + "=" + svcName);
                 }
             }
             sender.send(mesg);
@@ -1450,7 +1450,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendGetMetricsMessage(String dstName, int dstType) throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendGetMetricsMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendGetMetricsMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1467,8 +1467,8 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(MessageType.GET_METRICS, "GET_METRICS");
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_DESTINATION + "=" + dstName);
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_DEST_TYPE + "=" + dstType);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_DESTINATION + "=" + dstName);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_DEST_TYPE + "=" + dstType);
             }
             sender.send(mesg);
 
@@ -1479,7 +1479,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public Object receiveGetMetricsReplyMessage() throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveGetMetricsReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveGetMetricsReplyMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1517,7 +1517,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendReloadClusterMessage() throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendReloadClusterMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendReloadClusterMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1542,7 +1542,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveReloadClusterReplyMessage() throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveReloadClusterReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveReloadClusterReplyMessage *****");
         }
         Message mesg = null;
 
@@ -1560,7 +1560,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendClusterChangeMasterMessage(Properties props) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendClusterChangeMasterMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendClusterChangeMasterMessage *****");
         }
 
         ObjectMessage mesg = null;
@@ -1578,7 +1578,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(MessageType.CHANGE_CLUSTER_MASTER_BROKER, "CHANGE_CLUSTER_MASTER_BROKER");
-                Globals.stdOutPrintln("\tProperties=" + props);
+                CommonGlobals.stdOutPrintln("\tProperties=" + props);
             }
             sender.send(mesg);
         } catch (Exception e) {
@@ -1589,7 +1589,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void receiveClusterChangeMasterReplyMessage() throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveClusterChangeMasterReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveClusterChangeMasterReplyMessage *****");
         }
         Message mesg = null;
 
@@ -1606,7 +1606,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendGetClusterMessage(boolean listBkr) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendGetClusterMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendGetClusterMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1638,7 +1638,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public Vector receiveGetClusterReplyMessage(boolean waitForResponse) throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveGetClusterReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveGetClusterReplyMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1670,7 +1670,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendGetJMXConnectorsMessage(String name) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendGetJMXConnectorsMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendGetJMXConnectorsMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1698,7 +1698,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public Vector receiveGetJMXConnectorsReplyMessage(boolean waitForResponse) throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveGetJMXConnectorsReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveGetJMXConnectorsReplyMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1731,7 +1731,7 @@ public class BrokerAdmin extends BrokerAdminConn {
             throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendGetMessagesMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendGetMessagesMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1772,7 +1772,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public Vector receiveGetMessagesReplyMessage(boolean waitForResponse) throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveGetMessagesReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveGetMessagesReplyMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1804,7 +1804,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendDestroyMessagesMessage(String dstName, int dstType, String msgID) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendDestroyMessagesMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendDestroyMessagesMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1837,7 +1837,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveDestroyMessagesReplyMessage(boolean waitForResponse) throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveDestroyMessagesReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveDestroyMessagesReplyMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1855,7 +1855,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendCommitTxnMessage(Long tid) throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendCommitTxnMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendCommitTxnMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1871,7 +1871,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(MessageType.COMMIT_TRANSACTION, "COMMIT_TRANSACTION");
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_TRANSACTION_ID + "=" + tid.longValue());
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_TRANSACTION_ID + "=" + tid.longValue());
             }
             sender.send(mesg);
 
@@ -1882,7 +1882,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveCommitTxnReplyMessage() throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveCommitTxnReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveCommitTxnReplyMessage *****");
         }
         Message mesg = null;
 
@@ -1899,7 +1899,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendRollbackTxnMessage(Long tid, boolean processActiveConsumers) throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendRollbackTxnMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendRollbackTxnMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1918,7 +1918,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(MessageType.ROLLBACK_TRANSACTION, "ROLLBACK_TRANSACTION");
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_TRANSACTION_ID + "=" + tid.longValue());
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_TRANSACTION_ID + "=" + tid.longValue());
             }
             sender.send(mesg);
 
@@ -1929,7 +1929,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveRollbackTxnReplyMessage() throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveRollbackTxnReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveRollbackTxnReplyMessage *****");
         }
         Message mesg = null;
 
@@ -1960,7 +1960,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     private void sendGetTxnsMessage(boolean tid_specified, Long tid, boolean showpartition) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendGetTxnsMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendGetTxnsMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -1984,11 +1984,11 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(MessageType.GET_TRANSACTIONS, "GET_TRANSACTIONS");
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_TRANSACTION_ID + "=");
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_TRANSACTION_ID + "=");
                 if (tid_specified) {
-                    Globals.stdOutPrintln(tid.toString());
+                    CommonGlobals.stdOutPrintln(tid.toString());
                 } else {
-                    Globals.stdOutPrintln("NOT SPECIFIED");
+                    CommonGlobals.stdOutPrintln("NOT SPECIFIED");
                 }
             }
             sender.send(mesg);
@@ -2003,7 +2003,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public Vector receiveGetTxnsReplyMessage(boolean waitForResponse) throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveGetTxnsReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveGetTxnsReplyMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -2021,13 +2021,13 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 int quantity = 0;
-                Globals.stdOutPrintln("obj returned: " + obj);
+                CommonGlobals.stdOutPrintln("obj returned: " + obj);
                 try {
                     quantity = mesg.getIntProperty(MessageType.JMQ_QUANTITY);
                 } catch (JMSException jmse) {
-                    Globals.stdOutPrintln("failed to get JMQ_QUANTITY: " + jmse);
+                    CommonGlobals.stdOutPrintln("failed to get JMQ_QUANTITY: " + jmse);
                 }
-                Globals.stdOutPrintln("JMQ_QUANTTY: " + quantity);
+                CommonGlobals.stdOutPrintln("JMQ_QUANTTY: " + quantity);
             }
 
             if (obj instanceof Vector) {
@@ -2046,7 +2046,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendCompactDestinationMessage(String dstName, int dstType) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendCompactDestinationMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendCompactDestinationMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -2068,8 +2068,8 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(MessageType.COMPACT_DESTINATION, "COMPACT_DESTINATION");
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_DESTINATION + "=" + dstName);
-                Globals.stdOutPrintln("\t" + MessageType.JMQ_DEST_TYPE + "=" + dstType);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_DESTINATION + "=" + dstName);
+                CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_DEST_TYPE + "=" + dstType);
             }
 
             sender.send(mesg);
@@ -2080,7 +2080,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveCompactDestinationReplyMessage() throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveCompactDestinationReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveCompactDestinationReplyMessage *****");
         }
         Message mesg = null;
 
@@ -2104,7 +2104,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendGetConnectionsMessage(String svcName, Long cxnId) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendGetConnectionsMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendGetConnectionsMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -2130,10 +2130,10 @@ public class BrokerAdmin extends BrokerAdminConn {
             if (getDebug()) {
                 printMsgType(MessageType.GET_CONNECTIONS, "GET_CONNECTIONS");
                 if (svcName != null) {
-                    Globals.stdOutPrintln("\t" + MessageType.JMQ_SERVICE_NAME + "=" + svcName);
+                    CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_SERVICE_NAME + "=" + svcName);
                 }
                 if (cxnId != null) {
-                    Globals.stdOutPrintln("\t" + MessageType.JMQ_CONNECTION_ID + "=" + cxnId.longValue());
+                    CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_CONNECTION_ID + "=" + cxnId.longValue());
                 }
             }
             sender.send(mesg);
@@ -2148,7 +2148,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public Vector receiveGetConnectionsReplyMessage(boolean waitForResponse) throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveGetConnectionsReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveGetConnectionsReplyMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -2183,7 +2183,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendDestroyConnectionMessage(Long cxnId) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendDestroyConnectionMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendDestroyConnectionMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -2202,7 +2202,7 @@ public class BrokerAdmin extends BrokerAdminConn {
             if (getDebug()) {
                 printMsgType(MessageType.DESTROY_CONNECTION, "DESTROY_CONNECTION");
                 if (cxnId != null) {
-                    Globals.stdOutPrintln("\t" + MessageType.JMQ_CONNECTION_ID + "=" + cxnId.longValue());
+                    CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_CONNECTION_ID + "=" + cxnId.longValue());
                 }
             }
             sender.send(mesg);
@@ -2213,7 +2213,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveDestroyConnectionReplyMessage() throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveDestroyConnectionReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveDestroyConnectionReplyMessage *****");
         }
         Message mesg = null;
 
@@ -2233,7 +2233,7 @@ public class BrokerAdmin extends BrokerAdminConn {
      */
     public void sendDebugMessage(String cmd, String cmdarg, String target, String targetType, Properties optionalProps) throws BrokerAdminException {
         if (getDebug()) {
-            Globals.stdOutPrintln("***** sendDebugMessage *****");
+            CommonGlobals.stdOutPrintln("***** sendDebugMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -2282,7 +2282,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     public Hashtable receiveDebugReplyMessage(boolean waitForResponse) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** receiveDebugReplyMessage *****");
+            CommonGlobals.stdOutPrintln("***** receiveDebugReplyMessage *****");
         }
         ObjectMessage mesg = null;
 
@@ -2309,19 +2309,19 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     private static void printMsgType(int msgType, String msgTypeString) {
-        Globals.stdOutPrintln("\t" + MessageType.JMQ_MESSAGE_TYPE + "=" + msgType + "(" + msgTypeString + ")");
+        CommonGlobals.stdOutPrintln("\t" + MessageType.JMQ_MESSAGE_TYPE + "=" + msgType + "(" + msgTypeString + ")");
     }
 
     private static void printDestinationInfoList(Vector v) {
         Enumeration e = v.elements();
 
-        Globals.stdOutPrintln("\t************************");
+        CommonGlobals.stdOutPrintln("\t************************");
         while (e.hasMoreElements()) {
             Object o = e.nextElement();
 
             if (!(o instanceof DestinationInfo)) {
-                Globals.stdOutPrintln("\tprintDestinationInfoList: Vector contained object of type: " + o.getClass().getName());
-                Globals.stdOutPrintln("\t************************");
+                CommonGlobals.stdOutPrintln("\tprintDestinationInfoList: Vector contained object of type: " + o.getClass().getName());
+                CommonGlobals.stdOutPrintln("\t************************");
                 return;
             }
             DestinationInfo dInfo = (DestinationInfo) o;
@@ -2329,45 +2329,45 @@ public class BrokerAdmin extends BrokerAdminConn {
             printDestinationInfo(dInfo);
 
             if (e.hasMoreElements()) {
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
         }
-        Globals.stdOutPrintln("\t************************");
+        CommonGlobals.stdOutPrintln("\t************************");
     }
 
     private static void printDestinationInfo(DestinationInfo dstInfo) {
-        Globals.stdOutPrintln("\tDestinationInfo:");
-        Globals.stdOutPrintln("\t  name=" + dstInfo.name);
-        Globals.stdOutPrintln("\t  type=" + dstInfo.type);
-        Globals.stdOutPrintln("\t  nMessages=" + dstInfo.nMessages);
-        Globals.stdOutPrintln("\t  nMessageBytes=" + dstInfo.nMessageBytes);
-        Globals.stdOutPrintln("\t  nConsumers=" + dstInfo.nConsumers);
-        Globals.stdOutPrintln("\t  maxMessages=" + dstInfo.maxMessages);
-        Globals.stdOutPrintln("\t  maxMessageBytes=" + dstInfo.maxMessageBytes);
-        Globals.stdOutPrintln("\t  maxMessageSize=" + dstInfo.maxMessageSize);
-        Globals.stdOutPrintln("\t  maxFailoverConsumers=" + dstInfo.maxFailoverConsumers);
-        Globals.stdOutPrintln("\t  maxActiveConsumers=" + dstInfo.maxActiveConsumers);
-        Globals.stdOutPrintln("\t  destScope=" + dstInfo.destScope);
-        Globals.stdOutPrintln("\t  destLimitBehavior=" + dstInfo.destLimitBehavior);
-        Globals.stdOutPrintln("\t  destCDP=" + dstInfo.destCDP);
-        Globals.stdOutPrintln("\t  maxPrefetch=" + dstInfo.maxPrefetch);
-        Globals.stdOutPrintln("\t  maxProducers=" + dstInfo.maxProducers);
-        Globals.stdOutPrintln("\t  autocreated=" + dstInfo.autocreated);
-        Globals.stdOutPrintln("\t  naConsumers=" + dstInfo.naConsumers);
-        Globals.stdOutPrintln("\t  nfConsumers=" + dstInfo.nfConsumers);
-        Globals.stdOutPrintln("\t  destState=" + dstInfo.destState);
+        CommonGlobals.stdOutPrintln("\tDestinationInfo:");
+        CommonGlobals.stdOutPrintln("\t  name=" + dstInfo.name);
+        CommonGlobals.stdOutPrintln("\t  type=" + dstInfo.type);
+        CommonGlobals.stdOutPrintln("\t  nMessages=" + dstInfo.nMessages);
+        CommonGlobals.stdOutPrintln("\t  nMessageBytes=" + dstInfo.nMessageBytes);
+        CommonGlobals.stdOutPrintln("\t  nConsumers=" + dstInfo.nConsumers);
+        CommonGlobals.stdOutPrintln("\t  maxMessages=" + dstInfo.maxMessages);
+        CommonGlobals.stdOutPrintln("\t  maxMessageBytes=" + dstInfo.maxMessageBytes);
+        CommonGlobals.stdOutPrintln("\t  maxMessageSize=" + dstInfo.maxMessageSize);
+        CommonGlobals.stdOutPrintln("\t  maxFailoverConsumers=" + dstInfo.maxFailoverConsumers);
+        CommonGlobals.stdOutPrintln("\t  maxActiveConsumers=" + dstInfo.maxActiveConsumers);
+        CommonGlobals.stdOutPrintln("\t  destScope=" + dstInfo.destScope);
+        CommonGlobals.stdOutPrintln("\t  destLimitBehavior=" + dstInfo.destLimitBehavior);
+        CommonGlobals.stdOutPrintln("\t  destCDP=" + dstInfo.destCDP);
+        CommonGlobals.stdOutPrintln("\t  maxPrefetch=" + dstInfo.maxPrefetch);
+        CommonGlobals.stdOutPrintln("\t  maxProducers=" + dstInfo.maxProducers);
+        CommonGlobals.stdOutPrintln("\t  autocreated=" + dstInfo.autocreated);
+        CommonGlobals.stdOutPrintln("\t  naConsumers=" + dstInfo.naConsumers);
+        CommonGlobals.stdOutPrintln("\t  nfConsumers=" + dstInfo.nfConsumers);
+        CommonGlobals.stdOutPrintln("\t  destState=" + dstInfo.destState);
     }
 
     private static void printServiceInfoList(Vector v) {
         Enumeration e = v.elements();
 
-        Globals.stdOutPrintln("\t************************");
+        CommonGlobals.stdOutPrintln("\t************************");
         while (e.hasMoreElements()) {
             Object o = e.nextElement();
 
             if (!(o instanceof ServiceInfo)) {
-                Globals.stdOutPrintln("\tprintServiceInfoList: Vector contained object of type: " + o.getClass().getName());
-                Globals.stdOutPrintln("\t************************");
+                CommonGlobals.stdOutPrintln("\tprintServiceInfoList: Vector contained object of type: " + o.getClass().getName());
+                CommonGlobals.stdOutPrintln("\t************************");
                 return;
             }
             ServiceInfo svcInfo = (ServiceInfo) o;
@@ -2375,38 +2375,38 @@ public class BrokerAdmin extends BrokerAdminConn {
             printServiceInfo(svcInfo);
 
             if (e.hasMoreElements()) {
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
         }
-        Globals.stdOutPrintln("\t************************");
+        CommonGlobals.stdOutPrintln("\t************************");
     }
 
     private static void printServiceInfo(ServiceInfo svcInfo) {
-        Globals.stdOutPrintln("\tServiceInfo:");
-        Globals.stdOutPrintln("\t  name=" + svcInfo.name);
-        Globals.stdOutPrintln("\t  protocol=" + svcInfo.protocol);
-        Globals.stdOutPrintln("\t  type=" + svcInfo.type);
-        Globals.stdOutPrintln("\t  state=" + svcInfo.state);
-        Globals.stdOutPrintln("\t  nConnections=" + svcInfo.nConnections);
-        Globals.stdOutPrintln("\t  currentThreads=" + svcInfo.currentThreads);
-        Globals.stdOutPrintln("\t  dynamicPort=" + svcInfo.dynamicPort);
-        Globals.stdOutPrintln("\t  metrics=" + svcInfo.metrics);
-        Globals.stdOutPrintln("\t  port=" + svcInfo.port);
-        Globals.stdOutPrintln("\t  minThreads=" + svcInfo.minThreads);
-        Globals.stdOutPrintln("\t  maxThreads=" + svcInfo.maxThreads);
+        CommonGlobals.stdOutPrintln("\tServiceInfo:");
+        CommonGlobals.stdOutPrintln("\t  name=" + svcInfo.name);
+        CommonGlobals.stdOutPrintln("\t  protocol=" + svcInfo.protocol);
+        CommonGlobals.stdOutPrintln("\t  type=" + svcInfo.type);
+        CommonGlobals.stdOutPrintln("\t  state=" + svcInfo.state);
+        CommonGlobals.stdOutPrintln("\t  nConnections=" + svcInfo.nConnections);
+        CommonGlobals.stdOutPrintln("\t  currentThreads=" + svcInfo.currentThreads);
+        CommonGlobals.stdOutPrintln("\t  dynamicPort=" + svcInfo.dynamicPort);
+        CommonGlobals.stdOutPrintln("\t  metrics=" + svcInfo.metrics);
+        CommonGlobals.stdOutPrintln("\t  port=" + svcInfo.port);
+        CommonGlobals.stdOutPrintln("\t  minThreads=" + svcInfo.minThreads);
+        CommonGlobals.stdOutPrintln("\t  maxThreads=" + svcInfo.maxThreads);
     }
 
     private static void printConnectionInfoList(Vector v) {
         Enumeration e = v.elements();
 
-        Globals.stdOutPrintln("\t************************");
+        CommonGlobals.stdOutPrintln("\t************************");
         while (e.hasMoreElements()) {
             Object o = e.nextElement();
 
             if (!(o instanceof Hashtable)) {
-                Globals.stdOutPrintln(
+                CommonGlobals.stdOutPrintln(
                         "\tprintConnectionInfoList: Vector contained object of type: " + o.getClass().getName() + "(expected java.util.Hashtable)");
-                Globals.stdOutPrintln("\t************************");
+                CommonGlobals.stdOutPrintln("\t************************");
                 return;
             }
             Hashtable cxnInfo = (Hashtable) o;
@@ -2414,26 +2414,26 @@ public class BrokerAdmin extends BrokerAdminConn {
             printConnectionInfo(cxnInfo);
 
             if (e.hasMoreElements()) {
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
         }
-        Globals.stdOutPrintln("\t************************");
+        CommonGlobals.stdOutPrintln("\t************************");
     }
 
     private static void printConnectionInfo(Hashtable cxnInfo) {
-        print(cxnInfo, "\tConnection Info:", "\t  ", "=", Globals::stdOutPrintln);
+        print(cxnInfo, "\tConnection Info:", "\t  ", "=", CommonGlobals::stdOutPrintln);
     }
 
     private static void printDurableInfoList(Vector v) {
         Enumeration e = v.elements();
 
-        Globals.stdOutPrintln("\t************************");
+        CommonGlobals.stdOutPrintln("\t************************");
         while (e.hasMoreElements()) {
             Object o = e.nextElement();
 
             if (!(o instanceof DurableInfo)) {
-                Globals.stdOutPrintln("\tprintDurableInfoList: Vector contained object of type: " + o.getClass().getName());
-                Globals.stdOutPrintln("\t************************");
+                CommonGlobals.stdOutPrintln("\tprintDurableInfoList: Vector contained object of type: " + o.getClass().getName());
+                CommonGlobals.stdOutPrintln("\t************************");
                 return;
             }
             DurableInfo durInfo = (DurableInfo) o;
@@ -2441,32 +2441,32 @@ public class BrokerAdmin extends BrokerAdminConn {
             printDurableInfo(durInfo);
 
             if (e.hasMoreElements()) {
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
         }
-        Globals.stdOutPrintln("\t************************");
+        CommonGlobals.stdOutPrintln("\t************************");
     }
 
     private static void printDurableInfo(DurableInfo durInfo) {
-        Globals.stdOutPrintln("\tDurableInfo:");
-        Globals.stdOutPrintln("\t  name=" + durInfo.name);
-        Globals.stdOutPrintln("\t  clientID=" + durInfo.clientID);
-        Globals.stdOutPrintln("\t  isDurable=" + durInfo.isDurable);
-        Globals.stdOutPrintln("\t  nMessages=" + durInfo.nMessages);
-        Globals.stdOutPrintln("\t  isActive=" + durInfo.isActive);
-        Globals.stdOutPrintln("\t  ConsumerInfo=" + durInfo.consumer);
+        CommonGlobals.stdOutPrintln("\tDurableInfo:");
+        CommonGlobals.stdOutPrintln("\t  name=" + durInfo.name);
+        CommonGlobals.stdOutPrintln("\t  clientID=" + durInfo.clientID);
+        CommonGlobals.stdOutPrintln("\t  isDurable=" + durInfo.isDurable);
+        CommonGlobals.stdOutPrintln("\t  nMessages=" + durInfo.nMessages);
+        CommonGlobals.stdOutPrintln("\t  isActive=" + durInfo.isActive);
+        CommonGlobals.stdOutPrintln("\t  ConsumerInfo=" + durInfo.consumer);
     }
 
     private static void printTxnInfoList(Vector v) {
         Enumeration e = v.elements();
 
-        Globals.stdOutPrintln("\t************************");
+        CommonGlobals.stdOutPrintln("\t************************");
         while (e.hasMoreElements()) {
             Object o = e.nextElement();
 
             if (!(o instanceof Hashtable)) {
-                Globals.stdOutPrintln("\tprintTxnInfoList: Vector contained object of type: " + o.getClass().getName() + "(expected java.util.Hashtable)");
-                Globals.stdOutPrintln("\t************************");
+                CommonGlobals.stdOutPrintln("\tprintTxnInfoList: Vector contained object of type: " + o.getClass().getName() + "(expected java.util.Hashtable)");
+                CommonGlobals.stdOutPrintln("\t************************");
                 return;
             }
             Hashtable txnInfo = (Hashtable) o;
@@ -2474,26 +2474,26 @@ public class BrokerAdmin extends BrokerAdminConn {
             printTxnInfo(txnInfo);
 
             if (e.hasMoreElements()) {
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
         }
-        Globals.stdOutPrintln("\t************************");
+        CommonGlobals.stdOutPrintln("\t************************");
     }
 
     private static void printTxnInfo(Hashtable txnInfo) {
-        print(txnInfo, "\tTransaction Info:", "\t  ", "=", Globals::stdOutPrintln);
+        print(txnInfo, "\tTransaction Info:", "\t  ", "=", CommonGlobals::stdOutPrintln);
     }
 
     private static void printClusterList(Vector v) {
         Enumeration e = v.elements();
 
-        Globals.stdOutPrintln("\t************************");
+        CommonGlobals.stdOutPrintln("\t************************");
         while (e.hasMoreElements()) {
             Object o = e.nextElement();
 
             if (!(o instanceof Hashtable)) {
-                Globals.stdOutPrintln("\tprintClusterList: Vector contained object of type: " + o.getClass().getName() + "(expected java.util.Hashtable)");
-                Globals.stdOutPrintln("\t************************");
+                CommonGlobals.stdOutPrintln("\tprintClusterList: Vector contained object of type: " + o.getClass().getName() + "(expected java.util.Hashtable)");
+                CommonGlobals.stdOutPrintln("\t************************");
                 return;
             }
             Hashtable bkrClsInfo = (Hashtable) o;
@@ -2501,26 +2501,26 @@ public class BrokerAdmin extends BrokerAdminConn {
             printBkrClsInfo(bkrClsInfo);
 
             if (e.hasMoreElements()) {
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
         }
-        Globals.stdOutPrintln("\t************************");
+        CommonGlobals.stdOutPrintln("\t************************");
     }
 
     private static void printBkrClsInfo(Hashtable bkrClsInfo) {
-        print(bkrClsInfo, "\tBroker Cluster Info:", "\t  ", "=", Globals::stdOutPrintln);
+        print(bkrClsInfo, "\tBroker Cluster Info:", "\t  ", "=", CommonGlobals::stdOutPrintln);
     }
 
     private static void printJMXList(Vector v) {
         Enumeration e = v.elements();
 
-        Globals.stdOutPrintln("\t************************");
+        CommonGlobals.stdOutPrintln("\t************************");
         while (e.hasMoreElements()) {
             Object o = e.nextElement();
 
             if (!(o instanceof Hashtable)) {
-                Globals.stdOutPrintln("\tprintJMXList: Vector contained object of type: " + o.getClass().getName() + "(expected java.util.Hashtable)");
-                Globals.stdOutPrintln("\t************************");
+                CommonGlobals.stdOutPrintln("\tprintJMXList: Vector contained object of type: " + o.getClass().getName() + "(expected java.util.Hashtable)");
+                CommonGlobals.stdOutPrintln("\t************************");
                 return;
             }
             Hashtable jmxInfo = (Hashtable) o;
@@ -2528,14 +2528,14 @@ public class BrokerAdmin extends BrokerAdminConn {
             printJMXInfo(jmxInfo);
 
             if (e.hasMoreElements()) {
-                Globals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln("");
             }
         }
-        Globals.stdOutPrintln("\t************************");
+        CommonGlobals.stdOutPrintln("\t************************");
     }
 
     private static void printJMXInfo(Hashtable jmxInfo) {
-        print(jmxInfo, "\tJMX Connector Info:", "\t  ", "=", Globals::stdOutPrintln);
+        print(jmxInfo, "\tJMX Connector Info:", "\t  ", "=", CommonGlobals::stdOutPrintln);
     }
 
     static void print(Hashtable table, String title, String keyValPrefix, String keyValSeparator, Consumer<String> printer) {

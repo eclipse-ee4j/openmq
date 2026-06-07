@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,6 +25,7 @@ import java.awt.Frame;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import com.sun.messaging.jmq.Version;
+import com.sun.messaging.jmq.admin.util.CommonGlobals;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
 import com.sun.messaging.jmq.admin.resources.AdminResources;
@@ -78,7 +79,7 @@ public class AdminConsole extends JFrame implements AdminApp {
      */
     public AdminConsole() {
         super("");
-        setTitle(acr.getString(acr.I_ADMIN_CONSOLE, Globals.getVersion().getProductName()));
+        setTitle(acr.getString(acr.I_ADMIN_CONSOLE, CommonGlobals.getVersion().getProductName()));
 
         initMgrs();
         initGui();
@@ -217,7 +218,7 @@ public class AdminConsole extends JFrame implements AdminApp {
          */
         getContentPane().add(splitPane2, BorderLayout.CENTER);
 
-        statusArea.appendText(acr.getString(acr.I_ADMIN_CONSOLE, Globals.getVersion().getProductName()) + "\n");
+        statusArea.appendText(acr.getString(acr.I_ADMIN_CONSOLE, CommonGlobals.getVersion().getProductName()) + "\n");
 
         setIconImage(AGraphics.adminImages[AGraphics.DESKTOP_ICON].getImage());
     }
@@ -235,7 +236,7 @@ public class AdminConsole extends JFrame implements AdminApp {
                 BrokerAdmin.setDebug(true);
             } else if (args[i].equals(OPTION_RECV_TIMEOUT)) {
                 if (i == (args.length - 1)) {
-                    Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), acr.getKString(acr.I_ARG_EXPECTED, args[i]), false);
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), acr.getKString(acr.I_ARG_EXPECTED, args[i]), false);
                     System.exit(1);
                 }
 
@@ -247,14 +248,14 @@ public class AdminConsole extends JFrame implements AdminApp {
                 try {
                     longVal = Long.parseLong(val);
                 } catch (Exception e) {
-                    Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), acr.getKString(acr.E_BAD_RECV_TIMEOUT_VAL, val), false);
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), acr.getKString(acr.E_BAD_RECV_TIMEOUT_VAL, val), false);
                     System.exit(1);
                 }
 
                 BrokerAdmin.setDefaultTimeout(longVal * 1000);
             } else if (args[i].equals(OPTION_NUM_RETRIES)) {
                 if (i == (args.length - 1)) {
-                    Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), acr.getKString(acr.I_ARG_EXPECTED, args[i]), false);
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), acr.getKString(acr.I_ARG_EXPECTED, args[i]), false);
                     System.exit(1);
                 }
 
@@ -266,14 +267,14 @@ public class AdminConsole extends JFrame implements AdminApp {
                 try {
                     intVal = Integer.parseInt(val);
                 } catch (Exception e) {
-                    Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), acr.getKString(acr.E_BAD_NUM_RETRIES_VAL, val), false);
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), acr.getKString(acr.E_BAD_NUM_RETRIES_VAL, val), false);
                     System.exit(1);
                 }
 
                 BrokerAdmin.setDefaultNumRetries(intVal);
             } else if (args[i].equals(OPTION_JAVAHOME)) {
                 if (i == (args.length - 1)) {
-                    Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), acr.getKString(acr.I_ARG_EXPECTED, args[i]), false);
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), acr.getKString(acr.I_ARG_EXPECTED, args[i]), false);
                     System.exit(1);
                 }
 
@@ -284,7 +285,7 @@ public class AdminConsole extends JFrame implements AdminApp {
                 // ignore. -varhome is handled by wrapper script
                 ++i;
             } else {
-                Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), acr.getKString(acr.I_UNRECOGNIZED_OPT, args[i]), false);
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), acr.getKString(acr.I_UNRECOGNIZED_OPT, args[i]), false);
 
                 System.exit(1);
             }
@@ -293,20 +294,20 @@ public class AdminConsole extends JFrame implements AdminApp {
 
     private static void printVersion() {
 
-        Version version = Globals.getVersion();
-        Globals.stdOutPrintln(version.getVersion());
-        Globals.stdOutPrintln(ar.getString(ar.I_JAVA_VERSION) + System.getProperty("java.version") + " " + System.getProperty("java.vendor") + " "
+        Version version = CommonGlobals.getVersion();
+        CommonGlobals.stdOutPrintln(version.getVersion());
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JAVA_VERSION) + System.getProperty("java.version") + " " + System.getProperty("java.vendor") + " "
                 + System.getProperty("java.home"));
-        Globals.stdOutPrintln(ar.getString(ar.I_JAVA_CLASSPATH) + System.getProperty("java.class.path"));
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JAVA_CLASSPATH) + System.getProperty("java.class.path"));
     }
 
     private static void printHelp() {
-        Globals.stdOutPrintln(acr.getString(acr.I_USAGE_HELP));
+        CommonGlobals.stdOutPrintln(acr.getString(acr.I_USAGE_HELP));
     }
 
     private static void printBanner() {
         Version version = new Version(false);
-        Globals.stdOutPrintln(version.getBanner(false));
+        CommonGlobals.stdOutPrintln(version.getBanner(false));
     }
 
     public static void main(String[] args) {

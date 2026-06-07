@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -44,6 +44,7 @@ import com.sun.messaging.jmq.admin.objstore.GeneralNamingException;
 import com.sun.messaging.jmq.admin.objstore.NoPermissionException;
 import com.sun.messaging.jmq.admin.objstore.CommunicationException;
 import com.sun.messaging.jmq.admin.objstore.SchemaViolationException;
+import com.sun.messaging.jmq.admin.util.CommonGlobals;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.util.JMSObjFactory;
 import com.sun.messaging.jmq.admin.resources.AdminResources;
@@ -53,7 +54,7 @@ import com.sun.messaging.jmq.util.Password;
  * This class contains the logic to execute the user commands specified in the ObjMgrProperties object. It has one
  * public entry point which is the runCommands() method. It is expected to display to the user if the command execution
  * was successful or not.
- * 
+ *
  * @see ObjMgr
  *
  */
@@ -113,7 +114,7 @@ public class CmdRunner implements ObjMgrOptions {
             os = osmgr.createStore(osa);
 
         } catch (NameNotFoundException nnfe) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_CANNOT_LOC_TREE));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_CANNOT_LOC_TREE));
         } catch (ObjStoreException e) {
             handleRunCommandExceptions(e);
         }
@@ -133,34 +134,34 @@ public class CmdRunner implements ObjMgrOptions {
      * Tries to open a connection to the object store based on the properties/attributes specified. If an error occurred, no
      * exception is thrown, null is returned, and a error msg is printed to stderr. private ObjStore
      * openStore(ObjMgrProperties objMgrProps) { ObjStore os = null;
-     * 
+     *
      * // Get ObjStoreAttrs ObjStoreAttrs osa = objMgrProps.getObjStoreAttrs();
-     * 
+     *
      * return (openStore(osa)); }
      */
 
     private static void printAddCmdDescription(Object newObj, String type, String lookupName, ObjStoreAttrs osa, String readOnlyValue) {
-        Globals.stdOutPrintln(ar.getString(ar.I_ADD_CMD_DESC_INTRO, Utils.getObjTypeString(type)));
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_ADD_CMD_DESC_INTRO, Utils.getObjTypeString(type)));
+        CommonGlobals.stdOutPrintln("");
 
         ObjMgrPrinter omp = new ObjMgrPrinter(2, 4);
         omp.printObjPropertiesFromObj((AdministeredObject) newObj);
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
 
-        Globals.stdOutPrintln(ar.getString(ar.I_ADD_CMD_DESC_LOOKUP));
-        Globals.stdOutPrintln("");
-        Globals.stdOutPrintln(lookupName);
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_ADD_CMD_DESC_LOOKUP));
+        CommonGlobals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(lookupName);
+        CommonGlobals.stdOutPrintln("");
 
         ObjMgrPrinter.printReadOnly(readOnlyValue);
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
 
-        Globals.stdOutPrintln(ar.getString(ar.I_ADD_CMD_DESC_STORE));
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_ADD_CMD_DESC_STORE));
+        CommonGlobals.stdOutPrintln("");
 
         ObjMgrPrinter omp2 = new ObjMgrPrinter(osa, 2, 4);
         omp2.print();
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
     }
 
     private static int runAddCommand(ObjMgrProperties objMgrProps) {
@@ -223,8 +224,8 @@ public class CmdRunner implements ObjMgrOptions {
 
         } catch (Exception e) {
             handleRunCommandExceptions(e, lookupName);
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_ADD_FAILED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_ADD_FAILED));
             return (1);
         }
 
@@ -237,8 +238,8 @@ public class CmdRunner implements ObjMgrOptions {
 
         os = createStore(osa);
         if (os == null) {
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_ADD_FAILED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_ADD_FAILED));
             return (1);
         }
 
@@ -259,8 +260,8 @@ public class CmdRunner implements ObjMgrOptions {
 
         } catch (Exception e) {
             handleRunCommandExceptions(e, lookupName);
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_ADD_FAILED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_ADD_FAILED));
             return (1);
         }
 
@@ -276,24 +277,24 @@ public class CmdRunner implements ObjMgrOptions {
 
             } catch (Exception e) {
                 handleRunCommandExceptions(e, lookupName);
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_OBJ_ADD_FAILED));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_ADD_FAILED));
                 return (1);
             }
 
             // Object already exists so confirm with user.
             if (object != null) {
-                Globals.stdOutPrintln(ar.getCString(ar.I_WARNING_MESG), ar.getString(ar.W_OBJ_ALREADY_EXISTS, lookupName));
+                CommonGlobals.stdOutPrintln(ar.getCString(ar.I_WARNING_MESG), ar.getString(ar.W_OBJ_ALREADY_EXISTS, lookupName));
 
-                Globals.stdOutPrintln(ar.getCString(ar.I_WARNING_MESG), ar.getString(ar.W_ADD_OBJ_BE_OVERWRITTEN));
+                CommonGlobals.stdOutPrintln(ar.getCString(ar.I_WARNING_MESG), ar.getString(ar.W_ADD_OBJ_BE_OVERWRITTEN));
 
                 input = getUserInput(ar.getString(ar.Q_OVERWRITE_OK), noShort);
             }
         }
 
         if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_ADDED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_ADDED));
 
             /*
              * Case where user typed 'y' or 'yes' to overwrite OR case where object doesn't exist yet so no confirmation needed OR
@@ -315,7 +316,7 @@ public class CmdRunner implements ObjMgrOptions {
                 // Should never happen, since we pass true to add
 
             } catch (NameNotFoundException nnfe) {
-                Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_CANNOT_LOC_TREE));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_CANNOT_LOC_TREE));
                 exitcode = 1;
 
             } catch (Exception e) {
@@ -324,15 +325,15 @@ public class CmdRunner implements ObjMgrOptions {
             }
 
             if (exitcode == 0) {
-                Globals.stdOutPrintln(ar.getString(ar.I_OBJ_ADDED));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_ADDED));
             } else {
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_OBJ_ADD_FAILED));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_ADD_FAILED));
             }
         } else {
-            Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_ADDED));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_ADDED));
             exitcode = 1;
         }
 
@@ -340,17 +341,17 @@ public class CmdRunner implements ObjMgrOptions {
     }
 
     private static void printDeleteCmdDescription(String lookupName, ObjStoreAttrs osa) {
-        Globals.stdOutPrintln(ar.getString(ar.I_DELETE_CMD_DESC_INTRO));
-        Globals.stdOutPrintln("");
-        Globals.stdOutPrintln(lookupName);
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_DELETE_CMD_DESC_INTRO));
+        CommonGlobals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(lookupName);
+        CommonGlobals.stdOutPrintln("");
 
-        Globals.stdOutPrintln(ar.getString(ar.I_DELETE_CMD_DESC_STORE));
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_DELETE_CMD_DESC_STORE));
+        CommonGlobals.stdOutPrintln("");
 
         ObjMgrPrinter omp = new ObjMgrPrinter(osa, 2, 4);
         omp.print();
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
     }
 
     private static int runDeleteCommand(ObjMgrProperties objMgrProps) {
@@ -386,8 +387,8 @@ public class CmdRunner implements ObjMgrOptions {
 
         os = createStore(osa);
         if (os == null) {
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_DELETE_FAILED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_DELETE_FAILED));
             return (1);
         }
 
@@ -408,8 +409,8 @@ public class CmdRunner implements ObjMgrOptions {
 
         } catch (Exception e) {
             handleRunCommandExceptions(e, lookupName);
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_DELETE_FAILED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_DELETE_FAILED));
             return (1);
         }
 
@@ -420,16 +421,16 @@ public class CmdRunner implements ObjMgrOptions {
             object = os.retrieve(lookupName);
 
         } catch (NameNotFoundException nnfe) {
-            Globals.stdErrPrintln(ar.getKString(ar.E_CANNOT_LOC_OBJ, lookupName));
+            CommonGlobals.stdErrPrintln(ar.getKString(ar.E_CANNOT_LOC_OBJ, lookupName));
 
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_DELETE_FAILED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_DELETE_FAILED));
             return (1);
         } catch (Exception e) {
             handleRunCommandExceptions(e, lookupName);
 
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_DELETE_FAILED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_DELETE_FAILED));
             return (1);
         }
 
@@ -452,30 +453,30 @@ public class CmdRunner implements ObjMgrOptions {
                 }
 
                 if (exitcode == 0) {
-                    Globals.stdOutPrintln("");
-                    Globals.stdOutPrintln(ar.getString(ar.I_OBJ_DELETED));
+                    CommonGlobals.stdOutPrintln("");
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_DELETED));
                 } else {
-                    Globals.stdOutPrintln("");
-                    Globals.stdOutPrintln(ar.getString(ar.I_OBJ_DELETE_FAILED));
+                    CommonGlobals.stdOutPrintln("");
+                    CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_DELETE_FAILED));
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_DELETED));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_DELETED));
 
             } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_DELETED));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_DELETED));
                 exitcode = 1;
             }
         } else {
             // object == null
             // Should not happen, since if the object cannot be retrieved,
             // it should throw NameNotFoundException
-            Globals.stdErrPrintln(ar.getKString(ar.E_CANNOT_LOC_OBJ), lookupName);
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_DELETE_FAILED));
+            CommonGlobals.stdErrPrintln(ar.getKString(ar.E_CANNOT_LOC_OBJ), lookupName);
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_DELETE_FAILED));
             exitcode = 1;
         }
 
@@ -483,17 +484,17 @@ public class CmdRunner implements ObjMgrOptions {
     }
 
     private static void printQueryCmdDescription(String lookupName, ObjStoreAttrs osa) {
-        Globals.stdOutPrintln(ar.getString(ar.I_QUERY_CMD_DESC_INTRO));
-        Globals.stdOutPrintln("");
-        Globals.stdOutPrintln(lookupName);
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_QUERY_CMD_DESC_INTRO));
+        CommonGlobals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(lookupName);
+        CommonGlobals.stdOutPrintln("");
 
-        Globals.stdOutPrintln(ar.getString(ar.I_QUERY_CMD_DESC_STORE));
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_QUERY_CMD_DESC_STORE));
+        CommonGlobals.stdOutPrintln("");
 
         ObjMgrPrinter omp = new ObjMgrPrinter(osa, 2, 4);
         omp.print();
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
     }
 
     private static int runQueryCommand(ObjMgrProperties objMgrProps) {
@@ -521,8 +522,8 @@ public class CmdRunner implements ObjMgrOptions {
 
         os = createStore(osa);
         if (os == null) {
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_QUERY_FAILED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_QUERY_FAILED));
             return (1);
         }
 
@@ -543,8 +544,8 @@ public class CmdRunner implements ObjMgrOptions {
 
         } catch (Exception e) {
             handleRunCommandExceptions(e, lookupName);
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_QUERY_FAILED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_QUERY_FAILED));
             return (1);
         }
 
@@ -555,15 +556,15 @@ public class CmdRunner implements ObjMgrOptions {
             object = os.retrieve(lookupName);
 
         } catch (NameNotFoundException nnfe) {
-            Globals.stdErrPrintln(ar.getKString(ar.E_CANNOT_LOC_OBJ, lookupName));
-            Globals.stdOutPrintln("");
-            Globals.stdErrPrintln(ar.getString(ar.I_OBJ_QUERY_FAILED));
+            CommonGlobals.stdErrPrintln(ar.getKString(ar.E_CANNOT_LOC_OBJ, lookupName));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_OBJ_QUERY_FAILED));
             return (1);
 
         } catch (Exception e) {
             handleRunCommandExceptions(e, lookupName);
-            Globals.stdOutPrintln("");
-            Globals.stdErrPrintln(ar.getString(ar.I_OBJ_QUERY_FAILED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_OBJ_QUERY_FAILED));
             return (1);
         }
 
@@ -573,24 +574,24 @@ public class CmdRunner implements ObjMgrOptions {
              */
             ObjMgrPrinter omp = new ObjMgrPrinter(2, 4);
             omp.printJMSObject(object);
-            Globals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln("");
 
             ObjMgrPrinter.printReadOnly(((AdministeredObject) object).isReadOnly());
         } else {
             // object == null
             // Should not happen, since if the object cannot be retrieved,
             // it should throw NameNotFoundException
-            Globals.stdErrPrintln(ar.getKString(ar.E_CANNOT_LOC_OBJ, lookupName));
+            CommonGlobals.stdErrPrintln(ar.getKString(ar.E_CANNOT_LOC_OBJ, lookupName));
 
             exitcode = 1;
         }
 
         if (exitcode == 0) {
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_QUERIED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_QUERIED));
         } else {
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_QUERY_FAILED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_QUERY_FAILED));
         }
 
         return (exitcode);
@@ -600,16 +601,16 @@ public class CmdRunner implements ObjMgrOptions {
         String typeString = Utils.getObjTypeString(type);
 
         if (typeString == null) {
-            Globals.stdOutPrintln(ar.getString(ar.I_LIST_CMD_DESC_INTRO));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_LIST_CMD_DESC_INTRO));
         } else {
-            Globals.stdOutPrintln(ar.getString(ar.I_LIST_CMD_DESC_INTRO_TYPE, typeString));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_LIST_CMD_DESC_INTRO_TYPE, typeString));
         }
 
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
 
         ObjMgrPrinter omp = new ObjMgrPrinter(osa, 2, 4);
         omp.print();
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
     }
 
     private static int runListCommand(ObjMgrProperties objMgrProps) {
@@ -637,8 +638,8 @@ public class CmdRunner implements ObjMgrOptions {
 
         os = createStore(osa);
         if (os == null) {
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_LIST_FAILED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_LIST_FAILED));
             return (1);
         }
 
@@ -659,8 +660,8 @@ public class CmdRunner implements ObjMgrOptions {
 
         } catch (Exception e) {
             handleRunCommandExceptions(e);
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_LIST_FAILED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_LIST_FAILED));
             return (1);
         }
 
@@ -671,37 +672,37 @@ public class CmdRunner implements ObjMgrOptions {
         }
 
         if (exitcode == 0) {
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_LISTED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_LISTED));
         } else {
-            Globals.stdOutPrintln("");
-            Globals.stdErrPrintln(ar.getString(ar.I_OBJ_LIST_FAILED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_OBJ_LIST_FAILED));
         }
 
         return (exitcode);
     }
 
     private static void printUpdateCmdDescription(String type, String lookupName, Properties objProps, ObjStoreAttrs osa, String readOnlyValue) {
-        Globals.stdOutPrintln(ar.getString(ar.I_UPDATE_CMD_DESC_INTRO));
-        Globals.stdOutPrintln("");
-        Globals.stdOutPrintln(lookupName);
-        Globals.stdOutPrintln("");
-        Globals.stdOutPrintln(ar.getString(ar.I_UPDATE_CMD_DESC_LOOKUP));
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_UPDATE_CMD_DESC_INTRO));
+        CommonGlobals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(lookupName);
+        CommonGlobals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_UPDATE_CMD_DESC_LOOKUP));
+        CommonGlobals.stdOutPrintln("");
 
         ObjMgrPrinter omp = new ObjMgrPrinter(objProps, 2, 4);
         omp.print();
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
 
         ObjMgrPrinter.printReadOnly(readOnlyValue);
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
 
-        Globals.stdOutPrintln(ar.getString(ar.I_UPDATE_CMD_DESC_STORE));
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_UPDATE_CMD_DESC_STORE));
+        CommonGlobals.stdOutPrintln("");
 
         ObjMgrPrinter ompOsa = new ObjMgrPrinter(osa, 2, 4);
         ompOsa.print();
-        Globals.stdOutPrintln("");
+        CommonGlobals.stdOutPrintln("");
     }
 
     private static int runUpdateCommand(ObjMgrProperties objMgrProps) {
@@ -742,8 +743,8 @@ public class CmdRunner implements ObjMgrOptions {
 
         os = createStore(osa);
         if (os == null) {
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_UPDATE_FAILED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_UPDATE_FAILED));
             return (1);
         }
 
@@ -764,8 +765,8 @@ public class CmdRunner implements ObjMgrOptions {
 
         } catch (Exception e) {
             handleRunCommandExceptions(e, lookupName);
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_UPDATE_FAILED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_UPDATE_FAILED));
             return (1);
         }
 
@@ -776,15 +777,15 @@ public class CmdRunner implements ObjMgrOptions {
             object = os.retrieve(lookupName);
 
         } catch (NameNotFoundException nnfe) {
-            Globals.stdErrPrintln(ar.getKString(ar.E_CANNOT_LOC_OBJ, lookupName));
-            Globals.stdOutPrintln("");
-            Globals.stdErrPrintln(ar.getString(ar.I_OBJ_UPDATE_FAILED));
+            CommonGlobals.stdErrPrintln(ar.getKString(ar.E_CANNOT_LOC_OBJ, lookupName));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_OBJ_UPDATE_FAILED));
             return (1);
 
         } catch (Exception e) {
             handleRunCommandExceptions(e, lookupName);
-            Globals.stdOutPrintln("");
-            Globals.stdErrPrintln(ar.getString(ar.I_OBJ_UPDATE_FAILED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_OBJ_UPDATE_FAILED));
             return (1);
         }
 
@@ -794,17 +795,17 @@ public class CmdRunner implements ObjMgrOptions {
         if (object != null) {
             type = checkObjectType(object, type);
             if (type == null) {
-                Globals.stdOutPrintln("");
-                Globals.stdErrPrintln(ar.getString(ar.I_OBJ_UPDATE_FAILED));
+                CommonGlobals.stdOutPrintln("");
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_OBJ_UPDATE_FAILED));
                 return (1);
             }
         } else {
             // object == null
             // Should not happen, since if the object cannot be retrieved,
             // it should throw NameNotFoundException
-            Globals.stdErrPrintln(ar.getKString(ar.E_CANNOT_LOC_OBJ, lookupName));
-            Globals.stdOutPrintln("");
-            Globals.stdErrPrintln(ar.getString(ar.I_OBJ_UPDATE_FAILED));
+            CommonGlobals.stdErrPrintln(ar.getKString(ar.E_CANNOT_LOC_OBJ, lookupName));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_OBJ_UPDATE_FAILED));
             return (1);
         }
 
@@ -824,15 +825,15 @@ public class CmdRunner implements ObjMgrOptions {
                 String objVersion = adminObj.getStoredVersion();
 
                 if (!adminObj.isStoredVersionCompatible()) {
-                    Globals.stdErrPrintln(ar.getString(ar.W_INCOMPATIBLE_OBJ, objVersion, curVersion));
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.W_INCOMPATIBLE_OBJ, objVersion, curVersion));
                 }
             }
             input = getUserInput(ar.getString(ar.Q_UPDATE_OK), noShort);
         }
 
         if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_UPDATED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_UPDATED));
 
             /*
              * Case where user typed 'y' or 'yes' to overwrite OR case where object doesn't exist yet so no confirmation needed OR
@@ -869,17 +870,17 @@ public class CmdRunner implements ObjMgrOptions {
 
             if (exitcode == 0) {
                 if (!force) {
-                    Globals.stdErrPrintln("");
+                    CommonGlobals.stdErrPrintln("");
                 }
-                Globals.stdOutPrintln(ar.getString(ar.I_OBJ_UPDATED));
+                CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_UPDATED));
             } else {
-                Globals.stdErrPrintln("");
-                Globals.stdErrPrintln(ar.getString(ar.I_OBJ_UPDATE_FAILED));
+                CommonGlobals.stdErrPrintln("");
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_OBJ_UPDATE_FAILED));
             }
         } else {
-            Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
-            Globals.stdErrPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_UPDATED));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
+            CommonGlobals.stdErrPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_NOT_UPDATED));
 
             exitcode = 1;
         }
@@ -925,7 +926,7 @@ public class CmdRunner implements ObjMgrOptions {
                 || ((object instanceof com.sun.messaging.TopicConnectionFactory) && OBJMGR_TYPE_TCF.equals(type))
                 || ((object instanceof com.sun.messaging.ConnectionFactory) && OBJMGR_TYPE_CF.equals(type)))) {
 
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_OBJ_TYPES_NOT_SAME));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_OBJ_TYPES_NOT_SAME));
 
             // Type mismatch. Returns null.
             return null;
@@ -964,8 +965,8 @@ public class CmdRunner implements ObjMgrOptions {
 
         } catch (Exception e) {
             handleRunCommandExceptions(e);
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_OBJ_UPDATE_FAILED));
+            CommonGlobals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_OBJ_UPDATE_FAILED));
             return null;
         }
 
@@ -983,7 +984,7 @@ public class CmdRunner implements ObjMgrOptions {
             v = os.list();
 
         } catch (NameNotFoundException nnfe) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_CANNOT_LOC_TREE));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_CANNOT_LOC_TREE));
             return (1);
 
         } catch (Exception e) {
@@ -1030,7 +1031,7 @@ public class CmdRunner implements ObjMgrOptions {
             v = os.list();
 
         } catch (NameNotFoundException nnfe) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_CANNOT_LOC_TREE));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_CANNOT_LOC_TREE));
             return (1);
 
         } catch (Exception e) {
@@ -1078,7 +1079,7 @@ public class CmdRunner implements ObjMgrOptions {
 
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-            Globals.stdOutPrint(question);
+            CommonGlobals.stdOutPrint(question);
             String s = in.readLine();
 
             if (s.equals("") && (defaultResponse != null)) {
@@ -1087,7 +1088,7 @@ public class CmdRunner implements ObjMgrOptions {
 
             return (s);
         } catch (IOException ex) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_PROB_GETTING_USR_INPUT));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_PROB_GETTING_USR_INPUT));
             return null;
         }
     }
@@ -1099,9 +1100,9 @@ public class CmdRunner implements ObjMgrOptions {
 
         Password pw = new Password();
         if (pw.echoPassword()) {
-            Globals.stdOutPrintln(ar.getString(ar.W_ECHO_PASSWORD));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.W_ECHO_PASSWORD));
         }
-        Globals.stdOutPrint(question);
+        CommonGlobals.stdOutPrint(question);
         return pw.getPassword();
     }
 
@@ -1118,39 +1119,39 @@ public class CmdRunner implements ObjMgrOptions {
     private static void handleRunCommandExceptions(Exception e, String lookupName) {
 
         if (e instanceof InitializationException) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_NO_OBJ_CREATOR));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_NO_OBJ_CREATOR));
             /*
              * This case should be taken care of by each command, so there is no need to cath it here } else if (e instanceof
              * NameNotFoundException) {
-             * 
+             *
              * This should only happen when adding, but we do the check in runAddCommand() so this should never happen } else if (e
              * instanceof NameAlreadyExistsException) {
              */
         } else if (e instanceof AuthenticationException) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_UN_OR_PASSWD));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_UN_OR_PASSWD));
 
         } else if (e instanceof AuthenticationNotSupportedException) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_NONSUPPORTED_AUTH_TYPE));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_NONSUPPORTED_AUTH_TYPE));
 
         } else if (e instanceof NoPermissionException) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_NO_PERMISSION));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_NO_PERMISSION));
 
         } else if (e instanceof CommunicationException) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_NO_COMMUNICATION));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_NO_COMMUNICATION));
 
         } else if (e instanceof InvalidPropertyException) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_PROPNAME, e.getMessage()));
-            Globals.stdErrPrintln("");
-            Globals.stdErrPrintln(ar.getString(ar.I_VALID_PROPNAMES));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_PROPNAME, e.getMessage()));
+            CommonGlobals.stdErrPrintln("");
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_VALID_PROPNAMES));
 
         } else if (e instanceof InvalidPropertyValueException) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_PROP_VALUE, e.getMessage()));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_PROP_VALUE, e.getMessage()));
 
         } else if (e instanceof ReadOnlyPropertyException) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_CANT_MOD_READONLY));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_CANT_MOD_READONLY));
 
         } else if (e instanceof SchemaViolationException) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_SYNTAX));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_SYNTAX));
             /*
              * Can't think of any situations. Might be needed when we support attribute-based search } else if (e instanceof
              * InvalidAttributesException) {
@@ -1162,23 +1163,23 @@ public class CmdRunner implements ObjMgrOptions {
             Exception newe = (((GeneralNamingException) e)).getLinkedException();
 
             if (newe instanceof UnsupportedVersionNumberException) {
-                Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG),
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG),
                         ar.getKString(ar.E_UNSUPP_VER_NUMBER, ((UnsupportedVersionNumberException) newe).getExplanation(), lookupName));
 
             } else if (newe instanceof MissingVersionNumberException) {
-                Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_MISSING_VER_NUMBER, lookupName));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_MISSING_VER_NUMBER, lookupName));
             } else {
-                Globals.stdErrPrintln(newe.toString());
+                CommonGlobals.stdErrPrintln(newe.toString());
             }
 
         } else if (e instanceof ObjStoreException) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_GEN_OP_FAILED));
-            Globals.stdErrPrintln(e.toString());
-            Globals.stdErrPrintln(((ObjStoreException) e).getLinkedException().toString());
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_GEN_OP_FAILED));
+            CommonGlobals.stdErrPrintln(e.toString());
+            CommonGlobals.stdErrPrintln(((ObjStoreException) e).getLinkedException().toString());
 
         } else {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.X_GENERAL_EXCEPTION));
-            Globals.stdErrPrintln(e.toString());
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.X_GENERAL_EXCEPTION));
+            CommonGlobals.stdErrPrintln(e.toString());
         }
     }
 
@@ -1188,7 +1189,7 @@ public class CmdRunner implements ObjMgrOptions {
      *
      * Sun's implementation of ldap sp does not check for its validity until when the operation is performed, so there
      * really isn't any that we can catch at this point.
-     * 
+     *
      * private void handleInitializationExceptions(Exception e) { handleRunCommandExceptions(e); }
      */
 
@@ -1198,7 +1199,7 @@ public class CmdRunner implements ObjMgrOptions {
         for (int i = 0; i < mandatoryAttrs.length; i++) {
             String propName = (String) (osa.get(mandatoryAttrs[i]));
             if (propName == null) {
-                Globals.stdErrPrintln(ar.getString(ar.W_JNDI_PROPERTY_WARNING, mandatoryAttrs[i]));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.W_JNDI_PROPERTY_WARNING, mandatoryAttrs[i]));
             }
         }
         System.out.println("");
@@ -1232,7 +1233,7 @@ public class CmdRunner implements ObjMgrOptions {
             os.addObjStoreAttr(name, value);
         }
         if (carriageReturnNeeded) {
-            Globals.stdOutPrintln("");
+            CommonGlobals.stdOutPrintln("");
         }
         return os;
     }

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,6 +23,7 @@ import java.util.Enumeration;
 import com.sun.messaging.jmq.util.options.OptionException;
 import com.sun.messaging.jmq.util.options.UnrecognizedOptionException;
 import com.sun.messaging.jmq.util.SizeString;
+import com.sun.messaging.jmq.admin.util.CommonGlobals;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerConstants;
 import com.sun.messaging.jmq.admin.resources.AdminResources;
@@ -39,7 +40,7 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
         int exitcode = 0;
 
         if (silentModeOptionSpecified(args)) {
-            Globals.setSilentMode(true);
+            CommonGlobals.setSilentMode(true);
         }
 
         /*
@@ -86,8 +87,8 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
 
                 tmpProps.load(fis);
             } catch (Exception e) {
-                Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_PROB_LOADING_PROP_FILE), false);
-                Globals.stdErrPrintln(e.toString());
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_PROB_LOADING_PROP_FILE), false);
+                CommonGlobals.stdErrPrintln(e.toString());
                 System.exit(1);
             }
 
@@ -97,7 +98,7 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
             for (Enumeration e = brokerCmdProps.propertyNames(); e.hasMoreElements();) {
                 String propName = (String) e.nextElement(), propVal;
                 /*
-                 * Globals.stdErrPrintln("Override propname: " + propName);
+                 * CommonGlobals.stdErrPrintln("Override propname: " + propName);
                  */
 
                 if (propName == null) {
@@ -139,14 +140,14 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
                 String name = (String) e.nextElement(), value = sysProps.getProperty(name);
 
                 if (brokerCmdProps.adminDebugModeSet()) {
-                    Globals.stdOutPrintln("Setting system property: " + name + "=" + value);
+                    CommonGlobals.stdOutPrintln("Setting system property: " + name + "=" + value);
                 }
 
                 try {
                     System.setProperty(name, value);
                 } catch (Exception ex) {
-                    Globals.stdErrPrintln("Failed to set system property: " + name + "=" + value);
-                    Globals.stdErrPrintln(ex.toString());
+                    CommonGlobals.stdErrPrintln("Failed to set system property: " + name + "=" + value);
+                    CommonGlobals.stdErrPrintln(ex.toString());
                 }
             }
         }
@@ -170,29 +171,29 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
     public static void checkOptions(BrokerCmdProperties brokerCmdProps) throws BrokerCmdException, UnrecognizedOptionException {
 
         /*
-         * For debugging: Globals.stdErrPrintln("BrokerCmdProperties dump:"); brokerCmdProps.list(System.err);
-         * Globals.stdErrPrintln("-------------\n");
+         * For debugging: CommonGlobals.stdErrPrintln("BrokerCmdProperties dump:"); brokerCmdProps.list(System.err);
+         * CommonGlobals.stdErrPrintln("-------------\n");
          */
 
         if (brokerCmdProps.debugModeSet() || brokerCmdProps.noCheckModeSet()) {
             /*
-             * Globals.stdOutPrintln("Option checking turned off.");
+             * CommonGlobals.stdOutPrintln("Option checking turned off.");
              */
             return;
         }
 
         /*
-         * For debugging: Globals.stdErrPrintln("Command: " + brokerCmdProps.getCommand());
-         * Globals.stdErrPrintln("Command Argument: " + brokerCmdProps.getCommandArg());
-         * Globals.stdErrPrintln("Destination Type: " + brokerCmdProps.getDestType()); Globals.stdErrPrintln("Target Name: " +
-         * brokerCmdProps.getTargetName()); Globals.stdErrPrintln("Destination Name: " + brokerCmdProps.getDestName());
-         * Globals.stdErrPrintln("Service Name: " + brokerCmdProps.getServiceName()); Globals.stdErrPrintln("Broker Host: " +
-         * brokerCmdProps.getBrokerHostName()); Globals.stdErrPrintln("Broker Port: " + brokerCmdProps.getBrokerPort());
-         * Globals.stdErrPrintln("Admin User ID: " + brokerCmdProps.getAdminUserId());
-         * Globals.stdErrPrintln("Admin User Password: " + brokerCmdProps.getAdminPasswd());
-         * 
-         * Properties props = brokerCmdProps.getTargetAttrs(); Globals.stdErrPrintln("Target attributes:");
-         * props.list(System.err); Globals.stdErrPrintln("");
+         * For debugging: CommonGlobals.stdErrPrintln("Command: " + brokerCmdProps.getCommand());
+         * CommonGlobals.stdErrPrintln("Command Argument: " + brokerCmdProps.getCommandArg());
+         * CommonGlobals.stdErrPrintln("Destination Type: " + brokerCmdProps.getDestType()); CommonGlobals.stdErrPrintln("Target Name: " +
+         * brokerCmdProps.getTargetName()); CommonGlobals.stdErrPrintln("Destination Name: " + brokerCmdProps.getDestName());
+         * CommonGlobals.stdErrPrintln("Service Name: " + brokerCmdProps.getServiceName()); CommonGlobals.stdErrPrintln("Broker Host: " +
+         * brokerCmdProps.getBrokerHostName()); CommonGlobals.stdErrPrintln("Broker Port: " + brokerCmdProps.getBrokerPort());
+         * CommonGlobals.stdErrPrintln("Admin User ID: " + brokerCmdProps.getAdminUserId());
+         * CommonGlobals.stdErrPrintln("Admin User Password: " + brokerCmdProps.getAdminPasswd());
+         *
+         * Properties props = brokerCmdProps.getTargetAttrs(); CommonGlobals.stdErrPrintln("Target attributes:");
+         * props.list(System.err); CommonGlobals.stdErrPrintln("");
          */
 
         String cmd = brokerCmdProps.getCommand();
@@ -687,26 +688,26 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
         }
 
         if (saveAttrs.size() > 0) {
-            Globals.stdErrPrintln(ar.getString(ar.I_WARNING_MESG), ar.getKString(ar.W_ZERO_UNLIMITED_SPECIFIED, "0"));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_WARNING_MESG), ar.getKString(ar.W_ZERO_UNLIMITED_SPECIFIED, "0"));
 
             for (Enumeration e = saveAttrs.propertyNames(); e.hasMoreElements();) {
                 String oneAttrName = (String) e.nextElement(), value = attrs.getProperty(oneAttrName);
 
-                Globals.stdErrPrintln("\t" + oneAttrName + "=" + value);
+                CommonGlobals.stdErrPrintln("\t" + oneAttrName + "=" + value);
             }
-            Globals.stdErrPrintln("");
+            CommonGlobals.stdErrPrintln("");
 
-            Globals.stdErrPrintln(ar.getString(ar.W_NEW_UNLIMITED_VALUE, "-1"));
-            Globals.stdErrPrintln(ar.getString(ar.W_CONVERTED_UNLIMITED_VALUE));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.W_NEW_UNLIMITED_VALUE, "-1"));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.W_CONVERTED_UNLIMITED_VALUE));
 
             for (Enumeration e = saveAttrs.propertyNames(); e.hasMoreElements();) {
                 String oneAttrName = (String) e.nextElement();
                 // String value = attrs.getProperty(oneAttrName);
 
-                Globals.stdErrPrintln("\t" + oneAttrName + "=-1");
+                CommonGlobals.stdErrPrintln("\t" + oneAttrName + "=-1");
                 brokerCmdProps.setTargetAttr(oneAttrName, "-1");
             }
-            Globals.stdErrPrintln("");
+            CommonGlobals.stdErrPrintln("");
 
         }
     }
@@ -1509,10 +1510,10 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
     /*
      * private static void checkDestName(BrokerCmdProperties brokerCmdProps) throws BrokerCmdException { BrokerCmdException
      * ex; String destName = brokerCmdProps.getDestName();
-     * 
+     *
      * if (destName == null) { ex = new BrokerCmdException(BrokerCmdException.DEST_NAME_NOT_SPEC);
      * ex.setProperties(brokerCmdProps);
-     * 
+     *
      * throw(ex); } }
      */
 
@@ -1586,10 +1587,10 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
     /*
      * private static void checkClientID(BrokerCmdProperties brokerCmdProps) throws BrokerCmdException { BrokerCmdException
      * ex; String clientID = brokerCmdProps.getClientID();
-     * 
+     *
      * if (clientID == null) { ex = new BrokerCmdException(BrokerCmdException.CLIENT_ID_NOT_SPEC);
      * ex.setProperties(brokerCmdProps);
-     * 
+     *
      * throw(ex); } }
      */
 
@@ -1609,8 +1610,8 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
         String passwd = brokerCmdProps.getAdminPasswd();
 
         if (passwd != null) {
-            Globals.stdErrPrintln(ar.getString(ar.I_WARNING_MESG), ar.getKString(ar.W_PASSWD_OPTION_DEPRECATED));
-            Globals.stdErrPrintln("");
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_WARNING_MESG), ar.getKString(ar.W_PASSWD_OPTION_DEPRECATED));
+            CommonGlobals.stdErrPrintln("");
         }
     }
 
@@ -1675,142 +1676,142 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
 
         switch (type) {
         case BrokerCmdException.TARGET_NAME_NOT_SPEC:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_TARGET_NAME_NOT_SPEC, OPTION_TARGET_NAME));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_TARGET_NAME_NOT_SPEC, OPTION_TARGET_NAME));
             break;
 
         case BrokerCmdException.DEST_NAME_NOT_SPEC:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_DEST_NAME_NOT_SPEC, OPTION_DEST_NAME));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_DEST_NAME_NOT_SPEC, OPTION_DEST_NAME));
             break;
 
         case BrokerCmdException.TARGET_ATTRS_NOT_SPEC:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_TARGET_ATTRS_NOT_SPEC, OPTION_TARGET_ATTRS));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_TARGET_ATTRS_NOT_SPEC, OPTION_TARGET_ATTRS));
             break;
 
         case BrokerCmdException.DEST_TYPE_NOT_SPEC:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_DEST_TYPE_NOT_SPEC, OPTION_DEST_TYPE));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_DEST_TYPE_NOT_SPEC, OPTION_DEST_TYPE));
             break;
 
         case BrokerCmdException.INVALID_INTEGER_VALUE:
             attrs = brokerCmdProps.getTargetAttrs();
             errorValue = attrs.getProperty(errorString);
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_INTEGER_VALUE, errorValue, errorString));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_INTEGER_VALUE, errorValue, errorString));
             break;
 
         case BrokerCmdException.INVALID_BYTE_VALUE:
             attrs = brokerCmdProps.getTargetAttrs();
             errorValue = attrs.getProperty(errorString);
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_BYTE_VALUE, errorValue, errorString));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_BYTE_VALUE, errorValue, errorString));
             break;
 
         case BrokerCmdException.INVALID_BOOLEAN_VALUE:
             attrs = brokerCmdProps.getTargetAttrs();
             errorValue = attrs.getProperty(errorString);
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_BOOLEAN_VALUE, errorValue, errorString));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_BOOLEAN_VALUE, errorValue, errorString));
             break;
 
         case BrokerCmdException.INVALID_LOG_LEVEL_VALUE:
             attrs = brokerCmdProps.getTargetAttrs();
             errorValue = attrs.getProperty(errorString);
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_LOG_LEVEL_VALUE, errorValue, errorString));
-            Globals.stdErrPrintln(ar.getString(ar.I_BROKERCMD_VALID_VALUES, PROP_NAME_BKR_LOG_LEVEL));
-            Globals.stdErrPrint("\t");
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_LOG_LEVEL_VALUE, errorValue, errorString));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_BROKERCMD_VALID_VALUES, PROP_NAME_BKR_LOG_LEVEL));
+            CommonGlobals.stdErrPrint("\t");
             for (int i = 0; i < BKR_LOG_LEVEL_VALID_VALUES.size(); ++i) {
-                Globals.stdErrPrint(BKR_LOG_LEVEL_VALID_VALUES.get(i));
+                CommonGlobals.stdErrPrint(BKR_LOG_LEVEL_VALID_VALUES.get(i));
                 if ((i + 1) < BKR_LOG_LEVEL_VALID_VALUES.size()) {
-                    Globals.stdErrPrint(" ");
+                    CommonGlobals.stdErrPrint(" ");
                 }
             }
-            Globals.stdErrPrintln("");
+            CommonGlobals.stdErrPrintln("");
             break;
 
         case BrokerCmdException.INVALID_LIMIT_BEHAV_VALUE:
             attrs = brokerCmdProps.getTargetAttrs();
             errorValue = attrs.getProperty(errorString);
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_ATTR_VALUE, errorValue, errorString));
-            Globals.stdErrPrintln(ar.getString(ar.I_BROKERCMD_VALID_VALUES, PROP_NAME_LIMIT_BEHAVIOUR));
-            Globals.stdErrPrint("\t");
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_ATTR_VALUE, errorValue, errorString));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_BROKERCMD_VALID_VALUES, PROP_NAME_LIMIT_BEHAVIOUR));
+            CommonGlobals.stdErrPrint("\t");
             for (int i = 0; i < BKR_LIMIT_BEHAV_VALID_VALUES.size(); ++i) {
-                Globals.stdErrPrint(BKR_LIMIT_BEHAV_VALID_VALUES.get(i));
+                CommonGlobals.stdErrPrint(BKR_LIMIT_BEHAV_VALID_VALUES.get(i));
                 if ((i + 1) < BKR_LIMIT_BEHAV_VALID_VALUES.size()) {
-                    Globals.stdErrPrint(" ");
+                    CommonGlobals.stdErrPrint(" ");
                 }
             }
-            Globals.stdErrPrintln("");
+            CommonGlobals.stdErrPrintln("");
             break;
 
         case BrokerCmdException.INVALID_METRIC_INTERVAL:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_METRIC_INTERVAL, badValue));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_METRIC_INTERVAL, badValue));
             break;
 
         case BrokerCmdException.INVALID_METRIC_SAMPLES:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_METRIC_SAMPLES, badValue));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_METRIC_SAMPLES, badValue));
             break;
 
         case BrokerCmdException.INVALID_METRIC_TYPE:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_METRIC_TYPE, badValue));
-            Globals.stdErrPrint("\t");
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_METRIC_TYPE, badValue));
+            CommonGlobals.stdErrPrint("\t");
             for (int i = 0; i < METRIC_TYPE_VALID_VALUES.length; ++i) {
-                Globals.stdErrPrint(METRIC_TYPE_VALID_VALUES[i]);
+                CommonGlobals.stdErrPrint(METRIC_TYPE_VALID_VALUES[i]);
                 if ((i + 1) < METRIC_TYPE_VALID_VALUES.length) {
-                    Globals.stdErrPrint(" ");
+                    CommonGlobals.stdErrPrint(" ");
                 }
             }
-            Globals.stdErrPrintln("");
+            CommonGlobals.stdErrPrintln("");
             break;
 
         case BrokerCmdException.INVALID_METRIC_DST_TYPE:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_METRIC_DST_TYPE, badValue));
-            Globals.stdErrPrint("\t");
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_METRIC_DST_TYPE, badValue));
+            CommonGlobals.stdErrPrint("\t");
             for (int i = 0; i < METRIC_DST_TYPE_VALID_VALUES.length; ++i) {
-                Globals.stdErrPrint(METRIC_DST_TYPE_VALID_VALUES[i]);
+                CommonGlobals.stdErrPrint(METRIC_DST_TYPE_VALID_VALUES[i]);
                 if ((i + 1) < METRIC_DST_TYPE_VALID_VALUES.length) {
-                    Globals.stdErrPrint(" ");
+                    CommonGlobals.stdErrPrint(" ");
                 }
             }
-            Globals.stdErrPrintln("");
+            CommonGlobals.stdErrPrintln("");
             break;
 
         case BrokerCmdException.INVALID_DEST_TYPE:
             String invalidDestType = brokerCmdProps.getDestType();
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_DEST_TYPE, invalidDestType));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_DEST_TYPE, invalidDestType));
             break;
 
         case BrokerCmdException.INVALID_PAUSE_TYPE:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_PAUSETYPE_VALUE, badValue));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_PAUSETYPE_VALUE, badValue));
 
-            Globals.stdErrPrint("\t");
+            CommonGlobals.stdErrPrint("\t");
             for (int i = 0; i < PAUSE_DST_TYPE_VALID_VALUES.length; ++i) {
-                Globals.stdErrPrint(PAUSE_DST_TYPE_VALID_VALUES[i]);
+                CommonGlobals.stdErrPrint(PAUSE_DST_TYPE_VALID_VALUES[i]);
                 if ((i + 1) < PAUSE_DST_TYPE_VALID_VALUES.length) {
-                    Globals.stdErrPrint(" ");
+                    CommonGlobals.stdErrPrint(" ");
                 }
             }
-            Globals.stdErrPrintln("");
+            CommonGlobals.stdErrPrintln("");
             break;
 
         case BrokerCmdException.INVALID_RESET_TYPE:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_RESETTYPE_VALUE, badValue));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_INVALID_RESETTYPE_VALUE, badValue));
 
-            Globals.stdErrPrint("\t");
+            CommonGlobals.stdErrPrint("\t");
             for (int i = 0; i < RESET_BKR_TYPE_VALID_VALUES.length; ++i) {
-                Globals.stdErrPrint(RESET_BKR_TYPE_VALID_VALUES[i]);
+                CommonGlobals.stdErrPrint(RESET_BKR_TYPE_VALID_VALUES[i]);
                 if ((i + 1) < RESET_BKR_TYPE_VALID_VALUES.length) {
-                    Globals.stdErrPrint(" ");
+                    CommonGlobals.stdErrPrint(" ");
                 }
             }
-            Globals.stdErrPrintln("");
+            CommonGlobals.stdErrPrintln("");
             break;
 
         case BrokerCmdException.CLIENT_ID_NOT_SPEC:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_CLIENT_ID_NOT_SPEC, OPTION_CLIENT_ID));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_CLIENT_ID_NOT_SPEC, OPTION_CLIENT_ID));
             break;
 
         case BrokerCmdException.MSG_ID_NOT_SPEC:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), "The message ID must be specified with the " + OPTION_MSG_ID + "option.");
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), "The message ID must be specified with the " + OPTION_MSG_ID + "option.");
             break;
 
         case BrokerCmdException.SINGLE_TARGET_ATTR_NOT_SPEC:
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_SINGLE_TARGET_ATTR_NOT_SPEC, OPTION_SINGLE_TARGET_ATTR));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_SINGLE_TARGET_ATTR_NOT_SPEC, OPTION_SINGLE_TARGET_ATTR));
             break;
 
         case BrokerCmdException.BAD_ATTR_SPEC_CREATE_DST_QUEUE:
@@ -1878,14 +1879,14 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
              *
              * % imqcmd create dst -t t -n t1 -o "foo=bar" Error [A3129]: Invalid attribute specified: foo The valid attributes for
              * this operation are:
-             * 
+             *
              * maxTotalMsgBytes maxBytesPerMsg maxNumMsgs
              */
 
             /*
              * Prints: Error [A3129]: Invalid attribute specified: foo
              */
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(msg1ID, badAttr));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(msg1ID, badAttr));
 
             if (validAttrs != null) {
                 /*
@@ -1895,7 +1896,7 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
                  *
                  * For example, for creation of queues, it will be: The valid attributes for creating a queue are:
                  */
-                Globals.stdErrPrintln(ar.getString(msg2ID));
+                CommonGlobals.stdErrPrintln(ar.getString(msg2ID));
 
                 /*
                  * Prints the valid attribute list: maxTotalMsgBytes maxBytesPerMsg maxNumMsgs
@@ -1904,7 +1905,7 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
                 String[] row = new String[1];
                 for (int i = 0; i < validAttrs.length; ++i) {
                     /*
-                     * Globals.stdErrPrintln("\t" + validAttrs[i]);
+                     * CommonGlobals.stdErrPrintln("\t" + validAttrs[i]);
                      */
                     row[0] = validAttrs[i];
                     bcp.add(row);

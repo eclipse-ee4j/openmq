@@ -464,8 +464,8 @@ public class CommonCmdRunnerUtil {
                 }
 
                 if (!po.isObfuscated(passfile, Globals.IMQ)) {
-                    Globals.stdErrPrintln(ar.getString(ar.I_WARNING_MESG), ar.getKString(ar.W_UNENCODED_ENTRY_IN_PASSFILE, passfile, "'imqusermgr encode'"));
-                    Globals.stdErrPrintln("");
+                    CommonGlobals.stdErrPrintln(ar.getString(ar.I_WARNING_MESG), ar.getKString(ar.W_UNENCODED_ENTRY_IN_PASSFILE, passfile, "'imqusermgr encode'"));
+                    CommonGlobals.stdErrPrintln("");
                 }
             } catch (Exception e) {
                 CommonCmdException bce = new CommonCmdException(CommonCmdException.READ_PASSFILE_FAIL);
@@ -487,32 +487,32 @@ public class CommonCmdRunnerUtil {
             // Output error indicating -p option is no longer supported.
             // otherwise just output the standard unrecognized option error.
             if (optionAdminPasswd != null && optionAdminPasswd.equals(option)) {
-                Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_PASSWD_OPTION_NOT_SUPPORTED, option));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_PASSWD_OPTION_NOT_SUPPORTED, option));
             } else {
-                Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_UNRECOG_OPTION, option, toolName));
+                CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_UNRECOG_OPTION, option, toolName));
             }
 
         } else if (e instanceof InvalidBasePropNameException) {
-            Globals.stdErrPrintln(ar.getString(ar.I_INTERNAL_ERROR_MESG), ar.getKString(ar.E_INVALID_BASE_PROPNAME, option));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_INTERNAL_ERROR_MESG), ar.getKString(ar.E_INVALID_BASE_PROPNAME, option));
 
         } else if (e instanceof InvalidHardCodedValueException) {
-            Globals.stdErrPrintln(ar.getString(ar.I_INTERNAL_ERROR_MESG), ar.getKString(ar.E_INVALID_HARDCODED_VAL, option));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_INTERNAL_ERROR_MESG), ar.getKString(ar.E_INVALID_HARDCODED_VAL, option));
 
         } else if (e instanceof MissingArgException) {
             /*
              * REVISIT: We can provide more specific messages here depending on what the option was e.g. for -t: Error: An object
              * type was expected for option -t
              */
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_MISSING_ARG, option, toolName));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_MISSING_ARG, option, toolName));
 
         } else if (e instanceof BadNameValueArgException) {
             BadNameValueArgException bnvae = (BadNameValueArgException) e;
             String badArg = bnvae.getArg();
 
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_BAD_NV_ARG, badArg, option));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_BAD_NV_ARG, badArg, option));
 
         } else {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_OPTION_PARSE_ERROR));
+            CommonGlobals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_OPTION_PARSE_ERROR));
         }
     }
 
@@ -527,8 +527,8 @@ public class CommonCmdRunnerUtil {
     public static void printVersion() {
 
         Version version = new Version(false);
-        Globals.stdOutPrintln(version.getVersion());
-        Globals.stdOutPrintln(ar.getString(ar.I_JAVA_VERSION) + System.getProperty("java.version") + " " + System.getProperty("java.vendor") + " "
+        CommonGlobals.stdOutPrintln(version.getVersion());
+        CommonGlobals.stdOutPrintln(ar.getString(ar.I_JAVA_VERSION) + System.getProperty("java.version") + " " + System.getProperty("java.vendor") + " "
                 + System.getProperty("java.home"));
     }
 

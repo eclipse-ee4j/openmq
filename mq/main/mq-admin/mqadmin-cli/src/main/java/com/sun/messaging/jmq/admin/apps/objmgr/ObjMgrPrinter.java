@@ -23,6 +23,7 @@ import java.util.Properties;
 
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.util.MultiColumnPrinter;
+import com.sun.messaging.jmq.admin.util.CommonGlobals;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminResources;
 
@@ -51,21 +52,21 @@ public class ObjMgrPrinter extends MultiColumnPrinter {
     public void printJMSObject(Object obj) {
 
         if (obj instanceof com.sun.messaging.Topic) {
-            Globals.stdOutPrintln(ar.getString(ar.I_TOPIC_ATTRS_HDR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_TOPIC_ATTRS_HDR));
         } else if (obj instanceof com.sun.messaging.Queue) {
-            Globals.stdOutPrintln(ar.getString(ar.I_QUEUE_ATTRS_HDR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_QUEUE_ATTRS_HDR));
         } else if (obj instanceof com.sun.messaging.XATopicConnectionFactory) {
-            Globals.stdOutPrintln(ar.getString(ar.I_XATOPIC_CF_ATTRS_HDR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_XATOPIC_CF_ATTRS_HDR));
         } else if (obj instanceof com.sun.messaging.XAQueueConnectionFactory) {
-            Globals.stdOutPrintln(ar.getString(ar.I_XAQUEUE_CF_ATTRS_HDR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_XAQUEUE_CF_ATTRS_HDR));
         } else if (obj instanceof com.sun.messaging.XAConnectionFactory) {
-            Globals.stdOutPrintln(ar.getString(ar.I_XA_CF_ATTRS_HDR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_XA_CF_ATTRS_HDR));
         } else if (obj instanceof com.sun.messaging.TopicConnectionFactory) {
-            Globals.stdOutPrintln(ar.getString(ar.I_TOPIC_CF_ATTRS_HDR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_TOPIC_CF_ATTRS_HDR));
         } else if (obj instanceof com.sun.messaging.QueueConnectionFactory) {
-            Globals.stdOutPrintln(ar.getString(ar.I_QUEUE_CF_ATTRS_HDR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_QUEUE_CF_ATTRS_HDR));
         } else if (obj instanceof com.sun.messaging.ConnectionFactory) {
-            Globals.stdOutPrintln(ar.getString(ar.I_CF_ATTRS_HDR));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_CF_ATTRS_HDR));
         }
 
         if (obj instanceof AdministeredObject) {
@@ -150,27 +151,27 @@ public class ObjMgrPrinter extends MultiColumnPrinter {
 
     public static void printReadOnly(String value) {
         if (value != null) {
-            Globals.stdOutPrintln(ar.getString(ar.I_READONLY, value));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_READONLY, value));
         } else {
-            Globals.stdOutPrintln(ar.getString(ar.I_READONLY, Boolean.FALSE.toString()));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_READONLY, Boolean.FALSE.toString()));
         }
     }
 
     public static void printReadOnly(boolean value) {
         if (value) {
-            Globals.stdOutPrintln(ar.getString(ar.I_READONLY, Boolean.TRUE.toString()));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_READONLY, Boolean.TRUE.toString()));
         } else {
-            Globals.stdOutPrintln(ar.getString(ar.I_READONLY, Boolean.FALSE.toString()));
+            CommonGlobals.stdOutPrintln(ar.getString(ar.I_READONLY, Boolean.FALSE.toString()));
         }
     }
 
     @Override
     public void doPrint(String str) {
-        Globals.stdOutPrint(str);
+        CommonGlobals.stdOutPrint(str);
     }
 
     @Override
     public void doPrintln(String str) {
-        Globals.stdOutPrintln(str);
+        CommonGlobals.stdOutPrintln(str);
     }
 }
