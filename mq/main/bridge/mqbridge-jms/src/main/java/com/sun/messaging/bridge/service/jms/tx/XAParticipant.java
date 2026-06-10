@@ -500,7 +500,7 @@ public class XAParticipant {
         return _bxid + "[" + _rm + ":" + _xar + "]" + toString(_state);
     }
 
-    public static String toString(XAState state) {
+    private static String toString(XAState state) {
         switch (state) {
         case NOT_STARTED:
             return "NOT_STARTED";

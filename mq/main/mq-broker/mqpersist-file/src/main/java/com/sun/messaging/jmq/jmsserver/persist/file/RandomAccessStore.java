@@ -660,7 +660,7 @@ abstract class RandomAccessStore {
     /**
      * Truncate files. Truncate the files to the length of valid date
      */
-    protected void truncateFiles(FileInfo[] files) {
+    private void truncateFiles(FileInfo[] files) {
 
         int count = 0;
         for (int i = 0; i < files.length; i++) {

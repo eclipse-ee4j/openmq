@@ -1623,7 +1623,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         }
     }
 
-    protected void writeMessageID(UnAckedMessage message) throws JMSException {
+    private void writeMessageID(UnAckedMessage message) throws JMSException {
         try {
             // XXX PROTOCOL2.1
             dos.writeLong(message.getConsumerID());
@@ -1815,7 +1815,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
      * Remove message from ack list. Called when consumer is closed. This removes unacked messages on the list if any. --
      * 4934856
      */
-    protected void removeMessageFromAckList(UnAckedMessage unacked) {
+    private void removeMessageFromAckList(UnAckedMessage unacked) {
         // message.setIsOnAckList (false);
         unAckedMessageQueue.removeElement(unacked);
         ackCounter--;
