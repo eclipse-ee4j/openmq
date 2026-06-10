@@ -1338,7 +1338,7 @@ public abstract class CommDBManager {
             }
         }
 
-        var needPassword = config.getBooleanProperty(needPasswordProp, DEFAULT_NEEDPASSWORD);
+        boolean needPassword = config.getBooleanProperty(needPasswordProp, DEFAULT_NEEDPASSWORD);
 
         if (dbpw == null && needPassword) {
             int retry = 0;

@@ -105,7 +105,7 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
         this.mcf = mcf;
         this.isRADirect = mcf.getEnableRADirect();
         pwCredential = Util.getPasswordCredential(mcf, subject, cxRequestInfo);
-        var pwcValid = Util.isPasswordCredentialValid(subject);
+        boolean pwcValid = Util.isPasswordCredentialValid(subject);
         if (pwCredential != null) {
             if (pwcValid) {
                 // CONT AUTH case - app must not use createConnection(u, p);

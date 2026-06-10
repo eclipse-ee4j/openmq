@@ -25,9 +25,9 @@ class Base64PemCharArrayTest {
     @Test
     void arrayModificationShouldHaveNoImpactOnOriginalArray() {
         var pemArray = Base64PemCharArray.getPemArray();
-        var modifiedIndex = 0;
+        int modifiedIndex = 0;
 
-        var original0Value = pemArray[modifiedIndex];
+        char original0Value = pemArray[modifiedIndex];
         pemArray[modifiedIndex] = '*';
         var secondArray = Base64PemCharArray.getPemArray();
 
