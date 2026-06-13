@@ -1010,7 +1010,6 @@
                                       -Xep:AssertFalse:OFF \
                                       -Xep:AssignmentExpression:OFF \
                                       -Xep:AvoidObjectArrays:OFF \
-                                      -Xep:BanClassLoader:OFF \
                                       -Xep:BanJNDI:OFF \
                                       -Xep:BanSerializableRead:OFF \
                                       -Xep:BooleanLiteral:OFF \
