@@ -226,7 +226,7 @@ pipeline {
               ./mvnw -V -U -C -s /home/jenkins/.m2/settings.xml \
                   -DskipTests -Ddoclint=none \
                   -Poss-release -Psbom -Pcbi-jarsign \
-                  -pl -docs,-docs/mq-shared-doc-resources,-docs/mq-admin-guide,-docs/mq-dev-guide-c,-docs/mq-dev-guide-java,-docs/mq-dev-guide-jmx,-docs/mq-release-notes,-docs/mq-tech-over \
+                  -pl -docs,-docs/mq-admin-guide,-docs/mq-dev-guide-c,-docs/mq-dev-guide-java,-docs/mq-dev-guide-jmx,-docs/mq-release-notes,-docs/mq-tech-over \
                   -Dbuild.letter=r -Dbuild.number=${GIT_COMMIT}/${BUILD_NUMBER} \
                   ${MVN_CYCLONEDX_597} \
                   clean ${MVN_DEPLOY_ARGS} ${MVN_EXTRA}
