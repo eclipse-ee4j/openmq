@@ -32,7 +32,6 @@ jobs:
       run: |
         ./mvnw --show-version \
                --no-transfer-progress \
-               --activate-profiles staging \
                --define skipTests \
                --define build.letter=t \
                --define build.number=${GITHUB_REF_NAME}/${GITHUB_SHA}/${GITHUB_RUN_ID}.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT} \

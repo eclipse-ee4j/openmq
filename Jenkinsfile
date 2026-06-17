@@ -30,8 +30,8 @@ pipeline {
             jdk   'temurin-jdk21-latest'
           }
           steps {
-            sh './mvnw -V -B -P staging -f mq/main         clean install -Dbuild.letter=j -Dbuild.number=${BRANCH_NAME}/${GIT_COMMIT}/${BUILD_NUMBER}'
-            sh './mvnw    -B -P staging -f mq/distribution source:jar install'
+            sh './mvnw -V -B -f mq/main         clean install -Dbuild.letter=j -Dbuild.number=${BRANCH_NAME}/${GIT_COMMIT}/${BUILD_NUMBER}'
+            sh './mvnw    -B -f mq/distribution source:jar install'
             junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
             dir('mq/dist/bundles') {
               stash name: 'built-mq', includes: 'mq.zip'
@@ -291,7 +291,7 @@ pipeline {
         jdk   'temurin-jdk21-latest'
       }
       steps {
-        sh './mvnw -V -B -P staging -f mq/main -P jacoco clean verify'
+        sh './mvnw -V -B -f mq/main -P jacoco clean verify'
         jacoco execPattern: '**/**.exec',
                classPattern: '**/classes',
                sourcePattern: '**/src/main/java',
@@ -324,12 +324,12 @@ pipeline {
                                 --non-recursive \
                                 dependency:properties \
                                 help:evaluate \
-                                --activate-profiles staging,ecj \
+                                --activate-profiles ecj \
                                 --define forceStdout \
                                 --define expression=lombok.repo.location'''
                   MAVENOPTS = "-javaagent:${LOMBOKLOC}=ECJ"
                 }
-                sh "MAVEN_OPTS=${MAVENOPTS} ./mvnw -V -B -P staging -f mq/main -pl -packager-opensource -P ${TOOL_PROFILE} -DskipTests clean verify -fae"
+                sh "MAVEN_OPTS=${MAVENOPTS} ./mvnw -V -B -f mq/main -pl -packager-opensource -P ${TOOL_PROFILE} -DskipTests clean verify -fae"
               }
             }
             post {
