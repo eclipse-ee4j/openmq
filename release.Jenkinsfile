@@ -165,7 +165,7 @@ pipeline {
                 exit 1
               fi
 
-              MVN_DEPLOY_ARGS="deploy -Drelease.autoPublish=false -Drelease.projectName=OpenMQ"
+              MVN_DEPLOY_ARGS="deploy -Dchecksums=required -Drelease.autoPublish=false -Drelease.projectName=OpenMQ"
 
               GIT_ORIGIN=$(git remote)
 
