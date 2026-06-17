@@ -36,7 +36,7 @@ jobs:
     - name: Test Maven Build
       run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --file mq/main install --define build.letter=g --define build.number=${GITHUB_REF_NAME}/${GITHUB_SHA}/${GITHUB_RUN_ID}.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT}
     - name: Upload MQ Distribution
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: mq-distribution
         retention-days: 1
@@ -85,7 +85,7 @@ jobs:
 
     steps:
     - name: Download MQ Distribution
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v8
       with:
         name: mq-distribution
     - name: Unzip MQ Distribution
@@ -158,7 +158,7 @@ jobs:
               -lmqcrt
         done
     - name: Download MQ Distribution
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v8
       with:
         name: mq-distribution
     - name: Unpack MQ Distribution
@@ -206,7 +206,7 @@ jobs:
     - name: Verify consumed message
       run: grep "OpenMQ Test message from workflow" consumer.log
     - name: Upload logs on failure
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       if: failure()
       with:
         name: test-mqcrt-client-brokerd-log-${{ matrix.java_version }}-${{ matrix.os }}
