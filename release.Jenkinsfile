@@ -203,6 +203,11 @@ pipeline {
                   -DnewVersion="${RELEASE_VERSION}" \
                   -DgenerateBackupPoms=false \
                   clean versions:set ${MVN_EXTRA}
+              ./mvnw -U -C \
+                  -DnewVersion="${RELEASE_VERSION}" \
+                  -DgenerateBackupPoms=false \
+                  -f "${DISTRIBUTION_DIR}" \
+                  clean versions:set ${MVN_EXTRA}
 
               # Collect all pom.xml files that were modified above when their version was updated
               echo '-[ Commit modified pom.xml files ]----------------------------------------------'
@@ -241,6 +246,11 @@ pipeline {
               ./mvnw -U -C \
                   -DnewVersion="${NEXT_VERSION}" \
                   -DgenerateBackupPoms=false \
+                  clean versions:set ${MVN_EXTRA}
+              ./mvnw -U -C \
+                  -DnewVersion="${NEXT_VERSION}" \
+                  -DgenerateBackupPoms=false \
+                  -f "${DISTRIBUTION_DIR}" \
                   clean versions:set ${MVN_EXTRA}
 
               echo '-[ Commit modified pom.xml files ]----------------------------------------------'
