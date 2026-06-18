@@ -82,19 +82,19 @@ public class Version {
      * String representing the value of the mini copyright of the product
      */
     private String miniCopyright = "Copyright (c) 2013, 2018 Oracle and/or its affiliates.  All rights reserved.\n"
-            + "Copyright (c) 2018, 2025 Contributors to Eclipse Foundation.";
+            + "Copyright (c) 2018, 2026 Contributors to Eclipse Foundation.";
 
     /**
      * String representing the shortCopyright of the product
      */
     private String shortCopyright = "Copyright (c) 2013, 2018 Oracle and/or its affiliates. All rights reserved.\n"
-            + "Copyright (c) 2018, 2025 Contributors to Eclipse Foundation.";
+            + "Copyright (c) 2018, 2026 Contributors to Eclipse Foundation.";
 
     /**
      * String representing the long copyright value of the product
      */
     private String longCopyright = "Copyright (c) 2013, 2018 Oracle and/or its affiliates.  All rights reserved.\n"
-            + "Copyright (c) 2018, 2025 Contributors to Eclipse Foundation.";
+            + "Copyright (c) 2018, 2026 Contributors to Eclipse Foundation.";
 
     /**
      * Represents the mini copyright value for the product
