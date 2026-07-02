@@ -61,8 +61,7 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
 
         int count = -1;
 
-        String sql = new StringBuilder(128).append("SELECT COUNT(*) FROM ").append(getTableName())
-                .append((whereClause != null && whereClause.length() > 0) ? " WHERE " + whereClause : "").toString();
+        String sql = "SELECT COUNT(*) FROM " + getTableName() + ((whereClause != null && whereClause.length() > 0) ? " WHERE " + whereClause : "");
 
         boolean myConn = false;
         Statement stmt = null;
@@ -330,10 +329,9 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
         String sql = null;
 
         if (dbMgr.isOracle() && whereClause == null) {
-            sql = new StringBuilder(128).append("TRUNCATE TABLE ").append(tableName).toString();
+            sql = "TRUNCATE TABLE " + tableName;
         } else {
-            sql = new StringBuilder(128).append("DELETE FROM ").append(tableName)
-                    .append((whereClause != null && whereClause.length() > 0) ? " WHERE " + whereClause : "").toString();
+            sql = "DELETE FROM " + tableName + ((whereClause != null && whereClause.length() > 0) ? " WHERE " + whereClause : "");
         }
 
         boolean myConn = false;
@@ -405,8 +403,7 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
 
             // Get the number of rows to be deleted to see if we need to delete
             // data in multiple chunks, i.e. # rowToBeDeleted > chunkSize
-            sql = new StringBuilder(128).append("SELECT COUNT(*)").append(" FROM ").append(tableName)
-                    .append(whereClause.length() > 0 ? " WHERE " + whereClause : "").toString();
+            sql = "SELECT COUNT(*)" + " FROM " + tableName + (whereClause.length() > 0 ? " WHERE " + whereClause : "");
 
             pstmt = dbMgr.createPreparedStatement(conn, sql);
             ResultSet rs = pstmt.executeQuery();
@@ -425,8 +422,7 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
 
             // We will need to delete all records in multiple chunks; so
             // generate the timestamp delimeter for each chunk.
-            sql = new StringBuilder(128).append("SELECT ").append(timestampColumn).append(" FROM ").append(tableName)
-                    .append(whereClause.length() > 0 ? " WHERE " + whereClause : "").append(" ORDER BY ").append(timestampColumn).toString();
+            sql = "SELECT " + timestampColumn + " FROM " + tableName + (whereClause.length() > 0 ? " WHERE " + whereClause : "") + " ORDER BY " + timestampColumn;
             pstmt = dbMgr.createPreparedStatement(conn, sql);
             rs = pstmt.executeQuery();
             List chunkList = Util.getChunkDelimiters(rs, 1, chunkSize);
@@ -439,8 +435,7 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
             }
 
             // Now, we delete all data in multiple chunks...
-            sql = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(timestampColumn).append(" < ?")
-                    .append(whereClause.length() > 0 ? " AND " + whereClause : "").toString();
+            sql = "DELETE FROM " + tableName + " WHERE " + timestampColumn + " < ?" + (whereClause.length() > 0 ? " AND " + whereClause : "");
             pstmt = dbMgr.createPreparedStatement(conn, sql);
 
             Long[] a = (Long[]) chunkList.toArray(new Long[chunkList.size()]);

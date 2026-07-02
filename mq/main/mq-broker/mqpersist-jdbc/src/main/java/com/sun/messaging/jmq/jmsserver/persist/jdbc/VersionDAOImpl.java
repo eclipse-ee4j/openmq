@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -49,22 +49,17 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
 
         tableName = dbMgr.getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(STORE_VERSION_COLUMN).append(") VALUES ( ? )")
-                .toString();
+        insertSQL = "INSERT INTO " + tableName + " ( " + STORE_VERSION_COLUMN + ") VALUES ( ? )";
 
-        updateLockSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(LOCK_ID_COLUMN).append(" = ?").append(" WHERE ")
-                .append(STORE_VERSION_COLUMN).append(" = ? AND ").append(LOCK_ID_COLUMN).append(" IS NULL").toString();
+        updateLockSQL = "UPDATE " + tableName + " SET " + LOCK_ID_COLUMN + " = ?" + " WHERE " + STORE_VERSION_COLUMN + " = ? AND " + LOCK_ID_COLUMN + " IS NULL";
 
-        updateLockByLockIDSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(LOCK_ID_COLUMN).append(" = ?")
-                .append(" WHERE ").append(STORE_VERSION_COLUMN).append(" = ? AND ").append(LOCK_ID_COLUMN).append(" = ?").toString();
+        updateLockByLockIDSQL = "UPDATE " + tableName + " SET " + LOCK_ID_COLUMN + " = ?" + " WHERE " + STORE_VERSION_COLUMN + " = ? AND " + LOCK_ID_COLUMN + " = ?";
 
-        selectStoreVersionSQL = new StringBuilder(128).append("SELECT ").append(STORE_VERSION_COLUMN).append(" FROM ").append(tableName).toString();
+        selectStoreVersionSQL = "SELECT " + STORE_VERSION_COLUMN + " FROM " + tableName;
 
-        selectLockSQL = new StringBuilder(128).append("SELECT ").append(LOCK_ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
-                .append(STORE_VERSION_COLUMN).append(" = ?").toString();
+        selectLockSQL = "SELECT " + LOCK_ID_COLUMN + " FROM " + tableName + " WHERE " + STORE_VERSION_COLUMN + " = ?";
 
-        selectAllSQL = new StringBuilder(128).append("SELECT ").append(LOCK_ID_COLUMN).append(", ").append(STORE_VERSION_COLUMN).append(" FROM ")
-                .append(tableName).toString();
+        selectAllSQL = "SELECT " + LOCK_ID_COLUMN + ", " + STORE_VERSION_COLUMN + " FROM " + tableName;
     }
 
     /**

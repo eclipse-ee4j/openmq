@@ -39,7 +39,7 @@ class MySQLMessageDAOImpl extends MessageDAOImpl {
     MySQLMessageDAOImpl() throws BrokerException {
         PROC_DELETE = "MQ" + JDBCStore.STORE_VERSION + "SP0MSG" + JDBCStore.STORED_PROC_VERSION + DBManager.getDBManager().getTableSuffix(); //NOPMD
 
-        dropStoredProcSQL = new StringBuilder(128).append("DROP PROCEDURE IF EXISTS ").append(PROC_DELETE).toString();
+        dropStoredProcSQL = "DROP PROCEDURE IF EXISTS " + PROC_DELETE;
     }
 
     @Override
@@ -56,17 +56,7 @@ class MySQLMessageDAOImpl extends MessageDAOImpl {
                 myConn = true; // Set to true since this is our connection
             }
 
-            sql = new StringBuilder(128).append("CREATE PROCEDURE ").append(PROC_DELETE).append("( IN msgID VARCHAR (100), ")
-                    .append("IN brokerID VARCHAR(100), ").append("OUT row_affected INT, ").append("OUT beingTakenOver INT, ").append("OUT brokerState INT )")
-                    .append(" BEGIN ").append(" DECLARE not_found INT; ").append(" DECLARE CONTINUE HANDLER FOR NOT FOUND SET not_found=1; ")
-                    .append(" SET not_found=0; ").append(" SET row_affected=1; ").append(" SET beingTakenOver=0; ").append(" SET autocommit=0; ")
-                    .append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ").append("msgID; ")
-                    .append(" IF not_found = 1 THEN ").append(" SET row_affected=0; ").append(" END IF; ")
-                    .append(" IF not_found = 0 AND brokerID IS NOT NULL THEN ").append(" CALL ")
-                    .append(MySQLBrokerDAOImpl.PROC_IS_BEING_TAKENOVER).append('(')
-                    .append("brokerID, beingTakenOver, brokerState); ").append(" END IF; ").append(" IF beingTakenOver = 0 THEN ").append("DELETE FROM ")
-                    .append(dbMgr.getDAOFactory().getConsumerStateDAO().getTableName()).append(" WHERE ").append(ConsumerStateDAO.MESSAGE_ID_COLUMN)
-                    .append(" = msgID; ").append(" END IF; ").append("END;").toString();
+            sql = "CREATE PROCEDURE " + PROC_DELETE + "( IN msgID VARCHAR (100), " + "IN brokerID VARCHAR(100), " + "OUT row_affected INT, " + "OUT beingTakenOver INT, " + "OUT brokerState INT )" + " BEGIN " + " DECLARE not_found INT; " + " DECLARE CONTINUE HANDLER FOR NOT FOUND SET not_found=1; " + " SET not_found=0; " + " SET row_affected=1; " + " SET beingTakenOver=0; " + " SET autocommit=0; " + "DELETE FROM " + tableName + " WHERE " + ID_COLUMN + " = " + "msgID; " + " IF not_found = 1 THEN " + " SET row_affected=0; " + " END IF; " + " IF not_found = 0 AND brokerID IS NOT NULL THEN " + " CALL " + (MySQLBrokerDAOImpl.PROC_IS_BEING_TAKENOVER) + '(' + "brokerID, beingTakenOver, brokerState); " + " END IF; " + " IF beingTakenOver = 0 THEN " + "DELETE FROM " + dbMgr.getDAOFactory().getConsumerStateDAO().getTableName() + " WHERE " + (ConsumerStateDAO.MESSAGE_ID_COLUMN) + " = msgID; " + " END IF; " + "END;";
 
             stmt = conn.createStatement();
             try {

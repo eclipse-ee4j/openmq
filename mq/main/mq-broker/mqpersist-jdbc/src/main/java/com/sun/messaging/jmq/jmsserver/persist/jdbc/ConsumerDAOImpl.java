@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -55,9 +55,7 @@ class ConsumerDAOImpl extends BaseDAOImpl implements ConsumerDAO {
 
         tableName = dbMgr.getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(CONSUMER_COLUMN)
-                .append(", ").append(DURABLE_NAME_COLUMN).append(", ").append(CLIENT_ID_COLUMN).append(", ").append(CREATED_TS_COLUMN)
-                .append(") VALUES ( ?, ?, ?, ?, ? )").toString();
+        insertSQL = "INSERT INTO " + tableName + " ( " + ID_COLUMN + ", " + CONSUMER_COLUMN + ", " + DURABLE_NAME_COLUMN + ", " + CLIENT_ID_COLUMN + ", " + CREATED_TS_COLUMN + ") VALUES ( ?, ?, ?, ?, ? )";
 
         /*
          * insertNoDupSQLDual = new StringBuilder(128) .append( "INSERT INTO " ).append( tableName ) .append( " ( " ) .append(
@@ -67,23 +65,17 @@ class ConsumerDAOImpl extends BaseDAOImpl implements ConsumerDAO {
          * DURABLE_NAME_COLUMN ).append(" = ? ") .append( " AND ").append( CLIENT_ID_COLUMN ).append(" = ? )" ) .toString();
          */
 
-        insertNoDupSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(CONSUMER_COLUMN)
-                .append(", ").append(DURABLE_NAME_COLUMN).append(", ").append(CLIENT_ID_COLUMN).append(", ").append(CREATED_TS_COLUMN)
-                .append(" ) SELECT ?, ?, ?, ?, ? FROM ").append(tableName).append(" WHERE ").append(DURABLE_NAME_COLUMN).append(" = ? ").append(" AND ")
-                .append(CLIENT_ID_COLUMN).append(" = ? ").append(" HAVING COUNT(*) ").append(" = 0 ").toString();
+        insertNoDupSQL = "INSERT INTO " + tableName + " ( " + ID_COLUMN + ", " + CONSUMER_COLUMN + ", " + DURABLE_NAME_COLUMN + ", " + CLIENT_ID_COLUMN + ", " + CREATED_TS_COLUMN + " ) SELECT ?, ?, ?, ?, ? FROM " + tableName + " WHERE " + DURABLE_NAME_COLUMN + " = ? " + " AND " + CLIENT_ID_COLUMN + " = ? " + " HAVING COUNT(*) " + " = 0 ";
 
-        deleteSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
+        deleteSQL = "DELETE FROM " + tableName + " WHERE " + ID_COLUMN + " = ?";
 
-        selectSQL = new StringBuilder(128).append("SELECT ").append(CONSUMER_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN)
-                .append(" = ?").toString();
+        selectSQL = "SELECT " + CONSUMER_COLUMN + " FROM " + tableName + " WHERE " + ID_COLUMN + " = ?";
 
-        selectAllSQL = new StringBuilder(128).append("SELECT ").append(CONSUMER_COLUMN).append(" FROM ").append(tableName).toString();
+        selectAllSQL = "SELECT " + CONSUMER_COLUMN + " FROM " + tableName;
 
-        selectExistSQL = new StringBuilder(128).append("SELECT ").append(CONSUMER_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
-                .append(DURABLE_NAME_COLUMN).append(" = ?").append(" AND ").append(CLIENT_ID_COLUMN).append(" = ?").toString();
+        selectExistSQL = "SELECT " + CONSUMER_COLUMN + " FROM " + tableName + " WHERE " + DURABLE_NAME_COLUMN + " = ?" + " AND " + CLIENT_ID_COLUMN + " = ?";
 
-        selectExistByIDSQL = new StringBuilder(128).append("SELECT ").append(CONSUMER_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
-                .append(ID_COLUMN).append(" = ?").toString();
+        selectExistByIDSQL = "SELECT " + CONSUMER_COLUMN + " FROM " + tableName + " WHERE " + ID_COLUMN + " = ?";
     }
 
     /**

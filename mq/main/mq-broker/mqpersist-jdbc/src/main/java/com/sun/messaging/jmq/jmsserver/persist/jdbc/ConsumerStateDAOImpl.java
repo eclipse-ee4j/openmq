@@ -78,67 +78,39 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
         tableName = dbMgr.getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(MESSAGE_ID_COLUMN).append(", ")
-                .append(CONSUMER_ID_COLUMN).append(", ").append(STATE_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ? )")
-                .toString();
+        insertSQL = "INSERT INTO " + tableName + " ( " + MESSAGE_ID_COLUMN + ", " + CONSUMER_ID_COLUMN + ", " + STATE_COLUMN + ", " + CREATED_TS_COLUMN + ") VALUES ( ?, ?, ?, ? )";
 
-        updateTransactionSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(TRANSACTION_ID_COLUMN).append(" = ?")
-                .append(" WHERE ").append(MESSAGE_ID_COLUMN).append(" = ?").append(" AND ").append(CONSUMER_ID_COLUMN).append(" = ?").append(" AND ")
-                .append(TRANSACTION_ID_COLUMN).append(" IS NULL").append(brokerNotTakenOverClause).toString();
+        updateTransactionSQL = "UPDATE " + tableName + " SET " + TRANSACTION_ID_COLUMN + " = ?" + " WHERE " + MESSAGE_ID_COLUMN + " = ?" + " AND " + CONSUMER_ID_COLUMN + " = ?" + " AND " + TRANSACTION_ID_COLUMN + " IS NULL" + brokerNotTakenOverClause;
 
-        updateTransactionNoCheckSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(TRANSACTION_ID_COLUMN).append(" = ?")
-                .append(" WHERE ").append(MESSAGE_ID_COLUMN).append(" = ?").append(" AND ").append(CONSUMER_ID_COLUMN).append(" = ?").append(" AND ")
-                .append(TRANSACTION_ID_COLUMN).append(" <> ?").append(brokerNotTakenOverClause).toString();
+        updateTransactionNoCheckSQL = "UPDATE " + tableName + " SET " + TRANSACTION_ID_COLUMN + " = ?" + " WHERE " + MESSAGE_ID_COLUMN + " = ?" + " AND " + CONSUMER_ID_COLUMN + " = ?" + " AND " + TRANSACTION_ID_COLUMN + " <> ?" + brokerNotTakenOverClause;
 
-        updateStateSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(STATE_COLUMN).append(" = ?").append(" WHERE ")
-                .append(MESSAGE_ID_COLUMN).append(" = ?").append(" AND ").append(CONSUMER_ID_COLUMN).append(" = ?").toString();
+        updateStateSQL = "UPDATE " + tableName + " SET " + STATE_COLUMN + " = ?" + " WHERE " + MESSAGE_ID_COLUMN + " = ?" + " AND " + CONSUMER_ID_COLUMN + " = ?";
 
-        updateState2SQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(STATE_COLUMN).append(" = ?").append(" WHERE ")
-                .append(MESSAGE_ID_COLUMN).append(" = ?").append(" AND ").append(CONSUMER_ID_COLUMN).append(" = ?").append(" AND ").append(STATE_COLUMN)
-                .append(" = ?").toString();
+        updateState2SQL = "UPDATE " + tableName + " SET " + STATE_COLUMN + " = ?" + " WHERE " + MESSAGE_ID_COLUMN + " = ?" + " AND " + CONSUMER_ID_COLUMN + " = ?" + " AND " + STATE_COLUMN + " = ?";
 
-        clearTxnSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(TRANSACTION_ID_COLUMN).append(" = NULL")
-                .append(" WHERE ").append(TRANSACTION_ID_COLUMN).append(" = ?").append(brokerNotTakenOverClause).toString();
+        clearTxnSQL = "UPDATE " + tableName + " SET " + TRANSACTION_ID_COLUMN + " = NULL" + " WHERE " + TRANSACTION_ID_COLUMN + " = ?" + brokerNotTakenOverClause;
 
-        deleteByTxnSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(TRANSACTION_ID_COLUMN).append(" = ?")
-                .toString();
+        deleteByTxnSQL = "DELETE FROM " + tableName + " WHERE " + TRANSACTION_ID_COLUMN + " = ?";
 
-        deleteByDstSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(MESSAGE_ID_COLUMN).append(" IN ")
-                .append("(SELECT msgTbl.").append(MessageDAO.ID_COLUMN).append(" FROM ").append(dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX))
-                .append(" msgTbl, ").append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" sesTbl").append(" WHERE sesTbl.")
-                .append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?").append(" AND sesTbl.").append(StoreSessionDAO.ID_COLUMN).append(" = msgTbl.")
-                .append(MessageDAO.STORE_SESSION_ID_COLUMN).append(" AND ").append(MessageDAO.DESTINATION_ID_COLUMN).append(" = ?)").toString();
+        deleteByDstSQL = "DELETE FROM " + tableName + " WHERE " + MESSAGE_ID_COLUMN + " IN " + "(SELECT msgTbl." + (MessageDAO.ID_COLUMN) + " FROM " + dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX) + " msgTbl, " + dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX) + " sesTbl" + " WHERE sesTbl." + (StoreSessionDAO.BROKER_ID_COLUMN) + " = ?" + " AND sesTbl." + (StoreSessionDAO.ID_COLUMN) + " = msgTbl." + (MessageDAO.STORE_SESSION_ID_COLUMN) + " AND " + (MessageDAO.DESTINATION_ID_COLUMN) + " = ?)";
 
-        deleteByDstBySessionSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(MESSAGE_ID_COLUMN).append(" IN ")
-                .append("(SELECT msgTbl.").append(MessageDAO.ID_COLUMN).append(" FROM ").append(dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX))
-                .append(" msgTbl, ").append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" sesTbl").append(" WHERE sesTbl.")
-                .append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?").append(" AND sesTbl.").append(StoreSessionDAO.ID_COLUMN).append(" = msgTbl.")
-                .append(MessageDAO.STORE_SESSION_ID_COLUMN).append(" AND sesTbl.").append(StoreSessionDAO.ID_COLUMN).append(" = ?").append(" AND ")
-                .append(MessageDAO.DESTINATION_ID_COLUMN).append(" = ?)").toString();
+        deleteByDstBySessionSQL = "DELETE FROM " + tableName + " WHERE " + MESSAGE_ID_COLUMN + " IN " + "(SELECT msgTbl." + (MessageDAO.ID_COLUMN) + " FROM " + dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX) + " msgTbl, " + dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX) + " sesTbl" + " WHERE sesTbl." + (StoreSessionDAO.BROKER_ID_COLUMN) + " = ?" + " AND sesTbl." + (StoreSessionDAO.ID_COLUMN) + " = msgTbl." + (MessageDAO.STORE_SESSION_ID_COLUMN) + " AND sesTbl." + (StoreSessionDAO.ID_COLUMN) + " = ?" + " AND " + (MessageDAO.DESTINATION_ID_COLUMN) + " = ?)";
 
-        deleteByMsgSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(MESSAGE_ID_COLUMN).append(" = ?").toString();
+        deleteByMsgSQL = "DELETE FROM " + tableName + " WHERE " + MESSAGE_ID_COLUMN + " = ?";
 
-        selectStateSQL = new StringBuilder(128).append("SELECT ").append(STATE_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
-                .append(MESSAGE_ID_COLUMN).append(" = ?").append(" AND ").append(CONSUMER_ID_COLUMN).append(" = ?").toString();
+        selectStateSQL = "SELECT " + STATE_COLUMN + " FROM " + tableName + " WHERE " + MESSAGE_ID_COLUMN + " = ?" + " AND " + CONSUMER_ID_COLUMN + " = ?";
 
-        selectStatesByMsgSQL = new StringBuilder(128).append("SELECT ").append(CONSUMER_ID_COLUMN).append(", ").append(STATE_COLUMN).append(" FROM ")
-                .append(tableName).append(" WHERE ").append(MESSAGE_ID_COLUMN).append(" = ?").toString();
+        selectStatesByMsgSQL = "SELECT " + CONSUMER_ID_COLUMN + ", " + STATE_COLUMN + " FROM " + tableName + " WHERE " + MESSAGE_ID_COLUMN + " = ?";
 
-        selectTransactionSQL = new StringBuilder(128).append("SELECT ").append(TRANSACTION_ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
-                .append(MESSAGE_ID_COLUMN).append(" = ?").append(" AND ").append(CONSUMER_ID_COLUMN).append(" = ?").toString();
+        selectTransactionSQL = "SELECT " + TRANSACTION_ID_COLUMN + " FROM " + tableName + " WHERE " + MESSAGE_ID_COLUMN + " = ?" + " AND " + CONSUMER_ID_COLUMN + " = ?";
 
-        selectCountByMsgSQL = new StringBuilder(128).append("SELECT COUNT(*) FROM ").append(tableName).append(" WHERE ").append(MESSAGE_ID_COLUMN).append(" = ?")
-                .toString();
+        selectCountByMsgSQL = "SELECT COUNT(*) FROM " + tableName + " WHERE " + MESSAGE_ID_COLUMN + " = ?";
 
-        selectConsumerIDsByMsgSQL = new StringBuilder(128).append("SELECT ").append(CONSUMER_ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
-                .append(MESSAGE_ID_COLUMN).append(" = ? ").append(" AND ").append(STATE_COLUMN).append(" <> ")
-                .append(PartitionedStore.INTEREST_STATE_ACKNOWLEDGED).toString();
+        selectConsumerIDsByMsgSQL = "SELECT " + CONSUMER_ID_COLUMN + " FROM " + tableName + " WHERE " + MESSAGE_ID_COLUMN + " = ? " + " AND " + STATE_COLUMN + " <> " + (PartitionedStore.INTEREST_STATE_ACKNOWLEDGED);
 
-        selectTransactionAcksSQL = new StringBuilder(128).append("SELECT ").append(CONSUMER_ID_COLUMN).append(", ").append(MESSAGE_ID_COLUMN).append(" FROM ")
-                .append(tableName).append(" WHERE ").append(TRANSACTION_ID_COLUMN).append(" = ?").toString();
+        selectTransactionAcksSQL = "SELECT " + CONSUMER_ID_COLUMN + ", " + MESSAGE_ID_COLUMN + " FROM " + tableName + " WHERE " + TRANSACTION_ID_COLUMN + " = ?";
 
-        selectAllTransactionAcksSQL = new StringBuilder(128).append("SELECT ").append(TRANSACTION_ID_COLUMN).append(", ").append(CONSUMER_ID_COLUMN).append(", ")
-                .append(MESSAGE_ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(TRANSACTION_ID_COLUMN).append(" IS NOT NULL").toString();
+        selectAllTransactionAcksSQL = "SELECT " + TRANSACTION_ID_COLUMN + ", " + CONSUMER_ID_COLUMN + ", " + MESSAGE_ID_COLUMN + " FROM " + tableName + " WHERE " + TRANSACTION_ID_COLUMN + " IS NOT NULL";
     }
 
     /**
@@ -968,11 +940,7 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
             // WHERE sestbl.broker_id = 'mybroker' AND
             // sestbl.id = msgtbl.store_session_id)
             DBManager dbMgr = DBManager.getDBManager();
-            whereClause = new StringBuilder(128).append(MESSAGE_ID_COLUMN).append(" IN (SELECT msgTbl.").append(MessageDAO.ID_COLUMN).append(" FROM ")
-                    .append(dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX)).append(" msgTbl, ").append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX))
-                    .append(" sesTbl").append(" WHERE sesTbl.").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = '").append(dbMgr.getBrokerID())
-                    .append("' AND sesTbl.").append(StoreSessionDAO.ID_COLUMN).append(" = msgTbl.").append(MessageDAO.STORE_SESSION_ID_COLUMN).append(')')
-                    .toString();
+            whereClause = MESSAGE_ID_COLUMN + " IN (SELECT msgTbl." + (MessageDAO.ID_COLUMN) + " FROM " + dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX) + " msgTbl, " + dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX) + " sesTbl" + " WHERE sesTbl." + (StoreSessionDAO.BROKER_ID_COLUMN) + " = '" + dbMgr.getBrokerID() + "' AND sesTbl." + (StoreSessionDAO.ID_COLUMN) + " = msgTbl." + (MessageDAO.STORE_SESSION_ID_COLUMN) + ')';
         }
 
         deleteAll(conn, whereClause, null, 0);
