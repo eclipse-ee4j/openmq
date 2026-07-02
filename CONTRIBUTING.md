@@ -24,7 +24,7 @@ The project maintains the following source code repositories
 Before your contribution can be accepted by the project team contributors must
 electronically sign the Eclipse Contributor Agreement (ECA).
 
-* http://www.eclipse.org/legal/ECA.php
+* https://www.eclipse.org/legal/ECA
 
 Git commit records are required to take a specific form.
 The credentials of the actual author must be used to populate the Author field.
@@ -38,4 +38,4 @@ https://www.eclipse.org/projects/handbook/#resources-commit
 
 Contact the project developers via the project's "dev" list.
 
-* 
+*
