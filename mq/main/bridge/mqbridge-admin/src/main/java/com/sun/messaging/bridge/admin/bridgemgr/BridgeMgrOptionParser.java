@@ -30,7 +30,7 @@ import com.sun.messaging.jmq.util.options.OptionException;
  * This class is a command line option parser for imqbridgemgr.
  *
  */
-public class BridgeMgrOptionParser extends OptionParser implements BridgeMgrOptions {
+public class BridgeMgrOptionParser implements BridgeMgrOptions {
 
     private static OptionDesc[] bridgeMgrOptions = {
 
@@ -87,10 +87,7 @@ public class BridgeMgrOptionParser extends OptionParser implements BridgeMgrOpti
 
         BridgeMgrProperties props = new BridgeMgrProperties();
 
-        /*
-         * Invoke main parsing code in superclass
-         */
-        parseArgs(args, bridgeMgrOptions, props);
+        OptionParser.parseArgs(args, bridgeMgrOptions, props);
 
         return (props);
     }

@@ -39,7 +39,7 @@ import com.sun.messaging.jmq.util.options.OptionException;
  * @see com.sun.messaging.jmq.util.options.OptionDesc
  * @see com.sun.messaging.jmq.util.options.OptionParser
  */
-public class ObjMgrOptionParser extends OptionParser implements ObjMgrOptions {
+public class ObjMgrOptionParser implements ObjMgrOptions {
 
     /**
      * Options for the jmqobjmgr utility
@@ -81,10 +81,7 @@ public class ObjMgrOptionParser extends OptionParser implements ObjMgrOptions {
     public static ObjMgrProperties parseArgs(String args[]) throws OptionException {
         ObjMgrProperties objMgrProps = new ObjMgrProperties();
 
-        /*
-         * Invoke main parsing code in superclass
-         */
-        parseArgs(args, objMgrOptions, objMgrProps);
+        OptionParser.parseArgs(args, objMgrOptions, objMgrProps);
 
         return (objMgrProps);
     }

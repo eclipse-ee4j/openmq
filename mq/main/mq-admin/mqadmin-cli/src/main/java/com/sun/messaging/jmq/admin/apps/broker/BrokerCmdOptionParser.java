@@ -40,7 +40,7 @@ import com.sun.messaging.jmq.util.options.OptionException;
  * @see com.sun.messaging.jmq.util.options.OptionDesc
  * @see com.sun.messaging.jmq.util.options.OptionParser
  */
-public class BrokerCmdOptionParser extends OptionParser implements BrokerCmdOptions {
+public class BrokerCmdOptionParser implements BrokerCmdOptions {
 
     /**
      * Options for the jmqobjmgr utility
@@ -154,10 +154,7 @@ public class BrokerCmdOptionParser extends OptionParser implements BrokerCmdOpti
     public static BrokerCmdProperties parseArgs(String args[]) throws OptionException {
         BrokerCmdProperties brokerCmdProps = new BrokerCmdProperties();
 
-        /*
-         * Invoke main parsing code in superclass
-         */
-        parseArgs(args, brokerCmdOptions, brokerCmdProps);
+        OptionParser.parseArgs(args, brokerCmdOptions, brokerCmdProps);
 
         return (brokerCmdProps);
     }

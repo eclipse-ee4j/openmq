@@ -82,7 +82,7 @@ import com.sun.messaging.jmq.util.options.OptionException;
  * @see com.sun.messaging.jmq.admin.util.OptionDesc
  * @see com.sun.messaging.jmq.admin.util.OptionParser
  */
-public class UserMgrOptionParser extends OptionParser {
+public class UserMgrOptionParser {
 
     /**
      * Options for the jmqobjmgr utility
@@ -133,10 +133,7 @@ public class UserMgrOptionParser extends OptionParser {
     public static UserMgrProperties parseArgs(String args[]) throws OptionException {
         UserMgrProperties userMgrProps = new UserMgrProperties();
 
-        /*
-         * Invoke main parsing code in superclass
-         */
-        parseArgs(args, userMgrOptions, userMgrProps);
+        OptionParser.parseArgs(args, userMgrOptions, userMgrProps);
 
         return (userMgrProps);
     }
