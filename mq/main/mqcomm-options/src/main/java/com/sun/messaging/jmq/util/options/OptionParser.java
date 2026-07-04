@@ -17,11 +17,6 @@
 
 package com.sun.messaging.jmq.util.options;
 
-import static com.sun.messaging.jmq.util.options.OptionType.OPTION_VALUE_HARDCODED;
-import static com.sun.messaging.jmq.util.options.OptionType.OPTION_VALUE_NEXT_ARG;
-import static com.sun.messaging.jmq.util.options.OptionType.OPTION_VALUE_NEXT_ARG_RES;
-import static com.sun.messaging.jmq.util.options.OptionType.OPTION_VALUE_SUFFIX_RES;
-
 import java.util.Properties;
 
 /**
@@ -249,12 +244,12 @@ public class OptionParser {
         int matchIndex = -1;
 
         for (int i = 0; i < optDesc.length; ++i) {
-            int type = optDesc[i].type;
+            OptionType type = optDesc[i].type;
             String option = optDesc[i].option;
 
             if (arg.equals(option)) {
                 return (i);
-            } else if ((type == OPTION_VALUE_SUFFIX_RES) && (arg.startsWith(option))) {
+            } else if ((type == OptionType.OPTION_VALUE_SUFFIX_RES) && (arg.startsWith(option))) {
                 return (i);
             }
         }

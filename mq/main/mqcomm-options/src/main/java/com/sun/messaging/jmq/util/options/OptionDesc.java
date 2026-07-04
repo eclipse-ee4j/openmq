@@ -40,7 +40,7 @@ public class OptionDesc {
      *
      * @see OptionType
      */
-    public int type;
+    public OptionType type;
 
     /**
      * The actual option, for example <EM>-a</EM>
@@ -69,19 +69,19 @@ public class OptionDesc {
      */
     public String value;
 
-    public OptionDesc(String option, int type, String baseProp, String value) {
+    public OptionDesc(String option, OptionType type, String baseProp, String value) {
         this(option, type, baseProp, value, null, false);
     }
 
-    public OptionDesc(String option, int type, String baseProp, String value, String nameValuePair) {
+    public OptionDesc(String option, OptionType type, String baseProp, String value, String nameValuePair) {
         this(option, type, baseProp, value, nameValuePair, false);
     }
 
-    public OptionDesc(String option, int type, String baseProp, String value, boolean ignore) {
+    public OptionDesc(String option, OptionType type, String baseProp, String value, boolean ignore) {
         this(option, type, baseProp, value, null, ignore);
     }
 
-    public OptionDesc(String option, int type, String baseProp, String value, String nameValuePair, boolean ignore) {
+    public OptionDesc(String option, OptionType type, String baseProp, String value, String nameValuePair, boolean ignore) {
         this.type = type;
         this.option = option;
         this.baseProperty = baseProp;
