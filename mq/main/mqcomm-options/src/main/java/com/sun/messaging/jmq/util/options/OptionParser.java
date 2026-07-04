@@ -208,7 +208,7 @@ public class OptionParser {
         }
     }
 
-    private static String getName(String nameValuePair) {
+    static String getName(String nameValuePair) {
         if (nameValuePair == null) {
             return (null);
         }
@@ -222,7 +222,7 @@ public class OptionParser {
         return (null);
     }
 
-    private static String getValue(String nameValuePair) {
+    static String getValue(String nameValuePair) {
         if (nameValuePair == null) {
             return (null);
         }
@@ -240,7 +240,7 @@ public class OptionParser {
         return (null);
     }
 
-    private static int findMatchingOption(OptionDesc optDesc[], String arg) {
+    static int findMatchingOption(OptionDesc optDesc[], String arg) {
         int matchIndex = -1;
 
         for (int i = 0; i < optDesc.length; ++i) {
