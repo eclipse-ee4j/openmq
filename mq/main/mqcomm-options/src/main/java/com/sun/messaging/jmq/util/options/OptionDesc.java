@@ -81,7 +81,7 @@ public class OptionDesc {
         this(option, type, baseProp, value, null, ignore);
     }
 
-    public OptionDesc(String option, OptionType type, String baseProp, String value, String nameValuePair, boolean ignore) {
+    private OptionDesc(String option, OptionType type, String baseProp, String value, String nameValuePair, boolean ignore) {
         this.type = type;
         this.option = option;
         this.baseProperty = baseProp;
