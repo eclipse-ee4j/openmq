@@ -90,7 +90,7 @@
         <project.build.outputTimestamp>2026-05-02T08:04:16Z</project.build.outputTimestamp>
         <pmd.version>7.26.0</pmd.version>
         <pmd.plugin.version>3.28.0</pmd.plugin.version>
-        <spotbugs.version>4.10.2</spotbugs.version>
+        <spotbugs.version>4.10.3</spotbugs.version>
         <spotbugs.plugin.version>4.10.2.0</spotbugs.plugin.version>
         <checkstyle.version>13.8.0</checkstyle.version>
         <maven.checkstyle.plugin.version>3.6.0</maven.checkstyle.plugin.version>
