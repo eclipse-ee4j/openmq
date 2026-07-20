@@ -39,10 +39,16 @@ class BrokerAddressImpl extends BrokerAddress {
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
-        return obj.equals(this);
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        return true;
     }
 
     @Override
