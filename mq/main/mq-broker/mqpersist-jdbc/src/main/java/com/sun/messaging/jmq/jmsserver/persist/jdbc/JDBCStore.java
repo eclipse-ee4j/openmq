@@ -262,6 +262,10 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
             throw ex;
         }
 
+        if (iids == null || states == null) {
+            throw new NullPointerException();
+        }
+
         if (iids.length == 0 || iids.length != states.length) {
             throw new BrokerException(br.getKString(BrokerResources.E_BAD_INTEREST_LIST));
         }
@@ -447,6 +451,9 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     @Override
     public void removeMessage(DestinationUID dID, SysMessageID mID, boolean sync, boolean onRollback) throws BrokerException {
 
+        if (mID == null) {
+            throw new NullPointerException();
+        }
         String id = mID.getUniqueName();
 
         // make sure store is not closed then increment in progress count
@@ -1064,7 +1071,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
     public ConsumerUID[] getConsumerUIDsInternal(DestinationUID dID, SysMessageID mID) throws BrokerException {
 
-        if (mID == null) {
+        if (mID == null || dID == null) {
             throw new NullPointerException();
         }
         if (DEBUG) {
