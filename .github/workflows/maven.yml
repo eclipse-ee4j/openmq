@@ -124,9 +124,14 @@ jobs:
     uses: ./.github/workflows/broker-jdbc-drivers.yml
 
   broker-jdbc-backed:
-    name: Test Integration with JDBC
+    name: Test Integration with JDBC (Derby, MySQL)
     needs: broker-jdbc-drivers
     uses: ./.github/workflows/broker-jdbc-backed.yml
+
+  broker-jdbc-backed-postgresql:
+    name: Test Integration with JDBC (PostgreSQL)
+    needs: broker-jdbc-drivers
+    uses: ./.github/workflows/broker-jdbc-backed-postgresql.yml
 
   test-secure-sockets:
     name: Test Broker over Secure Sockets @ Java ${{ matrix.java_version }}

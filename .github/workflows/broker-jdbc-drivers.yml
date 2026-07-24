@@ -31,8 +31,16 @@ jobs:
         ./mvnw --non-recursive \
           --file mq/main \
           --activate-profiles workflow-jdbc-drivers \
+            dependency:copy@workflow-jdbc-drivers-postgresql \
             dependency:copy@workflow-jdbc-drivers-derby \
             dependency:copy@workflow-jdbc-drivers-mysql
+    - name: Upload PostgreSQL drivers
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        name: broker-jdbc-drivers-postgresql
+        retention-days: 1
+        path: |
+          mq/main/target/jdbc/postgresql/*
     - name: Upload Derby drivers
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
