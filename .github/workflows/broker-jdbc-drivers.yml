@@ -1,0 +1,49 @@
+name: Download external JDBC drivers
+on:
+  workflow_call:
+    inputs:
+      java_version:
+        type: string
+        default: 25
+      java_distribution:
+        type: string
+        default: temurin
+      java_package:
+        type: string
+        default: jre
+
+jobs:
+  broker-jdbc-drivers:
+    name: Download external JDBC drivers (${{ inputs.java_version }}-${{ inputs.java_package }})
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout for build
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - name: Set up Java
+      uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5.6.0
+      with:
+        distribution: ${{ inputs.java_distribution }}
+        java-version: ${{ inputs.java_version }}
+        java-package: ${{ inputs.java_package }}
+    - name: Copy JDBC drivers from repository
+      run: |
+        ./mvnw --non-recursive \
+          --file mq/main \
+          --activate-profiles workflow-jdbc-drivers \
+            dependency:copy@workflow-jdbc-drivers-derby \
+            dependency:copy@workflow-jdbc-drivers-mysql
+    - name: Upload Derby drivers
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        name: broker-jdbc-drivers-derby
+        retention-days: 1
+        path: |
+          mq/main/target/jdbc/derby/*
+    - name: Upload MySQL drivers
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        name: broker-jdbc-drivers-mysql
+        retention-days: 1
+        path: |
+          mq/main/target/jdbc/mysql/*

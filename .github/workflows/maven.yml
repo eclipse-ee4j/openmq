@@ -118,9 +118,14 @@ jobs:
     with:
       java_version: ${{ matrix.java_version }}
 
+  broker-jdbc-drivers:
+    name: Download JDBC drivers
+    needs: smoke
+    uses: ./.github/workflows/broker-jdbc-drivers.yml
+
   broker-jdbc-backed:
     name: Test Integration with JDBC
-    needs: smoke
+    needs: broker-jdbc-drivers
     uses: ./.github/workflows/broker-jdbc-backed.yml
 
   test-secure-sockets:
