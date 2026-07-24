@@ -59,23 +59,27 @@ jobs:
         java-package: ${{ inputs.java_package }}
     - name: Prepare admin passfile
       run: echo imq.imqcmd.password=admin > admin.pass
+    - name: Download MySQL driver
+      if: ${{ matrix.db_vendor == 'mysql' }}
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: broker-jdbc-drivers-mysql
     - name: Extend OpenMQ with MySQL JDBC driver
       if: ${{ matrix.db_vendor == 'mysql' }}
-      env:
-        MYSQL_CONNECTOR_VERSION: 9.2.0
       run: |
-        wget \
-          --quiet \
-          https://repo.maven.apache.org/maven2/com/mysql/mysql-connector-j/${MYSQL_CONNECTOR_VERSION}/mysql-connector-j-${MYSQL_CONNECTOR_VERSION}.jar \
-          --output-document mysql-connector.jar
         mv -v \
-          mysql-connector.jar \
+          mysql-connector*.jar \
           $(find ${MQ_DISTRIBUTION_ROOT} -name ext -type d)
+    - name: Download Derby driver
+      if: ${{ matrix.db_vendor == 'derby' }}
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: broker-jdbc-drivers-derby
     - name: Extend OpenMQ with DerbyDB JDBC embedded driver
       if: ${{ matrix.db_vendor == 'derby' }}
       run: |
-        cp -v \
-          $(find ${DERBY_HOME} -name derby.jar -o -name derbytools.jar -o -name derbyshared.jar) \
+        mv -v \
+          derby*.jar \
           $(find ${MQ_DISTRIBUTION_ROOT} -name ext -type d)
     - name: Start mysql service
       if: ${{ matrix.db_vendor == 'mysql' }}
