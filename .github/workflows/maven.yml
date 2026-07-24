@@ -133,6 +133,11 @@ jobs:
     needs: broker-jdbc-drivers
     uses: ./.github/workflows/broker-jdbc-backed-postgresql.yml
 
+  broker-jdbc-backed-oracle:
+    name: Test Integration with JDBC (Oracle)
+    needs: broker-jdbc-drivers
+    uses: ./.github/workflows/broker-jdbc-backed-oracle.yml
+
   test-secure-sockets:
     name: Test Broker over Secure Sockets @ Java ${{ matrix.java_version }}
     needs: smoke

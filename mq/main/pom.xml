@@ -94,6 +94,7 @@
         <error-prone.version>2.50.0</error-prone.version>
         <checker.version>4.2.1</checker.version>
         <jdbc.postgresql.version>42.7.13</jdbc.postgresql.version>
+        <jdbc.oracle.version>23.26.2.0.0</jdbc.oracle.version>
         <jdbc.mysqlconnectorj.version>9.7.0</jdbc.mysqlconnectorj.version>
         <jdbc.derby.version>10.17.1.0</jdbc.derby.version>
     </properties>
@@ -431,6 +432,11 @@
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${jdbc.postgresql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.oracle.database.jdbc</groupId>
+                <artifactId>ojdbc17</artifactId>
+                <version>${jdbc.oracle.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.mysql</groupId>
@@ -1367,6 +1373,19 @@ Existing jvm.config.error-prone can be copied to jvm.config.
                                         </artifactItem>
                                     </artifactItems>
                                     <outputDirectory>${project.build.directory}/jdbc/postgresql</outputDirectory>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>workflow-jdbc-drivers-oracle</id>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.oracle.database.jdbc</groupId>
+                                            <artifactId>ojdbc17</artifactId>
+                                            <version>${jdbc.oracle.version}</version>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <outputDirectory>${project.build.directory}/jdbc/oracle</outputDirectory>
                                 </configuration>
                             </execution>
                             <execution>
