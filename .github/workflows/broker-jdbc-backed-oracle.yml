@@ -73,10 +73,11 @@ jobs:
       uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
         name: broker-jdbc-drivers-oracle
-    - name: Extend OpenMQ with Oracle JDBC driver
+        path: jdbc-drivers
+    - name: Extend OpenMQ with JDBC driver
       run: |
         mv -v \
-          ojdbc*.jar \
+          jdbc-drivers/*.jar \
           $(find ${MQ_DISTRIBUTION_ROOT} -name ext -type d)
     - name: Update passfile for database
       run: echo imq.persist.jdbc.password=${ORACLE_PASS} >> admin.pass
