@@ -109,7 +109,6 @@ public abstract class CommDBManager {
     private boolean isPostgreSQL = false;
     private boolean supportBatch = false;
     private boolean supportGetGeneratedKey = false;
-    private int dbProductMajorVersion = -1;
     private int sqlStateType = DatabaseMetaData.sqlStateSQL99;
     private boolean useDerivedTableForUnionSubQueries = false;
 
@@ -143,7 +142,6 @@ public abstract class CommDBManager {
             DatabaseMetaData dbMetaData = conn.getMetaData();
             String dbProductName = dbMetaData.getDatabaseProductName();
             String dbProductVersion = dbMetaData.getDatabaseProductVersion();
-            dbProductMajorVersion = dbMetaData.getDatabaseMajorVersion();
             supportBatch = dbMetaData.supportsBatchUpdates();
             sqlStateType = dbMetaData.getSQLStateType();
             maxTableNameLength = dbMetaData.getMaxTableNameLength();
@@ -170,8 +168,6 @@ public abstract class CommDBManager {
             checkMaxTableNameLength(maxTableNameLength);
         }
     }
-
-    protected abstract boolean getDEBUG();
 
     protected abstract boolean isStoreInited();
 
@@ -893,10 +889,6 @@ public abstract class CommDBManager {
 
     public boolean isOracleDriver() {
         return isOraDriver;
-    }
-
-    public int getDBProductMajorVersion() {
-        return dbProductMajorVersion;
     }
 
     public int getSQLStateType() {

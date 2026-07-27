@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -99,11 +99,6 @@ public final class DBManager extends CommDBManager implements DBConstants {
     // array of table names used in version 350 store
     private static String v350tableNames[] = { VERSION_TBL_35, CONFIGRECORD_TBL_35, DESTINATION_TBL_35, INTEREST_TBL_35, MESSAGE_TBL_35, PROPERTY_TBL_35,
             INTEREST_STATE_TBL_35, TXN_TBL_35, TXNACK_TBL_35 };
-
-    @Override
-    protected boolean getDEBUG() {
-        return Store.getDEBUG();
-    }
 
     /**
      * Get DBManager method for singleton pattern.

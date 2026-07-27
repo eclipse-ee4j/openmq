@@ -51,11 +51,6 @@ public final class ShareConfigChangeDBManager extends CommDBManager {
     private static final Object classLock = ShareConfigChangeDBManager.class;
     private static ShareConfigChangeDBManager dbMgr = null;
 
-    @Override
-    protected boolean getDEBUG() {
-        return ShareConfigChangeStore.getDEBUG();
-    }
-
     /**
      * Get DBManager method for singleton pattern.
      *
