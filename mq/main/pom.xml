@@ -415,6 +415,12 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
+                <groupId>com.tngtech.archunit</groupId>
+                <artifactId>archunit-junit6</artifactId>
+                <version>${archunit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
@@ -686,7 +692,25 @@
                     <artifactId>archunit-junit6-api</artifactId>
                     <scope>test</scope>
                 </dependency>
+                <dependency>
+                    <groupId>com.tngtech.archunit</groupId>
+                    <artifactId>archunit-junit6</artifactId>
+                    <version>${archunit.version}</version>
+                    <scope>test</scope>
+                </dependency>
             </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <configuration>
+                            <usedDependencies>
+                                <archunitRt>com.tngtech.archunit:archunit-junit6</archunitRt>
+                            </usedDependencies>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
         <profile>
             <id>add-lombok-dependency</id>
