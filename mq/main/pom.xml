@@ -656,6 +656,21 @@
             </dependencies>
         </profile>
         <profile>
+            <id>add-test-dependencies:archunit-junit</id>
+            <activation>
+                <file>
+                    <exists>${basedir}/src/test/needs.archunit-junit</exists>
+                </file>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.tngtech.archunit</groupId>
+                    <artifactId>archunit-junit6</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
             <id>add-lombok-dependency</id>
             <activation>
                 <file>
