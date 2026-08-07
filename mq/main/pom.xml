@@ -91,6 +91,7 @@
         <assertj.version>3.27.7</assertj.version>
         <mockito.version>5.23.0</mockito.version>
         <lombok.version>1.18.46</lombok.version>
+        <archunit.version>1.5.0</archunit.version>
         <error-prone.version>2.50.0</error-prone.version>
         <checker.version>4.2.1</checker.version>
         <jdbc.postgresql.version>42.7.13</jdbc.postgresql.version>
@@ -397,8 +398,14 @@
             </dependency>
             <dependency>
                 <groupId>com.tngtech.archunit</groupId>
-                <artifactId>archunit-junit6</artifactId>
-                <version>1.5.0</version>
+                <artifactId>archunit</artifactId>
+                <version>${archunit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.tngtech.archunit</groupId>
+                <artifactId>archunit-junit6-api</artifactId>
+                <version>${archunit.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -656,16 +663,21 @@
             </dependencies>
         </profile>
         <profile>
-            <id>add-test-dependencies:archunit-junit</id>
+            <id>add-test-dependencies:archunit</id>
             <activation>
                 <file>
-                    <exists>${basedir}/src/test/needs.archunit-junit</exists>
+                    <exists>${basedir}/src/test/needs.archunit</exists>
                 </file>
             </activation>
             <dependencies>
                 <dependency>
                     <groupId>com.tngtech.archunit</groupId>
-                    <artifactId>archunit-junit6</artifactId>
+                    <artifactId>archunit</artifactId>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.tngtech.archunit</groupId>
+                    <artifactId>archunit-junit6-api</artifactId>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
