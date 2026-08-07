@@ -49,6 +49,7 @@
         <module>jmsra</module>
         <module>bridge</module>
         <module>mq-share</module>
+        <module>mq-share-auth</module>
         <module>mq-direct</module>
         <module>mq-broker</module>
         <module>mq-client</module>
@@ -299,6 +300,11 @@
             <dependency>
                 <groupId>org.glassfish.mq</groupId>
                 <artifactId>mq-share</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.mq</groupId>
+                <artifactId>mq-share-auth</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

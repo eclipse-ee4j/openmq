@@ -2,7 +2,7 @@
 <!--
 
     Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
-    Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
+    Copyright (c) 2021 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,9 +27,9 @@
         <version>6.10.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>mq-client</artifactId>
+    <artifactId>mq-share-auth</artifactId>
 
-    <name>MQ Client Runtime</name>
+    <name>MQ Shared Auth</name>
 
     <properties>
         <ws.binary.share.dir>../../binary/share</ws.binary.share.dir>
@@ -38,57 +38,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>jakarta.jms</groupId>
-            <artifactId>jakarta.jms-api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.glassfish.mq</groupId>
             <artifactId>mqcomm-util</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqcomm-io</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mq-share</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mq-share-auth</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqjmx-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mq-direct</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqbroker-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqhttp-tunnel-api-share</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqhttp-tunnel</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqjmsra-api</artifactId>
-        </dependency>
-
-        <!-- begin of websocket dependencies -->
-        <dependency>
-            <groupId>jakarta.websocket</groupId>
-            <artifactId>jakarta.websocket-client-api</artifactId>
-        </dependency>
-        <!-- end of websocket dependencies -->
-
     </dependencies>
 
     <build>
@@ -96,7 +48,6 @@
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
-
                     <!-- Copy classes over to binary/share/opt/classes -->
                     <execution>
                         <phase>process-classes</phase>
@@ -116,16 +67,6 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>cpd</id>
-            <properties>
-                <minimumTokens>386</minimumTokens>
-            </properties>
-        </profile>
-    </profiles>
 </project>

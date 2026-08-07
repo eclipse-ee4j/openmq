@@ -114,6 +114,10 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish.mq</groupId>
+            <artifactId>mq-share-auth</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
             <artifactId>mq-direct</artifactId>
         </dependency>
         <dependency>
