@@ -177,7 +177,7 @@ else
 fi
 
 # Add Sun-specific JVM flags
-_jvm_args="$_jvm_args -XX:MaxGCPauseMillis=5000"
+_jvm_args="$_jvm_args -XX:MaxGCPauseMillis=5000 --enable-native-access=ALL-UNNAMED"
 
 
 # Setup arguments to the JVM

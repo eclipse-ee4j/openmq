@@ -55,7 +55,7 @@ FOR /f "tokens=1,2* delims= " %%a IN ("%args_list%") DO (
 REM Create instances directory if it does not exist
 if not exist "%IMQ_VARHOME%\instances" mkdir "%IMQ_VARHOME%\instances"
 
-set JVM_ARGS=%_def_jvm_args% %JVM_ARGS% -XX:MaxGCPauseMillis=5000 "-Dimq.home=%IMQ_HOME%" "-Dimq.varhome=%IMQ_VARHOME%" "-Dimq.etchome=%IMQ_ETCHOME%" "-Dimq.libhome=%IMQ_LIBHOME%"
+set JVM_ARGS=%_def_jvm_args% %JVM_ARGS% -XX:MaxGCPauseMillis=5000 --enable-native-access=ALL-UNNAMED "-Dimq.home=%IMQ_HOME%" "-Dimq.varhome=%IMQ_VARHOME%" "-Dimq.etchome=%IMQ_ETCHOME%" "-Dimq.libhome=%IMQ_LIBHOME%"
 set _classes=%IMQ_HOME%\lib\imqbroker.jar;%IMQ_HOME%\lib\imqutil.jar;%IMQ_EXTERNAL%\*
 for %%f in ("%IMQ_EXTERNAL%\*.zip") do set _classes=!_classes!;%%f
 if not "%IMQ_EXT_JARS%" == "" set _classes=%_classes%;%IMQ_EXT_JARS%
