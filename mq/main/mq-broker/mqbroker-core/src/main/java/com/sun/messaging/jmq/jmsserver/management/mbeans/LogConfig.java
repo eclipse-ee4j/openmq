@@ -257,7 +257,7 @@ public class LogConfig extends MQMBeanReadWrite implements ConfigListener {
     }
 
     // Generate a filename from a pattern.
-    // Remarks: This method is taken from java.util.io.FileHandler.java to resolve pattern becuase it is not accessible
+    // Remarks: This method is taken from java.util.logging.FileHandler.java to resolve pattern because it is not accessible
     @SuppressWarnings("OrphanedFormatString")
     private static File generate(String pattern, int generation, int unique) throws IOException {
         File file = null;
@@ -291,11 +291,6 @@ public class LogConfig extends MQMBeanReadWrite implements ConfigListener {
                     continue;
                 } else if (ch2 == 'h') {
                     file = new File(System.getProperty("user.home"));
-                    if (isSetUID()) {
-                        // Ok, we are in a set UID program. For safety's sake
-                        // we disallow attempts to open files relative to %h.
-                        throw new IOException("can't use %h in set UID program");
-                    }
                     ix++;
                     word = "";
                     continue;
@@ -328,7 +323,4 @@ public class LogConfig extends MQMBeanReadWrite implements ConfigListener {
         }
         return file;
     }
-
-    // Private native method to check if we are in a set UID program.
-    private static native boolean isSetUID();
 }
