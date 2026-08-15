@@ -49,7 +49,7 @@ pipeline {
             axes {
               axis {
                 name 'SANITY_JDK_JENKINS_TOOL'
-                values 'temurin-jdk21-latest'
+                values 'temurin-jdk21-latest', 'temurin-jdk25-latest'
               }
             }
             stages {
