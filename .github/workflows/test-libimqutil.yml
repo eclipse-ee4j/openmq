@@ -1,0 +1,86 @@
+#
+# Copyright (c) 2026 Contributors to the Eclipse Foundation
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0 which is available at
+# http://www.eclipse.org/legal/epl-2.0,
+# or the Eclipse Distribution License v. 1.0 which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+#
+
+on:
+  workflow_call:
+    inputs:
+      os:
+        required: true
+        type: string
+      java_version:
+        required: true
+        type: string
+      java_distribution:
+        required: false
+        type: string
+        default: 'zulu'
+
+jobs:
+  test-mqcrt-client:
+    name: Test util (SysLog) Library on ${{ inputs.os }}/JDK ${{ inputs.java_version }}
+    runs-on: ${{ inputs.os }}
+
+    steps:
+    - name: Set up JDK
+      uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+      with:
+        distribution: ${{ inputs.java_distribution }}
+        java-version: ${{ inputs.java_version }}
+    - name: Checkout for build
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - name: Download library headers
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: mq-native-headers
+    - name: Build imqutil library (ubuntu)
+      if: ${{ inputs.os == 'ubuntu-latest' }}
+      run: |
+        gcc -I ${JAVA_HOME}/include \
+            -I ${JAVA_HOME}/include/linux \
+            -I mq-logger/target/javah \
+            -shared \
+            -fPIC \
+              mq/src/solaris/native/com_sun_messaging_jmq_util_log_SysLog.c \
+                -o libimqutil.so
+    - name: Download MQ Distribution
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: mq.zip
+        skip-decompress: true
+    - name: Unpack MQ Distribution
+      run: unzip -q -d mq/dist mq.zip
+    - name: Start MQ Broker Daemon (ubuntu)
+      if: ${{ inputs.os == 'ubuntu-latest' }}
+      env:
+        JAVA_TOOL_OPTIONS: "-enableassertions"
+      timeout-minutes: 2
+      run: |
+        LD_LIBRARY_PATH=.:${LD_LIBRARY_PATH} nohup \
+          mq/dist/mq/bin/imqbrokerd \
+            -Dimq.log.syslog.output=INFO \
+            -name syslogMQtesterUbuntu \
+            -verbose > brokerd.log 2>&1 &
+        while [ true ]
+        do
+          grep "Broker .*:7676.*ready" brokerd.log && break
+          sleep 10s
+        done
+    - name: Inspect journal and look for log entries (ubuntu)
+      if: ${{ inputs.os == 'ubuntu-latest' }}
+      run: |
+        journalctl -b | grep syslogMQtesterUbuntu
+    - name: Upload logs on failure
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      if: failure()
+      with:
+        name: test-libimqutil-brokerd-log-${{ inputs.java_version }}-${{ inputs.os }}
+        path: brokerd.log

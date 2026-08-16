@@ -168,6 +168,24 @@ jobs:
       os: ${{ matrix.os }}
       java_version: ${{ matrix.java_version }}
 
+  test-libimqutil:
+    name: Test Util Library on ${{ matrix.os }}/JDK ${{ matrix.java_version }}
+    needs: smoke
+
+    strategy:
+      matrix:
+        os:
+        - ubuntu-latest
+        java_version:
+        - 21
+        - 25
+        - 26
+
+    uses: ./.github/workflows/test-libimqutil.yml
+    with:
+      os: ${{ matrix.os }}
+      java_version: ${{ matrix.java_version }}
+
   test-ldap-integration:
     name: Test LDAP integration
     needs: smoke
