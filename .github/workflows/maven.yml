@@ -162,9 +162,6 @@ jobs:
         - 21
         - 25
         - 26
-        exclude:
-        - os: macos-latest
-          java_version: 25
 
     uses: ./.github/workflows/test-mqcrt-client.yml
     with:
