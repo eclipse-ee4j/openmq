@@ -93,5 +93,25 @@
                 <minimumTokens>121</minimumTokens>
             </properties>
         </profile>
+        <profile>
+            <id>javah</id>
+            <activation>
+                <property>
+                    <name>with:javah</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <compilerArgs>
+                                <arg>-h</arg><arg>${project.build.directory}/javah</arg>
+                            </compilerArgs>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 </project>
