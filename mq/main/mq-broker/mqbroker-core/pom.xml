@@ -82,6 +82,10 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqcomm-coders</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
             <artifactId>mqcomm-lists</artifactId>
         </dependency>
         <dependency>

@@ -37,6 +37,7 @@
     <modules>
         <module>mq-logger</module>
         <module>mqcomm-util</module>
+        <module>mqcomm-coders</module>
         <module>mqcomm-lists</module>
         <module>mqcomm-selector</module>
         <module>mqcomm-options</module>
@@ -215,6 +216,11 @@
             <dependency>
                 <groupId>org.glassfish.mq</groupId>
                 <artifactId>mqcomm-util</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.mq</groupId>
+                <artifactId>mqcomm-coders</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
