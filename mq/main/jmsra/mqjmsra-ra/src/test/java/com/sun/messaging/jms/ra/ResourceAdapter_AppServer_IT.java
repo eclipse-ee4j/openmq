@@ -25,10 +25,13 @@ import org.junit.jupiter.params.provider.ValueSource;
 class ResourceAdapter_AppServer_IT {
     /*
      * appserver/jms/jms-core/src/main/java/com/sun/enterprise/connectors/jms/system/ActiveJmsResourceAdapter.java
+     * appserver/jms/admin/src/main/java/org/glassfish/jms/admin/cli/JMSDestination.java
      */
     @ParameterizedTest()
     @ValueSource(strings = {
             "getPortMapperClientHandler",
+            "getJMXServiceURLList",
+            "getJMXConnectorEnv",
     })
     void methodsGlassFishUsesWithReflection(String methodName) throws NoSuchMethodException {
         ResourceAdapter.class.getMethod(methodName);
@@ -39,11 +42,15 @@ class ResourceAdapter_AppServer_IT {
             { "setMasterBroker", new Class [] { String.class } },
             { "setClusterBrokerList", new Class [] { String.class } },
             { "setBrokerProps", new Class [] { Properties.class } },
+            { "setConnectionURL", new Class[] { String.class } },
+            { "setAdminUsername", new Class[] { String.class } },
+            { "setAdminPassword", new Class[] { String.class } },
         };
     }
 
     /*
      * appserver/jms/jms-core/src/main/java/com/sun/enterprise/connectors/jms/system/ActiveJmsResourceAdapter.java
+     * appserver/jms/admin/src/main/java/org/glassfish/jms/admin/cli/JMSDestination.java
      */
     @ParameterizedTest
     @MethodSource
