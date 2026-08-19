@@ -39,9 +39,11 @@ jobs:
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
     - name: Install required libraries (ubuntu)
       if: ${{ inputs.os == 'ubuntu-latest' }}
+      timeout-minutes: 3
       run: sudo apt-get update && sudo apt-get install -y libnspr4-dev libnss3-dev
     - name: Install required libraries (macos)
       if: ${{ inputs.os == 'macos-latest' }}
+      timeout-minutes: 3
       run: brew update && brew install nspr nss
     - name: Build mqcrt library (ubuntu)
       if: ${{ inputs.os == 'ubuntu-latest' }}
