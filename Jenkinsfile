@@ -30,7 +30,7 @@ pipeline {
       steps {
         sh './mvnw -V -B                  -f mq/main         clean install -Dbuild.letter=j -Dbuild.number=${BRANCH_NAME}/${GIT_COMMIT}/${BUILD_NUMBER} -DskipSBOM'
         sh './mvnw    -B                  -f mq/distribution source:jar install -DskipSBOM'
-        junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
+        junit testResults: '**/target/surefire-reports/*.xml,**/target/failsafe-reports/*.xml', allowEmptyResults: true
         dir('mq/dist/bundles') {
           stash name: 'built-mq', includes: 'mq.zip'
           archiveArtifacts artifacts: 'mq.zip'
