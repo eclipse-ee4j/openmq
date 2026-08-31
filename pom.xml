@@ -97,6 +97,13 @@
         <surefire.failsafe.version>3.5.6</surefire.failsafe.version>
     </properties>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>maven-2457</id>
+            <url>https://repository.apache.org/content/repositories/maven-2457</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <build>
         <defaultGoal>install</defaultGoal>
         <pluginManagement>
@@ -149,7 +156,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.15.0</version>
+                    <version>3.16.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-antrun-plugin</artifactId>
