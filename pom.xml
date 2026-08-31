@@ -94,8 +94,15 @@
         <spotbugs.plugin.version>4.10.4.0</spotbugs.plugin.version>
         <checkstyle.version>14.0.0</checkstyle.version>
         <maven.checkstyle.plugin.version>3.6.0</maven.checkstyle.plugin.version>
-        <surefire.failsafe.version>3.5.6</surefire.failsafe.version>
+        <surefire.failsafe.version>3.6.0</surefire.failsafe.version>
     </properties>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>maven-2458</id>
+            <url>https://repository.apache.org/content/repositories/maven-2458</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <build>
         <defaultGoal>install</defaultGoal>
