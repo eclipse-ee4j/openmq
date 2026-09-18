@@ -56,4 +56,5 @@
   <Match><Bug pattern="UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD" /></Match>
   <Match><Bug pattern="UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR" /></Match>
   <Match><Bug pattern="UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD" /></Match>
+  <Match><Bug pattern="USO_UNSAFE_STATIC_METHOD_SYNCHRONIZATION" /></Match>
 </FindBugsFilter>
