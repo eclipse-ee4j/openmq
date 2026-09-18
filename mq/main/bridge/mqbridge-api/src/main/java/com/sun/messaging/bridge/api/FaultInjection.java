@@ -29,6 +29,8 @@ import com.sun.messaging.jmq.util.RuntimeFaultInjection;
  *
  */
 public class FaultInjection extends RuntimeFaultInjection {
+    private static final Object CLASS_LOCK = new Object();
+
     private static BridgeBaseContext _bc = null;
 
     private Logger _logger = null;
@@ -124,12 +126,14 @@ public class FaultInjection extends RuntimeFaultInjection {
         _logger = l;
     }
 
-    public static synchronized FaultInjection getInjection() {
+    public static FaultInjection getInjection() {
+        synchronized (CLASS_LOCK) {
         if (_fault == null) {
             _fault = new FaultInjection();
         }
 
         return _fault;
+        }
     }
 
     public FaultInjection() {
