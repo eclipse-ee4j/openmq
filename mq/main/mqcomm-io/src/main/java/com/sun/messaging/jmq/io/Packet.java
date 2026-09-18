@@ -39,6 +39,7 @@ import java.nio.channels.*;
  *
  */
 public class Packet implements JMSPacket {
+    private static final Object CLASS_LOCK = new Object();
 
     protected boolean destroyed = false;
 
@@ -154,17 +155,21 @@ public class Packet implements JMSPacket {
      * There is a lower bound on the smallest value you can set the max packet size to. So the actual value set may be
      * different than the value passed. This method returns the actual value set.
      */
-    public static synchronized long setMaxPacketSize(long n) {
+    public static long setMaxPacketSize(long n) {
+        synchronized (CLASS_LOCK) {
         if (n < SIZE_LOWER_BOUND) {
             maxPacketSize = SIZE_LOWER_BOUND;
         } else {
             maxPacketSize = n;
         }
         return maxPacketSize;
+        }
     }
 
-    public static synchronized long getMaxPacketSize() {
+    public static long getMaxPacketSize() {
+        synchronized (CLASS_LOCK) {
         return maxPacketSize;
+        }
     }
 
     public static void setSizeLowerBound(long n) {
@@ -175,8 +180,10 @@ public class Packet implements JMSPacket {
         return SIZE_LOWER_BOUND;
     }
 
-    public static synchronized ByteBufferPool getBufferPool() {
+    public static ByteBufferPool getBufferPool() {
+        synchronized (CLASS_LOCK) {
         return bbPool;
+        }
     }
 
     /**
