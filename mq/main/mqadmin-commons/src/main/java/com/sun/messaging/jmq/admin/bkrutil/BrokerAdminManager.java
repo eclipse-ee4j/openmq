@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,6 +21,7 @@ import java.util.Hashtable;
 
 @SuppressWarnings("JdkObsolete")
 public class BrokerAdminManager {
+    private static final Object CLASS_LOCK = new Object();
 
     /**
      * The reference to this class itself.
@@ -36,13 +38,15 @@ public class BrokerAdminManager {
      *
      * @return BrokerAdminManager the only one instance of this class
      */
-    public static synchronized BrokerAdminManager getBrokerAdminManager() {
+    public static BrokerAdminManager getBrokerAdminManager() {
+        synchronized (CLASS_LOCK) {
 
         if (mgr == null) {
             mgr = new BrokerAdminManager();
             admins = new Hashtable();
         }
         return mgr;
+        }
     }
 
     /**
