@@ -31,6 +31,7 @@ import com.sun.messaging.jmq.admin.util.UserPropertiesException;
  * he wishes to provide different implementations or add more operations.
  */
 public class ConsoleObjStoreManager extends ObjStoreManager {
+    private static final Object CLASS_LOCK = new Object();
 
     /**
      * The reference to this class itself.
@@ -54,12 +55,14 @@ public class ConsoleObjStoreManager extends ObjStoreManager {
      * should only have one instance of it - either ObjStoreManager OR ConsoleObjStoreManager OR a custom manager. This
      * needs to be fixed.
      */
-    public static synchronized ConsoleObjStoreManager getConsoleObjStoreManager() {
+    public static ConsoleObjStoreManager getConsoleObjStoreManager() {
+        synchronized (CLASS_LOCK) {
 
         if (mgr == null) {
             mgr = new ConsoleObjStoreManager();
         }
         return mgr;
+        }
     }
 
     /**
