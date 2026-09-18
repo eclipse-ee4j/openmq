@@ -29,10 +29,12 @@ import com.sun.messaging.jmq.util.MQResourceBundle;
  */
 
 public class StompBridgeResources extends MQResourceBundle {
+    private static final Object CLASS_LOCK = new Object();
 
     private static StompBridgeResources resources = null;
 
-    public static synchronized StompBridgeResources getResources(Locale locale) {
+    public static StompBridgeResources getResources(Locale locale) {
+        synchronized (CLASS_LOCK) {
         Objects.requireNonNull(locale);
 
         if (resources == null || !locale.equals(resources.getLocale())) {
@@ -40,6 +42,7 @@ public class StompBridgeResources extends MQResourceBundle {
             resources = new StompBridgeResources(b);
         }
         return resources;
+        }
     }
 
     private StompBridgeResources(ResourceBundle rb) {
