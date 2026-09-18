@@ -62,6 +62,7 @@ import com.sun.messaging.jmq.io.*;
  * 7. Define 'imq.debug.transaction' syatem property will dump all pkts related to transactions.
  */
 public class Debug {
+    private static final Object CLASS_LOCK = new Object();
 
     public static final boolean debug;
     private static boolean debugAll = false;
@@ -288,7 +289,8 @@ public class Debug {
     /**
      * Print stack trace.
      */
-    public static synchronized void printStackTrace(Throwable e) {
+    public static void printStackTrace(Throwable e) {
+        synchronized (CLASS_LOCK) {
 
         if (silentMode) {
             return;
@@ -298,6 +300,7 @@ public class Debug {
         } else {
 
             e.printStackTrace(ps);
+        }
         }
     }
 

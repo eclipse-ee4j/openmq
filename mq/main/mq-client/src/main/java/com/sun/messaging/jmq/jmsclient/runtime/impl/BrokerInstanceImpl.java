@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -36,6 +36,7 @@ import com.sun.messaging.jmq.jmsservice.JMSService;
 
 @SuppressWarnings("JdkObsolete")
 public class BrokerInstanceImpl implements DirectBrokerInstance {
+    private static final Object CLASS_LOCK = new Object();
 
     private static final String BROKER_PROCESS = "com.sun.messaging.jmq.jmsserver.BrokerProcess";
 
@@ -101,7 +102,8 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
         return soleInstance;
     }
 
-    public static synchronized BrokerInstanceImpl createInstance() throws IllegalAccessException {
+    public static BrokerInstanceImpl createInstance() throws IllegalAccessException {
+        synchronized (CLASS_LOCK) {
         if (soleInstance == null) {
             soleInstance = new BrokerInstanceImpl();
         } else if (soleInstance.isShutdown()) {
@@ -110,6 +112,7 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
             throw new IllegalAccessException("Cannot create broker instance.  A broker instance is already created.");
         }
         return soleInstance;
+        }
     }
 
     @Override

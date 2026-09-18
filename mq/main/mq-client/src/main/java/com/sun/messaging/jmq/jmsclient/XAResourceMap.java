@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 1997, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -44,6 +44,7 @@ import com.sun.messaging.jmq.util.XidImpl;
  */
 
 public class XAResourceMap {
+    private static final Object CLASS_LOCK = new Object();
 
     private static final int DEFAULT_MAXROLLBACKS = 12;
     public static final int MAXROLLBACKS = getMAXROLLBACKS();
@@ -71,7 +72,8 @@ public class XAResourceMap {
      */
     private static ArrayList<ConnectionConsumerImpl> unregisterListenerCC = new ArrayList<>();
 
-    public static synchronized void register(XidImpl xid, XAResourceImpl xar, boolean isJoin) throws XAException {
+    public static void register(XidImpl xid, XAResourceImpl xar, boolean isJoin) throws XAException {
+        synchronized (CLASS_LOCK) {
         Set<XAResourceImpl> resources = resourceMap.get(xid);
         if (resources == null) {
             // xid not found: check we are not doing a join
@@ -91,6 +93,7 @@ public class XAResourceMap {
             }
         }
         resources.add(xar);
+        }
     }
 
     /**
@@ -100,7 +103,8 @@ public class XAResourceMap {
      *
      * @param xid Transaction branch XID
      */
-    public static synchronized void unregister(XidImpl xid) {
+    public static void unregister(XidImpl xid) {
+        synchronized (CLASS_LOCK) {
 
         // note that xid won't exist in the map if we obtained this xid using XAResource.recover(),
         // so it is not an error if xid is not found
@@ -115,6 +119,7 @@ public class XAResourceMap {
                 cc.unregisteredXAResource();
             }
         }
+        }
     }
 
     /**
@@ -125,7 +130,8 @@ public class XAResourceMap {
      * @param xid Transaction branch XID
      * @param xar Resource
      */
-    public static synchronized void unregisterResource(XAResourceImpl xar, XidImpl xid) {
+    public static void unregisterResource(XAResourceImpl xar, XidImpl xid) {
+        synchronized (CLASS_LOCK) {
 
         if (!unregisterListenerCC.isEmpty()) {
             ConnectionConsumerImpl cc = xar.getConnectionConsumer();
@@ -142,6 +148,7 @@ public class XAResourceMap {
                 resourceMap.remove(xid);
             }
         }
+        }
     }
 
     /**
@@ -153,7 +160,8 @@ public class XAResourceMap {
      * @return Resources associated with the specified transaction branch
      * @throws XAException Unknown XID (only thrown if throwExceptionIfNotFound=true)
      */
-    public static synchronized XAResourceImpl[] getXAResources(XidImpl xid, boolean throwExceptionIfNotFound) throws XAException {
+    public static XAResourceImpl[] getXAResources(XidImpl xid, boolean throwExceptionIfNotFound) throws XAException {
+        synchronized (CLASS_LOCK) {
         Set<XAResourceImpl> resources = resourceMap.get(xid);
         if (resources == null) {
             if (throwExceptionIfNotFound) {
@@ -165,6 +173,7 @@ public class XAResourceMap {
 
         }
         return resources.toArray(new XAResourceImpl[resources.size()]);
+        }
     }
 
     /**
@@ -243,8 +252,10 @@ public class XAResourceMap {
      * @param cc the ConnectionConsumer to add to the unregister-listeners
      *
      */
-    public static synchronized void addUnregisterListenerCC(ConnectionConsumerImpl cc) {
+    public static void addUnregisterListenerCC(ConnectionConsumerImpl cc) {
+        synchronized (CLASS_LOCK) {
         unregisterListenerCC.add(cc);
+        }
     }
 
     /**
@@ -253,8 +264,10 @@ public class XAResourceMap {
      * @param cc the ConnectionConsumer to remove from the unregister-listeners
      *
      */
-    public static synchronized void removeUnregisterListenerCC(ConnectionConsumerImpl cc) {
+    public static void removeUnregisterListenerCC(ConnectionConsumerImpl cc) {
+        synchronized (CLASS_LOCK) {
         unregisterListenerCC.remove(cc);
+        }
     }
 
 }
