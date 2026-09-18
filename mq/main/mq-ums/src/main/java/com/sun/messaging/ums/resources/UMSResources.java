@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
  * @author chiaming
  */
 public class UMSResources extends MQResourceBundle {
+    private static final Object CLASS_LOCK = new Object();
 
     public static final String UMS_RESOURCE_BUNDLE_NAME = "com.sun.messaging.ums.resources.UMSResources";
 
@@ -35,7 +36,8 @@ public class UMSResources extends MQResourceBundle {
         return getResources(null);
     }
 
-    public static synchronized UMSResources getResources(Locale locale) {
+    public static UMSResources getResources(Locale locale) {
+        synchronized (CLASS_LOCK) {
 
         if (locale == null) {
             locale = Locale.getDefault();
@@ -47,6 +49,7 @@ public class UMSResources extends MQResourceBundle {
         }
 
         return resources;
+        }
     }
 
     private UMSResources(ResourceBundle rb) {
