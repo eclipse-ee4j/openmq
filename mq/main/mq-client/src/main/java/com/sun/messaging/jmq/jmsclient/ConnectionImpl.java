@@ -1513,7 +1513,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      *
      * @param connectionConsumer the connection consumer to be added
      */
-    protected /* synchronized */ void addConnectionConsumer(ConnectionConsumerImpl connectionConsumer) {
+    protected void addConnectionConsumer(ConnectionConsumerImpl connectionConsumer) {
         connectionConsumerTable.addElement(connectionConsumer);
     }
 
@@ -1522,7 +1522,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      *
      * @param connectionConsumer the connection consumer to be removed.
      */
-    protected /* synchronized */ void removeConnectionConsumer(ConnectionConsumerImpl connectionConsumer) {
+    protected void removeConnectionConsumer(ConnectionConsumerImpl connectionConsumer) {
         connectionConsumerTable.removeElement(connectionConsumer);
     }
 

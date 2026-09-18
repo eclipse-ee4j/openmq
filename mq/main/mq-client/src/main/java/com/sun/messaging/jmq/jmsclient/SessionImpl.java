@@ -592,7 +592,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         // XXX:GT TBF if we need to be able to switch back to a transacted session
     }
 
-    protected /* synchronized */ void addMessageConsumer(MessageConsumerImpl consumer) throws JMSException {
+    protected void addMessageConsumer(MessageConsumerImpl consumer) throws JMSException {
         // XXX PROTOCOL2.1
         /*
          * if (serverSessionRunner.getMessageListener() != null) { String errorString =
@@ -621,7 +621,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         }
     }
 
-    protected /* synchronized */ void removeMessageConsumer(MessageConsumerImpl consumer) {
+    protected void removeMessageConsumer(MessageConsumerImpl consumer) {
         consumers.remove(consumer.interestId);
     }
 
@@ -629,12 +629,12 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         return (MessageConsumerImpl) consumers.get(key);
     }
 
-    protected /* synchronized */ void addBrowserConsumer(BrowserConsumer consumer) {
+    protected void addBrowserConsumer(BrowserConsumer consumer) {
         consumer.getBrowser().addBrowserConsumer(consumer);
         browserConsumers.put(consumer.interestId, consumer);
     }
 
-    protected /* synchronized */ void removeBrowserConsumer(BrowserConsumer consumer) {
+    protected void removeBrowserConsumer(BrowserConsumer consumer) {
         browserConsumers.remove(consumer.interestId);
         consumer.getBrowser().removeBrowserConsumer(consumer);
     }
@@ -1026,7 +1026,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
      *
      * bug ID 6302418 -- there is really no reason to synchronize this method.
      */
-    protected /** synchronized **/
+    protected
     void reset() throws JMSException {
 
         // 1. Stop session reader. Wait does not provide any benefit here.
@@ -1105,7 +1105,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         failoverOccurred = true;
     }
 
-    protected /** synchronized **/
+    protected
     void start() throws JMSException {
 
         synchronized (sessionSyncObj) {
@@ -1826,7 +1826,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
      *
      * @param message the message to be acked.
      */
-    protected /* synchronized */ void prepareClientAcknowledge(MessageImpl message) throws JMSException {
+    protected void prepareClientAcknowledge(MessageImpl message) throws JMSException {
         // if ( message.getIsOnAckList() == false ) {
         addMessageToAckList(message);
         if (isAckLimited) {
@@ -1907,7 +1907,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
      * (messages has been delivered to the client) but the client decides not to acknowledge for whatever reasons. We should
      * leave those messages in the queue according to the spec.
      */
-    protected /* synchronized */ void clientAcknowledge(MessageImpl message) throws JMSException {
+    protected void clientAcknowledge(MessageImpl message) throws JMSException {
 
         if (failoverOccurred) {
             // "Cannot acknowledge messages due to provider connection failover.
@@ -1974,7 +1974,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
      *
      * Only this message should be acknowledged. All other message in the unAckedMessageQueue should be left unacknowledged
      */
-    protected /* synchronized */ void clientAcknowledgeThisMessage(MessageImpl message) throws JMSException {
+    protected void clientAcknowledgeThisMessage(MessageImpl message) throws JMSException {
 
         /**
          * When message consumer is closed, doAcknowledge flag is set to false. We(George, Amy and Chiaming) decided to throw
@@ -2022,7 +2022,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
      * (messages has been delivered to the client) but the client decides not to acknowledge for whatever reasons. We should
      * leave those messages in the queue.
      */
-    protected /* synchronized */ void clientAcknowledgeUpThroughThisMessage(MessageImpl message) throws JMSException {
+    protected void clientAcknowledgeUpThroughThisMessage(MessageImpl message) throws JMSException {
 
         // Messages cannot be acknowledged after connection failover.
         // Reject client acknowledgements until the application calls
@@ -2321,7 +2321,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
      * @exception IllegalStateException if method is not called by a transacted session.
      */
 
-    public /* synchronized */ void commit() throws JMSException {
+    public void commit() throws JMSException {
 
         checkSessionState();
         checkPermissionForAsyncSend();
@@ -2433,7 +2433,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
      *
      */
 
-    public /* synchronized */ void rollback() throws JMSException {
+    public void rollback() throws JMSException {
 
         checkSessionState();
         checkPermissionForAsyncSend();
@@ -2610,7 +2610,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
      *
      * @exception JMSException if JMS implementation fails to close a Session due to some internal error.
      */
-    public /* synchronized */ void close() throws JMSException {
+    public void close() throws JMSException {
 
         sessionLogger.log(Level.FINEST, "##### closing session.  consumer table size: " + consumers.values().size());
         // messages in the session queue.
@@ -3436,7 +3436,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
      * @see jakarta.jms.ServerSession
      */
 
-    public /* synchronized */ void setMessageListener(MessageListener listener) throws JMSException {
+    public void setMessageListener(MessageListener listener) throws JMSException {
 
         checkSessionState();
 
