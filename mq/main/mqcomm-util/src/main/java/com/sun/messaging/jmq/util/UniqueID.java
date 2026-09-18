@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -61,6 +61,7 @@ package com.sun.messaging.jmq.util;
  *
  */
 public class UniqueID {
+    private static final Object CLASS_LOCK = new Object();
 
     // Number of bits reserved for the various fields
     static final int TIMESTAMP_BITS = 40;
@@ -97,7 +98,8 @@ public class UniqueID {
     /*
      * Generate an ID using the passed short as a prefix
      */
-    public static synchronized long generateID(short prefix) {
+    public static long generateID(short prefix) {
+        synchronized (CLASS_LOCK) {
 
         long curr_timestamp = System.currentTimeMillis();
 
@@ -189,6 +191,7 @@ public class UniqueID {
         }
 
         return id;
+        }
     }
 
     /*
