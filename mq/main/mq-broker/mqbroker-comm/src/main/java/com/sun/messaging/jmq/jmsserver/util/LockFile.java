@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -43,6 +43,8 @@ import java.lang.System.Logger;
  */
 
 public class LockFile {
+    private static final Object CLASS_LOCK = new Object();
+
     private static LockFile currentLockFile = null;
     private static final Logger logger = System.getLogger(LockFile.class.getName());
 
@@ -61,8 +63,10 @@ public class LockFile {
         this.port = port;
     }
 
-    public static synchronized void clearLock() {
+    public static void clearLock() {
+        synchronized (CLASS_LOCK) {
         currentLockFile = null;
+        }
     }
 
     /**
@@ -71,7 +75,8 @@ public class LockFile {
      * LockFile to determine if it acquired the lock, or if somebody else has it.
      *
      */
-    public static synchronized LockFile getLock(String varhome, String instance, String hostname, int port, boolean useFileLock) throws IOException {
+    public static LockFile getLock(String varhome, String instance, String hostname, int port, boolean useFileLock) throws IOException {
+        synchronized (CLASS_LOCK) {
 
         LockFile lf = null;
         File file = new File(getLockFilePath(varhome, instance));
@@ -136,6 +141,7 @@ public class LockFile {
 
         currentLockFile = lf;
         return lf;
+        }
     }
 
     /**
@@ -241,7 +247,8 @@ public class LockFile {
      *
      * @return null if file is empty and useFileLock true
      */
-    public static synchronized LockFile loadLockFile(File file, boolean useFileLock) throws IOException {
+    public static LockFile loadLockFile(File file, boolean useFileLock) throws IOException {
+        synchronized (CLASS_LOCK) {
 
         byte[] data = new byte[128];
         LockFile lf = new LockFile();
@@ -292,6 +299,7 @@ public class LockFile {
             }
         }
         return lf;
+        }
     }
 
     /**

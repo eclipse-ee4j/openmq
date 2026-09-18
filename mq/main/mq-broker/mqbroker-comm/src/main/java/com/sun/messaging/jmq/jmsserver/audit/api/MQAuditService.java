@@ -33,6 +33,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  */
 public class MQAuditService {
+    private static final Object CLASS_LOCK = new Object();
 
     static Logger logger = null;
     static BrokerResources br = null;
@@ -128,7 +129,8 @@ public class MQAuditService {
      * @return a reference to a MQAuditSession instance.
      */
 
-    public static synchronized MQAuditSession getAuditSession() throws BrokerException {
+    public static MQAuditSession getAuditSession() throws BrokerException {
+        synchronized (CLASS_LOCK) {
 
         if (auditSession == null) {
             // license check
@@ -142,6 +144,7 @@ public class MQAuditService {
 
         // Return the audit session instance.
         return auditSession;
+        }
     }
 
     // Create a new audit session according to the specified type.
