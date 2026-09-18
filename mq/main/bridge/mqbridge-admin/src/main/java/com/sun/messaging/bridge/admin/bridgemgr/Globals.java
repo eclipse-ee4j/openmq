@@ -25,16 +25,20 @@ import com.sun.messaging.bridge.admin.bridgemgr.resources.BridgeAdminResources;
  */
 
 final class Globals {
+    private static final Object CLASS_LOCK = new Object();
+
     private static BridgeAdminResources bar = null;
 
     private Globals() {
     }
 
-    public static synchronized BridgeAdminResources getBridgeAdminResources() {
+    public static BridgeAdminResources getBridgeAdminResources() {
+        synchronized (CLASS_LOCK) {
         if (bar == null) {
             bar = BridgeAdminResources.getResources(Locale.getDefault());
         }
         return bar;
+        }
     }
 
 }

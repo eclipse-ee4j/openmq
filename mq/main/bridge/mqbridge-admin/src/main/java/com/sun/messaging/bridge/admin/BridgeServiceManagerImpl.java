@@ -63,6 +63,7 @@ import org.glassfish.hk2.api.ServiceLocator;
 @SuppressWarnings({"ForEachIterable"})
 //@Singleton
 public class BridgeServiceManagerImpl extends BridgeServiceManager implements ExceptionListener, MessageListener, PostConstruct, PreDestroy {
+    private static final Object CLASS_LOCK = new Object();
 
     private static final String BROKER_BRIDGE_BASE_CONTEXT_CLASS_STR = "com.sun.messaging.bridge.internal.BrokerBridgeBaseContext";
 
@@ -774,11 +775,13 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         _adminHandler.handle(_session, (ObjectMessage) msg);
     }
 
-    public static synchronized BridgeManagerResources getBridgeManagerResources() {
+    public static BridgeManagerResources getBridgeManagerResources() {
+        synchronized (CLASS_LOCK) {
         if (_bmr == null) {
             _bmr = BridgeManagerResources.getResources(Locale.getDefault());
         }
         return _bmr;
+        }
     }
 
     public static BridgeManagerResources getBridgeManagerResources(Locale l) {
