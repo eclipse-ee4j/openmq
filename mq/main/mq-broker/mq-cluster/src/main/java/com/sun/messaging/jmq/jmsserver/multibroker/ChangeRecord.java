@@ -44,6 +44,7 @@ import com.sun.messaging.jmq.jmsserver.multibroker.raptor.RaptorProtocol;
  * This class also contains static methods related to change record processing
  */
 public class ChangeRecord {
+    private static final Object CLASS_LOCK = new Object();
 
     private static boolean DEBUG = false
             || Globals.getConfig().getBooleanProperty(Globals.IMQ + ".debug.com.sun.messaging.jmq.jmsserver.multibroker.ChangeRecord")
@@ -137,8 +138,9 @@ public class ChangeRecord {
         return getUniqueKey() + ", isAddOp() = " + isAddOp();
     }
 
-    public static synchronized void syncChangeRecord(ChangeRecordCallback cb, MessageBusCallback mbcb, RaptorProtocol proto, boolean fromStart)
+    public static void syncChangeRecord(ChangeRecordCallback cb, MessageBusCallback mbcb, RaptorProtocol proto, boolean fromStart)
             throws BrokerException {
+        synchronized (CLASS_LOCK) {
 
         Long seq = null;
         String resetUUID = null;
@@ -164,6 +166,7 @@ public class ChangeRecord {
         }
 
         processChangeRecords(records, cb, mbcb, proto);
+        }
 
     }
 
@@ -208,12 +211,14 @@ public class ChangeRecord {
         return uuid;
     }
 
-    public static synchronized void recordUpdateDestination(Destination d, ChangeRecordCallback cb) throws BrokerException {
+    public static void recordUpdateDestination(Destination d, ChangeRecordCallback cb) throws BrokerException {
+        synchronized (CLASS_LOCK) {
 
         ClusterDestInfo cdi = ClusterDestInfo.newInstance(d);
         GPacket gp = cdi.getGPacket(ProtocolGlobals.G_UPDATE_DESTINATION, true);
         ChangeRecordInfo cri = storeChangeRecord(gp, cb);
         d.setCurrentChangeRecordInfo(ProtocolGlobals.G_UPDATE_DESTINATION, cri);
+        }
     }
 
     public static void recordRemoveDestination(Destination d, ChangeRecordCallback cb) throws BrokerException {

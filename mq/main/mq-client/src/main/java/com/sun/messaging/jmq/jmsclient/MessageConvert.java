@@ -30,11 +30,14 @@ import com.sun.messaging.AdministeredObject;
 
 @SuppressWarnings("JdkObsolete")
 public class MessageConvert {
+    private static final Object CLASS_LOCK = new Object();
 
     protected static final MessageConvert messageConvert = new MessageConvert();
 
-    public static synchronized MessageConvert getInstance() {
+    public static MessageConvert getInstance() {
+        synchronized (CLASS_LOCK) {
         return messageConvert;
+        }
     }
 
     /**

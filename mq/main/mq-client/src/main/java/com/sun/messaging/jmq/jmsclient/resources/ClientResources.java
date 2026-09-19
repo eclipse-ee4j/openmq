@@ -27,6 +27,7 @@ import com.sun.messaging.jmq.util.MQResourceBundle;
  */
 
 public class ClientResources extends MQResourceBundle {
+    private static final Object CLASS_LOCK = new Object();
 
     public static final String CLIENT_RESOURCE_BUNDLE_NAME = "com.sun.messaging.jmq.jmsclient.resources.ClientResources";
 
@@ -36,7 +37,8 @@ public class ClientResources extends MQResourceBundle {
         return getResources(null);
     }
 
-    public static synchronized ClientResources getResources(Locale locale) {
+    public static ClientResources getResources(Locale locale) {
+        synchronized (CLASS_LOCK) {
 
         if (locale == null) {
             locale = Locale.getDefault();
@@ -48,6 +50,7 @@ public class ClientResources extends MQResourceBundle {
         }
 
         return resources;
+        }
     }
 
     private ClientResources(ResourceBundle rb) {

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,13 +28,16 @@ import com.sun.messaging.jmq.util.MQResourceBundle;
 
 public class SharedResources extends MQResourceBundle {
 
+    private static final Object CLASS_LOCK = new Object();
+
     private static SharedResources resources = null;
 
-    public static synchronized SharedResources getResources() {
+    public static SharedResources getResources() {
         return getResources(null);
     }
 
-    public static synchronized SharedResources getResources(Locale locale) {
+    public static SharedResources getResources(Locale locale) {
+        synchronized (CLASS_LOCK) {
 
         if (locale == null) {
             locale = Locale.getDefault();
@@ -45,6 +48,8 @@ public class SharedResources extends MQResourceBundle {
             resources = new SharedResources(prb);
         }
         return resources;
+
+        }
     }
 
     private SharedResources(ResourceBundle rb) {

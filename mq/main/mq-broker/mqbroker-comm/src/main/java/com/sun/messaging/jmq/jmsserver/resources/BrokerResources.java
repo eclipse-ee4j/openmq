@@ -29,10 +29,12 @@ import com.sun.messaging.jmq.util.MQResourceBundle;
  */
 
 public class BrokerResources extends MQResourceBundle {
+    private static final Object CLASS_LOCK = new Object();
 
     private static BrokerResources resources = null;
 
-    public static synchronized BrokerResources getResources(Locale locale) {
+    public static BrokerResources getResources(Locale locale) {
+        synchronized (CLASS_LOCK) {
         Objects.requireNonNull(locale);
 
         if (resources == null || !locale.equals(resources.getLocale())) {
@@ -40,6 +42,7 @@ public class BrokerResources extends MQResourceBundle {
             resources = new BrokerResources(prb);
         }
         return resources;
+        }
     }
 
     private BrokerResources(ResourceBundle rb) {

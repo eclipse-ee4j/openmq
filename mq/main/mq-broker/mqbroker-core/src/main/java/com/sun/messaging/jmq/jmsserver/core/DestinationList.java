@@ -79,6 +79,8 @@ import java.io.*;
 
 @SuppressWarnings({"JdkObsolete", "ForEachIterable"})
 public final class DestinationList implements ConnToPartitionStrategyContext {
+    private static final Object CLASS_LOCK = new Object();
+
     static boolean DEBUG = false;
 
     static final boolean DEBUG_CLUSTER = Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.debug.ha")
@@ -786,7 +788,8 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         }
     }
 
-    public static synchronized void loadTakeoverMsgs(PartitionedStore storep, Map<String, String> msgs, List txns, Map txacks) throws BrokerException {
+    public static void loadTakeoverMsgs(PartitionedStore storep, Map<String, String> msgs, List txns, Map txacks) throws BrokerException {
+        synchronized (CLASS_LOCK) {
 
         DestinationList dl = destinationListList.get(storep);
 
@@ -1174,6 +1177,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
             } catch (Exception ex) {
                 logger.log(ERROR, ex.getMessage(), ex);
             }
+        }
         }
     }
 

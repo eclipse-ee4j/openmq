@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -31,6 +31,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
  */
 
 public class StoreManager {
+    private static final Object CLASS_LOCK = new Object();
 
     private static final String PERSIST_PROP_PREFIX = Globals.IMQ + ".persist.";
     private static final String CLASS_PROP = ".class";
@@ -83,7 +84,8 @@ public class StoreManager {
      * @return a Store
      * @exception BrokerException if it fails to instantiate a Store instance
      */
-    public static synchronized Store getStore() throws BrokerException {
+    public static Store getStore() throws BrokerException {
+        synchronized (CLASS_LOCK) {
         Logger logger = Globals.getLogger();
         BrokerResources br = Globals.getBrokerResources();
 
@@ -186,6 +188,7 @@ public class StoreManager {
         }
 
         return store;
+        }
     }
 
     public static boolean isConfiguredFileStore() {
@@ -236,7 +239,8 @@ public class StoreManager {
         return Globals.getConfig().getBooleanProperty(NEW_TXNLOG_ENABLED_PROP, NEW_TXNLOG_ENABLED_PROP_DEFAULT);
     }
 
-    public static synchronized ShareConfigChangeStore getShareConfigChangeStore() throws BrokerException {
+    public static ShareConfigChangeStore getShareConfigChangeStore() throws BrokerException {
+        synchronized (CLASS_LOCK) {
 
         if (BrokerStateHandler.isShuttingDown()) {
             throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_SHUTTING_DOWN_BROKER), BrokerResources.X_SHUTTING_DOWN_BROKER);
@@ -245,6 +249,7 @@ public class StoreManager {
             shareccStore = ShareConfigChangeStore.getStore();
         }
         return shareccStore;
+        }
     }
 
     /**
@@ -254,7 +259,8 @@ public class StoreManager {
      *
      * @param cleanup if true, the store will be cleaned up, i.e. redundant data removed.
      */
-    public static synchronized void releaseStore(boolean cleanup) {
+    public static void releaseStore(boolean cleanup) {
+        synchronized (CLASS_LOCK) {
 
         if (store != null) {
             // this check is for tonga test so that the store
@@ -272,5 +278,6 @@ public class StoreManager {
         isConfiguredFileStore = null;
         txnLogEnabled = null;
         newTxnLogEnabled = null;
+        }
     }
 }

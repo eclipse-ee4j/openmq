@@ -29,10 +29,12 @@ import com.sun.messaging.jmq.util.MQResourceBundle;
  */
 
 public class BridgeManagerResources extends MQResourceBundle {
+    private static final Object CLASS_LOCK = new Object();
 
     private static BridgeManagerResources resources = null;
 
-    public static synchronized BridgeManagerResources getResources(Locale locale) {
+    public static BridgeManagerResources getResources(Locale locale) {
+        synchronized (CLASS_LOCK) {
         Objects.requireNonNull(locale);
 
         if (resources == null || !locale.equals(resources.getLocale())) {
@@ -40,6 +42,7 @@ public class BridgeManagerResources extends MQResourceBundle {
             resources = new BridgeManagerResources(b);
         }
         return resources;
+        }
     }
 
     private BridgeManagerResources(ResourceBundle rb) {

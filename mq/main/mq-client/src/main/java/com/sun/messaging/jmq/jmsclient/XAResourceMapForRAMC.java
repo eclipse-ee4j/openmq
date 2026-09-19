@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 1997, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -46,9 +46,12 @@ import com.sun.messaging.jmq.util.XidImpl;
  *
  */
 public class XAResourceMapForRAMC {
+    private static final Object CLASS_LOCK = new Object();
+
     private static HashMap<XidImpl, Set<XAResourceForJMQ>> resourceMap = new HashMap<>();
 
-    public static synchronized void register(XidImpl xid, XAResourceForJMQ xar, boolean isJoin) throws XAException {
+    public static void register(XidImpl xid, XAResourceForJMQ xar, boolean isJoin) throws XAException {
+        synchronized (CLASS_LOCK) {
         Set<XAResourceForJMQ> resources = resourceMap.get(xid);
         if (resources == null) {
             // xid not found: check we are not doing a join
@@ -68,6 +71,7 @@ public class XAResourceMapForRAMC {
             }
         }
         resources.add(xar);
+        }
     }
 
     /**
@@ -77,11 +81,13 @@ public class XAResourceMapForRAMC {
      *
      * @param xid Transaction branch XID
      */
-    public static synchronized void unregister(XidImpl xid) {
+    public static void unregister(XidImpl xid) {
+        synchronized (CLASS_LOCK) {
 
         // note that xid won't exist in the map if we obtained this xid using XAResource.recover(),
         // so it is not an error if xid is not found
         resourceMap.remove(xid);
+        }
 
     }
 
@@ -93,7 +99,8 @@ public class XAResourceMapForRAMC {
      * @param xid Transaction branch XID
      * @param xar Resource
      */
-    public static synchronized void unregisterResource(XAResourceForJMQ xar, XidImpl xid) {
+    public static void unregisterResource(XAResourceForJMQ xar, XidImpl xid) {
+        synchronized (CLASS_LOCK) {
 
         Set<XAResourceForJMQ> resources = resourceMap.get(xid);
         if (resources != null) {
@@ -101,6 +108,7 @@ public class XAResourceMapForRAMC {
             if (resources.isEmpty()) {
                 resourceMap.remove(xid);
             }
+        }
         }
     }
 
@@ -113,7 +121,8 @@ public class XAResourceMapForRAMC {
      * @return Resources associated with the specified transaction branch
      * @throws XAException Unknown XID (only thrown if throwExceptionIfNotFound=true)
      */
-    public static synchronized XAResourceForJMQ[] getXAResources(XidImpl xid, boolean throwExceptionIfNotFound) throws XAException {
+    public static XAResourceForJMQ[] getXAResources(XidImpl xid, boolean throwExceptionIfNotFound) throws XAException {
+        synchronized (CLASS_LOCK) {
         Set<XAResourceForJMQ> resources = resourceMap.get(xid);
         if (resources == null) {
             if (throwExceptionIfNotFound) {
@@ -125,6 +134,7 @@ public class XAResourceMapForRAMC {
 
         }
         return resources.toArray(new XAResourceForJMQ[resources.size()]);
+        }
     }
 
     /**

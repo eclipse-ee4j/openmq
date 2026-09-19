@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -38,6 +38,7 @@ import jakarta.inject.Singleton;
 @Contract
 @Singleton
 public abstract class ShareConfigChangeStore {
+    private static final Object CLASS_LOCK = new Object();
 
     private static boolean DEBUG = false;
 
@@ -62,7 +63,8 @@ public abstract class ShareConfigChangeStore {
     /**
      * Return a singleton instance of a Store object.
      */
-    public static synchronized ShareConfigChangeStore getStore() throws BrokerException {
+    public static ShareConfigChangeStore getStore() throws BrokerException {
+        synchronized (CLASS_LOCK) {
 
         if (store != null) {
             return store;
@@ -102,6 +104,7 @@ public abstract class ShareConfigChangeStore {
         }
 
         return store;
+        }
     }
 
     /**
@@ -111,12 +114,14 @@ public abstract class ShareConfigChangeStore {
      *
      * @param cleanup if true, the store will be cleaned up, i.e. redundant data removed.
      */
-    public static synchronized void releaseStore(boolean cleanup) {
+    public static void releaseStore(boolean cleanup) {
+        synchronized (CLASS_LOCK) {
 
         if (store != null) {
             store.close();
         }
         store = null;
+        }
     }
 
     /**
