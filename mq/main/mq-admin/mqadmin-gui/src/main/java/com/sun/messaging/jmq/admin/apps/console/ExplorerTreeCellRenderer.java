@@ -24,10 +24,9 @@ import javax.swing.ImageIcon;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
-class ExplorerTreeCellRenderer extends DefaultTreeCellRenderer {
+final class ExplorerTreeCellRenderer extends DefaultTreeCellRenderer {
     @Serial
     private static final long serialVersionUID = -8842768979030693460L;
-    ImageIcon leafIcon, parentIcon;
 
     @Override
     public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
@@ -57,8 +56,6 @@ class ExplorerTreeCellRenderer extends DefaultTreeCellRenderer {
                 String tooltip = node.getExplorerToolTip();
 
                 setToolTipText(tooltip);
-            } else {
-                setIcon(leafIcon);
             }
         }
 
