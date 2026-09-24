@@ -2113,7 +2113,7 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
      */
     @Override
     public String toString() {
-        String temp = null;
+        String temp = "";
         try {
             temp = "\nClass:\t\t\t" + getClass().getName()
                     + "\ngetJMSMessageID():\t" + getJMSMessageID()

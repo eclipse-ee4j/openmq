@@ -287,7 +287,7 @@ public class TCPConnectionHandler extends SocketConnectionHandler {
 
     @Override
     public String toString() {
-        String info = null;
+        String info = "";
         try {
             info = "TCPConnectionHandler: " + counter + "-" + getLocalPort();
         } catch (Exception e) {
