@@ -39,6 +39,7 @@
   <Match><Bug pattern="SE_NO_SUITABLE_CONSTRUCTOR" /></Match>
   <Match><Bug pattern="SE_NO_SUITABLE_CONSTRUCTOR_FOR_EXTERNALIZATION" /></Match>
   <Match><Bug pattern="SE_READ_RESOLVE_MUST_RETURN_OBJECT" /></Match>
+  <Match><Bug pattern="NP_TOSTRING_COULD_RETURN_NULL" /></Match>
   <Match><Bug pattern="NP_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD" /></Match>
   <Match><Bug pattern="NS_DANGEROUS_NON_SHORT_CIRCUIT" /></Match>
   <Match><Bug pattern="NS_NON_SHORT_CIRCUIT" /></Match>
