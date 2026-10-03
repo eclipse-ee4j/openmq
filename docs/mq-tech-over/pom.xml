@@ -39,7 +39,6 @@
     </dependencies>
 
     <build>
-        <defaultGoal>package</defaultGoal>
         <resources>
             <resource>
                 <directory>src/main/jbake</directory>
