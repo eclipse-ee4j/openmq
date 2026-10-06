@@ -2107,22 +2107,15 @@ public class JMSServiceImpl implements JMSService {
     }
 
     private static int convertToBrokerAckMode(SessionAckMode ackMode) {
-        switch (ackMode) {
-        case AUTO_ACKNOWLEDGE:
-            return (com.sun.messaging.jmq.jmsserver.core.Session.AUTO_ACKNOWLEDGE);
-        case CLIENT_ACKNOWLEDGE:
-            return (com.sun.messaging.jmq.jmsserver.core.Session.CLIENT_ACKNOWLEDGE);
-        case DUPS_OK_ACKNOWLEDGE:
-            return (com.sun.messaging.jmq.jmsserver.core.Session.DUPS_OK_ACKNOWLEDGE);
-        case NO_ACKNOWLEDGE:
-            return (com.sun.messaging.jmq.jmsserver.core.Session.NO_ACK_ACKNOWLEDGE);
-        case UNSPECIFIED:
-            return (com.sun.messaging.jmq.jmsserver.core.Session.NONE);
-        case TRANSACTED:
-            return (com.sun.messaging.jmq.jmsserver.core.Session.NONE);
-        default:
-            return (com.sun.messaging.jmq.jmsserver.core.Session.NONE);
-        }
+        return switch (ackMode) {
+            case AUTO_ACKNOWLEDGE -> com.sun.messaging.jmq.jmsserver.core.Session.AUTO_ACKNOWLEDGE;
+            case CLIENT_ACKNOWLEDGE -> com.sun.messaging.jmq.jmsserver.core.Session.CLIENT_ACKNOWLEDGE;
+            case DUPS_OK_ACKNOWLEDGE -> com.sun.messaging.jmq.jmsserver.core.Session.DUPS_OK_ACKNOWLEDGE;
+            case NO_ACKNOWLEDGE -> com.sun.messaging.jmq.jmsserver.core.Session.NO_ACK_ACKNOWLEDGE;
+            case UNSPECIFIED -> com.sun.messaging.jmq.jmsserver.core.Session.NONE;
+            case TRANSACTED -> com.sun.messaging.jmq.jmsserver.core.Session.NONE;
+            default -> com.sun.messaging.jmq.jmsserver.core.Session.NONE;
+        };
     }
 
     private static int convertToBrokerAckType(MessageAckType ackType) {
