@@ -2118,9 +2118,11 @@ public class JMSServiceImpl implements JMSService {
             return (com.sun.messaging.jmq.jmsserver.core.Session.NO_ACK_ACKNOWLEDGE);
         case UNSPECIFIED:
             return (com.sun.messaging.jmq.jmsserver.core.Session.NONE);
+        case TRANSACTED:
+            return (com.sun.messaging.jmq.jmsserver.core.Session.NONE);
+        default:
+            return (com.sun.messaging.jmq.jmsserver.core.Session.NONE);
         }
-
-        return (com.sun.messaging.jmq.jmsserver.core.Session.NONE);
     }
 
     private static int convertToBrokerAckType(MessageAckType ackType) {
