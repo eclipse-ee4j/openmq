@@ -36,28 +36,28 @@ jobs:
             dependency:copy@workflow-jdbc-drivers-derby \
             dependency:copy@workflow-jdbc-drivers-mysql
     - name: Upload PostgreSQL drivers
-      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
       with:
         name: broker-jdbc-drivers-postgresql
         retention-days: 1
         path: |
           mq/main/target/jdbc/postgresql/*
     - name: Upload Oracle drivers
-      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
       with:
         name: broker-jdbc-drivers-oracle
         retention-days: 1
         path: |
           mq/main/target/jdbc/oracle/*
     - name: Upload Derby drivers
-      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
       with:
         name: broker-jdbc-drivers-derby
         retention-days: 1
         path: |
           mq/main/target/jdbc/derby/*
     - name: Upload MySQL drivers
-      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
       with:
         name: broker-jdbc-drivers-mysql
         retention-days: 1
