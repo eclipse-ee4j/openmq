@@ -1185,7 +1185,6 @@
                                       -Xep:RedundantOverride:OFF \
                                       -Xep:RedundantThrows:OFF \
                                       -Xep:ReferenceEquality:OFF \
-                                      -Xep:RequireNonNullRefactoring:OFF \
                                       -Xep:ReturnAtTheEndOfVoidFunction:OFF \
                                       -Xep:ReturnMissingNullable:OFF \
                                       -Xep:ReturnsNullCollection:OFF \
