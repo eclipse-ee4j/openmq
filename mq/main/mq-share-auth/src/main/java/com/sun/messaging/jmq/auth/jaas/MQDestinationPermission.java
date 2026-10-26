@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -18,6 +18,7 @@
 
 package com.sun.messaging.jmq.auth.jaas;
 
+import java.util.Objects;
 import java.util.StringTokenizer;
 import java.io.ObjectInputStream;
 import java.io.IOException;
@@ -53,9 +54,7 @@ public class MQDestinationPermission extends Permission {
     }
 
     private void init(String name, String actions) {
-        if (name == null) {
-            throw new NullPointerException("name null");
-        }
+        Objects.requireNonNull(name, "name null");
 
         if (name.trim().startsWith(PermissionFactory.DEST_QUEUE_PREFIX)) {
             isQueue = true;
@@ -72,9 +71,7 @@ public class MQDestinationPermission extends Permission {
             wildcard = true;
         }
 
-        if (actions == null) {
-            throw new NullPointerException("actions null");
-        }
+        Objects.requireNonNull(actions, "actions null");
 
         mask = computeMask(actions);
 

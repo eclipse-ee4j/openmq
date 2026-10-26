@@ -19,6 +19,7 @@ package com.sun.messaging.jmq.jmsclient;
 
 import jakarta.jms.*;
 import java.io.*;
+import java.util.Objects;
 
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.io.*;
@@ -875,9 +876,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
     @Override
     public void writeObject(Object value) throws JMSException {
 
-        if (value == null) { // as java does
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(value);
 
         if (value instanceof Integer) {
             writeInt(((Integer) value).intValue());

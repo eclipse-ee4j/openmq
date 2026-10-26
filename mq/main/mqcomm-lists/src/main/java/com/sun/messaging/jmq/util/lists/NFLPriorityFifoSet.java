@@ -854,9 +854,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             notifyChange(EventType.SET_CHANGED_REQUEST, null, o, reason);
         }
 
-        if (o == null) {
-            throw new NullPointerException("Unable to support null " + " values");
-        }
+        Objects.requireNonNull(o, "Unable to support null values");
     }
 
     NotifyInfo internalAdd(int pri, E o) {

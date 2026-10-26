@@ -306,9 +306,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     public void storeMessageInternal(DestinationUID dst, Packet message, ConsumerUID[] iids, int[] states, long storeSessionID, boolean checkMsgExist)
             throws BrokerException {
 
-        if (message == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(message);
         if (DEBUG) {
             if (iids == null) {
                 logger.log(Logger.INFO, "JDBCStore.storeMessageInternal(" + dst + ", " + message.getSysMessageID().getUniqueName() + ", "
@@ -475,9 +473,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     }
 
     public void removeMessageInternal(DestinationUID dID, String id, boolean sync, boolean onRollback) throws BrokerException {
-        if (id == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(id);
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.removeMessageInternal(" + dID + ", " + id + ", " + sync + ", " + onRollback);
         }
@@ -509,9 +505,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     @Override
     public void removeAllMessages(Destination dst, boolean sync) throws IOException, BrokerException {
 
-        if (dst == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(dst);
 
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.removeAllMessages(" + dst.getUniqueName() + ")");
@@ -573,9 +567,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
     public Enumeration messageEnumerationInternal(Destination dst, Long storeSession) throws BrokerException {
 
-        if (dst == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(dst);
         if (Store.getDEBUG()) {
             logger.log(Logger.INFO, "JDBCStore.messageEnumerationInternal(" + dst.getUniqueName() + ", " + storeSession + ")");
         }
@@ -654,9 +646,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     @Override
     public int getMessageCount(String brokerID) throws BrokerException {
 
-        if (brokerID == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(brokerID);
 
         if (Store.getDEBUG()) {
             logger.log(Logger.INFO, "JDBCStore.getMessageCount() called for broker: " + brokerID);
@@ -705,9 +695,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     }
 
     public HashMap getMessageStorageInfoInternal(Destination dst, Long storeSession) throws BrokerException {
-        if (dst == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(dst);
         if (Store.getDEBUG()) {
             logger.log(Logger.INFO, "JDBCStore.getMessageStorageInfoInternal(" + dst.getUniqueName() + ", " + storeSession + ")");
         }
@@ -735,9 +723,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     @Override
     public Packet getMessage(DestinationUID dID, SysMessageID mID) throws BrokerException {
 
-        if (mID == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(mID);
 
         return getMessage(dID, mID.toString());
     }
@@ -765,9 +751,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     }
 
     public Packet getMessageInternal(DestinationUID dID, String mID) throws BrokerException {
-        if (mID == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(mID);
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.getMessageInternal(" + dID + ", " + mID + ")");
         }
@@ -1064,9 +1048,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
     public ConsumerUID[] getConsumerUIDsInternal(DestinationUID dID, SysMessageID mID) throws BrokerException {
 
-        if (mID == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(mID);
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.getConsumerUIDsInternal(dID=" + dID.getLongString() + ", mID=" + mID.getUniqueName() + ")");
         }
@@ -1110,9 +1092,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     @Override
     public void storeInterest(Consumer interest, boolean sync) throws IOException, BrokerException {
 
-        if (interest == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(interest);
 
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.storeInterest(" + interest.getConsumerUID().toString() + ", " + sync + ")");
@@ -1152,9 +1132,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     @Override
     public void removeInterest(Consumer interest, boolean sync) throws IOException, BrokerException {
 
-        if (interest == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(interest);
 
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.removeInterest() called with interest: " + interest.getConsumerUID().toString());
@@ -1251,9 +1229,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
     public void storeDestinationInternal(Destination destination, long storeSessionID) throws BrokerException {
 
-        if (destination == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(destination);
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.storeDestinationInternal(" + destination.getUniqueName() + ", " + storeSessionID + ")");
         }
@@ -1294,9 +1270,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
     public void updateDestinationInternal(Destination destination) throws BrokerException {
 
-        if (destination == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(destination);
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.updateDestinationInternal(" + destination.getUniqueName() + ")");
         }
@@ -1335,9 +1309,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
     public void removeDestinationInternal(Destination destination, Long storeSessionID) throws BrokerException {
 
-        if (destination == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(destination);
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.removeDestinationInternal(" + destination.getUniqueName() + ", " + storeSessionID + ")");
         }
@@ -1444,9 +1416,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
     public Destination getDestinationInternal(DestinationUID id) throws BrokerException {
 
-        if (id == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(id);
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.getDestinationInternal(" + id + ")");
         }
@@ -1587,9 +1557,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
     public void removeTransactionInternal(TransactionUID id, boolean removeAcks, boolean sync) throws BrokerException {
 
-        if (id == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(id);
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.removeTransactionInternal(" + id + ", " + removeAcks + ", " + sync + ")");
         }
@@ -1930,9 +1898,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
     public void removeTransactionAckInternal(TransactionUID tid, boolean sync) throws BrokerException {
 
-        if (tid == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(tid);
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.removeTransactionAckInternal(" + tid + ", " + sync + ")");
         }
@@ -2006,9 +1972,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
     public TransactionAcknowledgement[] getTransactionAcksInternal(TransactionUID id) throws BrokerException {
 
-        if (id == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(id);
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.getTransactionAcksInternal(" + id + ")");
         }
@@ -2128,9 +2092,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
     public void updateClusterTransactionInternal(TransactionUID tid, TransactionBroker[] txnBrokers, boolean sync) throws BrokerException {
 
-        if (tid == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(tid);
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.updateClusterTransactionInternal(" + tid + ", " + Arrays.toString(txnBrokers) + ", " + sync + ")");
         }
@@ -2165,9 +2127,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     public void updateClusterTransactionBrokerStateInternal(TransactionUID tid, int expectedTxnState, TransactionBroker txnBroker, boolean sync)
             throws BrokerException {
 
-        if (tid == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(tid);
         if (DEBUG) {
             logger.log(Logger.INFO,
                     "JDBCStore.updateClusterTransactionBrokerStateInternal(" + tid + ", " + expectedTxnState + ", " + txnBroker + ", " + sync + ")");
@@ -2202,9 +2162,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     public void updateRemoteTransactionInternal(TransactionUID tid, TransactionAcknowledgement[] txnAcks, BrokerAddress txnHomeBroker, boolean sync)
             throws BrokerException {
 
-        if (tid == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(tid);
         if (DEBUG) {
             logger.log(Logger.INFO,
                     "JDBCStore.updateRemoteTransactionInternal(" + tid + ", " + Arrays.toString(txnAcks) + ", " + txnHomeBroker + ", " + sync + ")");
@@ -2266,9 +2224,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     public void storeRemoteTransactionInternal(TransactionUID tid, TransactionState ts, TransactionAcknowledgement[] txnAcks, BrokerAddress txnHomeBroker,
             boolean sync, long storeSession) throws BrokerException {
 
-        if (tid == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(tid);
         if (Globals.getHAEnabled()) {
             throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store in HA mode");
         }
@@ -2332,9 +2288,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     @Override
     public void updateProperty(String name, Object value, boolean sync) throws BrokerException {
 
-        if (name == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(name);
 
         if (Store.getDEBUG()) {
             logger.log(Logger.INFO, "JDBCStore.updateProperty() called with name: " + name);
@@ -2374,9 +2328,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     @Override
     public Object getProperty(String name) throws BrokerException {
 
-        if (name == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(name);
 
         if (Store.getDEBUG()) {
             logger.log(Logger.INFO, "JDBCStore.getProperty() called with name: " + name);
@@ -2496,9 +2448,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
             throw new BrokerException(br.getKString(BrokerResources.E_INVALID_TIMESTAMP, ts));
         }
 
-        if (recordData == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(recordData);
 
         // make sure store is not closed then increment in progress count
         checkClosedAndSetInProgress();
@@ -2988,9 +2938,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     @Override
     public HashMap getAllBrokerInfoByState(BrokerState state) throws BrokerException {
 
-        if (state == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(state);
 
         // make sure store is not closed then increment in progress count
         checkClosedAndSetInProgress();

@@ -33,6 +33,7 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TimerTask;
@@ -719,9 +720,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
             return;
         }
 
-        if (id == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(id);
 
         // make sure store is not closed then increment in progress count
         super.checkClosedAndSetInProgress();
@@ -869,9 +868,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
             logger.log(Logger.INFO, "FileStore.getMessage() called");
         }
 
-        if (id == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(id);
 
         // make sure store is not closed then increment in progress count
         super.checkClosedAndSetInProgress();
@@ -1067,9 +1064,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
             logger.log(Logger.INFO, "FileStore.getInterestStates() called");
         }
 
-        if (mid == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(mid);
 
         // make sure store is not closed then increment in progress count
         super.checkClosedAndSetInProgress();
@@ -1100,9 +1095,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
             logger.log(Logger.INFO, "FileStore.getConsumerUIDs() called");
         }
 
-        if (mid == null) {
-            throw new NullPointerException();
-        }
+        Objects.requireNonNull(mid);
 
         // make sure store is not closed then increment in progress count
         super.checkClosedAndSetInProgress();
@@ -1238,9 +1231,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         super.checkClosedAndSetInProgress();
 
         try {
-            if (destination == null) {
-                throw new NullPointerException();
-            }
+            Objects.requireNonNull(destination);
 
             dstList.storeDestination(destination, sync);
         } finally {
@@ -1268,9 +1259,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         super.checkClosedAndSetInProgress();
 
         try {
-            if (destination == null) {
-                throw new NullPointerException();
-            }
+            Objects.requireNonNull(destination);
 
             dstList.updateDestination(destination, sync);
         } finally {
@@ -1299,9 +1288,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         super.checkClosedAndSetInProgress();
 
         try {
-            if (destination == null) {
-                throw new NullPointerException();
-            }
+            Objects.requireNonNull(destination);
 
             dstList.removeDestination(destination, sync);
         } finally {
@@ -1328,9 +1315,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         super.checkClosedAndSetInProgress();
 
         try {
-            if (id == null) {
-                throw new NullPointerException();
-            }
+            Objects.requireNonNull(id);
 
             return dstList.getDestination(id);
         } finally {
@@ -1439,9 +1424,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         super.checkClosedAndSetInProgress();
 
         try {
-            if (id == null) {
-                throw new NullPointerException();
-            }
+            Objects.requireNonNull(id);
 
             if (removeAcks) {
                 tidList.removeTransactionAck(id, sync);
@@ -1475,9 +1458,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         super.checkClosedAndSetInProgress();
 
         try {
-            if (id == null) {
-                throw new NullPointerException();
-            }
+            Objects.requireNonNull(id);
             if (Globals.isNewTxnLogEnabled()) {//NOPMD
                 // no op
             } else {
@@ -1577,9 +1558,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         super.checkClosedAndSetInProgress();
 
         try {
-            if (id == null) {
-                throw new NullPointerException();
-            }
+            Objects.requireNonNull(id);
 
             tidList.removeTransactionAck(id, sync);
         } finally {
@@ -1605,9 +1584,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         super.checkClosedAndSetInProgress();
 
         try {
-            if (tid == null) {
-                throw new NullPointerException();
-            }
+            Objects.requireNonNull(tid);
 
             return tidList.getTransactionAcks(tid);
         } finally {
@@ -1879,9 +1856,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         super.checkClosedAndSetInProgress();
 
         try {
-            if (name == null) {
-                throw new NullPointerException();
-            }
+            Objects.requireNonNull(name);
 
             propFile.updateProperty(name, value, sync);
         } finally {
@@ -1909,9 +1884,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         super.checkClosedAndSetInProgress();
 
         try {
-            if (name == null) {
-                throw new NullPointerException();
-            }
+            Objects.requireNonNull(name);
 
             return propFile.getProperty(name);
         } finally {
@@ -1993,9 +1966,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
                 throw new BrokerException(br.getString(BrokerResources.E_INVALID_TIMESTAMP, Long.valueOf(timestamp)));
             }
 
-            if (recordData == null) {
-                throw new NullPointerException();
-            }
+            Objects.requireNonNull(recordData);
 
             configStore.storeConfigChangeRecord(timestamp, recordData, sync);
         } finally {
