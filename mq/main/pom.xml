@@ -94,7 +94,7 @@
         <mockito.version>5.24.0</mockito.version>
         <lombok.version>1.18.48</lombok.version>
         <archunit.version>1.5.1</archunit.version>
-        <error-prone.version>2.50.0</error-prone.version>
+        <error-prone.version>2.51.0</error-prone.version>
         <checker.version>4.3.1</checker.version>
         <jdbc.postgresql.version>42.7.14</jdbc.postgresql.version>
         <jdbc.oracle.version>23.26.3.0.0</jdbc.oracle.version>
@@ -1136,6 +1136,7 @@
                                       -Xep:Finally:OFF \
                                       -Xep:FutureReturnValueIgnored:OFF \
                                       -Xep:HidingField:OFF \
+                                      -Xep:IfChainToSwitch:OFF \
                                       -Xep:ImmutableEnumChecker:OFF \
                                       -Xep:ImmutableMemberCollection:OFF \
                                       -Xep:InconsistentCapitalization:OFF \
@@ -1159,6 +1160,7 @@
                                       -Xep:MethodCanBeStatic:OFF \
                                       -Xep:MissingCasesInEnumSwitch:OFF \
                                       -Xep:MissingDefault:OFF \
+                                      -Xep:MissingJavadoc:OFF \
                                       -Xep:MissingSummary:OFF \
                                       -Xep:MixedArrayDimensions:OFF \
                                       -Xep:MultiVariableDeclaration:OFF \
@@ -1183,6 +1185,7 @@
                                       -Xep:RedundantOverride:OFF \
                                       -Xep:RedundantThrows:OFF \
                                       -Xep:ReferenceEquality:OFF \
+                                      -Xep:RequireNonNullRefactoring:OFF \
                                       -Xep:ReturnAtTheEndOfVoidFunction:OFF \
                                       -Xep:ReturnMissingNullable:OFF \
                                       -Xep:ReturnsNullCollection:OFF \
@@ -1207,6 +1210,7 @@
                                       -Xep:ThrowSpecificExceptions:OFF \
                                       -Xep:ThrowsUncheckedException:OFF \
                                       -Xep:TooManyParameters:OFF \
+                                      -Xep:TraditionalJavadocToMarkdown:OFF \
                                       -Xep:TransientMisuse:OFF \
                                       -Xep:TypeNameShadowing:OFF \
                                       -Xep:TypeParameterNaming:OFF \
