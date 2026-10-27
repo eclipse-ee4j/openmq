@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2020, 2025 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,13 +26,13 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Utility class for printing aligned collumns of text. How/where the text is printed is determined by the abstract
+ * Utility class for printing aligned columns of text. How/where the text is printed is determined by the abstract
  * methods doPrint(String) and doPrintln(String). The typical case is to create a subclass and make these methods print
  * the string to standard out or error.
  * <P>
  * This class allows you to specify:
  * <UL>
- * <LI>The number of collumns in the output. This will determine the dimension of the string arrays passed to
+ * <LI>The number of columns in the output. This will determine the dimension of the string arrays passed to
  * add(Object[]) or addTitle(String[]).
  * <LI>spacing/gap between columns
  * <LI>character to use for title border (null means no border)
@@ -75,17 +75,17 @@ import java.util.TreeMap;
  * </PRE>
  *
  * <P>
- * This class also supports multi-row titles and having title strings spanning multiple collumns. Example usage:
+ * This class also supports multi-row titles and having title strings spanning multiple columns. Example usage:
  *
  * <PRE>
  * TestPrinter tp = new TestPrinter(4, 2, "-");
  * String oneRow[] = new String[4];
  * int[] span = new int[4];
  *
- * span[0] = 2; // spans 2 collumns
- * span[1] = 0; // spans 0 collumns
- * span[2] = 2; // spans 2 collumns
- * span[3] = 0; // spans 0 collumns
+ * span[0] = 2; // spans 2 columns
+ * span[1] = 0; // spans 0 columns
+ * span[2] = 2; // spans 2 columns
+ * span[3] = 0; // spans 0 columns
  *
  * tp.setTitleAlign(CENTER);
  * oneRow[0] = "Name";
@@ -287,9 +287,9 @@ public abstract class MultiColumnPrinter implements Serializable {
 
     /**
      * Adds to the row of strings to be used as the title for the table. Also allows for certain title strings to span
-     * multiple collumns The span parameter is an array of integers which indicate how many collumns the corresponding title
-     * string will occupy. For a row that is 4 collumns wide, it is possible to have some title strings in a row to 'span'
-     * multiple collumns:
+     * multiple columns The span parameter is an array of integers which indicate how many columns the corresponding title
+     * string will occupy. For a row that is 4 columns wide, it is possible to have some title strings in a row to 'span'
+     * multiple columns:
      *
      * <P>
      *
@@ -302,14 +302,14 @@ public abstract class MultiColumnPrinter implements Serializable {
      * John   Doe    john@foo.com  456-7890
      * </PRE>
      *
-     * In the example above, the title row has a string 'Name' that spans 2 collumns. The string 'Contact' also spans 2
-     * collumns. The above is done by passing in to addTitle() an array that contains:
+     * In the example above, the title row has a string 'Name' that spans 2 columns. The string 'Contact' also spans 2
+     * columns. The above is done by passing in to addTitle() an array that contains:
      *
      * <PRE>
-     * span[0] = 2; // spans 2 collumns
-     * span[1] = 0; // spans 0 collumns, ignore
-     * span[2] = 2; // spans 2 collumns
-     * span[3] = 0; // spans 0 collumns, ignore
+     * span[0] = 2; // spans 2 columns
+     * span[1] = 0; // spans 0 columns, ignore
+     * span[2] = 2; // spans 2 columns
+     * span[3] = 0; // spans 0 columns, ignore
      * </PRE>
      * <P>
      * A span value of 1 is the default. The method addTitle(String[] row) basically does:
@@ -416,7 +416,7 @@ public abstract class MultiColumnPrinter implements Serializable {
                 int len = getItemLength(row[i]);
 
                 /*
-                 * If a title string spans multiple collumns, then the space it occupies in each collumn is at most len/span (since we
+                 * If a title string spans multiple columns, then the space it occupies in each column is at most len/span (since we
                  * have gap to take into account as well).
                  */
                 int span = curSpan[i], rem = 0;
@@ -434,7 +434,7 @@ public abstract class MultiColumnPrinter implements Serializable {
                         }
 
                         /*
-                         * Add remainder to last collumn in span to avoid round-off errors.
+                         * Add remainder to last column in span to avoid round-off errors.
                          */
                         curLength[(i + span) - 1] += rem;
                     }

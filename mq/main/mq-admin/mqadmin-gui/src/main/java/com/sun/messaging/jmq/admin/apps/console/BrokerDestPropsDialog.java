@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -764,7 +764,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
         }
 
         /*
-         * Resize the viewable area of table in the scrollpane. This is to workaround the case where the collumn headers are
+         * Resize the viewable area of table in the scrollpane. This is to workaround the case where the column headers are
          * really narrow e.g. one letter names.
          *
          * If such names are used, the calculations done in makeDurTab() produce widths that don't appear to be wide enough.
@@ -986,9 +986,9 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
         private static final long serialVersionUID = 900570854004520103L;
 
         /**
-         * Returns the number of collumns in table.
+         * Returns the number of columns in table.
          *
-         * @return The number of collumns in table.
+         * @return The number of columns in table.
          */
         @Override
         public int getColumnCount() {
@@ -1011,7 +1011,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
         }
 
         /**
-         * Returns the collumn name/label for a given column.
+         * Returns the column name/label for a given column.
          *
          * @return the column name/label for a given column.
          */

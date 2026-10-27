@@ -39,7 +39,7 @@ import com.sun.messaging.jmq.admin.apps.console.event.SelectionEvent;
  * <UL>
  * <LI>lists children in a JTable
  * <LI>dispatches a OBJ_SELECTED event when an entry in the JTable is selected.
- * <LI>collumn labels are customizable
+ * <LI>column labels are customizable
  * <LI>cell content displayed is obtained from the ConsoleObj (or subclass of it) class.
  * </UL>
  *
@@ -47,10 +47,10 @@ import com.sun.messaging.jmq.admin.apps.console.event.SelectionEvent;
  * 2 abstract methods need to be implemented by subclasses:
  * <UL>
  * <LI>public abstract String[] getColumnHeaders()<BR>
- * This method returns an array containing the strings used for the collumn headers/labels.
- * <LI>public abstract Object getValueAtCollumn(ConsoleObj conObj, int col)<BR>
- * This method returns the Object at a particular cell collumn for a given ConsoleObj object. Each row in the JTable
- * represents one ConsoleObj. This method returns the object/value for the ConsoleObj, for a particular collumn.
+ * This method returns an array containing the strings used for the column headers/labels.
+ * <LI>public abstract Object getValueAtColumn(ConsoleObj conObj, int col)<BR>
+ * This method returns the Object at a particular cell column for a given ConsoleObj object. Each row in the JTable
+ * represents one ConsoleObj. This method returns the object/value for the ConsoleObj, for a particular column.
  *
  * </UL>
  *
@@ -171,16 +171,16 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
      */
 
     /*
-     * TableModel class for TabledInspector. Note: This model assumes the objects at collumn = 0 are the ConsoleObj objects.
+     * TableModel class for TabledInspector. Note: This model assumes the objects at column = 0 are the ConsoleObj objects.
      */
     class CObjTableModel extends AbstractTableModel {
         @Serial
         private static final long serialVersionUID = -3527022764578800789L;
 
         /**
-         * Returns the number of collumns in table.
+         * Returns the number of columns in table.
          *
-         * @return The number of collumns in table.
+         * @return The number of columns in table.
          */
         @Override
         public int getColumnCount() {
@@ -212,9 +212,9 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
         }
 
         /**
-         * Returns the collumn name/label for a given collumn.
+         * Returns the column name/label for a given column.
          *
-         * @return the collumn name/label for a given collumn.
+         * @return the column name/label for a given column.
          */
         @Override
         public String getColumnName(int col) {
@@ -232,7 +232,7 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
         }
 
         /**
-         * Return value at a particular table cell location. Calls the TabledInspector.getValueAtCollumn() method.
+         * Return value at a particular table cell location. Calls the TabledInspector.getValueAtColumn() method.
          */
         @Override
         public Object getValueAt(int row, int col) {
@@ -249,7 +249,7 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
                     if (col == 0) {
                         return (childNode);
                     }
-                    return (getValueAtCollumn(childNode, col));
+                    return (getValueAtColumn(childNode, col));
                 }
 
                 rowcount++;
@@ -276,17 +276,17 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
     }
 
     /**
-     * Return the array of Strings containing the collumn labels/headers.
+     * Return the array of Strings containing the column labels/headers.
      *
-     * @return the array of Strings containing the collumn labels/headers.
+     * @return the array of Strings containing the column labels/headers.
      */
     public abstract String[] getColumnHeaders();
 
     /**
-     * Returns the Object at a particular cell collumn for a given ConsoleObj object. Each row in the JTable represents one
-     * ConsoleObj. This method returns the object/value for the ConsoleObj, for a particular collumn.
+     * Returns the Object at a particular cell column for a given ConsoleObj object. Each row in the JTable represents one
+     * ConsoleObj. This method returns the object/value for the ConsoleObj, for a particular column.
      *
-     * @return the Object at a particular cell collumn for a given ConsoleObj object.
+     * @return the Object at a particular cell column for a given ConsoleObj object.
      */
-    public abstract Object getValueAtCollumn(ConsoleObj conObj, int col);
+    public abstract Object getValueAtColumn(ConsoleObj conObj, int col);
 }

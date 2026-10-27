@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -700,9 +700,9 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
         private static final long serialVersionUID = -6685250332698377866L;
 
         /**
-         * Returns the number of collumns in table.
+         * Returns the number of columns in table.
          *
-         * @return The number of collumns in table.
+         * @return The number of columns in table.
          */
         @Override
         public int getColumnCount() {
@@ -725,9 +725,9 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
         }
 
         /**
-         * Returns the collumn name/label for a given collumn.
+         * Returns the column name/label for a given column.
          *
-         * @return the collumn name/label for a given collumn.
+         * @return the column name/label for a given column.
          */
         @Override
         public String getColumnName(int col) {
@@ -735,7 +735,7 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
         }
 
         /**
-         * Return value at a particular table cell location. Calls the TabledInspector.getValueAtCollumn() method.
+         * Return value at a particular table cell location. Calls the TabledInspector.getValueAtColumn() method.
          */
         @Override
         public Object getValueAt(int row, int col) {

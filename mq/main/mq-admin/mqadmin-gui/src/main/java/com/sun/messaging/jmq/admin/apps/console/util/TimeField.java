@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2022, 2024 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -177,10 +177,10 @@ public class TimeField extends JPanel {
         return (-1);
     }
 
-    private void initGui(long max, String text, int collumns) {
+    private void initGui(long max, String text, int columns) {
         String[] units;
 
-        intF = new IntegerField(0, max, text, collumns);
+        intF = new IntegerField(0, max, text, columns);
 
         if (showMillis) {
             msecPos = 0;

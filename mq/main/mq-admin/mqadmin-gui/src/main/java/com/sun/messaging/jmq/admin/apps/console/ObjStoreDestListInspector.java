@@ -38,9 +38,9 @@ public class ObjStoreDestListInspector extends TabledInspector {
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
     /**
-     * Return the array of Strings containing the collumn labels/headers.
+     * Return the array of Strings containing the column labels/headers.
      *
-     * @return the array of Strings containing the collumn labels/headers.
+     * @return the array of Strings containing the column labels/headers.
      */
     @Override
     public String[] getColumnHeaders() {
@@ -49,13 +49,13 @@ public class ObjStoreDestListInspector extends TabledInspector {
     }
 
     /**
-     * Returns the Object at a particular cell collumn for a given ConsoleObj object. Each row in the JTable represents one
-     * ConsoleObj. This method returns the object/value for the ConsoleObj, for a particular collumn.
+     * Returns the Object at a particular cell column for a given ConsoleObj object. Each row in the JTable represents one
+     * ConsoleObj. This method returns the object/value for the ConsoleObj, for a particular column.
      *
-     * @return the Object at a particular cell collumn for a given ConsoleObj object.
+     * @return the Object at a particular cell column for a given ConsoleObj object.
      */
     @Override
-    public Object getValueAtCollumn(ConsoleObj conObj, int col) {
+    public Object getValueAtColumn(ConsoleObj conObj, int col) {
         if (col == 0) {
             return (conObj);
         } else if (col == 1) {

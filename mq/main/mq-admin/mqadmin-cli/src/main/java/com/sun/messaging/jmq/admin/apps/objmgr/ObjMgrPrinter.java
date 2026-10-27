@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -75,7 +75,7 @@ public class ObjMgrPrinter extends MultiColumnPrinter {
     }
 
     /**
-     * Prints the properties of the administered object in a nice formatted 2 collumn table. The property names/values, as
+     * Prints the properties of the administered object in a nice formatted 2 column table. The property names/values, as
      * well as property name labels are obtained from the passed object.
      */
     public void printObjPropertiesFromObj(AdministeredObject obj) {
@@ -120,7 +120,7 @@ public class ObjMgrPrinter extends MultiColumnPrinter {
     }
 
     /**
-     * Prints the property names and values in a nice formatted 2 collumn table. The property names will also contain a
+     * Prints the property names and values in a nice formatted 2 column table. The property names will also contain a
      * description/label if found by querying the passed administered object.
      *
      * In this method, the administered object serves only as a way to get the property name label. The property values will

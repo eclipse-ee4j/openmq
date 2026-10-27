@@ -226,10 +226,10 @@ public class BytesField extends JPanel {
         }
     }
 
-    private void initGui(long min, long max, String text, int collumns) {
+    private void initGui(long min, long max, String text, int columns) {
         String[] units;
 
-        lf = new LongField(min, max, text, collumns);
+        lf = new LongField(min, max, text, columns);
 
         units = new String[3];
         units[MEGABYTES] = acr.getString(acr.I_MEGABYTES);
