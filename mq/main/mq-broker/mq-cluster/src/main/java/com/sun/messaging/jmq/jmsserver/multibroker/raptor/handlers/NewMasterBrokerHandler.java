@@ -31,6 +31,7 @@ public class NewMasterBrokerHandler extends GPacketHandler {
         super(p);
     }
 
+    @SuppressWarnings("IfChainToSwitch")
     @Override
     public void handle(BrokerAddress sender, GPacket pkt) {
         if (DEBUG) {

@@ -4609,6 +4609,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         return (bcp);
     }
 
+    @SuppressWarnings("IfChainToSwitch")
     private BrokerCmdPrinter setupDestMetricTitle(String commandArg, int metricType, int destTypeMask) {
         String titleRow[];
         BrokerCmdPrinter bcp = null;
@@ -4884,6 +4885,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         }
     }
 
+    @SuppressWarnings("IfChainToSwitch")
     private static void addOneDestMetricRow(int metricType, int destTypeMask, BrokerCmdPrinter bcp, DestMetricsCounters latestDest, DestMetricsCounters previousDest) {
         String metricRow[];
 

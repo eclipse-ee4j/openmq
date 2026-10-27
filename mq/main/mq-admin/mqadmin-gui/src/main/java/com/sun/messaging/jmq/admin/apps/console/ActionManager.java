@@ -147,6 +147,7 @@ public class ActionManager {
         matchActions(mask, QUERY_BROKER);
     }
 
+    @SuppressWarnings("IfChainToSwitch")
     public char getCharMnemonic(int actionFlag) {
         if (actionFlag == ADD) {
             return (acr.getChar(acr.I_ADD_MNEMONIC));

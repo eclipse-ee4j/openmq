@@ -1391,6 +1391,7 @@ public class Selector {
         }
     }
 
+    @SuppressWarnings("IfChainToSwitch")
     private static SelectorToken propertyToToken(Object value) {
         if (value instanceof String) {
             return SelectorToken.getInstance(STRING, value);

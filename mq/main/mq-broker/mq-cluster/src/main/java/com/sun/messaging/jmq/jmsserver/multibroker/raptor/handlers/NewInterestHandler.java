@@ -36,6 +36,7 @@ public class NewInterestHandler extends GPacketHandler {
         super(p);
     }
 
+    @SuppressWarnings("IfChainToSwitch")
     @Override
     public void handle(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
         if (DEBUG) {

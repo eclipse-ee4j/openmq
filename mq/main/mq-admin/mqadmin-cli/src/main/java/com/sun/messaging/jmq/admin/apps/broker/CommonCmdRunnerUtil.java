@@ -480,6 +480,7 @@ public class CommonCmdRunnerUtil {
         return (null);
     }
 
+    @SuppressWarnings("IfChainToSwitch")
     public static void handleArgsParsingExceptions(OptionException e, String optionAdminPasswd, String toolName) {
         String option = e.getOption();
 

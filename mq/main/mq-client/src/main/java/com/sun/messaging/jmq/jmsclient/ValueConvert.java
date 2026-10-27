@@ -114,6 +114,7 @@ class ValueConvert {
      * @param obj the object to convert
      * @return the coverted value
      **/
+    @SuppressWarnings("IfChainToSwitch")
     static short toShort(Object obj) throws MessageFormatException {
         if (obj == null) {
             // deliberately delegate the handling of this null value to the primitive's parse method
@@ -137,6 +138,7 @@ class ValueConvert {
      * @param obj the object to convert
      * @return the coverted value
      **/
+    @SuppressWarnings("IfChainToSwitch")
     static int toInt(Object obj) throws MessageFormatException {
         if (obj == null) {
             // must throw the same exception as if we had passed a null value to the primitive's valueOf method
@@ -161,6 +163,7 @@ class ValueConvert {
      * @param obj the object to convert
      * @return the coverted value
      */
+    @SuppressWarnings("IfChainToSwitch")
     static long toLong(Object obj) throws MessageFormatException {
         if (obj == null) {
             // must throw the same exception as if we had passed a null value to the primitive's valueOf method
@@ -207,6 +210,7 @@ class ValueConvert {
      * @param obj the non null object to convert
      * @return the coverted value
      */
+    @SuppressWarnings("IfChainToSwitch")
     static double toDouble(Object obj) throws MessageFormatException {
         if (obj == null) {
             // CTS expects this exception type so will conform to it

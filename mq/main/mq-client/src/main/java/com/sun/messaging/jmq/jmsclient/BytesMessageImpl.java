@@ -873,6 +873,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to write message due to some internal JMS error.
      */
 
+    @SuppressWarnings("IfChainToSwitch")
     @Override
     public void writeObject(Object value) throws JMSException {
 

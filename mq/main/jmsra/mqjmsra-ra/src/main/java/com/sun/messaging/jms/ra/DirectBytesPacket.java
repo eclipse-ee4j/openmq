@@ -945,6 +945,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws MessageNotWriteableException if the message is in read-only mode.
      * @throws java.lang.NullPointerException if the parameter <code>value</code> is null.
      */
+    @SuppressWarnings("IfChainToSwitch")
     @Override
     public void writeObject(Object value) throws JMSException {
         String methodName = "writeObject()";

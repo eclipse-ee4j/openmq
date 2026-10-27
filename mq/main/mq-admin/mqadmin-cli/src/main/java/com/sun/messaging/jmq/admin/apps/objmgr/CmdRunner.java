@@ -1116,6 +1116,7 @@ public class CmdRunner implements ObjMgrOptions {
     /*
      * Handles exceptions that may be thrown when operations are performed.
      */
+    @SuppressWarnings("IfChainToSwitch")
     private static void handleRunCommandExceptions(Exception e, String lookupName) {
 
         if (e instanceof InitializationException) {

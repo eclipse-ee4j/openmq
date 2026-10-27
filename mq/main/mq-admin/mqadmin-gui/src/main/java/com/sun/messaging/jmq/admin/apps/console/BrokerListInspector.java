@@ -53,6 +53,7 @@ public class BrokerListInspector extends TabledInspector {
      *
      * @return the Object at a particular cell column for a given ConsoleObj object.
      */
+    @SuppressWarnings("IfChainToSwitch")
     @Override
     public Object getValueAtColumn(ConsoleObj conObj, int col) {
 

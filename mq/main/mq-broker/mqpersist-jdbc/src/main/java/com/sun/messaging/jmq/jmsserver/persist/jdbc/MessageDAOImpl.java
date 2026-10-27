@@ -772,6 +772,7 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
      * @param id the system message id of the message
      * @return Packet the message
      */
+    @SuppressWarnings("IfChainToSwitch")
     @Override
     public Packet getMessage(Connection conn, DestinationUID dstUID, String id) throws BrokerException {
 
@@ -845,6 +846,7 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
      * @param brokerID the broker ID
      * @return a List of all messages the specified broker owns
      */
+    @SuppressWarnings("IfChainToSwitch")
     @Override
     public List getMessagesByBroker(Connection conn, String brokerID) throws BrokerException {
 

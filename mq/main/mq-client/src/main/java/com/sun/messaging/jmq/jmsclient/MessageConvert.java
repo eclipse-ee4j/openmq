@@ -47,6 +47,7 @@ public class MessageConvert {
      *
      * @return Message JMQ message implementation of JMS Message.
      */
+    @SuppressWarnings("IfChainToSwitch")
     protected Message convertJMSMessage(Message foreignMessage) throws JMSException {
         Message message = null;
 

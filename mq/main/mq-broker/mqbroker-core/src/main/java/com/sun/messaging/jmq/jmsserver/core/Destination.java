@@ -676,6 +676,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         return !isInternal() && !isAdmin();
     }
 
+    @SuppressWarnings("IfChainToSwitch")
     protected void handleLimitBehavior(int limit) {
         if (limit == DestLimitBehavior.FLOW_CONTROL) {
             destMessages.enforceLimits(false);
@@ -1176,6 +1177,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         return uid;
     }
 
+    @SuppressWarnings("IfChainToSwitch")
     public void pauseDestination(int type) {
         assert type != DestState.UNKNOWN;
         assert type != DestState.RUNNING;

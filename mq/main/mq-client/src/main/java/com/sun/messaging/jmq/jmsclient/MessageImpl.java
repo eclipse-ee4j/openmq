@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
  * http://www.eclipse.org/legal/epl-2.0.
@@ -2139,6 +2139,7 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
         return _getBody(this, c);
     }
 
+    @SuppressWarnings("IfChainToSwitch")
     public static <T> T _getBody(Message message, Class<T> c) throws JMSException {
 
         if (message instanceof TextMessage) {

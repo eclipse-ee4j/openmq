@@ -1136,7 +1136,6 @@
                                       -Xep:Finally:OFF \
                                       -Xep:FutureReturnValueIgnored:OFF \
                                       -Xep:HidingField:OFF \
-                                      -Xep:IfChainToSwitch:OFF \
                                       -Xep:ImmutableEnumChecker:OFF \
                                       -Xep:ImmutableMemberCollection:OFF \
                                       -Xep:InconsistentCapitalization:OFF \

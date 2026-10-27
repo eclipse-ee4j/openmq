@@ -483,6 +483,7 @@ public class ObjMgr implements ObjMgrOptions {
      * Error handling methods
      */
 
+    @SuppressWarnings("IfChainToSwitch")
     private static void handleArgsParsingExceptions(OptionException e) {
         String option = e.getOption();
 

@@ -1731,6 +1731,7 @@ public class ProtocolHandler {
         }
     }
 
+    @SuppressWarnings("IfChainToSwitch")
     protected static void checkWriteJMSMessageStatus(int statusCode, com.sun.messaging.Destination dest, ReadOnlyPacket ack, ProtocolHandler ph)
             throws JMSException {
 
