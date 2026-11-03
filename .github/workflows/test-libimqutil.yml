@@ -47,6 +47,7 @@ jobs:
         gcc -I ${JAVA_HOME}/include \
             -I ${JAVA_HOME}/include/linux \
             -I mq-logger/target/javah \
+            -Wno-incompatible-pointer-types \
             -shared \
             -fPIC \
               mq/src/solaris/native/com_sun_messaging_jmq_util_log_SysLog.c \
