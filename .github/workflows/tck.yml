@@ -118,5 +118,6 @@ jobs:
         retention-days: 1
         path: |
           /tmp/run.log
-          /tmp/*.txt
+          /tmp/summary.txt
+          /tmp/*-tckinfo.txt
 
