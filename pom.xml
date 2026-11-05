@@ -390,7 +390,7 @@
                    <plugin>
                        <groupId>org.eclipse.cbi.maven.plugins</groupId>
                        <artifactId>eclipse-jarsigner-plugin</artifactId>
-                       <version>1.5.5</version>
+                       <version>1.5.8</version>
                        <executions>
                            <execution>
                                <id>cbi-jarsign</id>
