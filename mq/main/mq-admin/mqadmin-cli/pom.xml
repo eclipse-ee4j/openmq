@@ -32,7 +32,6 @@
     <name>MQ Admin CLI</name>
 
     <properties>
-        <ws.binary.share.dir>../../../binary/share</ws.binary.share.dir>
         <findbugs.exclude>${project.basedir}/exclude.xml</findbugs.exclude>
     </properties>
 
@@ -82,33 +81,6 @@
             <artifactId>mq-share</artifactId>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>process-classes</phase>
-                        <configuration>
-                            <target>
-                                <echo level="info" message="Make directory ${ws.binary.share.dir}/opt" />
-                                <mkdir dir="${ws.binary.share.dir}/opt/classes" />
-                                <echo level="info" message="Copy ${project.build.outputDirectory} to ${ws.binary.share.dir}/opt/classes" />
-                                <copy todir="${ws.binary.share.dir}/opt/classes/">
-                                    <fileset dir="${project.build.outputDirectory}/" />
-                                </copy>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-        </plugins>
-    </build>
 
     <profiles>
         <profile>
