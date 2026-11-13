@@ -91,7 +91,6 @@
             <artifactId>jakarta.websocket-client-api</artifactId>
         </dependency>
         <!-- end of websocket dependencies -->
-
     </dependencies>
 
     <profiles>
