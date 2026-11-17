@@ -859,11 +859,10 @@ public class MemoryManager implements DiagManager.Data {
             for (i = 0; i < count; i++) {
                 Runtime.getRuntime().gc();
                 long newfree = Runtime.getRuntime().freeMemory();
-                if (free - newfree > delta) {
+                if (newfree - free > delta) {
                     // we freed enough memory
                     break;
                 }
-
             }
         }
     }
