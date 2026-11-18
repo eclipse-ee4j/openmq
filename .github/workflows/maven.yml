@@ -42,7 +42,7 @@ jobs:
         java_version:
         - 21
         - 25
-        - 26
+        - 27
         mq_command: [
                       'imqadmin',
                       'imqbridgemgr',
@@ -68,7 +68,7 @@ jobs:
         java_version:
         - 21
         - 25
-        - 26
+        - 27
         mq_command: [
                       'imqadmin.bat',
                       'imqbridgemgr.bat',
@@ -100,7 +100,7 @@ jobs:
         java_version:
         - 21
         - 25
-        - 26
+        - 27
     uses: ./.github/workflows/test-stomp-bridge.yml
     with:
       java_version: ${{ matrix.java_version }}
@@ -113,7 +113,7 @@ jobs:
         java_version:
         - 21
         - 25
-        - 26
+        - 27
     uses: ./.github/workflows/test-selector.yml
     with:
       java_version: ${{ matrix.java_version }}
@@ -146,7 +146,7 @@ jobs:
         java_version:
         - 21
         - 25
-        - 26
+        - 27
     uses: ./.github/workflows/test-secure-sockets.yml
     with:
       java_version: ${{ matrix.java_version }}
@@ -161,7 +161,7 @@ jobs:
         java_version:
         - 21
         - 25
-        - 26
+        - 27
 
     uses: ./.github/workflows/test-mqcrt-client.yml
     with:
@@ -179,7 +179,7 @@ jobs:
         java_version:
         - 21
         - 25
-        - 26
+        - 27
 
     uses: ./.github/workflows/test-libimqutil.yml
     with:
