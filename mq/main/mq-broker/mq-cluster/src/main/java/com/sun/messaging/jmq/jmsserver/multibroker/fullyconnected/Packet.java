@@ -206,25 +206,5 @@ class Packet {
         }
         return str;
     }
-
-    public static String getPacketTypeString(int type) {
-        switch (type) {
-        case BROKER_INFO:
-            return "BROKER_INFO";
-        case LINK_INIT:
-            return "LINK_INIT";
-        case STOP_FLOW:
-            return "STOP_FLOW";
-        case RESUME_FLOW:
-            return "RESUME_FLOW";
-        case PING:
-            return "PING";
-        case BROKER_INFO_REPLY:
-            return "BROKER_INFO_REPLY";
-        default:
-            return "UNKNOWN";
-        }
-    }
-
 }
 
