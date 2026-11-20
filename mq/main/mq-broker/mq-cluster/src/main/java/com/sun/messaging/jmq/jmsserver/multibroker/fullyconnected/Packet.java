@@ -39,7 +39,6 @@ class Packet {
     public static final int STOP_FLOW = 5;
     public static final int RESUME_FLOW = 6;
     public static final int PING = 7;
-    public static final int BROKER_INFO_REPLY = 9;
 
     /* bitFlags */
     public static final int USE_FLOW_CONTROL = 0x0001;
