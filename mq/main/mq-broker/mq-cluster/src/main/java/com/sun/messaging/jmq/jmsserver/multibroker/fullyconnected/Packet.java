@@ -32,16 +32,16 @@ class Packet {
     private static final int MAX_PACKET_SIZE = 65536;
 
     /* packetType */
-    public static final int UNICAST = 1;
-    public static final int BROADCAST = 2;
-    public static final int BROKER_INFO = 3;
-    public static final int LINK_INIT = 4;
-    public static final int STOP_FLOW = 5;
-    public static final int RESUME_FLOW = 6;
-    public static final int PING = 7;
+    static final int UNICAST = 1;
+    static final int BROADCAST = 2;
+    static final int BROKER_INFO = 3;
+    static final int LINK_INIT = 4;
+    static final int STOP_FLOW = 5;
+    static final int RESUME_FLOW = 6;
+    static final int PING = 7;
 
     /* bitFlags */
-    public static final int USE_FLOW_CONTROL = 0x0001;
+    static final int USE_FLOW_CONTROL = 0x0001;
 
     private short version = VERSION;
     private short packetType = 0;
@@ -51,7 +51,7 @@ class Packet {
 
     private byte[] packetBuffer = null;
 
-    public static Packet readPacket(InputStream is) throws IOException, EOFException {
+    static Packet readPacket(InputStream is) throws IOException, EOFException {
 
         DataInputStream dis = new DataInputStream(is);
 
@@ -79,7 +79,7 @@ class Packet {
         return p;
     }
 
-    public void writePacket(OutputStream os) throws IOException {
+    void writePacket(OutputStream os) throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(bos);
         dos.writeShort(version);
@@ -99,35 +99,35 @@ class Packet {
         os.flush();
     }
 
-    public int getPacketType() {
+    int getPacketType() {
         return packetType;
     }
 
-    public int getPacketSize() {
+    int getPacketSize() {
         return packetSize;
     }
 
-    public int getDestId() {
+    int getDestId() {
         return destId;
     }
 
-    public byte[] getPacketBody() {
+    byte[] getPacketBody() {
         return packetBuffer;
     }
 
-    public boolean getFlag(int flag) {
+    boolean getFlag(int flag) {
         return ((bitFlags & flag) == flag);
     }
 
-    public void setPacketType(int packetType) {
+    void setPacketType(int packetType) {
         this.packetType = (short) packetType;
     }
 
-    public void setDestId(int destId) {
+    void setDestId(int destId) {
         this.destId = destId;
     }
 
-    public void setPacketBody(byte[] data) {
+    void setPacketBody(byte[] data) {
         packetBuffer = data;
         packetSize = HEADER_SIZE;
         if (packetBuffer != null) {
@@ -135,7 +135,7 @@ class Packet {
         }
     }
 
-    public void setFlag(int flag, boolean on) {
+    void setFlag(int flag, boolean on) {
         if (on) {
             bitFlags = bitFlags | flag;
         } else {
@@ -148,7 +148,7 @@ class Packet {
         return "PacketType = " + packetType + ", DestId = " + destId + ", DATA :\n" + hexdump(packetBuffer, 128);
     }
 
-    public static String hexdump(byte[] buffer, int maxlen) {
+    static String hexdump(byte[] buffer, int maxlen) {
         if (buffer == null) {
             return "";
         }
@@ -195,7 +195,7 @@ class Packet {
         return ret.append('\n').toString();
     }
 
-    public static String i2hex(int i, int len, String filler) {
+    static String i2hex(int i, int len, String filler) {
         String str = Integer.toHexString(i);
         if (str.length() == len) {
             return str;
