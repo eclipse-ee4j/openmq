@@ -51,29 +51,32 @@ class Packet {
 
     private byte[] packetBuffer = null;
 
-    public void readPacket(InputStream is) throws IOException, EOFException {
+    public static Packet readPacket(InputStream is) throws IOException, EOFException {
 
         DataInputStream dis = new DataInputStream(is);
 
-        version = dis.readShort();
-        packetType = dis.readShort();
-        packetSize = dis.readInt();
-        destId = dis.readInt();
-        bitFlags = dis.readInt();
+        Packet p = new Packet();
 
-        if (packetSize < HEADER_SIZE || packetSize > MAX_PACKET_SIZE) {
-            String emsg = Globals.getBrokerResources().getKString(BrokerResources.W_CLUSTER_INVALID_PACKET_SIZE_READ, String.valueOf(packetSize)) + "[" + is
+        p.version = dis.readShort();
+        p.packetType = dis.readShort();
+        p.packetSize = dis.readInt();
+        p.destId = dis.readInt();
+        p.bitFlags = dis.readInt();
+
+        if (p.packetSize < HEADER_SIZE || p.packetSize > MAX_PACKET_SIZE) {
+            String emsg = Globals.getBrokerResources().getKString(BrokerResources.W_CLUSTER_INVALID_PACKET_SIZE_READ, String.valueOf(p.packetSize)) + "[" + is
                     + "]";
             Globals.getLogger().log(Logger.WARNING, emsg);
             throw new IOException(emsg);
         }
         try {
-            packetBuffer = new byte[packetSize - HEADER_SIZE];
+            p.packetBuffer = new byte[p.packetSize - HEADER_SIZE];
         } catch (OutOfMemoryError oom) {
-            dis.skip(packetSize - HEADER_SIZE); // NOPMD
+            dis.skip(p.packetSize - HEADER_SIZE); // NOPMD
             throw oom;
         }
-        dis.readFully(packetBuffer);
+        dis.readFully(p.packetBuffer);
+        return p;
     }
 
     public void writePacket(OutputStream os) throws IOException {

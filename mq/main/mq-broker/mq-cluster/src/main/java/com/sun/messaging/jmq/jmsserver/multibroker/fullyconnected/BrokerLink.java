@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -610,8 +610,7 @@ public class BrokerLink extends Thread {
         BrokerAddressImpl b = null;
 
         InputStream is = s.getInputStream();
-        Packet p = new Packet();
-        p.readPacket(is);
+        Packet p = Packet.readPacket(is);
 
         if (ClusterManagerImpl.isDEBUG_CLUSTER_PACKET() || (ClusterManagerImpl.isDEBUG_CLUSTER_PING() && p.getPacketType() == Packet.PING)
                 || ClusterManagerImpl.isDEBUG_CLUSTER_PACKET()) {
@@ -965,8 +964,7 @@ public class BrokerLink extends Thread {
 
         Packet p = null;
         try {
-            p = new Packet();
-            p.readPacket(is);
+            p = Packet.readPacket(is);
             readActive = true;
         } catch (OutOfMemoryError oom) {
             if (handleOom == false) {
@@ -988,8 +986,7 @@ public class BrokerLink extends Thread {
         }
         expectBrokerInfoReplyPkt = false;
 
-        Packet p = new Packet();
-        p.readPacket(is);
+        Packet p = Packet.readPacket(is);
 
         if (ClusterManagerImpl.isDEBUG_CLUSTER_PACKET() || (ClusterManagerImpl.isDEBUG_CLUSTER_PING() && p.getPacketType() == Packet.PING)
                 || ClusterManagerImpl.isDEBUG_CLUSTER_PACKET()) {
