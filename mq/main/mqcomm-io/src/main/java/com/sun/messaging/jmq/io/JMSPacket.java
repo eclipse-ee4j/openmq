@@ -30,6 +30,6 @@ public interface JMSPacket {
      *
      * @return The Packet
      */
-    com.sun.messaging.jmq.io.Packet getPacket();
+    Packet getPacket();
 
 }
