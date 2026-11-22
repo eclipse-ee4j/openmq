@@ -218,7 +218,7 @@ public class Version {
      *
      * @return String representing the Milestone Build value of the product
      */
-    public String getBuildMilestone() {
+    String getBuildMilestone() {
         String milestone = props.getProperty("imq.build.milestone");
         if ("FCS".equals(milestone)) {
             return "";
@@ -555,7 +555,7 @@ public class Version {
      *
      * @return a string representing all the patches for the product.
      */
-    public String getPatchString() {
+    String getPatchString() {
 
         String[] patchids = getPatchIds();
         StringBuilder ret = new StringBuilder();
