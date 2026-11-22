@@ -213,18 +213,6 @@ public class Version {
     }
 
     /**
-     * Returns the value of the particular version property for example if the requested property is 'imq.product.version'
-     * the returned value will be 3.6 This is a private method , not for general use.This method may be removed in the
-     * future release without further warning
-     *
-     * @param name String representing the name of the property whose value is desired
-     * @return String representing the value of the desired property
-     */
-    public String getVersionProperty(String name) {
-        return props.getProperty(name);
-    }
-
-    /**
      * Returns the Build Mile Stone value of the product being used for example 'Beta' This is a private method , not for
      * general use.This method may be removed in the future release without further warning
      *
@@ -829,25 +817,5 @@ public class Version {
         }
 
         return 0;
-    }
-
-    /**
-     * Returns the Version String value of the version info passed as an array of integer This is a private method , not for
-     * general use.This method may be removed in the future release without further warning
-     *
-     * @param ver an array of integer reperesenting the version info int[0]=major int[1]=minor int[2]=micro int[3]=service
-     * pack
-     * @return a String value of the data passed in the integer array
-     *
-     */
-    public static String toVersionString(int[] ver) {
-        StringBuilder s = new StringBuilder();
-        for (int i = 0; i < ver.length; i++) {
-            s.append(ver[i]);
-            if (i + 1 < ver.length) {
-                s.append('.');
-            }
-        }
-        return s.toString();
     }
 }
