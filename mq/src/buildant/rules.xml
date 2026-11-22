@@ -283,7 +283,6 @@
     	  <bottom><![CDATA[<font size="-2"><i>Copyright (c) 2010, 2017 Oracle and/or its affiliates.  All rights reserved.</i>,
     	                                   <i>Copyright (c) 2018, 2026 Contributors to Eclipse Foundation. All rights reserved.</i>
     	                   </font>]]></bottom>
-    	  <tag name="todo" scope="all" description="To do:"/>
     	  <link href="https://docs.oracle.com/en/java/javase/25/docs/api/"/>
     	  <arg value="-notimestamp"/>
 	</javadoc>
