@@ -54,6 +54,10 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqcomm-timer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
             <artifactId>mqbridge-api</artifactId>
         </dependency>
         <dependency>

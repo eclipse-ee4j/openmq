@@ -70,6 +70,10 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqcomm-timer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
             <artifactId>mq-logger</artifactId>
         </dependency>
         <dependency>
@@ -291,6 +295,10 @@
                                 <artifactItem>
                                     <groupId>org.glassfish.mq</groupId>
                                     <artifactId>mqcomm-util</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.glassfish.mq</groupId>
+                                    <artifactId>mqcomm-timer</artifactId>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.glassfish.mq</groupId>
