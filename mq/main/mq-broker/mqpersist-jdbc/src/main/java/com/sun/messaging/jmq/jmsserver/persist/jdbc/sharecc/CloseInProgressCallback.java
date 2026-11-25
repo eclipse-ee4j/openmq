@@ -15,8 +15,8 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-package com.sun.messaging.jmq.util.synchronizer;
+package com.sun.messaging.jmq.jmsserver.persist.jdbc.sharecc;
 
-public interface CloseInProgressCallback {
+interface CloseInProgressCallback {
     void beforeWaitAfterSetClosed();
 }

@@ -31,8 +31,7 @@ import com.sun.messaging.jmq.jmsserver.persist.jdbc.Util;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.DBTool;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.BaseDAO;
 import com.sun.messaging.jmq.jmsserver.persist.api.sharecc.ShareConfigChangeStore;
-import com.sun.messaging.jmq.util.synchronizer.CloseInProgressSynchronizer;
-import com.sun.messaging.jmq.util.synchronizer.CloseInProgressCallback;
+
 import org.jvnet.hk2.annotations.Service;
 import jakarta.inject.Singleton;
 
