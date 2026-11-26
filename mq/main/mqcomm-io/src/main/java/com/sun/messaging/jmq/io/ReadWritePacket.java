@@ -116,11 +116,6 @@ public class ReadWritePacket extends ReadOnlyPacket {
     }
 
     @Override
-    public synchronized void setEncryption(int e) {
-        super.setEncryption(e);
-    }
-
-    @Override
     public synchronized void setPriority(int p) {
         super.setPriority(p);
     }

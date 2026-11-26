@@ -430,10 +430,6 @@ public class Packet implements JMSPacket {
         return expiration;
     }
 
-    public int getPort() {
-        return sysMessageID.port;
-    }
-
     public synchronized String getIPString() {
         return sysMessageID.toString();
     }
@@ -444,26 +440,6 @@ public class Packet implements JMSPacket {
 
     public int getSequence() {
         return sysMessageID.sequence;
-    }
-
-    public synchronized int getPropertyOffset() {
-        try {
-            updateBuffers();
-        } catch (IOException e) {
-        }
-        return propertyOffset;
-    }
-
-    public synchronized int getPropertySize() {
-        try {
-            updateBuffers();
-        } catch (IOException e) {
-        }
-        return propertySize;
-    }
-
-    public int getEncryption() {
-        return encryption;
     }
 
     public int getPriority() {
@@ -502,20 +478,12 @@ public class Packet implements JMSPacket {
         return getFlag(PacketFlag.F_FLAG);
     }
 
-    public boolean getIsTransacted() {
-        return getFlag(PacketFlag.T_FLAG);
-    }
-
     public boolean getConsumerFlow() {
         return getFlag(PacketFlag.C_FLAG);
     }
 
     public boolean getIndempotent() {
         return getFlag(PacketFlag.I_FLAG);
-    }
-
-    public boolean getWildcard() {
-        return getFlag(PacketFlag.W_FLAG);
     }
 
     /**
@@ -845,11 +813,6 @@ public class Packet implements JMSPacket {
 
     public synchronized void setDeliveryTime(long n) {
         packetVariableHeader.setLongField(PacketString.DELIVERY_TIME, n);
-        bufferDirty = true;
-    }
-
-    public synchronized void setEncryption(int e) {
-        encryption = (byte) e;
         bufferDirty = true;
     }
 
@@ -2094,10 +2057,6 @@ public class Packet implements JMSPacket {
         }
 
         return n;
-    }
-
-    public jakarta.jms.Message getMessage() {
-        return null;
     }
 
     @Override
