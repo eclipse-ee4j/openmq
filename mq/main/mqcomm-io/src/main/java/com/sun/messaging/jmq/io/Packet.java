@@ -172,14 +172,6 @@ public class Packet implements JMSPacket {
         }
     }
 
-    public static void setSizeLowerBound(long n) {
-        SIZE_LOWER_BOUND = n;
-    }
-
-    public static long getSizeLowerBound() {
-        return SIZE_LOWER_BOUND;
-    }
-
     public static ByteBufferPool getBufferPool() {
         synchronized (CLASS_LOCK) {
         return bbPool;
