@@ -71,7 +71,7 @@ public class Packet implements JMSPacket {
     // this value can be. We put a relatively high lower bound
     // so that control packets are not impacted.
     private static long SIZE_LOWER_BOUND = 512 * 1024;
-    protected static final long SIZE_UPPER_BOUND = Integer.MAX_VALUE;
+    protected static final long SIZE_UPPER_BOUND = 70 * 1024 * 1024; // In runtime it is set to "imq.message.max_size"
     private static long maxPacketSize = SIZE_UPPER_BOUND;
 
     // true to automatically generate timestamps
