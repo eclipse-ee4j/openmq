@@ -130,5 +130,11 @@ public class SharedResources extends MQResourceBundle {
 
     public static final String X_PORTMAPPER_SOCKET_CLOSED_UNEXPECTEDLY = "S4011";
 
+    public static final String X_INVALID_PACKET_PACKET_SIZE_LT_HEADER_SIZE = "S4101";
+    public static final String X_INVALID_PACKET_PROPERTY_OFFSET_LT_HEADER_SIZE = "S4102";
+    public static final String X_INVALID_PACKET_PROPERTY_SIZE_NEGATIVE = "S4103";
+    public static final String X_INVALID_PACKET_OFFSET_GREATER_THAN_SIZE = "S4104";
+    public static final String X_INVALID_PACKET_OFFSET_SIZE_SUM_GT_SIZE = "S4105";
+
     /***************** End of message key constants *******************/
 }
