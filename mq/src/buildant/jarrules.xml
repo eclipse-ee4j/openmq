@@ -160,6 +160,7 @@
            	<include name="com/sun/messaging/jmq/io/Status.class"/>   
            	<include name="com/sun/messaging/jmq/io/JMQByteArrayOutputStream.class"/>   
            	<include name="com/sun/messaging/jmq/io/Packet.class"/>   
+           	<include name="com/sun/messaging/jmq/io/InvalidPacketException.class"/>
            	<include name="com/sun/messaging/jmq/io/InvalidSysMessageIDException.class"/>   
            	<include name="com/sun/messaging/jmq/io/PacketReadEOFException.class"/>   
            	<include name="com/sun/messaging/jmq/io/ByteBufferPool.class"/>   
