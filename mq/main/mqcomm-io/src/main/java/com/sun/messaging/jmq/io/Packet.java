@@ -20,6 +20,9 @@ package com.sun.messaging.jmq.io;
 import java.util.Hashtable;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import com.sun.messaging.jmq.resources.SharedResources;
+
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
@@ -39,7 +42,21 @@ import java.nio.channels.*;
  *
  */
 public class Packet implements JMSPacket {
+    private static final String SKIP_READ_PACKET_VALIDATION_PROPERTY = "imq.com.sun.messaging.jmq.io.Packet.skipReadPacketValidation";
+
     private static final Object CLASS_LOCK = new Object();
+
+    private static final SharedResources SHARED_RESOURCES = SharedResources.getResources();
+
+    interface ReadPacketValidator {
+        void requireValidPacket(Packet packet) throws InvalidPacketException;
+    }
+
+    private static final ReadPacketValidator READ_PACKET_VALIDATOR = createPacketValidator(SKIP_READ_PACKET_VALIDATION_PROPERTY);
+
+    static final ReadPacketValidator createPacketValidator(String skipReadPacketValidationProperty) {
+        return Boolean.getBoolean(skipReadPacketValidationProperty) ? Packet::requireNothing : Packet::requireValid;
+    }
 
     protected boolean destroyed = false;
 
@@ -358,6 +375,7 @@ public class Packet implements JMSPacket {
         }
 
         buf.rewind();
+        READ_PACKET_VALIDATOR.requireValidPacket(this);
         return;
     }
 
@@ -2062,5 +2080,38 @@ public class Packet implements JMSPacket {
     @Override
     public com.sun.messaging.jmq.io.Packet getPacket() {
         return this;
+    }
+
+    static final void requireNothing(Packet packet) {
+    }
+
+    static final void requireValid(Packet packet) throws InvalidPacketException {
+        if (packet.packetSize < HEADER_SIZE) {
+            throw new InvalidPacketException(SHARED_RESOURCES.getString(SHARED_RESOURCES.X_INVALID_PACKET_PACKET_SIZE_LT_HEADER_SIZE,
+                                                                        packet.packetSize,
+                                                                        HEADER_SIZE));
+        }
+        if (packet.propertyOffset < HEADER_SIZE) {
+            throw new InvalidPacketException(SHARED_RESOURCES.getString(SHARED_RESOURCES.X_INVALID_PACKET_PROPERTY_OFFSET_LT_HEADER_SIZE,
+                                                                        packet.propertyOffset,
+                                                                        HEADER_SIZE));
+        }
+        if (packet.propertySize < 0) {
+            throw new InvalidPacketException(SHARED_RESOURCES.getString(SHARED_RESOURCES.X_INVALID_PACKET_PROPERTY_SIZE_NEGATIVE,
+                                                                        packet.propertySize));
+        }
+        if (packet.propertyOffset > packet.packetSize) {
+            throw new InvalidPacketException(SHARED_RESOURCES.getString(SHARED_RESOURCES.X_INVALID_PACKET_OFFSET_GREATER_THAN_SIZE,
+                                                                        packet.propertyOffset,
+                                                                        packet.packetSize));
+        }
+        if (Math.addExact(packet.propertyOffset, packet.propertySize) > packet.packetSize) {
+            throw new InvalidPacketException(SHARED_RESOURCES.getString(SHARED_RESOURCES.X_INVALID_PACKET_OFFSET_SIZE_SUM_GT_SIZE,
+                                                                        new Object[] {
+                                                                              packet.propertyOffset,
+                                                                              packet.propertySize,
+                                                                              packet.packetSize
+                                                                        }));
+        }
     }
 }

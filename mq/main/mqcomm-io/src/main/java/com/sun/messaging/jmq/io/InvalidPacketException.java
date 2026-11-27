@@ -36,6 +36,10 @@ public class InvalidPacketException extends IOException {
 
     private String appendMessage = null;
 
+    InvalidPacketException(String s) {
+        super(s);
+    }
+
     public InvalidPacketException(String s, Throwable e) {
         super(s, e);
     }
